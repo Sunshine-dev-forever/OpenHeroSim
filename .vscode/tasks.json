@@ -1,0 +1,23 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "C:/Users/andrew/Documents/Godot/Godot_v3.5-stable_mono_win64/Godot_v3.5-stable_mono_win64.exe",
+            "type": "process",
+            "args": [
+                "--build-solutions",
+                "--path",
+                "${workspaceRoot}",
+                "--no-window",
+                "-q"
+            ],
+			"presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true
+            },
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
