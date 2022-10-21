@@ -17,7 +17,7 @@ public class AdhocTest : Node
 	private KdTreeController kdTreeController; 
 	public override void _Ready()
 	{
-		kdTreeController = GetNode<KdTreeController>("/root/KdTreeController");
+		//kdTreeController = GetNode<KdTreeController>("/root/KdTreeController");
 	}
 	
 	public override void _Input(InputEvent input) {
@@ -29,13 +29,16 @@ public class AdhocTest : Node
 	}
 
 	private void Adhoc(){
-		PackedScene pawnScene = GD.Load<PackedScene>("res://Objects/pawn.tscn");
-		Spatial pawn = pawnScene.Instance<Spatial>();
-		this.AddChild(pawn);
-		pawn.GlobalTransform = new Transform(pawn.GlobalTransform.basis, new Vector3(0,5,0));
+		//PackedScene pawnScene = GD.Load<PackedScene>("res://Objects/pawn.tscn");
+		//Spatial pawn = pawnScene.Instance<Spatial>();
+		//Node navi = GetNode<Node>("/root/Spatial/Navigation");
+		//this.AddChild(pawn);
+		//pawn.GlobalTransform = new Transform(pawn.GlobalTransform.basis, new Vector3(5,5,0));
 		//kdTreeController.AddPawnToAllPawnList(pawn);
+		PawnManager pawnManager = GetNode<PawnManager>("/root/Spatial/Navigation");
+		pawnManager.CreatePawn();
 
-		Log.Information("the current position is: " + pawn.GlobalTransform.origin);
+		//Log.Information("the current position is: " + pawn.GlobalTransform.origin);
 	}
 
 	private void Adhoc2(){

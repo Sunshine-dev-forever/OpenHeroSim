@@ -1,13 +1,21 @@
 using Godot;
 
-public class PawnFactory : Node {
+public class PawnManager : Node {
+
+	KdTreeController kdTreeController = new KdTreeController();
+
+	public override void _Ready()
+	{
+		
+	}
+
 	public override void _Input(InputEvent input) {
 		 if(input.IsActionPressed("mouse_left_click")) {
 			//CreatePawn();
 		 }
 	}
 
-	private void CreatePawn() {
+	public void CreatePawn() {
 		PackedScene pawnScene = GD.Load<PackedScene>("res://Objects/pawn.tscn");
 		Spatial pawn = pawnScene.Instance<Spatial>();
 		this.AddChild(pawn);
