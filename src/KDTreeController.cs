@@ -14,12 +14,12 @@ public class KdTreeController : Node
 
     public override void _Ready()
     {
-		Log.Information("KD tree started!");
+		//Log.Information("KD tree started!");
     }
 
 	public override void _Process(float delta)
 	{
-		Log.Information("KD tree Running!");
+		//Log.Information("KD tree Running!");
 		//casually rebuild the entire tree
 		//I should be able to multithread this
 		KdTree<float, PawnController> newTree = new KdTree<float, PawnController>(3, new FloatMath());

@@ -42,8 +42,12 @@ public class AdhocTest : Node
 	}
 
 	private void Adhoc2(){
-		PawnController child = this.GetChild<Spatial>(0).GetChild<PawnController>(0);
-		Log.Information("Childs name is: " + child.Name);
+		Log.Information("Adhoc 2 called");
+		PawnManager pawnManager = GetNode<PawnManager>("/root/Spatial/Navigation");
+		KdTreeController kdTreeController = pawnManager.GetKdTreeController();
+		List<PawnController> nearbyPawns = kdTreeController.GetNearestPawns(new Vector3(0,0,0), 2);
+		PawnController closestPawn = nearbyPawns[0];
+		Log.Information("Nearest pawn is at" + closestPawn.GlobalTransform.origin);
 	}
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.
