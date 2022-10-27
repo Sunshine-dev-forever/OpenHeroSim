@@ -40,9 +40,19 @@ public class KdTreeController : Node
 		allPawnsList.Add(pawnController);
 	}
 
+	//count is the max number of neightbors to pull, keep low for better preformance I guess?
 	public List<PawnController> GetNearestPawns(Vector3 location, int count) {
 		IEnumerable<KdTreeNode<float, PawnController>> nearestNodes = 
 			pawnKdTree.GetNearestNeighbours(new[] {location.x, location.y, location.z}, count);
 		return nearestNodes.Select( (kdTreeNode) => (kdTreeNode.Value)).ToList();
+	}
+
+	//count is the max number of neightbors to pull, keep low for better preformance I guess?
+	public List<PawnController> GetNearestPawnsToPawn(PawnController pawnController, int count) {
+		Vector3 location = pawnController.GlobalTransform.origin;
+		List<PawnController> rtn = GetNearestPawns(location, count);
+		//This probablly wont throw an exception
+		rtn.Remove(pawnController);
+		return rtn;
 	}
 }

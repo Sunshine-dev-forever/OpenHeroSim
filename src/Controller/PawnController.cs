@@ -14,6 +14,8 @@ public class PawnController : RigidBody
 	private GeneralUtil generalUtil = new GeneralUtil();
 	private PawnBrain pawnBrain = new PawnBrain();
 	private ActionController actionController = new ActionController();
+	private SensesController sensesController;
+	private SensesStruct sensesStruct = new SensesStruct();
 	private PawnCombatBrain pawnCombatBrain = new PawnCombatBrain();
 
 	//ill need to recreate healthBar in C# unless I want to deal with cancer when
@@ -27,8 +29,6 @@ public class PawnController : RigidBody
 	private TaskState taskState = TaskState.COMPLETED;
 	private ITask currentTask = new InvalidTask();
 	private PawnController currentTarget;
-
-	private KdTreeController kdTreeController;
 
 	private int visionRange = 10;
 
@@ -52,13 +52,11 @@ public class PawnController : RigidBody
 	 // Called every frame. 'delta' is the elapsed time since the previous frame.
 	 public override void _Process(float delta)
 	 {
-		if(pawnState != PawnState.COMBAT) {
-			PawnController pawnController = GetNearestPawnOrNull();
-			if(pawnController != null && 
-			pawnController.GlobalTransform.origin.DistanceTo(this.GlobalTransform.origin) < visionRange) {
-				HandleOtherPawnInVision(pawnController);
-			}
+		sensesStruct = sensesController.UpdatePawnSenses(sensesStruct);
+		if(sensesStruct.nearbyPawns.Count > 0) {
+			HandleOtherPawnInVision(sensesStruct.nearbyPawns[0]);
 		}
+
 
 		if(taskState == TaskState.STARTING_ACTION){
 			actionController.executeActionFromTask(currentTask);
@@ -105,8 +103,8 @@ public class PawnController : RigidBody
 		}
 	}
 
-	public void Setup(KdTreeController _kdTreeController) {
-		kdTreeController = _kdTreeController;
+	public void Setup(KdTreeController kdTreeController) {
+		sensesController = new SensesController(kdTreeController, this);
 	}
 
 
@@ -122,35 +120,7 @@ public class PawnController : RigidBody
 		this.QueueFree();
 	}
 
-	private PawnController GetNearestPawnOrNull() {
-		List<PawnController> nearbyPawns = kdTreeController.GetNearestPawns(this.GlobalTransform.origin, 2);
-		foreach ( PawnController pawnController in nearbyPawns) {
-			//kdTree can return this pawnController
-			if(this != pawnController) {
-				return pawnController;
-			}
-		}
-		Log.Information("returning null");
-		return null;
-	}
-
 	private void HandleOtherPawnInVision(PawnController otherPawnController) {
-		if(pawnState == PawnState.COMBAT){
-			//We are already in combat
-		} else {
-			if(otherPawnController.faction == "none") {
-				pawnState = PawnState.COMBAT;
-				currentTarget = otherPawnController;
-				if(taskState == TaskState.USING_ACTION || taskState == TaskState.STARTING_ACTION) {
-					//TODO: I need a way to interrupt actions
-				} else {
-					taskState = TaskState.COMPLETED;
-				}
-			}
-		}
-	}
-
-	public void OnPawnEnterVision(PawnController otherPawnController) {
 		if(pawnState == PawnState.COMBAT){
 			//We are already in combat
 		} else {
