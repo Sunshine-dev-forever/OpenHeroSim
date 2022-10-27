@@ -23,9 +23,7 @@ size = Vector3( 1, 1, 1 )
 [sub_resource type="SphereShape" id=6]
 radius = 10.0
 
-[node name="I-GET-DELETED" type="Spatial"]
-
-[node name="PawnController" type="RigidBody" parent="."]
+[node name="PawnController" type="RigidBody"]
 collision_layer = 2
 collision_mask = 3
 mode = 2
@@ -34,46 +32,47 @@ script = ExtResource( 2 )
 healthBarPath = NodePath("HealthBar")
 movementControllerPath = NodePath("MovementController")
 
-[node name="BodyController" type="CollisionShape" parent="PawnController"]
+[node name="BodyController" type="CollisionShape" parent="."]
 transform = Transform( 0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, 0, 0 )
 shape = SubResource( 1 )
 
-[node name="BodyMesh" type="MeshInstance" parent="PawnController/BodyController"]
+[node name="BodyMesh" type="MeshInstance" parent="BodyController"]
 material_override = SubResource( 2 )
 mesh = SubResource( 3 )
 skeleton = NodePath("")
 
-[node name="Head" type="MeshInstance" parent="PawnController/BodyController/BodyMesh"]
+[node name="Head" type="MeshInstance" parent="BodyController/BodyMesh"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, -1 )
 mesh = SubResource( 4 )
 
-[node name="MovementController" type="Spatial" parent="PawnController"]
+[node name="MovementController" type="Spatial" parent="."]
 script = ExtResource( 1 )
 rigidBodyPath = NodePath("..")
 bodyMeshInstancePath = NodePath("../BodyController/BodyMesh")
 
-[node name="NavigationAgent" type="NavigationAgent" parent="PawnController/MovementController"]
+[node name="NavigationAgent" type="NavigationAgent" parent="MovementController"]
 target_desired_distance = 0.5
 
-[node name="RayCast" type="RayCast" parent="PawnController/MovementController"]
+[node name="RayCast" type="RayCast" parent="MovementController"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.837895, -6.03961e-14 )
 enabled = true
 cast_to = Vector3( 0, -0.25, 0 )
 
-[node name="Vision" type="Area" parent="PawnController"]
+[node name="Vision" type="Area" parent="."]
 collision_layer = 0
 collision_mask = 2
+monitoring = false
 monitorable = false
 script = ExtResource( 3 )
 pawnControllerPath = NodePath("..")
 
-[node name="CollisionShape" type="CollisionShape" parent="PawnController/Vision"]
+[node name="CollisionShape" type="CollisionShape" parent="Vision"]
 shape = SubResource( 6 )
 
-[node name="HealthBar" parent="PawnController" instance=ExtResource( 5 )]
+[node name="HealthBar" parent="." instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2443, 0 )
 
-[node name="ActionController" type="Spatial" parent="PawnController"]
+[node name="ActionController" type="Spatial" parent="."]
 
-[connection signal="OnPawnEnterVision" from="PawnController/Vision" to="PawnController" method="OnPawnEnterVision"]
-[connection signal="body_entered" from="PawnController/Vision" to="PawnController/Vision" method="_OnVisionBodyEntered"]
+[connection signal="OnPawnEnterVision" from="Vision" to="." method="OnPawnEnterVision"]
+[connection signal="body_entered" from="Vision" to="Vision" method="_OnVisionBodyEntered"]

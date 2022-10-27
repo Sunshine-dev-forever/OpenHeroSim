@@ -2,6 +2,7 @@ using Godot;
 using System;
 using Serilog;
 using Pawn.Tasks;
+using System.Collections.Generic;
 
 public class PawnController : RigidBody
 {
@@ -25,6 +26,11 @@ public class PawnController : RigidBody
 	private PawnState pawnState = PawnState.REST;
 	private TaskState taskState = TaskState.COMPLETED;
 	private ITask currentTask = new InvalidTask();
+	private PawnController currentTarget;
+
+	private KdTreeController kdTreeController;
+
+	private int visionRange = 10;
 
 	//TODO: unhardcode pawnstate
 	enum PawnState { COMBAT, REST, ADVENTURE};
@@ -46,6 +52,14 @@ public class PawnController : RigidBody
 	 // Called every frame. 'delta' is the elapsed time since the previous frame.
 	 public override void _Process(float delta)
 	 {
+		if(pawnState != PawnState.COMBAT) {
+			PawnController pawnController = GetNearestPawnOrNull();
+			if(pawnController != null && 
+			pawnController.GlobalTransform.origin.DistanceTo(this.GlobalTransform.origin) < visionRange) {
+				HandleOtherPawnInVision(pawnController);
+			}
+		}
+
 		if(taskState == TaskState.STARTING_ACTION){
 			actionController.executeActionFromTask(currentTask);
 			taskState = TaskState.USING_ACTION;
@@ -57,19 +71,6 @@ public class PawnController : RigidBody
 		}
 
 	 }
-
-	 public void TakeDamage(float damage) {
-		health = health - damage;
-		healthBar.SetHealthPercent(health/maxHealth);
-		if(health < 0) {
-			Die();
-		}
-	 }
-
-	private void Die() {
-		this.GetParent().QueueFree();
-	}
-
 
 	public override void _PhysicsProcess(float delta)
 	{
@@ -104,7 +105,51 @@ public class PawnController : RigidBody
 		}
 	}
 
-	private PawnController currentTarget;
+	public void Setup(KdTreeController _kdTreeController) {
+		kdTreeController = _kdTreeController;
+	}
+
+
+	 public void TakeDamage(float damage) {
+		health = health - damage;
+		healthBar.SetHealthPercent(health/maxHealth);
+		if(health < 0) {
+			Die();
+		}
+	 }
+
+	private void Die() {
+		this.QueueFree();
+	}
+
+	private PawnController GetNearestPawnOrNull() {
+		List<PawnController> nearbyPawns = kdTreeController.GetNearestPawns(this.GlobalTransform.origin, 2);
+		foreach ( PawnController pawnController in nearbyPawns) {
+			//kdTree can return this pawnController
+			if(this != pawnController) {
+				return pawnController;
+			}
+		}
+		Log.Information("returning null");
+		return null;
+	}
+
+	private void HandleOtherPawnInVision(PawnController otherPawnController) {
+		if(pawnState == PawnState.COMBAT){
+			//We are already in combat
+		} else {
+			if(otherPawnController.faction == "none") {
+				pawnState = PawnState.COMBAT;
+				currentTarget = otherPawnController;
+				if(taskState == TaskState.USING_ACTION || taskState == TaskState.STARTING_ACTION) {
+					//TODO: I need a way to interrupt actions
+				} else {
+					taskState = TaskState.COMPLETED;
+				}
+			}
+		}
+	}
+
 	public void OnPawnEnterVision(PawnController otherPawnController) {
 		if(pawnState == PawnState.COMBAT){
 			//We are already in combat
