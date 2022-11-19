@@ -27,7 +27,7 @@ public class AdhocTest : Node
 			Adhoc2();
 		 }
 	}
-
+	private PawnController testPawn;
 	private void Adhoc(){
 		//PackedScene pawnScene = GD.Load<PackedScene>("res://Objects/pawn.tscn");
 		//Spatial pawn = pawnScene.Instance<Spatial>();
@@ -36,18 +36,13 @@ public class AdhocTest : Node
 		//pawn.GlobalTransform = new Transform(pawn.GlobalTransform.basis, new Vector3(5,5,0));
 		//kdTreeController.AddPawnToAllPawnList(pawn);
 		PawnManager pawnManager = GetNode<PawnManager>("/root/Spatial/Navigation");
-		pawnManager.CreatePawn();
+		testPawn = pawnManager.CreatePawn();
 
 		//Log.Information("the current position is: " + pawn.GlobalTransform.origin);
 	}
 
 	private void Adhoc2(){
-		Log.Information("Adhoc 2 called");
-		PawnManager pawnManager = GetNode<PawnManager>("/root/Spatial/Navigation");
-		KdTreeController kdTreeController = pawnManager.GetKdTreeController();
-		List<PawnController> nearbyPawns = kdTreeController.GetNearestPawns(new Vector3(0,0,0), 2);
-		PawnController closestPawn = nearbyPawns[0];
-		Log.Information("Nearest pawn is at" + closestPawn.GlobalTransform.origin);
+		testPawn.Adhoc();
 	}
 
 //  // Called every frame. 'delta' is the elapsed time since the previous frame.

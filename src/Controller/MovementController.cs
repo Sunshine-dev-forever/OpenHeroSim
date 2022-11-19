@@ -2,32 +2,25 @@ using Godot;
 using System;
 using Serilog;
 using System.Diagnostics;
-public class MovementController : Spatial
+public class MovementController
 {
-	private NavigationAgent? navigationAgent;
+	private NavigationAgent navigationAgent;
 	private RayCast downwardRayCast;
 	private GeneralUtil generalUtil = new GeneralUtil();
-	[Export] private NodePath rigidBodyPath = "";
 	private RigidBody rigidBody;
-	[Export] private NodePath bodyMeshInstancePath = "";
-	private MeshInstance bodyMeshInstance;
+	//TODO: need better name. Point a a lower part of the animation controller? 
+	private Spatial riggedCharacterRootNode;
 
 	private Vector3 originalLocationOfTarget = Vector3.Zero;
 
 	//the Navigation Server can take some time to start up
 	private bool isNavigationServerReady;
 
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-		generalUtil.Assert(rigidBodyPath != null, "rigidBodyPath was uninitialized");
-		rigidBody = GetNode<RigidBody>(rigidBodyPath);
-
-		generalUtil.Assert(bodyMeshInstancePath != null, "bodyMeshInstancePath was uninitialized");
-		bodyMeshInstance = GetNode<MeshInstance>(bodyMeshInstancePath);
-
-		navigationAgent = this.GetNode<NavigationAgent>("NavigationAgent");
-		downwardRayCast = this.GetNode<RayCast>("RayCast");
+	public MovementController(RigidBody _rigidBody, Spatial _riggedCharacterRootNode, NavigationAgent _navigationAgent, RayCast _downwardRayCast) {
+		rigidBody = _rigidBody;
+		riggedCharacterRootNode = _riggedCharacterRootNode;
+		navigationAgent = _navigationAgent;
+		downwardRayCast = _downwardRayCast;
 	}
 
 	//ProcessMovement should be called in the _PhysicsProcess function
@@ -52,13 +45,13 @@ public class MovementController : Spatial
 			return;
 		}
 		Vector3 nextLocation = navigationAgent.GetNextLocation();
-		Vector3 currentLocation = this.GlobalTransform.origin;
+		Vector3 currentLocation = rigidBody.GlobalTransform.origin;
 		Vector3 locationDiff = nextLocation - currentLocation;
 		//Look in the direction of travel
 		//To be honest, I am not sure why I need to add PI/2, but it makes things work
-		//TODO: figure out why I need to add PI/2
-		float newZRotation = (float) ((Math.PI/2) + Math.Atan2(locationDiff.z,locationDiff.x));
-		bodyMeshInstance.Rotation = new Vector3(0,0, newZRotation);
+		//TODO: rotating this 180 degrees, not sure why
+		float newYRotation = (float) ((Math.PI) + Math.Atan2(locationDiff.x , locationDiff.z));
+		riggedCharacterRootNode.Rotation = new Vector3(0,newYRotation, 0);
 
 
 		Vector3 velocity = (nextLocation - currentLocation).Slide(floorNormal).Normalized() * speed;
@@ -79,7 +72,7 @@ public class MovementController : Spatial
 	*NOTE: the final location will always be locationed on the navigation mesh
 	*/
 	public bool HasFinishedMovement(float targetDistance){
-		if(navigationAgent.GetFinalLocation().DistanceTo(this.GlobalTransform.origin)
+		if(navigationAgent.GetFinalLocation().DistanceTo(rigidBody.GlobalTransform.origin)
 			< targetDistance) {
 			return true;
 		} else {

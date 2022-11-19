@@ -15,13 +15,14 @@ public class PawnManager : Node {
 		}
 	}
 
-	public void CreatePawn() {
+	public PawnController CreatePawn() {
 		PackedScene pawnScene = GD.Load<PackedScene>("res://Objects/pawn.tscn");
 		PawnController pawn = pawnScene.Instance<PawnController>();
 		this.AddChild(pawn);
 		pawn.Setup(kdTreeController);
 		pawn.GlobalTransform = new Transform(pawn.GlobalTransform.basis, new Vector3(0,5,0));
 		kdTreeController.AddPawnToAllPawnList(pawn);
+		return pawn;
 	}
 
 	public KdTreeController GetKdTreeController() {

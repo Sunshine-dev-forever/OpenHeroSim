@@ -4,8 +4,15 @@ using Serilog;
 using Pawn.Tasks;
 using System.Collections.Generic;
 
-public class PawnController : RigidBody
+public class PawnController : Node
 {
+	//TODO: This might be bad design, time will tell
+	public Transform GlobalTransform { 
+		get { return rigidBody.GlobalTransform; }
+		set { rigidBody.GlobalTransform = value; }
+		}
+
+	//TODO should all be in a pawnInfomration class
 	[Export] private float health = 100;
 	[Export] private float maxHealth = 100;
 	//[Export] private readonly string PAWN_NAME = "Example Pawn";
@@ -18,18 +25,28 @@ public class PawnController : RigidBody
 	private SensesStruct sensesStruct = new SensesStruct();
 	private PawnCombatBrain pawnCombatBrain = new PawnCombatBrain();
 
-	//ill need to recreate healthBar in C# unless I want to deal with cancer when
-	//calling the healthbar funcitons
-	[Export] private NodePath healthBarPath = "";
-	private HealthBar3D healthBar;
-	[Export] private NodePath movementControllerPath = "";
-	private MovementController movementController;
 
+
+	//I am hardcoding all of the file paths, might change that later
+	//Here lies all of the pawn Godot nodes:
+	private HealthBar3D healthBar;
+	private VisualController visualController;
+	private CollisionShape collisionShape;
+	private RayCast downwardRayCast;
+	private NavigationAgent navigationAgent;
+	private RigidBody rigidBody;
+	//end all the pawn Godot Nodes
+
+
+	private MovementController movementController;
 	private PawnState pawnState = PawnState.REST;
 	private TaskState taskState = TaskState.COMPLETED;
 	private ITask currentTask = new InvalidTask();
+
+	//TODO this should not exist, replace with proper vision
 	private PawnController currentTarget;
 
+	//TODO: should be in a pawnInformation or pawn statistics class
 	private int visionRange = 10;
 
 	//TODO: unhardcode pawnstate
@@ -42,11 +59,18 @@ public class PawnController : RigidBody
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		generalUtil.Assert(healthBarPath != null, "healthBarPath was not initialized");
-		healthBar = GetNode<HealthBar3D>("HealthBar");
+		//so paths are *ONLY* reference here so I think I will just leave it hard coded
+		healthBar = GetNode<HealthBar3D>("RigidBody/HealthBar");
+		visualController = GetNode<VisualController>("RigidBody/VisualController");
+		collisionShape = GetNode<CollisionShape>("RigidBody/CollisionShape");
+		downwardRayCast = GetNode<RayCast>("RigidBody/DownwardRayCast");
+		navigationAgent = GetNode<NavigationAgent>("RigidBody/NavigationAgent");
+		rigidBody = GetNode<RigidBody>("RigidBody");
 
-		generalUtil.Assert(movementControllerPath != null, "movementControllerPath was not initialized");
-		movementController = GetNode<MovementController>(movementControllerPath);
+		movementController = new MovementController(rigidBody, 
+													visualController.GetRiggedCharacterRootNode(),
+													navigationAgent, 
+													downwardRayCast);
 	}
 
 	 // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -134,5 +158,11 @@ public class PawnController : RigidBody
 				}
 			}
 		}
+	}
+
+	public void Adhoc() {
+		AnimationPlayer animationPlayer = visualController.GetAnimationPlayer();
+		animationPlayer.GetAnimation("Walking").Loop = true;
+		animationPlayer.Play("Walking");
 	}
 }
