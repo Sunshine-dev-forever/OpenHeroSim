@@ -14,7 +14,7 @@ public class AdhocTest : Node
 	// private string b = "text";
 	// Called when the node enters the scene tree for the first time.
 
-	private KdTreeController kdTreeController; 
+	private KdTreeController kdTreeController = null!; 
 	public override void _Ready()
 	{
 		//kdTreeController = GetNode<KdTreeController>("/root/KdTreeController");
@@ -27,7 +27,7 @@ public class AdhocTest : Node
 			Adhoc2();
 		 }
 	}
-	private PawnController testPawn;
+	private PawnController testPawn = null!;
 	private void Adhoc(){
 		//PackedScene pawnScene = GD.Load<PackedScene>("res://Objects/pawn.tscn");
 		//Spatial pawn = pawnScene.Instance<Spatial>();
