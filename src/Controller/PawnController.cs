@@ -19,11 +19,11 @@ public class PawnController : Node
 	[Export] private string faction = "none";
 
 	private GeneralUtil generalUtil = new GeneralUtil();
-	private PawnBrain pawnBrain = new PawnBrain();
+	
 	private ActionController actionController = new ActionController();
+	private PawnBrain pawnBrain;
 	private SensesController sensesController;
 	private SensesStruct sensesStruct = new SensesStruct();
-	private PawnCombatBrain pawnCombatBrain = new PawnCombatBrain();
 
 
 
@@ -39,19 +39,10 @@ public class PawnController : Node
 
 
 	private MovementController movementController;
-	private PawnState pawnState = PawnState.REST;
-	private TaskState taskState = TaskState.COMPLETED;
 	private ITask currentTask = new InvalidTask();
 
-	//TODO this should not exist, replace with proper vision
-	private PawnController currentTarget;
+	//TODO: These should be attributes of the task
 
-	//TODO: should be in a pawnInformation or pawn statistics class
-	private int visionRange = 10;
-
-	//TODO: unhardcode pawnstate
-	enum PawnState { COMBAT, REST, ADVENTURE};
-	enum TaskState { MOVING_TO, STARTING_ACTION, USING_ACTION, COMPLETED}
 
 	//TODO: implement something like the below:
 	//private List<IPawnTrait> pawnTraits;
@@ -71,60 +62,19 @@ public class PawnController : Node
 													visualController.GetRiggedCharacterRootNode(),
 													navigationAgent, 
 													downwardRayCast);
+		pawnBrain = new PawnBrain(actionController);
 	}
 
 	 // Called every frame. 'delta' is the elapsed time since the previous frame.
 	 public override void _Process(float delta)
 	 {
 		sensesStruct = sensesController.UpdatePawnSenses(sensesStruct);
-		if(sensesStruct.nearbyPawns.Count > 0) {
-			HandleOtherPawnInVision(sensesStruct.nearbyPawns[0]);
-		}
-
-
-		if(taskState == TaskState.STARTING_ACTION){
-			actionController.executeActionFromTask(currentTask);
-			taskState = TaskState.USING_ACTION;
-		}
-		if(taskState == TaskState.USING_ACTION) {
-			if(actionController.isActionCompleted()) {
-				taskState = TaskState.COMPLETED;
-			}
-		}
-
+		currentTask = pawnBrain.updateCurrentTask(currentTask, sensesStruct, this);
 	 }
 
 	public override void _PhysicsProcess(float delta)
 	{
-		if(taskState == TaskState.COMPLETED) {
-			if(pawnState == PawnState.COMBAT){
-				if(!IsInstanceValid(currentTarget)) {
-					//our opponent is Dead!
-					pawnState = PawnState.ADVENTURE;
-					currentTask = pawnBrain.GetNextTask(this);
-				} else {
-					currentTask = pawnCombatBrain.GetNextTask(this, actionController, currentTarget);//TODO
-				}
-			} else {
-				currentTask = pawnBrain.GetNextTask(this);
-			}
-			taskState = TaskState.MOVING_TO;
-		}
-		if(taskState == TaskState.MOVING_TO){
-			int speed = 10;
-			float targetDistance = currentTask.targetDistance;
-			//Our task is now invalid, need to create a new one
-			if(!currentTask.isValid) {
-				taskState = TaskState.COMPLETED;
-				return;
-			}
-			movementController.ProcessMovement(currentTask.GetTargetLocation(), speed);
-
-			if(movementController.HasFinishedMovement(targetDistance)) {
-				movementController.Stop();
-				taskState = TaskState.STARTING_ACTION;
-			}
-		}
+		actionController.HandleTask(currentTask, movementController, visualController);
 	}
 
 	public void Setup(KdTreeController kdTreeController) {
@@ -142,22 +92,6 @@ public class PawnController : Node
 
 	private void Die() {
 		this.QueueFree();
-	}
-
-	private void HandleOtherPawnInVision(PawnController otherPawnController) {
-		if(pawnState == PawnState.COMBAT){
-			//We are already in combat
-		} else {
-			if(otherPawnController.faction == "none") {
-				pawnState = PawnState.COMBAT;
-				currentTarget = otherPawnController;
-				if(taskState == TaskState.USING_ACTION || taskState == TaskState.STARTING_ACTION) {
-					//TODO: I need a way to interrupt actions
-				} else {
-					taskState = TaskState.COMPLETED;
-				}
-			}
-		}
 	}
 
 	public void Adhoc() {

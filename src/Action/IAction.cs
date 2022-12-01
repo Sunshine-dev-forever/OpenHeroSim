@@ -10,7 +10,7 @@ namespace Pawn.Actions {
 		string Name {get;}
 		float MaxRange {get;}
 
-		void execute(object argsStruct);
+		void execute(object argsStruct, VisualController visualController);
 	}
 
 	public enum ActionTags {COMBAT}

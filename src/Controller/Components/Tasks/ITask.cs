@@ -11,5 +11,16 @@ namespace Pawn.Tasks {
 		float targetDistance {get;}
 		//Represents whether the task is valid or not
 		bool isValid {get;}
+		//is this task a combat task (will this task be interuppted by combat?)
+		bool isCombat {get;}
+		//Unused for now, I should probablly delete TaskType
+		TaskType TaskType {get;}
+		//The state that the task is in
+		TaskState TaskState {get; set;}
+		
 	}
+	//Might not want to care about task type, only care if combat/non-combat for now
+	public enum TaskType { COMBAT, REST, ADVENTURE};
+	//The status that the task is in
+	public enum TaskState { MOVING_TO, USING_ACTION, COMPLETED}
 }

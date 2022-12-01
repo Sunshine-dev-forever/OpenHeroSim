@@ -8,12 +8,15 @@ namespace Pawn.Tasks {
 		public StaticPointTask(string _actionName,
 								object _actionArgs,
 								float _targetDistance,
-								Vector3 _targetPoint) 
+								Vector3 _targetPoint,
+								TaskType _TaskType) 
 		{
 			actionName = _actionName;
 			actionArgs = _actionArgs;
 			targetDistance = _targetDistance;
 			targetPoint = _targetPoint;
+			TaskType = _TaskType;
+			TaskState = TaskState.MOVING_TO;
 		}
 		public Vector3 GetTargetLocation(){
 			return targetPoint;
@@ -25,5 +28,8 @@ namespace Pawn.Tasks {
 		public float targetDistance {get;}
 		//Represents whether the task is valid or not
 		public bool isValid {get {return true;}}
+		public bool isCombat {get { return TaskType == TaskType.COMBAT;}}
+		public TaskType TaskType {get;}
+		public TaskState TaskState {get; set;}
 	}
 }

@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using Serilog;
-
 namespace Pawn.Actions {
 	public class WaitAction : IAction {
 
@@ -12,7 +11,10 @@ namespace Pawn.Actions {
 		public List<ActionTags> Tags {get {return new List<ActionTags>();}}
 
 		//@param waitTimeMilliseconds - amount of time to wait
-		public void execute(object argsStruct) {
+		public void execute(object argsStruct, VisualController visualController) {
+			Godot.AnimationPlayer animationPlayer = visualController.GetAnimationPlayer();
+			animationPlayer.GetAnimation("Idle").Loop = true;
+			animationPlayer.Play("Idle");
 			Thread.Sleep(((WaitActionArgs) argsStruct).waitTimeMilliseconds);
 		}
 

@@ -119,11 +119,6 @@ mesh = SubResource( 9 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2747, 7.04908, 29.5765 )
 script = ExtResource( 2 )
 
-[node name="franky" type="Spatial" parent="Camera"]
-
-[node name="franky_friend" type="Spatial" parent="Camera/franky"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.2747, -7.04908, -29.5765 )
-
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.527519, 0.849543, 0, -0.849543, 0.527519, 0, 28.7393, 16.7495 )
 

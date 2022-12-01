@@ -8,8 +8,11 @@ namespace Pawn.Tasks {
 		public InvalidTask() 
 		{
 			isValid = false;
+			isCombat = false;
 			actionName = "";
 			actionArgs = "";
+			TaskType = TaskType.REST;
+			TaskState = TaskState.COMPLETED;
 		}
 		public Vector3 GetTargetLocation(){
 			return targetPoint;
@@ -21,5 +24,8 @@ namespace Pawn.Tasks {
 		public float targetDistance {get;}
 		//Represents whether the task is valid or not
 		public bool isValid {get;}
+		public bool isCombat {get;}
+		public TaskType TaskType {get;}
+		public TaskState TaskState {get; set;}
 	}
 }

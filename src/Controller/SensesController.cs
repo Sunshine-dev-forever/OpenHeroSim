@@ -14,6 +14,7 @@ public class SensesController
 	}
 
 	public SensesStruct UpdatePawnSenses(SensesStruct sensesStruct) {
+		//nearby pawns will not include the current pawn
 		List<PawnController> nearbyPawns = kdTreeController.GetNearestPawnsToPawn(pawnController, MAX_PAWNS_TO_SEE);
 		nearbyPawns = nearbyPawns.FindAll( (PawnController otherPawnController) => {
 			return otherPawnController.GlobalTransform.origin.DistanceTo(pawnController.GlobalTransform.origin) < VISION_RANGE;

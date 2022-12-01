@@ -3,7 +3,7 @@ using System;
 using Serilog;
 using Serilog.Sinks.SystemConsole;
 
-//im going to be carefull about what classes I inherit
+//TODO need to depreciate this entire class
 public class LoggerUtil : Node
 {
 
