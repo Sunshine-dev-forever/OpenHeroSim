@@ -8,7 +8,6 @@ public class PawnBrain
 {
 	private List<IPawnGoal> adventureGoalList = new List<IPawnGoal>();
 	private ActionController actionController;
-	private LoggerUtil logger = new LoggerUtil();
 	
 	//TODO: implement a combat goal list (combat goals would be like heal, save ally, kill, etc)
 	//private List<IPawnGoal> combatGoalList = new List<IPawnGoal>();
