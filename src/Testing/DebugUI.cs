@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 public class DebugUI : Spatial
 {
-	private Camera camera;
+	//setup in ready
+	private Camera camera = null!;
 	private int RAY_LENGTH = 10000;
 	public override void _Ready()
 	{

@@ -4,6 +4,7 @@ using Serilog;
 using Pawn.Tasks;
 using System.Collections.Generic;
 
+//HAVE TO CALL Setup() before this node will function!!!
 public class PawnController : Node
 {
 	//TODO: This might be bad design, time will tell
@@ -21,24 +22,21 @@ public class PawnController : Node
 	private GeneralUtil generalUtil = new GeneralUtil();
 	
 	private ActionController actionController = new ActionController();
-	private PawnBrain pawnBrain;
-	private SensesController sensesController;
+	
 	private SensesStruct sensesStruct = new SensesStruct();
 
+	//ALL OF THE BELOW VARIABLES ARE CREATED IN Setup() or _Ready
+	private PawnBrain pawnBrain = null!;
+	private SensesController sensesController = null!;
+	private HealthBar3D healthBar = null!;
+	private VisualController visualController = null!;
+	private CollisionShape collisionShape = null!;
+	private RayCast downwardRayCast = null!;
+	private NavigationAgent navigationAgent = null!;
+	private RigidBody rigidBody = null!;
+	private MovementController movementController = null!;
 
 
-	//I am hardcoding all of the file paths, might change that later
-	//Here lies all of the pawn Godot nodes:
-	private HealthBar3D healthBar;
-	private VisualController visualController;
-	private CollisionShape collisionShape;
-	private RayCast downwardRayCast;
-	private NavigationAgent navigationAgent;
-	private RigidBody rigidBody;
-	//end all the pawn Godot Nodes
-
-
-	private MovementController movementController;
 	private ITask currentTask = new InvalidTask();
 
 	//TODO: These should be attributes of the task
