@@ -22,10 +22,20 @@ public class AdhocTest : Node
 	
 	public override void _Input(InputEvent input) {
 		 if(input.IsActionPressed("mouse_left_click")) {
-			Adhoc();
+			//Adhoc();
 		 } else if(input.IsActionPressed("ui_left")) {
-			Adhoc2();
+			//Adhoc2();
 		 }
+	}
+	private float TimeSinceLastPawnCreation = 0;
+	public override void _Process(float delta)
+	{
+		TimeSinceLastPawnCreation += delta;
+		if(TimeSinceLastPawnCreation > 5) {
+			TimeSinceLastPawnCreation = 0;
+			Adhoc();
+		}
+		
 	}
 	private PawnController testPawn = null!;
 	private void Adhoc(){
