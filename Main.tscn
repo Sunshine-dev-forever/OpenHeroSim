@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Objects/Ground.tres" type="PlaneMesh" id=1]
 [ext_resource path="res://src/Testing/FreeCamera.gd" type="Script" id=2]
 [ext_resource path="res://src/Testing/DebugUI.cs" type="Script" id=3]
 [ext_resource path="res://src/Testing/AdhocTest.cs" type="Script" id=4]
+[ext_resource path="res://Objects/DebugGUI.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/Testing/FPSDebugUI.gd" type="Script" id=6]
 [ext_resource path="res://src/Manager/PawnManager.cs" type="Script" id=7]
 
@@ -149,3 +150,5 @@ script = ExtResource( 3 )
 [node name="Camera" type="Camera" parent="DebugUI"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2747, 7.04908, 29.5765 )
 script = ExtResource( 2 )
+
+[node name="GUI" parent="DebugUI" instance=ExtResource( 5 )]

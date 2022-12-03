@@ -16,8 +16,9 @@ public class PawnController : Node
 	//TODO should all be in a pawnInfomration class
 	[Export] private float health = 100;
 	[Export] private float maxHealth = 100;
-	//[Export] private readonly string PAWN_NAME = "Example Pawn";
 	[Export] private string faction = "none";
+
+	public string pawnName = "Testy Mc Testerson";
 
 	private GeneralUtil generalUtil = new GeneralUtil();
 	
@@ -96,5 +97,11 @@ public class PawnController : Node
 		AnimationPlayer animationPlayer = visualController.GetAnimationPlayer();
 		animationPlayer.GetAnimation("Walking").Loop = true;
 		animationPlayer.Play("Walking");
+	}
+
+	//only used by UI elements 
+	//NEVER MUTATE THE TASK!!!
+	public ITask GetTask() {
+		return currentTask;
 	}
 }

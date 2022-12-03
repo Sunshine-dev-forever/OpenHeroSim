@@ -3,16 +3,20 @@ using System;
 using System.Collections.Generic;
 using Serilog;
 using Pawn.Actions;
-using System.Threading.Tasks;
+using Pawn.Tasks;
 
 public class DebugUI : Spatial
 {
 	//setup in ready
 	private Camera camera = null!;
+	private Label pawnNameValue = null!;
+	private Label pawnTaskStatusValue = null!;
 	private int RAY_LENGTH = 10000;
 	public override void _Ready()
 	{
 		camera = GetNode<Camera>("Camera");	
+		pawnNameValue = GetNode<Label>("GUI/VBoxContainer/NinePatchRect/PawnNameValue");
+		pawnTaskStatusValue = GetNode<Label>("GUI/VBoxContainer/NinePatchRect/PawnStatusValue");
 	}
 	
 	public override void _Input(InputEvent input) {
@@ -36,7 +40,9 @@ public class DebugUI : Spatial
 		}
 		if(result["collider"] is PawnRigidBody) {
 			PawnController pawnController = ((PawnRigidBody) result["collider"]).GetPawnController();
-			Log.Information("success!, the faction of this pawn is " + pawnController.Name);
+			ITask task = pawnController.GetTask();
+			pawnTaskStatusValue.Text = Enum.GetName(typeof(TaskState), task.TaskState);
+			pawnNameValue.Text = pawnController.pawnName;
 		}
 
 	}
