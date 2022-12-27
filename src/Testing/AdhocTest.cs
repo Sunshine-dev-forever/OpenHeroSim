@@ -46,7 +46,21 @@ public class AdhocTest : Node
 		//pawn.GlobalTransform = new Transform(pawn.GlobalTransform.basis, new Vector3(5,5,0));
 		//kdTreeController.AddPawnToAllPawnList(pawn);
 		PawnManager pawnManager = GetNode<PawnManager>("/root/Spatial/Navigation");
-		testPawn = pawnManager.CreatePawn();
+		
+		Vector3 location = new Vector3(0,0,0);
+		Random rand = new Random();
+		int rng = rand.Next(0,3);
+		if(rng == 0) {
+			location = new Vector3(23,5,23);
+		} else if (rng == 1) {
+			location = new Vector3(-23,5,23);
+		} else if (rng == 2) {
+			location = new Vector3(-23, 5, -23);
+		} else if (rng == 3) {
+			location = new Vector3(23, 5, -23);
+		}
+		testPawn = pawnManager.CreatePawn(location);
+
 
 		//Log.Information("the current position is: " + pawn.GlobalTransform.origin);
 	}
