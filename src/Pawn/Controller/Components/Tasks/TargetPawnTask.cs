@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using Pawn.Controller;
 
 namespace Pawn.Tasks {
 	public class TargetPawnTask : ITask {

@@ -2,8 +2,10 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using Serilog;
-using Pawn.Actions;
+using Pawn.Action;
 using System.Threading.Tasks;
+using Pawn;
+using Pawn.Controller;
 
 //TODO: I need more examples on this
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Non-nullable", "CA8618:must contain non-null value exiting constructor", Justification = "Not production code.")]

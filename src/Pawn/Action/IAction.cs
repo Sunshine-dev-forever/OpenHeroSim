@@ -1,7 +1,8 @@
 using Godot;
 using System.Collections.Generic;
+using Pawn.Controller;
 
-namespace Pawn.Actions {
+namespace Pawn.Action {
 	public interface IAction {
 
 		int CooldownMilliseconds {get; }

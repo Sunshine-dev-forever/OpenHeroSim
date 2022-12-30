@@ -1,7 +1,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using Serilog;
-namespace Pawn.Actions {
+using Pawn.Controller;
+namespace Pawn.Action {
 	public class WaitAction : IAction {
 
 		public int CooldownMilliseconds {get {return 0;} }

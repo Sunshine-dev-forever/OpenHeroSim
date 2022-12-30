@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System;
 using Serilog;
-
-namespace Pawn.Actions {
+using Pawn.Controller;
+namespace Pawn.Action {
 	public class StabAction : IAction {
 
 		public int CooldownMilliseconds {get {return 2000;} }

@@ -2,9 +2,10 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using Serilog;
-using Pawn.Actions;
+using Pawn.Action;
 using Pawn.Tasks;
-
+using Pawn;
+using Pawn.Controller;
 public class DebugUI : Spatial
 {
 	//setup in ready
