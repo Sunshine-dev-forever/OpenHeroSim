@@ -1,5 +1,7 @@
 using Godot;
 using Pawn.Controller;
+
+//TODO: does this class *need* to be a node?
 namespace Pawn {
 	public class PawnManager : Node {
 

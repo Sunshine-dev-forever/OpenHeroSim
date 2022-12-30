@@ -59,7 +59,7 @@ namespace Pawn.Controller
 			rigidBody = GetNode<RigidBody>("RigidBody");
 
 			movementController = new MovementController(rigidBody,
-														visualController.GetRiggedCharacterRootNode(),
+														visualController,
 														navigationAgent,
 														downwardRayCast);
 			pawnBrain = new PawnBrain(actionController);
@@ -100,9 +100,7 @@ namespace Pawn.Controller
 
 		public void Adhoc()
 		{
-			AnimationPlayer animationPlayer = visualController.GetAnimationPlayer();
-			animationPlayer.GetAnimation("Walking").Loop = true;
-			animationPlayer.Play("Walking");
+			//currently unused
 		}
 
 		//only used by UI elements 

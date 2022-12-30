@@ -10,16 +10,16 @@ namespace Pawn.Controller {
 		private RayCast downwardRayCast;
 		private RigidBody rigidBody;
 		//TODO: need better name. Point a a lower part of the animation controller? 
-		private Spatial riggedCharacterRootNode;
+		private VisualController visualController;
 
 		private Vector3 originalLocationOfTarget = Vector3.Zero;
 
 		//the Navigation Server can take some time to start up
 		private bool isNavigationServerReady;
 
-		public MovementController(RigidBody _rigidBody, Spatial _riggedCharacterRootNode, NavigationAgent _navigationAgent, RayCast _downwardRayCast) {
+		public MovementController(RigidBody _rigidBody, VisualController _visualController, NavigationAgent _navigationAgent, RayCast _downwardRayCast) {
 			rigidBody = _rigidBody;
-			riggedCharacterRootNode = _riggedCharacterRootNode;
+			visualController = _visualController;
 			navigationAgent = _navigationAgent;
 			downwardRayCast = _downwardRayCast;
 		}
@@ -49,12 +49,9 @@ namespace Pawn.Controller {
 			Vector3 currentLocation = rigidBody.GlobalTransform.origin;
 			Vector3 locationDiff = nextLocation - currentLocation;
 			//Look in the direction of travel
-			//To be honest, I am not sure why I need to add PI/2, but it makes things work
-			//TODO: rotating this 180 degrees, not sure why
-			float newYRotation = (float) ((Math.PI) + Math.Atan2(locationDiff.x , locationDiff.z));
-			riggedCharacterRootNode.Rotation = new Vector3(0,newYRotation, 0);
-
-
+			float newYRotation = (float) (Math.Atan2(locationDiff.x , locationDiff.z));
+			visualController.setPawnRotation(newYRotation);
+			
 			Vector3 velocity = (nextLocation - currentLocation).Slide(floorNormal).Normalized() * speed;
 			rigidBody.LinearVelocity = velocity;
 		}

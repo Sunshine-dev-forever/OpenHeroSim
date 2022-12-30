@@ -88,10 +88,7 @@ namespace Pawn.Controller{
 				task.TaskState = TaskState.USING_ACTION;
 			} else {
 				//we also need to change animations
-				AnimationPlayer animationPlayer = visualController.GetAnimationPlayer();
-				animationPlayer.GetAnimation("Walking").Loop = true;
-				//TODO: perhaps I should not be playing the same animation over and over again... does not seem to be an issue right now
-				animationPlayer.Play("Walking");
+				visualController.SetAnimation(AnimationName.Walking, true);
 			}
 		}
 

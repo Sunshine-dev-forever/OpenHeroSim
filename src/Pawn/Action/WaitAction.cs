@@ -13,9 +13,7 @@ namespace Pawn.Action {
 
 		//@param waitTimeMilliseconds - amount of time to wait
 		public void execute(object argsStruct, VisualController visualController) {
-			Godot.AnimationPlayer animationPlayer = visualController.GetAnimationPlayer();
-			animationPlayer.GetAnimation("Idle").Loop = true;
-			animationPlayer.Play("Idle");
+			visualController.SetAnimation(AnimationName.Idle, true);
 			Thread.Sleep(((WaitActionArgs) argsStruct).waitTimeMilliseconds);
 		}
 

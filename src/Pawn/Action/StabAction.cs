@@ -22,12 +22,8 @@ namespace Pawn.Action {
 			float damage = args.damage;
 			otherPawnController.TakeDamage(damage);
 
-			Godot.AnimationPlayer animationPlayer = visualController.GetAnimationPlayer();
-			animationPlayer.GetAnimation("Stab").Loop = true;
-			animationPlayer.Play("Stab");
-			//TODO: find some constants library that defines this
-			int MILLISECONDS_IN_SECOND = 1000;
-			Thread.Sleep( (int) (animationPlayer.GetAnimation("Stab").Length * MILLISECONDS_IN_SECOND) );
+			visualController.SetAnimation(AnimationName.Stab);
+			Thread.Sleep( (int) (visualController.getAnimationLengthMilliseconds(AnimationName.Stab)) );
 		}
 
 		public struct StabActionArgs {
