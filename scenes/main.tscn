@@ -1,12 +1,12 @@
 [gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://Objects/Ground.tres" type="PlaneMesh" id=1]
-[ext_resource path="res://src/Testing/FreeCamera.gd" type="Script" id=2]
-[ext_resource path="res://src/Testing/DebugUI.cs" type="Script" id=3]
-[ext_resource path="res://src/Testing/AdhocTest.cs" type="Script" id=4]
-[ext_resource path="res://Objects/DebugGUI.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/Pawn/PawnManager.cs" type="Script" id=1]
+[ext_resource path="res://src/Testing/AdhocTest.cs" type="Script" id=2]
+[ext_resource path="res://scenes/gui/debug_gui.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/Testing/DebugUI.cs" type="Script" id=4]
+[ext_resource path="res://scenes/ground.tres" type="PlaneMesh" id=5]
 [ext_resource path="res://src/Testing/FPSDebugUI.gd" type="Script" id=6]
-[ext_resource path="res://src/Pawn/PawnManager.cs" type="Script" id=7]
+[ext_resource path="res://src/Testing/FreeCamera.gd" type="Script" id=7]
 
 [sub_resource type="NavigationMesh" id=1]
 vertices = PoolVector3Array( -24.75, 0.955002, -6.5, -20.75, 0.955002, -6.5, -20.5, 0.955002, -8.25, -24.75, 0.955002, -15.75, -11.25, 0.955002, -18.75, -9.75, 0.955002, -19, -9.75, 0.955002, -24.75, -17.25, 0.955002, -24.75, -17.25, 0.955002, -24.75, -24.75, 0.955002, -24.75, -24.75, 0.955002, -15.75, -19.75, 0.955002, -8.5, -11.25, 0.955002, -12.5, -11.25, 0.955002, -18.75, -19.75, 0.955002, -8.5, -11.25, 0.955002, -6.25, -11.25, 0.955002, -12.5, -24.75, 0.955002, -15.75, -20.5, 0.955002, -8.25, -19.75, 0.955002, -8.5, 2.75, 0.955002, -20.5, 4.25, 0.955002, -22.5, 4.25, 0.955002, -24.75, -2.75, 0.955002, -24.75, -9.75, 0.955002, -24.75, -9.75, 0.955002, -19, -8.5, 0.955002, -18.75, 3.25, 0.955002, -19.75, 2.75, 0.955002, -20.5, -2.75, 0.955002, -24.75, 15.25, 0.955002, -2.75, 17, 0.955002, -10, 10.25, 0.955002, -15, 5.75, 0.955002, -2.25, -8.5, 0.955002, -12.25, -8.5, 0.955002, -5.75, -6.25, 0.955002, -5, -6.25, 0.955002, -5, -6.5, 0.955002, -3, 5.5, 0.955002, -1.75, 5.75, 0.955002, -2.25, -8.5, 0.955002, -18.75, -8.5, 0.955002, -12.25, -6.25, 0.955002, -5, 5.75, 0.955002, -2.25, 10.25, 0.955002, -15, 3.25, 0.955002, -19.75, 19.5, 0.955002, -11.75, 24.75, 0.955002, -8.25, 24.75, 0.955002, -16.5, 4.25, 0.955002, -24.75, 4.25, 0.955002, -22.5, 9.25, 0.955002, -19, 14.5, 0.955002, -15.5, 14.5, 0.955002, -24.75, 14.5, 0.955002, -15.5, 19.5, 0.955002, -11.75, 24.75, 0.955002, -16.5, 24.75, 0.955002, -24.75, 14.5, 0.955002, -24.75, 17, 0.955002, -10, 15.25, 0.955002, -2.75, 15.75, 0.955002, -2.5, 24.75, 0.955002, -4.75, 17, 0.955002, -10, 15.75, 0.955002, -2.5, 16, 0.955002, 4.25, 24.75, 0.955002, 3, 16, 0.955002, 4.25, 16.25, 0.955002, 11, 24.75, 0.955002, 11, 24.75, 0.955002, 3, -20.25, 0.955002, -5.5, -20.75, 0.955002, -6.5, -24.75, 0.955002, -6.5, -24.75, 0.955002, 14.25, -19.25, 0.955002, 14.25, -19, 0.955002, 13, -24.75, 0.955002, 3.75, -20.25, 0.955002, -5.5, -24.75, 0.955002, -6.5, -24.75, 0.955002, 3.75, -14, 0.955002, -4, -14, 0.955002, -4, -24.75, 0.955002, 3.75, -19, 0.955002, 13, -7.5, 0.955002, 12.75, -7.5, 0.955002, -2.5, -4.75, 0.955002, 12.75, -4.5, 0.955002, 14, 6, 0.955002, 14, 5.75, 0.955002, 6, 5.5, 0.955002, -1.75, -6.5, 0.955002, -3, -6.75, 0.955002, -2.5, 5.5, 0.955002, -1.75, -6.75, 0.955002, -2.5, -7.5, 0.955002, -2.5, -7.5, 0.955002, 12.75, -4.75, 0.955002, 12.75, 5.75, 0.955002, 6, 16.5, 0.955002, 16.25, 24.75, 0.955002, 16.5, 24.75, 0.955002, 11, 16.25, 0.955002, 11, 7.75, 0.955002, 24.75, 8, 0.955002, 18.5, 6.25, 0.955002, 18.25, 0.75, 0.955002, 24.75, -4.75, 0.955002, 15.5, -6, 0.955002, 24.75, 0.75, 0.955002, 24.75, 6.25, 0.955002, 18.25, 6, 0.955002, 14, -4.5, 0.955002, 14, -4.75, 0.955002, 15.5, -6.25, 0.955002, 15.5, -6, 0.955002, 24.75, -19, 0.955002, 15.75, -19.25, 0.955002, 14.25, -24.75, 0.955002, 14.25, -19, 0.955002, 15.75, -24.75, 0.955002, 14.25, -24.75, 0.955002, 24.75, -15.5, 0.955002, 24.75, -6, 0.955002, 24.75, -6.25, 0.955002, 15.5, -12.5, 0.955002, 15.75, -15.5, 0.955002, 24.75, -12.5, 0.955002, 15.75, -19, 0.955002, 15.75, -15.5, 0.955002, 24.75, 16.25, 0.955002, 18, 13.5, 0.955002, 18.25, 13.5, 0.955002, 24.75, 24.75, 0.955002, 16.5, 16.5, 0.955002, 16.25, 16.25, 0.955002, 18, 24.75, 0.955002, 24.75, 24.75, 0.955002, 16.5, 16.25, 0.955002, 18, 13.5, 0.955002, 24.75, 8, 0.955002, 18.5, 7.75, 0.955002, 24.75, 13.5, 0.955002, 24.75, 13.5, 0.955002, 18.25 )
@@ -34,7 +34,7 @@ extents = Vector3( 1, 1, 0.958171 )
 [node name="Spatial" type="Spatial"]
 
 [node name="Navigation" type="Navigation" parent="."]
-script = ExtResource( 7 )
+script = ExtResource( 1 )
 
 [node name="NavigationMeshInstance" type="NavigationMeshInstance" parent="Navigation"]
 navmesh = SubResource( 1 )
@@ -47,7 +47,7 @@ __meta__ = {
 }
 
 [node name="MeshInstance" type="MeshInstance" parent="Navigation/NavigationMeshInstance/Floor"]
-mesh = ExtResource( 1 )
+mesh = ExtResource( 5 )
 skin = SubResource( 2 )
 skeleton = NodePath("../../../..")
 
@@ -82,7 +82,7 @@ mesh = SubResource( 9 )
 skeleton = NodePath("../../RoadBlock2")
 
 [node name="RoadBlock3" type="StaticBody" parent="Navigation/NavigationMeshInstance"]
-transform = Transform( 6.73175, 0, -0.240652, 0, 1, 0, 1.66905, 0, 0.970612, -13.5258, 2.32705, -5.4061 )
+transform = Transform( 6.73175, 0, -0.240652, 0, 1, 0, 1.66905, 0, 0.970612, -13.5258, 1.54298, -5.4061 )
 __meta__ = {
 "_edit_group_": true
 }
@@ -125,7 +125,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3125, -0.9, 16.0126 )
 mesh = SubResource( 4 )
 
 [node name="Test" type="Spatial" parent="."]
-script = ExtResource( 4 )
+script = ExtResource( 2 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_left = 8.0
@@ -145,10 +145,10 @@ custom_colors/font_color = Color( 0, 0, 0, 1 )
 text = "100"
 
 [node name="DebugUI" type="Spatial" parent="."]
-script = ExtResource( 3 )
+script = ExtResource( 4 )
 
 [node name="Camera" type="Camera" parent="DebugUI"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2747, 7.04908, 29.5765 )
-script = ExtResource( 2 )
+script = ExtResource( 7 )
 
-[node name="GUI" parent="DebugUI" instance=ExtResource( 5 )]
+[node name="GUI" parent="DebugUI" instance=ExtResource( 3 )]

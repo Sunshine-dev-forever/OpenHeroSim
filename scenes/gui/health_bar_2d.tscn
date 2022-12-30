@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://Objects/UI/HealthBarTheme.tres" type="Theme" id=1]
+[ext_resource path="res://scenes/gui/health_bar_theme.tres" type="Theme" id=1]
 
 [node name="ProgressBar" type="ProgressBar"]
 margin_top = 40.0

@@ -17,7 +17,7 @@ namespace Pawn {
 		}
 
 		public PawnController CreatePawn(Vector3 spawnLocation) {
-			PackedScene pawnScene = GD.Load<PackedScene>("res://Objects/pawn.tscn");
+			PackedScene pawnScene = GD.Load<PackedScene>("res://scenes/pawn/pawn.tscn");
 			PawnController pawn = pawnScene.Instance<PawnController>();
 			this.AddChild(pawn);
 			pawn.Setup(kdTreeController);
