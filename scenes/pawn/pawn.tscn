@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/gui/health_bar_3d.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scenes/pawn/imported_pawn_model.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/pawn/pawn_model.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/Pawn/PawnRigidBody.cs" type="Script" id=3]
 [ext_resource path="res://src/Pawn/Controller/PawnController.cs" type="Script" id=4]
 [ext_resource path="res://src/Pawn/Controller/VisualController.cs" type="Script" id=5]
@@ -31,14 +31,15 @@ physics_material_override = SubResource( 5 )
 script = ExtResource( 3 )
 
 [node name="HealthBar" parent="RigidBody" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.11679, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.15861, 0 )
 texture = SubResource( 7 )
 
 [node name="VisualController" type="Spatial" parent="RigidBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0 )
 script = ExtResource( 5 )
 
 [node name="RiggedCharacter" parent="RigidBody/VisualController" instance=ExtResource( 2 )]
-transform = Transform( -0.25, 0, -2.18557e-08, 0, 0.25, 0, 2.18557e-08, 0, -0.25, 0, 0, 0 )
+transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="RigidBody"]
 transform = Transform( 0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, 0.999416, 0 )
