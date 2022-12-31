@@ -70,6 +70,7 @@ namespace Pawn.Controller
 		{
 			sensesStruct = sensesController.UpdatePawnSenses(sensesStruct);
 			currentTask = pawnBrain.updateCurrentTask(currentTask, sensesStruct, this);
+			visualController.ProcessTask(currentTask);
 		}
 
 		public override void _PhysicsProcess(float delta)
