@@ -12,7 +12,10 @@ bones/0/bound_children = [ NodePath("BoneAttachment2") ]
 bones/14/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="BoneAttachment" parent="Character/Skeleton" index="0"]
-transform = Transform( -0.808187, -0.322779, 0.492593, -0.581396, 0.57061, -0.579984, -0.0938723, -0.755127, -0.648822, -3.32865, -3.6833, 5.18097 )
+transform = Transform( -0.942867, 8.19564e-08, -0.333168, -5.93718e-09, -1, -1.04308e-07, -0.333167, -8.9407e-08, 0.942868, -1.73263, -0.362475, -0.0945072 )
+
+[node name="Held_Item" parent="Character/Skeleton/BoneAttachment" index="0"]
+transform = Transform( 0.0306894, -0.268882, -0.464068, -0.80658, -0.0143168, -0.016775, -0.00433125, 0.76094, -0.164297, -0.0677657, 0.156271, -0.210345 )
 
 [node name="BoneAttachment2" parent="Character/Skeleton" index="1"]
-transform = Transform( 0.905439, -0.273248, 0.324831, 0.424475, 0.58286, -0.692889, -1.04308e-07, 0.765252, 0.643731, 3.41866e-08, -3.93974, 3.21086 )
+transform = Transform( 1, -7.10543e-15, 2.38419e-07, -1.22696e-07, 0.857416, 0.514624, -2.04424e-07, -0.514624, 0.857416, -1.31738e-16, -0.409531, 0.270395 )

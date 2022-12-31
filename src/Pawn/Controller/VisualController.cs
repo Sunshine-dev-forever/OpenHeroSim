@@ -15,11 +15,11 @@ namespace Pawn.Controller
 		BoneAttachment scabbard = null!;
 
 		Vector3 scabbardRotation = new Vector3();
-		Vector3 scabbardTransform = new Vector3();
+		Vector3 scabbardOrigin = new Vector3();
 		Vector3 heldItemRotation = new Vector3();
-		Vector3 heldItemTransform = new Vector3();
+		Vector3 heldItemOrigin = new Vector3();
 
-		Node currentWeapon = null!;
+		Spatial currentWeapon = null!;
 
 		public override void _Ready()
 		{
@@ -36,12 +36,22 @@ namespace Pawn.Controller
 			if(firstTime) {
 				firstTime = false;
 				Node ironSword = GD.Load<PackedScene>("res://scenes/weapons/iron_sword.tscn").Instance();
-				currentWeapon = ironSword;
+				currentWeapon = (Spatial) ironSword;
+				if(heldItem.GetChildCount() != 1 || scabbard.GetChildCount() != 1) {
+					Log.Information("Child count of BoneAttachments not 1, what do?");
+				}
 				//clear the children of scabbard and node
 				foreach(Node node in heldItem.GetChildren()) {
+					//I know these have to be spatials
+					Spatial betterNode = (Spatial) node;
+					heldItemRotation = betterNode.Rotation;
+					heldItemOrigin = betterNode.Transform.origin;
 					node.QueueFree();
 				}
 				foreach(Node node in scabbard.GetChildren()) {
+					Spatial betterNode = (Spatial) node;
+					scabbardRotation = betterNode.Rotation;
+					scabbardOrigin = betterNode.Transform.origin;
 					node.QueueFree();
 				}
 				//heldItem.AddChild(ironSword);
@@ -57,23 +67,31 @@ namespace Pawn.Controller
 		}
 
 		private void UpdatePawnVisualsForCombat() {
-			if(currentWeapon.GetParent() == null) {
-				//we must have switched weapons recently
-				heldItem.AddChild(currentWeapon);
-			} else if( !(currentWeapon.GetParent().Equals(heldItem)) ) {
-				currentWeapon.GetParent().RemoveChild(currentWeapon);
-				heldItem.AddChild(currentWeapon);
+			if(heldItem.Equals(currentWeapon.GetParent())) {
+				//nothing to do here
+				return;
 			}
+
+			if(currentWeapon.GetParent() != null) {
+				currentWeapon.GetParent().RemoveChild(currentWeapon);
+			}
+			heldItem.AddChild(currentWeapon);
+			currentWeapon.Rotation = heldItemRotation;
+			currentWeapon.Transform = new Transform(currentWeapon.Transform.basis, heldItemOrigin);
 		}
 
 		private void UpdatePawnVisualsForNonCombat() {
-			if(currentWeapon.GetParent() == null) {
-				//we must have switched weapons recently
-				scabbard.AddChild(currentWeapon);
-			} else if( !(currentWeapon.GetParent().Equals(scabbard)) ) {
-				currentWeapon.GetParent().RemoveChild(currentWeapon);
-				scabbard.AddChild(currentWeapon);
+			if(scabbard.Equals(currentWeapon.GetParent())) {
+				//nothing to do here
+				return;
 			}
+
+			if(currentWeapon.GetParent() != null) {
+				currentWeapon.GetParent().RemoveChild(currentWeapon);
+			}
+			scabbard.AddChild(currentWeapon);
+			currentWeapon.Rotation = scabbardRotation;
+			currentWeapon.Transform = new Transform(currentWeapon.Transform.basis, scabbardOrigin);
 		}
 
 		public float getAnimationLengthMilliseconds(AnimationName animationName) {
