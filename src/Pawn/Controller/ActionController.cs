@@ -30,14 +30,21 @@ namespace Pawn.Controller{
 			actionsDict.Add(stabAction.Name, new ActionStruct(stabAction, DateTime.MinValue));
 		}
 
+		public void addValidAction(IAction action) {
+			if(!actionsDict.ContainsKey(action.Name)) {
+				actionsDict.Add(action.Name, new ActionStruct(action, DateTime.MinValue));
+			}
+		}
+
 		public void ExecuteActionFromTask(ITask task, VisualController visualController) {
-			if(actionsDict.ContainsKey(task.actionName)) {
-				ActionStruct actionStruct = actionsDict[task.actionName];
-				IAction action = actionStruct.action;
+			//task.action.execute()
+			if(actionsDict.ContainsKey(task.Action.Name)) {
+				ActionStruct actionStruct = actionsDict[task.Action.Name];
+				IAction action = task.Action;
 				//TODO: This HAS to be refactored
-				actionsDict[task.actionName] = new ActionStruct(action, DateTime.Now);
+				actionsDict[task.Action.Name] = new ActionStruct(action, DateTime.Now);
 				actionStruct.timeLastUsed = DateTime.Now;
-				multiThreadUtil.Run(() => {action.execute(task.actionArgs, visualController);});
+				multiThreadUtil.Run(() => {action.execute();});
 			}
 		}
 
@@ -57,7 +64,7 @@ namespace Pawn.Controller{
 		}
 
 		public void HandleTask(ITask task , MovementController movementController, VisualController visualController) {
-			if(!task.isValid) {
+			if(!task.IsValid) {
 				//early exit on invalid task
 				return;
 			}
@@ -82,7 +89,7 @@ namespace Pawn.Controller{
 			//TODO: refactor so I dont call process movement first (movementController has to update the final location)
 			int speed = 10;
 			movementController.ProcessMovement(task.GetTargetLocation(), speed);
-			if(movementController.HasFinishedMovement(task.targetDistance)) {
+			if(movementController.HasFinishedMovement(task.TargetDistance)) {
 				movementController.Stop();
 				//we could get rid of the starting action state and just start he action here
 				ExecuteActionFromTask(task, visualController);

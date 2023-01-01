@@ -5,6 +5,18 @@ using Serilog;
 using Pawn.Controller;
 namespace Pawn.Action {
 	public class StabAction : IAction {
+		
+		private PawnController? ownerPawnController;
+		private PawnController? otherPawnController;
+		public StabAction() {}
+		public StabAction( PawnController _ownerPawnController, PawnController _otherPawnController){
+			ownerPawnController = _ownerPawnController;
+			otherPawnController = _otherPawnController;
+		}
+
+		public IAction Duplicate(PawnController _ownerPawnController, PawnController _otherPawnController) {
+			return new StabAction(_ownerPawnController, _otherPawnController);
+		}
 
 		public int CooldownMilliseconds {get {return 2000;} }
 		//TODO implement tags for actions
@@ -16,27 +28,14 @@ namespace Pawn.Action {
 		public List<ActionTags> Tags {get {return new List<ActionTags>(tags);}}
 
 		//@param waitTimeMilliseconds - amount of time to wait
-		public void execute(object argsStruct, VisualController visualController) {
-			StabActionArgs args = (StabActionArgs) argsStruct;
-			PawnController otherPawnController = args.otherPawnController;
+		public void execute() {
 			//TODO: Stab should provide its own multipliers
-			double damage = args.ownerPawnController.GetDamage();
+			double damage = ownerPawnController.GetDamage();
 			otherPawnController.TakeDamage(damage);
 
-			visualController.SetAnimation(AnimationName.Stab);
-			Thread.Sleep( (int) (visualController.getAnimationLengthMilliseconds(AnimationName.Stab)) );
+			ownerPawnController.VisualController.SetAnimation(AnimationName.Stab);
+			Thread.Sleep( (int) (ownerPawnController.VisualController.getAnimationLengthMilliseconds(AnimationName.Stab)) );
 		}
 
-		public struct StabActionArgs {
-
-			public StabActionArgs(PawnController _otherPawnController, PawnController _ownerPawnController) 
-			{
-				otherPawnController = _otherPawnController;
-				ownerPawnController = _ownerPawnController;
-			}
-
-			public PawnController ownerPawnController;
-			public PawnController otherPawnController;
-		}
 	}
 }

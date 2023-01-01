@@ -1,3 +1,4 @@
+using System;
 using Godot;
 using System.Collections.Generic;
 using Pawn.Controller;
@@ -10,8 +11,8 @@ namespace Pawn.Action {
 		List<ActionTags> Tags {get;}
 		string Name {get;}
 		float MaxRange {get;}
-
-		void execute(object argsStruct, VisualController visualController);
+		public IAction Duplicate(PawnController ownerPawnController, PawnController otherPawnController);
+		void execute();
 	}
 
 	public enum ActionTags {COMBAT}

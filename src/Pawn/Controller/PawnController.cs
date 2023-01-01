@@ -32,7 +32,7 @@ namespace Pawn.Controller
 		//ALL OF THE BELOW VARIABLES ARE CREATED IN Setup() or _Ready
 		private SensesController sensesController = null!;
 		private HealthBar3D healthBar = null!;
-		private VisualController visualController = null!;
+		public VisualController VisualController {get; private set;} = null!;
 		private CollisionShape collisionShape = null!;
 		private RayCast downwardRayCast = null!;
 		private NavigationAgent navigationAgent = null!;
@@ -56,14 +56,14 @@ namespace Pawn.Controller
 		{
 			//so paths are *ONLY* reference here so I think I will just leave it hard coded
 			healthBar = GetNode<HealthBar3D>("RigidBody/HealthBar");
-			visualController = GetNode<VisualController>("RigidBody/VisualController");
+			VisualController = GetNode<VisualController>("RigidBody/VisualController");
 			collisionShape = GetNode<CollisionShape>("RigidBody/CollisionShape");
 			downwardRayCast = GetNode<RayCast>("RigidBody/DownwardRayCast");
 			navigationAgent = GetNode<NavigationAgent>("RigidBody/NavigationAgent");
 			rigidBody = GetNode<RigidBody>("RigidBody");
 
 			MovementController = new MovementController(rigidBody,
-														visualController,
+														VisualController,
 														navigationAgent,
 														downwardRayCast);
 		}
@@ -73,12 +73,12 @@ namespace Pawn.Controller
 		{
 			sensesStruct = sensesController.UpdatePawnSenses(sensesStruct);
 			currentTask = PawnBrain.updateCurrentTask(currentTask, sensesStruct, this);
-			visualController.ProcessTask(currentTask);
+			VisualController.ProcessTask(currentTask);
 		}
 
 		public override void _PhysicsProcess(float delta)
 		{
-			actionController.HandleTask(currentTask, MovementController, visualController);
+			actionController.HandleTask(currentTask, MovementController, VisualController);
 		}
 
 		public void Setup(KdTreeController kdTreeController)
@@ -99,7 +99,7 @@ namespace Pawn.Controller
 		//TODO: This should be handled by a pawnInventory class or something
 		public void SetWeapon(Weapon _weapon) {
 			Weapon = _weapon;
-			visualController.SetWeapon(Weapon);
+			VisualController.SetWeapon(Weapon);
 		}
 
 

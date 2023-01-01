@@ -32,7 +32,7 @@ namespace Pawn.Controller
 			if (isHostilePawnsInVision(sensesStruct))
 			{
 				//we are in combat
-				if (!currentTask.isCombat || currentTask.TaskState == TaskState.COMPLETED || !currentTask.isValid)
+				if (!currentTask.IsCombat || currentTask.TaskState == TaskState.COMPLETED || !currentTask.IsValid)
 				{
 					//task is non-combat or taskState is completed or task is not valid
 					//then we neeed a new task
@@ -46,7 +46,7 @@ namespace Pawn.Controller
 			else
 			{
 				//we are not in comabt
-				if (currentTask.TaskState == TaskState.COMPLETED || !currentTask.isValid)
+				if (currentTask.TaskState == TaskState.COMPLETED || !currentTask.IsValid)
 				{
 					return GetNextTask(pawnController);
 				}
@@ -62,7 +62,7 @@ namespace Pawn.Controller
 			foreach (IPawnGoal pawnGoal in adventureGoalList)
 			{
 				ITask nextTask = pawnGoal.GetTask(pawnController);
-				if (nextTask.isValid)
+				if (nextTask.IsValid)
 				{
 					return nextTask;
 				}
@@ -75,18 +75,19 @@ namespace Pawn.Controller
 			List<ActionTags> requestedTags = new List<ActionTags>();
 			requestedTags.Add(ActionTags.COMBAT);
 			List<IAction> validActions = actionController.GetAllActionsWithTags(requestedTags, false);
+			
 			//The only valid action in combat is stabbing
 			if (validActions.Count < 1)
 			{
 				//if not actions are vaild, then we have to wait
-				WaitAction.WaitActionArgs waitArgs = new WaitAction.WaitActionArgs(500);
-				return new TargetPawnTask("WaitAction", waitArgs, 2, otherPawnController, TaskType.COMBAT);
+				int waitTimeMilliseconds = 500;
+				IAction waitAction = new WaitAction(pawnController, waitTimeMilliseconds);
+				int FOLLOW_DISTNACE = 2;
+				return new TargetPawnTask(waitAction, FOLLOW_DISTNACE, otherPawnController);
 			}
-			//I am assuming this is a stab action
-			//TODO should properly check to see which kind of action this is
-			IAction stabAction = validActions[0];
-			StabAction.StabActionArgs actionArgs = new StabAction.StabActionArgs(otherPawnController, pawnController);
-			ITask task = new TargetPawnTask("StabAction", actionArgs, 2, otherPawnController, TaskType.COMBAT);
+			//This action has to be a stab action for now
+			IAction action = validActions[0].Duplicate(pawnController, otherPawnController);
+			ITask task = new TargetPawnTask(action, action.MaxRange, otherPawnController);
 			return task;
 		}
 

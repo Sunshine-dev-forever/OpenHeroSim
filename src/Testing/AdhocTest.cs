@@ -43,19 +43,26 @@ public class AdhocTest : Node
 		
 		Vector3 location = GenerateRandomVector();
 		Random rand = new Random();
+
+
 		int rng = rand.Next(0,3);
-		if(rng == 1) {
-			PawnControllerBuilder.Start(this, kdTreeController, navigation)
-								.AddGoal(new WanderGoal())
-								.Location(location)
-								.Weapon(createBasicWeapon())
-								.Finish();
-		} else {
-			PawnControllerBuilder.Start(this, kdTreeController, navigation)
-								.AddGoal(new WanderGoal())
-								.Location(location)
-								.Finish();
+		Weapon weapon = null;
+		switch (rng) {
+			case 0: weapon = CreateLightSaber();
+			break;
+			case 1: weapon = CreateRustedDagger();
+			break;
+			case 2: weapon = CreateIronSword();
+			break;
+			default:
+			weapon = CreateRustedDagger();
+			break;
 		}
+		PawnControllerBuilder.Start(this, kdTreeController, navigation)
+							.AddGoal(new WanderGoal())
+							.Location(location)
+							.Weapon(weapon)
+							.Finish();
 	}
 
 	private Vector3 GenerateRandomVector() {
@@ -74,11 +81,21 @@ public class AdhocTest : Node
 	}
 
 	private void Adhoc2(){
-		createBasicWeapon();
+		//CreateIronSword();
 	}
 
-	private Weapon createBasicWeapon() {
+	private Weapon CreateIronSword() {
 		Spatial ironSword = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/iron_sword.tscn").Instance();
 		return new Weapon(20, ironSword);
+	}
+
+	private Weapon CreateRustedDagger() {
+		Spatial rustedDagger = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/rusted_dagger.tscn").Instance();
+		return new Weapon(5, rustedDagger);
+	}
+
+	private Weapon CreateLightSaber() {
+		Spatial lightSaber = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/light_saber.tscn").Instance();
+		return new Weapon(50, lightSaber);
 	}
 }

@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using Pawn.Action;
 
 namespace Pawn.Tasks {
 	public class InvalidTask : ITask {
@@ -7,25 +8,20 @@ namespace Pawn.Tasks {
 
 		public InvalidTask() 
 		{
-			isValid = false;
-			isCombat = false;
-			actionName = "";
-			actionArgs = "";
-			TaskType = TaskType.REST;
+			IsValid = false;
+			IsCombat = false;
+			Action = null;
 			TaskState = TaskState.COMPLETED;
 		}
 		public Vector3 GetTargetLocation(){
 			return targetPoint;
 		}
-		public string actionName {get;}
-		//Dictionary for the action ;arguments
-		public object actionArgs {get;}
+		public IAction Action {get;}
 		//How close the pawn will attempt to get to the target before starting the action
-		public float targetDistance {get;}
+		public float TargetDistance {get;}
 		//Represents whether the task is valid or not
-		public bool isValid {get;}
-		public bool isCombat {get;}
-		public TaskType TaskType {get;}
+		public bool IsValid {get;}
+		public bool IsCombat {get;}
 		public TaskState TaskState {get; set;}
 	}
 }

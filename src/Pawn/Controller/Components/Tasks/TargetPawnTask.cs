@@ -1,39 +1,33 @@
 using Godot;
 using System;
 using Pawn.Controller;
+using Pawn.Action;
 
 namespace Pawn.Tasks {
 	public class TargetPawnTask : ITask {
 		private PawnController targetPawn;
 
-		public TargetPawnTask(string _actionName,
-								object _actionArgs,
+		public TargetPawnTask(IAction _action,
 								float _targetDistance,
-								PawnController _targetPawn,
-								TaskType _TaskType) 
+								PawnController _targetPawn) 
 		{
-			actionName = _actionName;
-			actionArgs = _actionArgs;
-			targetDistance = _targetDistance;
+			Action = _action;
+			TargetDistance = _targetDistance;
 			targetPawn = _targetPawn;
-			TaskType = _TaskType;
 			TaskState = TaskState.MOVING_TO;
 		}
 		public Vector3 GetTargetLocation(){
-			if(!this.isValid){
+			if(!this.IsValid){
 				throw new NullReferenceException("task was not valid");
 			}
 			return targetPawn.GlobalTransform.origin;
 		}
-		public string actionName {get;}
-		//Dictionary for the action ;arguments
-		public object actionArgs {get;}
+		public IAction Action {get;}
 		//How close the pawn will attempt to get to the target before starting the action
-		public float targetDistance {get;}
+		public float TargetDistance {get;}
 		//Represents whether the task is valid or not
-		public bool isValid {get {return Godot.Object.IsInstanceValid(targetPawn);}}
-		public bool isCombat {get { return TaskType == TaskType.COMBAT;}}
-		public TaskType TaskType {get;}
+		public bool IsValid {get {return Godot.Object.IsInstanceValid(targetPawn);}}
+		public bool IsCombat {get { return  Action.Tags.Contains(ActionTags.COMBAT); }}
 		public TaskState TaskState {get; set;}
 
 	}
