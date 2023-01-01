@@ -28,35 +28,29 @@ namespace Pawn.Controller
 			riggedCharacterRootNode = this.GetNode<Spatial>("RiggedCharacter");
 			heldItem = this.GetNode<BoneAttachment>("RiggedCharacter/Character/Skeleton/BoneAttachment");
 			scabbard = this.GetNode<BoneAttachment>("RiggedCharacter/Character/Skeleton/BoneAttachment2");
+			//clear the children of scabbard and node
+			//There should really only be 1 child in both cases
+			if(heldItem.GetChildCount() != 1 || scabbard.GetChildCount() != 1) {
+					Log.Information("Child count of BoneAttachments not 1, what do?");
+			}
+			foreach(Node node in heldItem.GetChildren()) {
+				//I know these have to be spatials
+				Spatial betterNode = (Spatial) node;
+				heldItemRotation = betterNode.Rotation;
+				heldItemOrigin = betterNode.Transform.origin;
+				node.QueueFree();
+			}
+			foreach(Node node in scabbard.GetChildren()) {
+				Spatial betterNode = (Spatial) node;
+				scabbardRotation = betterNode.Rotation;
+				scabbardOrigin = betterNode.Transform.origin;
+				node.QueueFree();
+			}
 		}
 
-		bool firstTime = true;
-
 		public void ProcessTask(ITask task) {
-			if(firstTime) {
-				firstTime = false;
-				Node ironSword = GD.Load<PackedScene>("res://scenes/weapons/iron_sword.tscn").Instance();
-				currentWeapon = (Spatial) ironSword;
-				if(heldItem.GetChildCount() != 1 || scabbard.GetChildCount() != 1) {
-					Log.Information("Child count of BoneAttachments not 1, what do?");
-				}
-				//clear the children of scabbard and node
-				foreach(Node node in heldItem.GetChildren()) {
-					//I know these have to be spatials
-					Spatial betterNode = (Spatial) node;
-					heldItemRotation = betterNode.Rotation;
-					heldItemOrigin = betterNode.Transform.origin;
-					node.QueueFree();
-				}
-				foreach(Node node in scabbard.GetChildren()) {
-					Spatial betterNode = (Spatial) node;
-					scabbardRotation = betterNode.Rotation;
-					scabbardOrigin = betterNode.Transform.origin;
-					node.QueueFree();
-				}
-				//heldItem.AddChild(ironSword);
-				//I want to avoid duplicating things here
-				//scabbard.AddChild(ironSword.Duplicate());
+			if(currentWeapon == null) {
+				return;
 			}
 
 			if(task.isCombat) {
@@ -64,6 +58,10 @@ namespace Pawn.Controller
 			} else {
 				UpdatePawnVisualsForNonCombat();
 			}
+		}
+
+		public void SetWeapon(Weapon weapon) {
+			currentWeapon = weapon.Mesh;
 		}
 
 		private void UpdatePawnVisualsForCombat() {

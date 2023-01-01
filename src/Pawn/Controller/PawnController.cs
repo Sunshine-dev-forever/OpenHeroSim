@@ -18,9 +18,12 @@ namespace Pawn.Controller
 		}
 
 		//TODO should all be in a pawnInfomration class
-		private float health = 100;
-		private float maxHealth = 100;
+		private double health = 100;
+		private double maxHealth = 100;
+		private double pawnBaseDamageAbility = 10;
 		private string faction = "none";
+		//TODO: have a non-null representation of weapon
+		public Weapon Weapon {get; set;} = null;
 		public string pawnName = "Testy Mc Testerson";
 		public ActionController actionController {get;}
 		public PawnBrainController PawnBrain {get;}
@@ -83,8 +86,24 @@ namespace Pawn.Controller
 			sensesController = new SensesController(kdTreeController, this);
 		}
 
+		//Gets the total damage that this pawn is able to produce.
+		//TODO: needs to be replaced with actual pawn stats
+		public double GetDamage() {
+			if(Weapon != null) {
+				return pawnBaseDamageAbility + Weapon.Damage;
+			} else {
+				return pawnBaseDamageAbility;
+			}
+		}
 
-		public void TakeDamage(float damage)
+		//TODO: This should be handled by a pawnInventory class or something
+		public void SetWeapon(Weapon _weapon) {
+			Weapon = _weapon;
+			visualController.SetWeapon(Weapon);
+		}
+
+
+		public void TakeDamage(double damage)
 		{
 			health = health - damage;
 			healthBar.SetHealthPercent(health / maxHealth);

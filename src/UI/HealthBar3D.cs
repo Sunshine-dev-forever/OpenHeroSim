@@ -8,7 +8,7 @@ public class HealthBar3D : Sprite3D {
 		SetHealthPercent(1);
 	}
 
-	public void SetHealthPercent(float percent){
+	public void SetHealthPercent(double percent){
 		if(bar != null){
 			bar.Value = percent * 100;
 		}

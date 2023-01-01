@@ -46,6 +46,11 @@ namespace Pawn
 			return this;
 		}
 
+		public PawnControllerBuilder Weapon(Weapon weapon){
+			pawn.SetWeapon(weapon);
+			return this;
+		}
+
 		public PawnController Finish() {
 			pawn.Setup(kdTreeController);
 			return pawn;

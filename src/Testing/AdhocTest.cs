@@ -42,15 +42,20 @@ public class AdhocTest : Node
 		Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
 		
 		Vector3 location = GenerateRandomVector();
-
-		PawnControllerBuilder.Start(this, kdTreeController, navigation)
+		Random rand = new Random();
+		int rng = rand.Next(0,3);
+		if(rng == 1) {
+			PawnControllerBuilder.Start(this, kdTreeController, navigation)
+								.AddGoal(new WanderGoal())
+								.Location(location)
+								.Weapon(createBasicWeapon())
+								.Finish();
+		} else {
+			PawnControllerBuilder.Start(this, kdTreeController, navigation)
 								.AddGoal(new WanderGoal())
 								.Location(location)
 								.Finish();
-		
-
-
-		//Log.Information("the current position is: " + pawn.GlobalTransform.origin);
+		}
 	}
 
 	private Vector3 GenerateRandomVector() {
@@ -69,22 +74,11 @@ public class AdhocTest : Node
 	}
 
 	private void Adhoc2(){
-		Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
-
-		PawnControllerBuilder.Start(this, kdTreeController, navigation)
-								.AddGoal(new WanderGoal())
-								.Location(new Vector3(0,5,0))
-								.Finish();
-
-		PawnControllerBuilder.Start(this, kdTreeController, navigation)
-								.AddGoal(new WanderGoal())
-								.Location(new Vector3(5,5,5))
-								.Finish();
+		createBasicWeapon();
 	}
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//	  
-//  }
+	private Weapon createBasicWeapon() {
+		Spatial ironSword = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/iron_sword.tscn").Instance();
+		return new Weapon(20, ironSword);
+	}
 }

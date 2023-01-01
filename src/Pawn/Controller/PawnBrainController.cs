@@ -85,7 +85,7 @@ namespace Pawn.Controller
 			//I am assuming this is a stab action
 			//TODO should properly check to see which kind of action this is
 			IAction stabAction = validActions[0];
-			StabAction.StabActionArgs actionArgs = new StabAction.StabActionArgs(otherPawnController, 10, pawnController);
+			StabAction.StabActionArgs actionArgs = new StabAction.StabActionArgs(otherPawnController, pawnController);
 			ITask task = new TargetPawnTask("StabAction", actionArgs, 2, otherPawnController, TaskType.COMBAT);
 			return task;
 		}

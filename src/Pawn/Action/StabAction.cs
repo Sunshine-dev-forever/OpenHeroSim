@@ -19,7 +19,8 @@ namespace Pawn.Action {
 		public void execute(object argsStruct, VisualController visualController) {
 			StabActionArgs args = (StabActionArgs) argsStruct;
 			PawnController otherPawnController = args.otherPawnController;
-			float damage = args.damage;
+			//TODO: Stab should provide its own multipliers
+			double damage = args.ownerPawnController.GetDamage();
 			otherPawnController.TakeDamage(damage);
 
 			visualController.SetAnimation(AnimationName.Stab);
@@ -28,16 +29,14 @@ namespace Pawn.Action {
 
 		public struct StabActionArgs {
 
-			public StabActionArgs(PawnController _otherPawnController, float _damage, PawnController _ownerPawnController) 
+			public StabActionArgs(PawnController _otherPawnController, PawnController _ownerPawnController) 
 			{
 				otherPawnController = _otherPawnController;
-				damage = _damage;
 				ownerPawnController = _ownerPawnController;
 			}
 
 			public PawnController ownerPawnController;
 			public PawnController otherPawnController;
-			public float damage;
 		}
 	}
 }
