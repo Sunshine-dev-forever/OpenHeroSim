@@ -23,6 +23,7 @@ namespace Pawn.Controller{
 		private Dictionary<string, ActionStruct> actionsDict = new Dictionary<string, ActionStruct>();
 
 		public ActionController() {
+			//TODO: need to get valid actions for a creature elsewhere
 			IAction waitAction = new WaitAction();
 			actionsDict.Add(waitAction.Name, new ActionStruct(waitAction, DateTime.MinValue));
 			IAction stabAction = new StabAction();

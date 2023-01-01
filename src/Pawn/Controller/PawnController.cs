@@ -1,3 +1,4 @@
+using System.Globalization;
 using Godot;
 using System;
 using Serilog;
@@ -17,18 +18,15 @@ namespace Pawn.Controller
 		}
 
 		//TODO should all be in a pawnInfomration class
-		[Export] private float health = 100;
-		[Export] private float maxHealth = 100;
-		[Export] private string faction = "none";
-
+		private float health = 100;
+		private float maxHealth = 100;
+		private string faction = "none";
 		public string pawnName = "Testy Mc Testerson";
-
-		private ActionController actionController = new ActionController();
-
-		private SensesStruct sensesStruct = new SensesStruct();
+		public ActionController actionController {get;}
+		public PawnBrainController PawnBrain {get;}
+		private SensesStruct sensesStruct;
 
 		//ALL OF THE BELOW VARIABLES ARE CREATED IN Setup() or _Ready
-		private PawnBrain pawnBrain = null!;
 		private SensesController sensesController = null!;
 		private HealthBar3D healthBar = null!;
 		private VisualController visualController = null!;
@@ -36,17 +34,20 @@ namespace Pawn.Controller
 		private RayCast downwardRayCast = null!;
 		private NavigationAgent navigationAgent = null!;
 		private RigidBody rigidBody = null!;
-		private MovementController movementController = null!;
+		public MovementController MovementController {get; private set;} = null!;
 
 
 		private ITask currentTask = new InvalidTask();
 
-		//TODO: These should be attributes of the task
-
-
 		//TODO: implement something like the below:
 		//private List<IPawnTrait> pawnTraits;
 
+		//When created by instancing a scene, the default constructor is called.
+		public PawnController() {
+			actionController = new ActionController();
+			sensesStruct = new SensesStruct();
+			PawnBrain = new PawnBrainController(actionController);
+		}
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
@@ -58,24 +59,23 @@ namespace Pawn.Controller
 			navigationAgent = GetNode<NavigationAgent>("RigidBody/NavigationAgent");
 			rigidBody = GetNode<RigidBody>("RigidBody");
 
-			movementController = new MovementController(rigidBody,
+			MovementController = new MovementController(rigidBody,
 														visualController,
 														navigationAgent,
 														downwardRayCast);
-			pawnBrain = new PawnBrain(actionController);
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
 		public override void _Process(float delta)
 		{
 			sensesStruct = sensesController.UpdatePawnSenses(sensesStruct);
-			currentTask = pawnBrain.updateCurrentTask(currentTask, sensesStruct, this);
+			currentTask = PawnBrain.updateCurrentTask(currentTask, sensesStruct, this);
 			visualController.ProcessTask(currentTask);
 		}
 
 		public override void _PhysicsProcess(float delta)
 		{
-			actionController.HandleTask(currentTask, movementController, visualController);
+			actionController.HandleTask(currentTask, MovementController, visualController);
 		}
 
 		public void Setup(KdTreeController kdTreeController)
@@ -88,7 +88,7 @@ namespace Pawn.Controller
 		{
 			health = health - damage;
 			healthBar.SetHealthPercent(health / maxHealth);
-			if (health < 0)
+			if (health <= 0)
 			{
 				Die();
 			}
@@ -101,7 +101,16 @@ namespace Pawn.Controller
 
 		public void Adhoc()
 		{
-			//currently unused
+			foreach(Node node in this.GetChildren()) {
+				dfs(node);
+			}
+		}
+
+		public void dfs(Node node) {
+			Log.Information("found node: " + node.Name);
+			foreach( Node othernode in node.GetChildren()) {
+				dfs(othernode);
+			}
 		}
 
 		//only used by UI elements 

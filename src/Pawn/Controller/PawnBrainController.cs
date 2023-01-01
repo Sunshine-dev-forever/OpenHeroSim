@@ -7,7 +7,7 @@ using Pawn.Goal;
 
 namespace Pawn.Controller
 {
-	public class PawnBrain
+	public class PawnBrainController
 	{
 		private List<IPawnGoal> adventureGoalList = new List<IPawnGoal>();
 		private ActionController actionController;
@@ -15,13 +15,17 @@ namespace Pawn.Controller
 		//TODO: implement a combat goal list (combat goals would be like heal, save ally, kill, etc)
 		//private List<IPawnGoal> combatGoalList = new List<IPawnGoal>();
 
-		//TODO: properly create goals
-		public PawnBrain(ActionController _actionController)
+		public PawnBrainController(ActionController _actionController)
 		{
 			actionController = _actionController;
-			adventureGoalList.Add(new WanderGoal());
 		}
+
+		public void AddGoal(IPawnGoal goal) {
+			adventureGoalList.Add(goal);
+		}
+		
 		//TODO: I would prefer to not take in pawnController here
+		//But I need to because tasks need a refernce to the pawnController
 		public ITask updateCurrentTask(ITask currentTask, SensesStruct sensesStruct, PawnController pawnController)
 		{
 

@@ -78,6 +78,10 @@ namespace Pawn.Controller {
 			}
 		}
 
+		public void SetNavigation(Navigation navigation){
+			navigationAgent.SetNavigation(navigation);
+		}
+
 		private void UpdateIsNavigationServerReady(){
 			RID mapRid = NavigationServer.AgentGetMap(navigationAgent.GetRid());
 			//an ID of 0 should always be an invalid ID
