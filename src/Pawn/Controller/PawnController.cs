@@ -8,7 +8,7 @@ using System.Collections.Generic;
 //HAVE TO CALL Setup() before this node will function!!!
 namespace Pawn.Controller
 {
-	public class PawnController : Node
+	public class PawnController : Node, IInteractable
 	{
 		//TODO: This might be bad design, time will tell
 		public Transform GlobalTransform
@@ -133,6 +133,10 @@ namespace Pawn.Controller
 		public ITask GetTask()
 		{
 			return currentTask;
+		}
+
+		public bool IsInstanceValid() {
+			return IsInstanceValid(this);
 		}
 	}
 }

@@ -26,7 +26,7 @@ namespace Pawn
 			parent.AddChild(pawn);
 
 			kdTreeController = _kdTreeController;
-			kdTreeController.AddPawnToAllPawnList(pawn);
+			kdTreeController.AddInteractable(pawn);
 
 			pawn.MovementController.SetNavigation(navigation);
 		}

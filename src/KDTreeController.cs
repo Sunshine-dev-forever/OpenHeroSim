@@ -10,8 +10,8 @@ using Pawn.Controller;
 
 public class KdTreeController : Node
 {
-	private KdTree<float, PawnController> pawnKdTree = new KdTree<float, PawnController>(3, new FloatMath());
-	private List<PawnController> allPawnsList = new List<PawnController>();
+	private KdTree<float, IInteractable> kdTree = new KdTree<float, IInteractable>(3, new FloatMath());
+	private List<IInteractable> allInteractables = new List<IInteractable>();
 
     public override void _Ready()
     {
@@ -20,40 +20,42 @@ public class KdTreeController : Node
 
 	public override void _Process(float delta)
 	{
-		//Log.Information("KD tree Running!");
 		//casually rebuild the entire tree
 		//I should be able to multithread this
-		KdTree<float, PawnController> newTree = new KdTree<float, PawnController>(3, new FloatMath());
+		KdTree<float, IInteractable> newTree = new KdTree<float, IInteractable>(3, new FloatMath());
 		//Start from the end since we will be removing items
-		for (int i = allPawnsList.Count - 1; i >= 0; i-- ) {
-			PawnController pawnController = allPawnsList[i];
-			if(!IsInstanceValid(pawnController)) {
-				allPawnsList.RemoveAt(i);
+		for (int i = allInteractables.Count - 1; i >= 0; i-- ) {
+			IInteractable interactable = allInteractables[i];
+			//prune invalid instances
+			if(interactable == null || !interactable.IsInstanceValid()) {
+				allInteractables.RemoveAt(i);
 				continue;
 			}
-			Vector3 location = pawnController.GlobalTransform.origin;
-			newTree.Add(new[] {location.x, location.y, location.z}, pawnController );
+			//add valid instances to new tree
+			Vector3 location = interactable.GlobalTransform.origin;
+			newTree.Add(new[] {location.x, location.y, location.z}, interactable );
 		}
-		pawnKdTree = newTree;
+		//replace old tree with new tree
+		kdTree = newTree;
 	}
 
-	public void AddPawnToAllPawnList(PawnController pawnController) {
-		allPawnsList.Add(pawnController);
+	public void AddInteractable(IInteractable interactable) {
+		allInteractables.Add(interactable);
 	}
 
 	//count is the max number of neightbors to pull, keep low for better preformance I guess?
-	public List<PawnController> GetNearestPawns(Vector3 location, int count) {
-		IEnumerable<KdTreeNode<float, PawnController>> nearestNodes = 
-			pawnKdTree.GetNearestNeighbours(new[] {location.x, location.y, location.z}, count);
+	public List<IInteractable> GetNearestInteractables(Vector3 location, int count) {
+		IEnumerable<KdTreeNode<float, IInteractable>> nearestNodes = 
+			kdTree.GetNearestNeighbours(new[] {location.x, location.y, location.z}, count);
 		return nearestNodes.Select( (kdTreeNode) => (kdTreeNode.Value)).ToList();
 	}
 
 	//count is the max number of neightbors to pull, keep low for better preformance I guess?
-	public List<PawnController> GetNearestPawnsToPawn(PawnController pawnController, int count) {
-		Vector3 location = pawnController.GlobalTransform.origin;
-		List<PawnController> rtn = GetNearestPawns(location, count);
+	public List<IInteractable> GetNearestInteractableToInteractable(IInteractable interactable, int count) {
+		Vector3 location = interactable.GlobalTransform.origin;
+		List<IInteractable> rtn = GetNearestInteractables(location, count);
 		//This probablly wont throw an exception
-		rtn.Remove(pawnController);
+		rtn.Remove(interactable);
 		return rtn;
 	}
 }

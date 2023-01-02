@@ -19,12 +19,18 @@ namespace Pawn.Controller
 		public SensesStruct UpdatePawnSenses(SensesStruct sensesStruct)
 		{
 			//nearby pawns will not include the current pawn
-			List<PawnController> nearbyPawns = kdTreeController.GetNearestPawnsToPawn(pawnController, MAX_PAWNS_TO_SEE);
-			nearbyPawns = nearbyPawns.FindAll((PawnController otherPawnController) =>
-			{
-				return otherPawnController.GlobalTransform.origin.DistanceTo(pawnController.GlobalTransform.origin) < VISION_RANGE;
-			});
-			sensesStruct.nearbyPawns = nearbyPawns;
+			List<IInteractable> visableInteractables = 
+				kdTreeController.GetNearestInteractableToInteractable(pawnController, MAX_PAWNS_TO_SEE)
+								.FindAll((IInteractable interactable) =>
+								{
+									return interactable.GlobalTransform.origin.DistanceTo(pawnController.GlobalTransform.origin) < VISION_RANGE;
+								});
+			//TODO: should be able to use .select instead of ConvertAll in the future
+			sensesStruct.nearbyPawns = visableInteractables
+										.FindAll( (interactable) => {return interactable is PawnController;})
+										.ConvertAll<PawnController>( (interactable) => {return (PawnController) interactable;});
+			//will also be able to find all object containers this way
+			//TODO: sensesStruct.nearbyObject = visibleInteractables.....
 			//passing a struct through a function will cause it to be copied, so I have to return the new struct
 			return sensesStruct;
 		}
