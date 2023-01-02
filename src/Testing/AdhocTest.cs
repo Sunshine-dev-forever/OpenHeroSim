@@ -27,7 +27,7 @@ public class AdhocTest : Node
 			Adhoc2();
 		 }
 	}
-	private float TimeSinceLastPawnCreation = 0;
+	private float TimeSinceLastPawnCreation = 4;
 	public override void _Process(float delta)
 	{
 		TimeSinceLastPawnCreation += delta;
@@ -42,27 +42,14 @@ public class AdhocTest : Node
 		Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
 		
 		Vector3 location = GenerateRandomVector();
-		Random rand = new Random();
-
-
-		int rng = rand.Next(0,3);
-		Weapon weapon = null;
-		switch (rng) {
-			case 0: weapon = CreateLightSaber();
-			break;
-			case 1: weapon = CreateRustedDagger();
-			break;
-			case 2: weapon = CreateIronSword();
-			break;
-			default:
-			weapon = CreateRustedDagger();
-			break;
-		}
+		
 		PawnControllerBuilder.Start(this, kdTreeController, navigation)
 							.AddGoal(new WanderGoal())
 							.Location(location)
-							.Weapon(weapon)
+							.Weapon(GetRandomWeapon())
 							.Finish();
+
+		
 	}
 
 	private Vector3 GenerateRandomVector() {
@@ -80,22 +67,45 @@ public class AdhocTest : Node
 		return new Vector3();
 	}
 
+	private Weapon GetRandomWeapon() {
+		Random rand = new Random();
+		int rng = rand.Next(0,3);
+		switch (rng) {
+			case 0: return CreateLightSaber();
+			case 1: return CreateRustedDagger();
+			case 2: return CreateIronSword();
+			default:
+			return CreateRustedDagger();
+		}
+	}
+
 	private void Adhoc2(){
-		//CreateIronSword();
+		Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
+		PawnControllerBuilder.Start(this, kdTreeController, navigation)
+							.AddGoal(new WanderGoal())
+							.Location(new Vector3(0,5,0))
+							.Weapon(GetRandomWeapon())
+							.Finish();
+	
+		PawnControllerBuilder.Start(this, kdTreeController, navigation)
+							.AddGoal(new WanderGoal())
+							.Location(new Vector3(5,5,0))
+							.Weapon(GetRandomWeapon())
+							.Finish();
 	}
 
 	private Weapon CreateIronSword() {
 		Spatial ironSword = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/iron_sword.tscn").Instance();
-		return new Weapon(20, ironSword);
+		return new Weapon(5, ironSword);
 	}
 
 	private Weapon CreateRustedDagger() {
 		Spatial rustedDagger = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/rusted_dagger.tscn").Instance();
-		return new Weapon(5, rustedDagger);
+		return new Weapon(4, rustedDagger);
 	}
 
 	private Weapon CreateLightSaber() {
 		Spatial lightSaber = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/light_saber.tscn").Instance();
-		return new Weapon(50, lightSaber);
+		return new Weapon(6, lightSaber);
 	}
 }

@@ -39,11 +39,9 @@ namespace Pawn.Controller{
 		public void ExecuteActionFromTask(ITask task, VisualController visualController) {
 			//task.action.execute()
 			if(actionsDict.ContainsKey(task.Action.Name)) {
-				ActionStruct actionStruct = actionsDict[task.Action.Name];
 				IAction action = task.Action;
 				//TODO: This HAS to be refactored
 				actionsDict[task.Action.Name] = new ActionStruct(action, DateTime.Now);
-				actionStruct.timeLastUsed = DateTime.Now;
 				multiThreadUtil.Run(() => {action.execute();});
 			}
 		}
