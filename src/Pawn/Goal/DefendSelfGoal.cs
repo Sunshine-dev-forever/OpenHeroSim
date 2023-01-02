@@ -26,11 +26,11 @@ namespace Pawn.Goal {
 				//TODO: pawnController.Weapon.Mesh should default to a spatial node. even if Weapon is null
 				waitAction.HeldItemMesh = pawnController.Weapon.Mesh;
 				int FOLLOW_DISTNACE = 2;
-				return new TargetPawnTask(waitAction, FOLLOW_DISTNACE, otherPawnController);
+				return new TargetInteractableTask(waitAction, FOLLOW_DISTNACE, otherPawnController);
 			}
 			//This action has to be a stab action for now
 			IAction action = validActions[0].Duplicate(pawnController, otherPawnController);
-			ITask task = new TargetPawnTask(action, action.MaxRange, otherPawnController);
+			ITask task = new TargetInteractableTask(action, action.MaxRange, otherPawnController);
 			return task;
 		}
 	}

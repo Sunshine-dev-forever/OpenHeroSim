@@ -4,10 +4,10 @@ using Pawn.Controller;
 using Pawn.Action;
 
 namespace Pawn.Tasks {
-	public class TargetPawnTask : ITask {
+	public class TargetInteractableTask : ITask {
 		private PawnController targetPawn;
 
-		public TargetPawnTask(IAction _action,
+		public TargetInteractableTask(IAction _action,
 								float _targetDistance,
 								PawnController _targetPawn
 								) 
