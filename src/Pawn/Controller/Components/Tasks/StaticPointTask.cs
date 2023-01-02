@@ -8,12 +8,14 @@ namespace Pawn.Tasks {
 
 		public StaticPointTask(IAction _action,
 								float _targetDistance,
-								Vector3 _targetPoint) 
+								Vector3 _targetPoint,
+								bool _IsCombat = false) 
 		{
 			Action = _action;
 			TargetDistance = _targetDistance;
 			targetPoint = _targetPoint;
 			TaskState = TaskState.MOVING_TO;
+			IsCombat = _IsCombat;
 		}
 		public Vector3 GetTargetLocation(){
 			return targetPoint;
@@ -23,7 +25,7 @@ namespace Pawn.Tasks {
 		public float TargetDistance {get;}
 		//Represents whether the task is valid or not
 		public bool IsValid {get {return true;}}
-		public bool IsCombat {get { return Action.Tags.Contains(ActionTags.COMBAT); }}
+		public bool IsCombat {get;}
 		public TaskState TaskState {get; set;}
 	}
 }

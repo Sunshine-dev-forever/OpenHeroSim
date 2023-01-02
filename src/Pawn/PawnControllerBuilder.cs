@@ -55,5 +55,15 @@ namespace Pawn
 			pawn.Setup(kdTreeController);
 			return pawn;
 		}
+
+		public PawnControllerBuilder SetNoCombat(bool noCombat) {
+			pawn.PawnBrain.noCombat = noCombat;
+			return this;
+		}
+
+		public PawnControllerBuilder SetName(string name) {
+			pawn.pawnName = name;
+			return this;
+		}
 	}
 }

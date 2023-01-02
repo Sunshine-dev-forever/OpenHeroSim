@@ -120,16 +120,6 @@ namespace Pawn.Controller
 
 		public void Adhoc()
 		{
-			foreach(Node node in this.GetChildren()) {
-				dfs(node);
-			}
-		}
-
-		public void dfs(Node node) {
-			Log.Information("found node: " + node.Name);
-			foreach( Node othernode in node.GetChildren()) {
-				dfs(othernode);
-			}
 		}
 
 		//only used by UI elements 

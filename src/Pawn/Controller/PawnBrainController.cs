@@ -9,6 +9,7 @@ namespace Pawn.Controller
 {
 	public class PawnBrainController
 	{
+		public bool noCombat = false;
 		private List<IPawnGoal> adventureGoalList = new List<IPawnGoal>();
 		private ActionController actionController;
 
@@ -29,7 +30,7 @@ namespace Pawn.Controller
 		public ITask updateCurrentTask(ITask currentTask, SensesStruct sensesStruct, PawnController pawnController)
 		{
 
-			if (isHostilePawnsInVision(sensesStruct))
+			if (isHostilePawnsInVision(sensesStruct) && !noCombat)
 			{
 				//we are in combat
 				if (!currentTask.IsCombat || currentTask.TaskState == TaskState.COMPLETED || !currentTask.IsValid)
@@ -48,6 +49,7 @@ namespace Pawn.Controller
 				//we are not in comabt
 				if (currentTask.TaskState == TaskState.COMPLETED || !currentTask.IsValid)
 				{
+					Log.Information(pawnController.pawnName + ": Created new goal");
 					return GetNextTask(pawnController);
 				}
 				else
@@ -80,14 +82,16 @@ namespace Pawn.Controller
 			if (validActions.Count < 1)
 			{
 				//if not actions are vaild, then we have to wait
-				int waitTimeMilliseconds = 500;
+				int waitTimeMilliseconds = 100;
 				IAction waitAction = new WaitAction(pawnController, waitTimeMilliseconds);
 				int FOLLOW_DISTNACE = 2;
-				return new TargetPawnTask(waitAction, FOLLOW_DISTNACE, otherPawnController);
+				Log.Information(pawnController.pawnName + ":Created new wait combat goal");
+				return new TargetPawnTask(waitAction, FOLLOW_DISTNACE, otherPawnController, true);
 			}
 			//This action has to be a stab action for now
 			IAction action = validActions[0].Duplicate(pawnController, otherPawnController);
-			ITask task = new TargetPawnTask(action, action.MaxRange, otherPawnController);
+			Log.Information(pawnController.pawnName + ":Created new stab combat goal");
+			ITask task = new TargetPawnTask(action, action.MaxRange, otherPawnController, true);
 			return task;
 		}
 

@@ -33,7 +33,7 @@ public class AdhocTest : Node
 		TimeSinceLastPawnCreation += delta;
 		if(TimeSinceLastPawnCreation > 5) {
 			TimeSinceLastPawnCreation = 0;
-			CreatePawn();
+			//CreatePawn();
 		}
 		
 	}
@@ -88,9 +88,11 @@ public class AdhocTest : Node
 							.Finish();
 	
 		PawnControllerBuilder.Start(this, kdTreeController, navigation)
-							.AddGoal(new WanderGoal())
+							.AddGoal(new DebugGoal())
 							.Location(new Vector3(5,5,0))
 							.Weapon(GetRandomWeapon())
+							.SetNoCombat(true)
+							.SetName("brain dead pawn")
 							.Finish();
 	}
 
