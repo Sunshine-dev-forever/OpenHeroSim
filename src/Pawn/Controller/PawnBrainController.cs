@@ -49,7 +49,7 @@ namespace Pawn.Controller
 				//we are not in comabt
 				if (currentTask.TaskState == TaskState.COMPLETED || !currentTask.IsValid)
 				{
-					return GetNextTask(pawnController);
+					return GetNextTask(pawnController, sensesStruct);
 				}
 				else
 				{
@@ -58,11 +58,11 @@ namespace Pawn.Controller
 			}
 		}
 
-		public ITask GetNextTask(PawnController pawnController)
+		public ITask GetNextTask(PawnController pawnController, SensesStruct sensesStruct)
 		{
 			foreach (IPawnGoal pawnGoal in adventureGoalList)
 			{
-				ITask nextTask = pawnGoal.GetTask(pawnController);
+				ITask nextTask = pawnGoal.GetTask(pawnController, sensesStruct);
 				if (nextTask.IsValid)
 				{
 					return nextTask;

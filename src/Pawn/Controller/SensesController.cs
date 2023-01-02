@@ -30,7 +30,9 @@ namespace Pawn.Controller
 										.FindAll( (interactable) => {return interactable is PawnController;})
 										.ConvertAll<PawnController>( (interactable) => {return (PawnController) interactable;});
 			//will also be able to find all object containers this way
-			//TODO: sensesStruct.nearbyObject = visibleInteractables.....
+			sensesStruct.nearbyContainers = visableInteractables
+										.FindAll( (interactable) => {return interactable is ItemContainer;})
+										.ConvertAll<ItemContainer>( (interactable) => {return (ItemContainer) interactable;});
 			//passing a struct through a function will cause it to be copied, so I have to return the new struct
 			return sensesStruct;
 		}

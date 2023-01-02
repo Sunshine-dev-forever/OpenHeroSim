@@ -6,6 +6,6 @@ using Pawn.Controller;
 namespace Pawn.Goal {
 	public interface IPawnGoal
 	{
-		ITask GetTask(PawnController pawnController);
+		ITask GetTask(PawnController pawnController, SensesStruct sensesStruct);
 	}
 }

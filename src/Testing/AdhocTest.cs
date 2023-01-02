@@ -44,12 +44,11 @@ public class AdhocTest : Node
 		Vector3 location = GenerateRandomVector();
 		
 		PawnControllerBuilder.Start(this, kdTreeController, navigation)
+							.AddGoal(new LootGoal())
 							.AddGoal(new WanderGoal())
 							.Location(location)
 							.Weapon(GetRandomWeapon())
-							.Finish();
-
-		
+							.Finish();		
 	}
 
 	private Vector3 GenerateRandomVector() {
@@ -80,7 +79,11 @@ public class AdhocTest : Node
 	}
 
 	private void Adhoc2(){
-		Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
+		CreateItemContainer();
+	}
+
+	private void CreateHealingPotionTester() {
+				Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
 		PawnControllerBuilder.Start(this, kdTreeController, navigation)
 							.AddGoal(new HealGoal())
 							.AddGoal(new WanderGoal())
@@ -89,6 +92,15 @@ public class AdhocTest : Node
 							.AddItem(CreateHealingPotion()).AddItem(CreateHealingPotion())
 							.DealDamage(50)
 							.Finish();
+	}
+
+	private void CreateItemContainer() {
+		Spatial TreasureChestMesh = (Spatial) GD.Load<PackedScene>("res://scenes/world_objects/treasure_chest.tscn").Instance();
+		//The iron sword gets leaked when created like this
+		ItemContainer itemContainer = new ItemContainer(CreateIronSword(), TreasureChestMesh);
+		this.AddChild(itemContainer);
+		itemContainer.GlobalTransform = new Transform(itemContainer.GlobalTransform.basis, new Vector3(0,1,0));
+		kdTreeController.AddInteractable(itemContainer);
 	}
 
 	private Weapon CreateIronSword() {

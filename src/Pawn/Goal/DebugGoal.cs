@@ -7,7 +7,7 @@ using Pawn.Controller;
 namespace Pawn.Goal {
 	public class DebugGoal : IPawnGoal
 	{
-		public ITask GetTask(PawnController pawnController) {
+		public ITask GetTask(PawnController pawnController, SensesStruct sensesStruct) {
 			return new StaticPointTask(new WaitAction(pawnController, 10000),  1.5f, pawnController.GlobalTransform.origin);
 		}
 	}
