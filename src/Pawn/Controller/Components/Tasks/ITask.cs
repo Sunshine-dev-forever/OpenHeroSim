@@ -12,7 +12,7 @@ namespace Pawn.Tasks {
 		//Represents whether the task is valid or not
 		bool IsValid {get;}
 		//is this task a combat task (will this task be interuppted by combat?)
-		bool IsCombat {get;}
+		bool IsInterruptable {get;}
 		//The state that the task is in
 		TaskState TaskState {get; set;}
 		

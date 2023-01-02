@@ -33,7 +33,7 @@ namespace Pawn.Controller
 			if (isHostilePawnsInVision(sensesStruct) && !noCombat)
 			{
 				//we are in combat
-				if (!currentTask.IsCombat || currentTask.TaskState == TaskState.COMPLETED || !currentTask.IsValid)
+				if (currentTask.IsInterruptable || currentTask.TaskState == TaskState.COMPLETED || !currentTask.IsValid)
 				{
 					//task is non-combat or taskState is completed or task is not valid
 					//then we neeed a new task
@@ -86,12 +86,12 @@ namespace Pawn.Controller
 				IAction waitAction = new WaitAction(pawnController, waitTimeMilliseconds);
 				int FOLLOW_DISTNACE = 2;
 				Log.Information(pawnController.pawnName + ":Created new wait combat goal");
-				return new TargetPawnTask(waitAction, FOLLOW_DISTNACE, otherPawnController, true);
+				return new TargetPawnTask(waitAction, FOLLOW_DISTNACE, otherPawnController, false);
 			}
 			//This action has to be a stab action for now
 			IAction action = validActions[0].Duplicate(pawnController, otherPawnController);
 			Log.Information(pawnController.pawnName + ":Created new stab combat goal");
-			ITask task = new TargetPawnTask(action, action.MaxRange, otherPawnController, true);
+			ITask task = new TargetPawnTask(action, action.MaxRange, otherPawnController, false);
 			return task;
 		}
 

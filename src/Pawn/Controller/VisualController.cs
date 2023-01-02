@@ -53,7 +53,7 @@ namespace Pawn.Controller
 				return;
 			}
 
-			if(task.IsCombat) {
+			if(task.Action.Tags.Contains(Action.ActionTags.COMBAT)) {
 				UpdatePawnVisualsForCombat();
 			} else {
 				UpdatePawnVisualsForNonCombat();

@@ -10,13 +10,13 @@ namespace Pawn.Tasks {
 		public TargetPawnTask(IAction _action,
 								float _targetDistance,
 								PawnController _targetPawn,
-								bool _IsCombat = false) 
+								bool _IsInterruptable = true) 
 		{
 			Action = _action;
 			TargetDistance = _targetDistance;
 			targetPawn = _targetPawn;
 			TaskState = TaskState.MOVING_TO;
-			IsCombat = _IsCombat;
+			IsInterruptable = _IsInterruptable;
 		}
 		public Vector3 GetTargetLocation(){
 			if(!this.IsValid){
@@ -29,7 +29,7 @@ namespace Pawn.Tasks {
 		public float TargetDistance {get;}
 		//Represents whether the task is valid or not
 		public bool IsValid {get {return Godot.Object.IsInstanceValid(targetPawn);}}
-		public bool IsCombat {get;}
+		public bool IsInterruptable {get;}
 		public TaskState TaskState {get; set;}
 
 	}
