@@ -23,5 +23,6 @@ namespace Pawn.Tasks {
 		public bool IsValid {get;}
 		public bool IsInterruptable {get;}
 		public TaskState TaskState {get; set;}
+		public int Priority {get; set;}
 	}
 }

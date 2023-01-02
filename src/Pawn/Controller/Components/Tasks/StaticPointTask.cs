@@ -8,14 +8,12 @@ namespace Pawn.Tasks {
 
 		public StaticPointTask(IAction _action,
 								float _targetDistance,
-								Vector3 _targetPoint,
-								bool _IsInterruptable = true) 
+								Vector3 _targetPoint) 
 		{
 			Action = _action;
 			TargetDistance = _targetDistance;
 			targetPoint = _targetPoint;
 			TaskState = TaskState.MOVING_TO;
-			IsInterruptable = _IsInterruptable;
 		}
 		public Vector3 GetTargetLocation(){
 			return targetPoint;
@@ -26,6 +24,7 @@ namespace Pawn.Tasks {
 		//Represents whether the task is valid or not
 		public bool IsValid {get {return true;}}
 		public bool IsInterruptable {get;}
+		public int Priority{get; set;}
 		public TaskState TaskState {get; set;}
 	}
 }

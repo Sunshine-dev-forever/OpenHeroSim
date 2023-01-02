@@ -9,8 +9,7 @@ namespace Pawn.Controller
 {
 	public class PawnBrainController
 	{
-		public bool noCombat = false;
-		private List<IPawnGoal> adventureGoalList = new List<IPawnGoal>();
+		private List<IPawnGoal> goals = new List<IPawnGoal>();
 		private ActionController actionController;
 
 		//TODO: implement a combat goal list (combat goals would be like heal, save ally, kill, etc)
@@ -22,76 +21,57 @@ namespace Pawn.Controller
 		}
 
 		public void AddGoal(IPawnGoal goal) {
-			adventureGoalList.Add(goal);
+			goals.Add(goal);
 		}
 		
 		//TODO: I would prefer to not take in pawnController here
 		//But I need to because tasks need a refernce to the pawnController
 		public ITask updateCurrentTask(ITask currentTask, SensesStruct sensesStruct, PawnController pawnController)
 		{
-
-			if (isHostilePawnsInVision(sensesStruct) && !noCombat)
+			if (currentTask.TaskState == TaskState.COMPLETED || !currentTask.IsValid)
 			{
-				//we are in combat
-				if (currentTask.IsInterruptable || currentTask.TaskState == TaskState.COMPLETED || !currentTask.IsValid)
-				{
-					//task is non-combat or taskState is completed or task is not valid
-					//then we neeed a new task
-					return GetNextCombatTask(pawnController, sensesStruct.nearbyPawns[0]);
-				}
-				else
-				{
-					return currentTask;
-				}
+				//if the current task is done or invalid then we get a new task no matter what
+				return GetNextTask(pawnController, sensesStruct);
 			}
 			else
 			{
-				//we are not in comabt
-				if (currentTask.TaskState == TaskState.COMPLETED || !currentTask.IsValid)
-				{
-					return GetNextTask(pawnController, sensesStruct);
+				//otherwise we try to create a higher priority task
+				return GetHigherPriorityTaskOrCurrentTask(currentTask, sensesStruct,pawnController);
+			}
+		}
+
+		public ITask GetHigherPriorityTaskOrCurrentTask(ITask currentTask, SensesStruct sensesStruct, PawnController pawnController) {
+			//Lower index means HigherPriority
+			for (int i = 0; i < goals.Count; i++)
+			{
+				if(i >= currentTask.Priority) {
+					//Only want tasks will a Priority that could be higher
+					break;
 				}
-				else
+				IPawnGoal pawnGoal = goals[i];
+				ITask nextTask = pawnGoal.GetTask(pawnController, sensesStruct);
+				nextTask.Priority = i;
+				if (nextTask.IsValid )
 				{
-					return currentTask;
+					return nextTask;
 				}
 			}
+			return currentTask;
 		}
 
 		public ITask GetNextTask(PawnController pawnController, SensesStruct sensesStruct)
 		{
-			foreach (IPawnGoal pawnGoal in adventureGoalList)
+			for (int i = 0; i < goals.Count; i++)
 			{
+				IPawnGoal pawnGoal = goals[i];
 				ITask nextTask = pawnGoal.GetTask(pawnController, sensesStruct);
+				nextTask.Priority = i;
 				if (nextTask.IsValid)
 				{
 					return nextTask;
 				}
 			}
 			return new InvalidTask();
-		}
-
-		public ITask GetNextCombatTask(PawnController pawnController, PawnController otherPawnController)
-		{
-			List<ActionTags> requestedTags = new List<ActionTags>();
-			requestedTags.Add(ActionTags.COMBAT);
-			List<IAction> validActions = actionController.GetAllActionsWithTags(requestedTags, false);
-			
-			//The only valid action in combat is stabbing
-			if (validActions.Count < 1)
-			{
-				//if not actions are vaild, then we have to wait
-				int waitTimeMilliseconds = 100;
-				IAction waitAction = new WaitAction(pawnController, waitTimeMilliseconds);
-				//TODO: pawnController.Weapon.Mesh should default to a spatial node. even if Weapon is null
-				waitAction.HeldItemMesh = pawnController.Weapon.Mesh;
-				int FOLLOW_DISTNACE = 2;
-				return new TargetPawnTask(waitAction, FOLLOW_DISTNACE, otherPawnController, false);
-			}
-			//This action has to be a stab action for now
-			IAction action = validActions[0].Duplicate(pawnController, otherPawnController);
-			ITask task = new TargetPawnTask(action, action.MaxRange, otherPawnController, false);
-			return task;
 		}
 
 		private bool isHostilePawnsInVision(SensesStruct sensesStruct)

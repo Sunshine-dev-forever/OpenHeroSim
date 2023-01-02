@@ -44,6 +44,7 @@ public class AdhocTest : Node
 		Vector3 location = GenerateRandomVector();
 		
 		PawnControllerBuilder.Start(this, kdTreeController, navigation)
+							.AddGoal(new DefendSelfGoal())
 							.AddGoal(new LootGoal())
 							.AddGoal(new WanderGoal())
 							.Location(location)
