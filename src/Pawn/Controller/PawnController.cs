@@ -18,12 +18,13 @@ namespace Pawn.Controller
 		}
 
 		//TODO should all be in a pawnInfomration class
-		private double health = 100;
+		public double health {get; private set;} = 100;
 		private double maxHealth = 100;
 		private double pawnBaseDamageAbility = 10;
 		private string faction = "none";
 		//TODO: have a non-null representation of weapon
 		public Weapon Weapon {get; set;} = null;
+		public List<Item> ItemList = new List<Item>();
 		public string pawnName = "Testy Mc Testerson";
 		public ActionController actionController {get;}
 		public PawnBrainController PawnBrain {get;}
@@ -106,15 +107,20 @@ namespace Pawn.Controller
 		public void TakeDamage(double damage)
 		{
 			health = health - damage;
-			healthBar.SetHealthPercent(health / maxHealth);
 			if (health <= 0)
 			{
 				Die();
+				return;
 			}
+			if(health > maxHealth) {
+				health = maxHealth;
+			}
+			healthBar.SetHealthPercent(health / maxHealth);
 		}
 
 		private void Die()
 		{
+			ItemList.ForEach( (item) => item.Mesh.QueueFree());
 			this.QueueFree();
 		}
 

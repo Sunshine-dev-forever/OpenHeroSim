@@ -65,5 +65,15 @@ namespace Pawn
 			pawn.pawnName = name;
 			return this;
 		}
+
+		public PawnControllerBuilder AddItem(Item item) {
+			pawn.ItemList.Add(item);
+			return this;
+		}
+
+		public PawnControllerBuilder DealDamage(double damage) {
+			pawn.TakeDamage(damage);
+			return this;
+		}
 	}
 }

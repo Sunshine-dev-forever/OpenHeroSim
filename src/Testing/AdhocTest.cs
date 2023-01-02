@@ -82,17 +82,12 @@ public class AdhocTest : Node
 	private void Adhoc2(){
 		Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
 		PawnControllerBuilder.Start(this, kdTreeController, navigation)
+							.AddGoal(new HealGoal())
 							.AddGoal(new WanderGoal())
 							.Location(new Vector3(0,5,0))
-							.Weapon(GetRandomWeapon())
-							.Finish();
-	
-		PawnControllerBuilder.Start(this, kdTreeController, navigation)
-							.AddGoal(new DebugGoal())
-							.Location(new Vector3(5,5,0))
-							.Weapon(GetRandomWeapon())
-							.SetNoCombat(true)
-							.SetName("brain dead pawn")
+							.Weapon(CreateOPLightSaber())
+							.AddItem(CreateHealingPotion()).AddItem(CreateHealingPotion())
+							.DealDamage(50)
 							.Finish();
 	}
 
@@ -109,5 +104,15 @@ public class AdhocTest : Node
 	private Weapon CreateLightSaber() {
 		Spatial lightSaber = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/light_saber.tscn").Instance();
 		return new Weapon(6, lightSaber);
+	}
+
+	private Weapon CreateOPLightSaber() {
+		Spatial lightSaber = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/light_saber.tscn").Instance();
+		return new Weapon(50, lightSaber);
+	}
+
+	private Item CreateHealingPotion() {
+		Spatial healthPotion = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/health_potion.tscn").Instance();
+		return new Item(40, healthPotion);
 	}
 }
