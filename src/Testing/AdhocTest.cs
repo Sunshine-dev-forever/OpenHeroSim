@@ -33,7 +33,7 @@ public class AdhocTest : Node
 		TimeSinceLastPawnCreation += delta;
 		if(TimeSinceLastPawnCreation > 5) {
 			TimeSinceLastPawnCreation = 0;
-			//CreatePawn();
+			CreatePawn();
 		}
 		
 	}

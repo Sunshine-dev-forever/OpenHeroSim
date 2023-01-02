@@ -8,10 +8,13 @@ namespace Pawn.Action {
 		
 		private PawnController? ownerPawnController;
 		private PawnController? otherPawnController;
+
+		public Godot.Spatial? HeldItemMesh {get; set;}
 		public StabAction() {}
 		public StabAction( PawnController _ownerPawnController, PawnController _otherPawnController){
 			ownerPawnController = _ownerPawnController;
 			otherPawnController = _otherPawnController;
+			HeldItemMesh = ownerPawnController.Weapon.Mesh;
 		}
 
 		public IAction Duplicate(PawnController _ownerPawnController, PawnController _otherPawnController) {

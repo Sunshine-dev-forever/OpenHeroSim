@@ -10,6 +10,7 @@ namespace Pawn.Action {
 		public string Name {get {return "WaitAction";}}
 		public float MaxRange {get {return 2;}}
 		public List<ActionTags> Tags {get {return new List<ActionTags>();}}
+		public Godot.Spatial? HeldItemMesh {get; set;}
 
 		private int waitTimeMilliseconds;
 

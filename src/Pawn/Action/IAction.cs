@@ -13,6 +13,7 @@ namespace Pawn.Action {
 		float MaxRange {get;}
 		public IAction Duplicate(PawnController ownerPawnController, PawnController otherPawnController);
 		void execute();
+		public Spatial? HeldItemMesh {get; set;}
 	}
 
 	public enum ActionTags {COMBAT}

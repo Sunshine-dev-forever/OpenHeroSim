@@ -49,7 +49,6 @@ namespace Pawn.Controller
 				//we are not in comabt
 				if (currentTask.TaskState == TaskState.COMPLETED || !currentTask.IsValid)
 				{
-					Log.Information(pawnController.pawnName + ": Created new goal");
 					return GetNextTask(pawnController);
 				}
 				else
@@ -84,13 +83,13 @@ namespace Pawn.Controller
 				//if not actions are vaild, then we have to wait
 				int waitTimeMilliseconds = 100;
 				IAction waitAction = new WaitAction(pawnController, waitTimeMilliseconds);
+				//TODO: pawnController.Weapon.Mesh should default to a spatial node. even if Weapon is null
+				waitAction.HeldItemMesh = pawnController.Weapon.Mesh;
 				int FOLLOW_DISTNACE = 2;
-				Log.Information(pawnController.pawnName + ":Created new wait combat goal");
 				return new TargetPawnTask(waitAction, FOLLOW_DISTNACE, otherPawnController, false);
 			}
 			//This action has to be a stab action for now
 			IAction action = validActions[0].Duplicate(pawnController, otherPawnController);
-			Log.Information(pawnController.pawnName + ":Created new stab combat goal");
 			ITask task = new TargetPawnTask(action, action.MaxRange, otherPawnController, false);
 			return task;
 		}
