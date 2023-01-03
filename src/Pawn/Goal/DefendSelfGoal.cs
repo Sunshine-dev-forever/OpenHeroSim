@@ -15,7 +15,7 @@ namespace Pawn.Goal {
 			PawnController otherPawnController = sensesStruct.nearbyPawns[0];
 			List<ActionTags> requestedTags = new List<ActionTags>();
 			requestedTags.Add(ActionTags.COMBAT);
-			List<IAction> validActions = pawnController.actionController.GetAllActionsWithTags(requestedTags, false);
+			List<IAction> validActions = pawnController.ActionController.GetAllActionsWithTags(requestedTags, false);
 			
 			//The only valid action in combat is stabbing
 			if (validActions.Count < 1)
@@ -24,7 +24,9 @@ namespace Pawn.Goal {
 				int waitTimeMilliseconds = 100;
 				IAction waitAction = new WaitAction(pawnController, waitTimeMilliseconds);
 				//TODO: pawnController.Weapon.Mesh should default to a spatial node. even if Weapon is null
-				waitAction.HeldItemMesh = pawnController.Weapon.Mesh;
+				if(pawnController.Weapon != null) {
+					waitAction.HeldItemMesh = pawnController.Weapon.Mesh;
+				}
 				int FOLLOW_DISTNACE = 2;
 				return new TargetInteractableTask(waitAction, FOLLOW_DISTNACE, otherPawnController);
 			}

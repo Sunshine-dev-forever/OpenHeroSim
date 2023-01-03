@@ -26,7 +26,7 @@ namespace Pawn.Controller
 		public Weapon Weapon {get; set;} = null;
 		public List<Item> ItemList = new List<Item>();
 		public string pawnName = "Testy Mc Testerson";
-		public ActionController actionController {get;}
+		public ActionController ActionController {get;}
 		public PawnBrainController PawnBrain {get;}
 		private SensesStruct sensesStruct;
 
@@ -48,9 +48,9 @@ namespace Pawn.Controller
 
 		//When created by instancing a scene, the default constructor is called.
 		public PawnController() {
-			actionController = new ActionController();
+			ActionController = new ActionController();
 			sensesStruct = new SensesStruct();
-			PawnBrain = new PawnBrainController(actionController);
+			PawnBrain = new PawnBrainController(ActionController);
 		}
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
@@ -79,7 +79,7 @@ namespace Pawn.Controller
 
 		public override void _PhysicsProcess(float delta)
 		{
-			actionController.HandleTask(currentTask, MovementController, VisualController);
+			ActionController.HandleTask(currentTask, MovementController, VisualController);
 		}
 
 		public void Setup(KdTreeController kdTreeController)
@@ -101,6 +101,7 @@ namespace Pawn.Controller
 		public void SetWeapon(Weapon _weapon) {
 			Weapon = _weapon;
 			VisualController.SetWeapon(Weapon);
+			Log.Information("Weapon is now set");
 		}
 
 

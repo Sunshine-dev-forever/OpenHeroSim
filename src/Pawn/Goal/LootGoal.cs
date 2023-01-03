@@ -1,3 +1,4 @@
+using System.Reflection.Metadata;
 using System;
 using Serilog;
 using System.Collections.Generic;
@@ -9,11 +10,12 @@ namespace Pawn.Goal {
 	{
 		public ITask GetTask(PawnController pawnController, SensesStruct sensesStruct) {
 			List<ItemContainer> nearbyLoot = sensesStruct.nearbyContainers;
-			if(nearbyLoot.Count > 0) {
-				//we can loot something!
-				Log.Information("A lootable is nearby!");
+			if(nearbyLoot.Count == 0) {
+				return new InvalidTask();
+				
 			}
-			return new InvalidTask();
+			IAction action = new LootAction(pawnController, nearbyLoot[0]);
+			return new TargetInteractableTask(action, 2, nearbyLoot[0]);
 		}
 	}
 }

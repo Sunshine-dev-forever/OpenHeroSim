@@ -31,6 +31,8 @@ namespace Pawn.Controller{
 			actionsDict.Add(stabAction.Name, new ActionStruct(stabAction, DateTime.MinValue));
 			IAction drinkAction = new DrinkPotionAction();
 			actionsDict.Add(drinkAction.Name, new ActionStruct(drinkAction, DateTime.MinValue));
+			IAction lootAction = new LootAction();
+			actionsDict.Add(lootAction.Name, new ActionStruct(lootAction, DateTime.MinValue));
 		}
 
 		public void addValidAction(IAction action) {

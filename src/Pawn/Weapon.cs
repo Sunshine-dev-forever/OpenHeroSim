@@ -11,5 +11,8 @@ namespace Pawn {
 			Damage = damageStat;
 			Mesh = mesh;
 		}
+		public void Delete() {
+			Mesh.QueueFree();
+		}
 	}
 }

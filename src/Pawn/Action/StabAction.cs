@@ -14,7 +14,9 @@ namespace Pawn.Action {
 		public StabAction( PawnController _ownerPawnController, PawnController _otherPawnController){
 			ownerPawnController = _ownerPawnController;
 			otherPawnController = _otherPawnController;
-			HeldItemMesh = ownerPawnController.Weapon.Mesh;
+			if(ownerPawnController.Weapon != null){
+				HeldItemMesh = ownerPawnController.Weapon.Mesh;
+			}
 		}
 
 		public IAction Duplicate(PawnController _ownerPawnController, PawnController _otherPawnController) {

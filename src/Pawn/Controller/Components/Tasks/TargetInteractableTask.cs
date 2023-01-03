@@ -5,29 +5,30 @@ using Pawn.Action;
 
 namespace Pawn.Tasks {
 	public class TargetInteractableTask : ITask {
-		private PawnController targetPawn;
+		private IInteractable targetInteractable;
 
 		public TargetInteractableTask(IAction _action,
 								float _targetDistance,
-								PawnController _targetPawn
+								IInteractable _targetInteractable
 								) 
 		{
 			Action = _action;
 			TargetDistance = _targetDistance;
-			targetPawn = _targetPawn;
+			targetInteractable = _targetInteractable;
 			TaskState = TaskState.MOVING_TO;
 		}
 		public Vector3 GetTargetLocation(){
 			if(!this.IsValid){
 				throw new NullReferenceException("task was not valid");
 			}
-			return targetPawn.GlobalTransform.origin;
+			return targetInteractable.GlobalTransform.origin;
 		}
 		public IAction Action {get;}
 		//How close the pawn will attempt to get to the target before starting the action
 		public float TargetDistance {get;}
 		//Represents whether the task is valid or not
-		public bool IsValid {get {return Godot.Object.IsInstanceValid(targetPawn);}}
+		//This should be smart enough to not go off on null pointer error
+		public bool IsValid {get {return (targetInteractable == null || targetInteractable.IsInstanceValid());}}
 		public TaskState TaskState {get; set;}
 		public int Priority {get; set;}
 	}

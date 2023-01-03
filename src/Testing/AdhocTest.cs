@@ -48,7 +48,6 @@ public class AdhocTest : Node
 							.AddGoal(new LootGoal())
 							.AddGoal(new WanderGoal())
 							.Location(location)
-							.Weapon(GetRandomWeapon())
 							.Finish();		
 	}
 
