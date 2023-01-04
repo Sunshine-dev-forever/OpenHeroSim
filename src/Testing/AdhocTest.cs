@@ -79,7 +79,9 @@ public class AdhocTest : Node
 	}
 
 	private void Adhoc2(){
-		CreateItemContainer();
+		//CreateItemContainer();
+		Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
+		PawnControllerBuilder.CreateTrainingDummy(new Vector3(0,2,0), this, kdTreeController, navigation);
 	}
 
 	private void CreateHealingPotionTester() {

@@ -20,6 +20,17 @@ namespace Pawn
 		PawnController pawn;
 		//NavigationServer navigationServer = null!;
 
+		public static PawnController CreateTrainingDummy(Vector3 location, 
+														Node parent, 
+														KdTreeController _kdTreeController, 
+														Navigation navigation) {
+			return PawnControllerBuilder.Start(parent, _kdTreeController, navigation)
+										.Location(location)
+										.AddGoal(new DebugGoal())
+										.SetName("Training Dummy")
+										.Finish();
+		}
+
 		public PawnControllerBuilder(Node parent, KdTreeController _kdTreeController, Navigation navigation){
 			PackedScene pawnScene = GD.Load<PackedScene>("res://scenes/pawn/pawn.tscn");
 			pawn = pawnScene.Instance<PawnController>();
