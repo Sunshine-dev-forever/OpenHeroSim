@@ -40,8 +40,9 @@ namespace Pawn.Action {
 			if( (ownerPawnController.Weapon == null) || (nextWeapon.Damage > ownerPawnController.Weapon.Damage) ){
 				//changing things in a multithreaded environment!
 				//awesome
-				Log.Information("Setting Weapon");
 				ownerPawnController.SetWeapon(nextWeapon);
+				itemContainer.ContainedWeapon = null;
+
 			}
 			ownerPawnController.VisualController.SetAnimation(AnimationName.Interact, false);
 			Thread.Sleep( (int) ownerPawnController.VisualController.getAnimationLengthMilliseconds(AnimationName.Interact));

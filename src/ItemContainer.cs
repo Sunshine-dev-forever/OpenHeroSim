@@ -17,8 +17,9 @@ public class ItemContainer : Spatial, IInteractable {
 		return IsInstanceValid(this);
 	}
 	public void Delete() {
-		ContainedWeapon.Delete();
-		Mesh.QueueFree();
+		if(ContainedWeapon != null){
+			ContainedWeapon.Delete();
+		}
 		this.QueueFree();
 	}
 	public Weapon ContainedWeapon;
