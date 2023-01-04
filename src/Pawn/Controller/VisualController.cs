@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Godot;
 using Pawn.Tasks;
 using Serilog;
+using Pawn.Item;
 
 //Handles all animations and particle effects.. etc
 namespace Pawn.Controller

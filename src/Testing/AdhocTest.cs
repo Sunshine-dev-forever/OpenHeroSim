@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Pawn;
 using Pawn.Controller;
 using Pawn.Goal;
+using Pawn.Item;
 
 //TODO: I need more examples on this
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Non-nullable", "CA8618:must contain non-null value exiting constructor", Justification = "Not production code.")]
@@ -79,9 +80,7 @@ public class AdhocTest : Node
 	}
 
 	private void Adhoc2(){
-		//CreateItemContainer();
-		Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
-		PawnControllerBuilder.CreateTrainingDummy(new Vector3(0,2,0), this, kdTreeController, navigation);
+		CreateItemContainer();
 	}
 
 	private void CreateHealingPotionTester() {
@@ -91,7 +90,7 @@ public class AdhocTest : Node
 							.AddGoal(new WanderGoal())
 							.Location(new Vector3(0,5,0))
 							.Weapon(CreateOPLightSaber())
-							.AddItem(CreateHealingPotion()).AddItem(CreateHealingPotion())
+							.AddConsumable(CreateHealingPotion()).AddConsumable(CreateHealingPotion())
 							.DealDamage(50)
 							.Finish();
 	}
@@ -125,8 +124,8 @@ public class AdhocTest : Node
 		return new Weapon(50, lightSaber);
 	}
 
-	private Item CreateHealingPotion() {
+	private Consumable CreateHealingPotion() {
 		Spatial healthPotion = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/health_potion.tscn").Instance();
-		return new Item(40, healthPotion);
+		return new Consumable(40, healthPotion);
 	}
 }

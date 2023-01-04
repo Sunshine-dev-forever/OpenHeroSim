@@ -2,8 +2,8 @@ using Godot;
 using System;
 using Serilog;
 using Pawn.Controller;
-namespace Pawn {
-	public class Weapon
+namespace Pawn.Item {
+	public class Weapon : IItem
 	{
 		public double Damage {get;}
 		public Spatial Mesh {get;}
@@ -11,7 +11,7 @@ namespace Pawn {
 			Damage = damageStat;
 			Mesh = mesh;
 		}
-		public void Delete() {
+		public void QueueFree() {
 			Mesh.QueueFree();
 		}
 	}

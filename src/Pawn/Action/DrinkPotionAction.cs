@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Serilog;
 using Pawn.Controller;
+using Pawn.Item;
 
 //TODO: this could be generalized to a 'UseItemClass' where the animation depends on the item
 namespace Pawn.Action {
@@ -16,10 +17,10 @@ namespace Pawn.Action {
 
 		private int waitTimeMilliseconds;
 
-		private Item potionToDrink;
+		private Consumable potionToDrink;
 
 		public DrinkPotionAction(){}
-		public DrinkPotionAction(PawnController _ownerPawnController, Item _potionToDrink){
+		public DrinkPotionAction(PawnController _ownerPawnController, Consumable _potionToDrink){
 			ownerPawnController = _ownerPawnController;
 			potionToDrink = _potionToDrink;
 			HeldItemMesh = _potionToDrink.Mesh;

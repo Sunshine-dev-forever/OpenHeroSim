@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Serilog;
 using Pawn.Controller;
+using Pawn.Item;
 
 //TODO: this could be generalized to a 'UseItemClass' where the animation depends on the item
 namespace Pawn.Action {
@@ -35,18 +36,18 @@ namespace Pawn.Action {
 
 		public void execute() {
 			//TODO: TakeDamage should be called 'change health'
-			Weapon nextWeapon = itemContainer.ContainedWeapon;
+			Weapon nextWeapon = (Weapon) itemContainer.ContainedItem;
 
 			if( (ownerPawnController.Weapon == null) || (nextWeapon.Damage > ownerPawnController.Weapon.Damage) ){
 				//changing things in a multithreaded environment!
 				//awesome
 				ownerPawnController.SetWeapon(nextWeapon);
-				itemContainer.ContainedWeapon = null;
+				itemContainer.ContainedItem = null;
 
 			}
 			ownerPawnController.VisualController.SetAnimation(AnimationName.Interact, false);
 			Thread.Sleep( (int) ownerPawnController.VisualController.getAnimationLengthMilliseconds(AnimationName.Interact));
-			itemContainer.Delete();
+			itemContainer.QueueFree();
 		}
 	}
 }

@@ -4,6 +4,7 @@ using System;
 using Serilog;
 using Pawn.Tasks;
 using System.Collections.Generic;
+using Pawn.Item;
 
 //HAVE TO CALL Setup() before this node will function!!!
 namespace Pawn.Controller
@@ -24,7 +25,7 @@ namespace Pawn.Controller
 		private string faction = "none";
 		//TODO: have a non-null representation of weapon
 		public Weapon Weapon {get; set;} = null;
-		public List<Item> ItemList = new List<Item>();
+		public List<Consumable> ItemList = new List<Consumable>();
 		public string pawnName = "Testy Mc Testerson";
 		public ActionController ActionController {get;}
 		public PawnBrainController PawnBrain {get;}

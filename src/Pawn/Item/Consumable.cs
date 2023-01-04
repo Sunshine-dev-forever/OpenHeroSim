@@ -2,14 +2,18 @@ using Godot;
 using System;
 using Serilog;
 using Pawn.Controller;
-namespace Pawn {
-	public class Item
+namespace Pawn.Item {
+	public class Consumable : IItem
 	{
 		public double Healing {get;}
 		public Spatial Mesh {get;}
-		public Item(double _Healing, Spatial mesh) {
+		public Consumable(double _Healing, Spatial mesh) {
 			Healing = _Healing;
 			Mesh = mesh;
+		}
+
+		public void QueueFree(){
+			Mesh.QueueFree();
 		}
 	}
 }

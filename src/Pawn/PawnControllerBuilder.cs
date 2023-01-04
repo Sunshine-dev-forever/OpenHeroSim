@@ -7,6 +7,7 @@ using Pawn.Action;
 using Pawn.Goal;
 using Godot;
 using Pawn.Controller;
+using Pawn.Item;
 
 namespace Pawn
 {
@@ -72,7 +73,7 @@ namespace Pawn
 			return this;
 		}
 
-		public PawnControllerBuilder AddItem(Item item) {
+		public PawnControllerBuilder AddConsumable(Consumable item) {
 			pawn.ItemList.Add(item);
 			return this;
 		}
