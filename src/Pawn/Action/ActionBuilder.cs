@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using Godot;
 using Pawn.Controller;
 
 namespace Pawn.Action {
@@ -31,6 +32,11 @@ namespace Pawn.Action {
 		//Sets looping to be true
 		public ActionBuilder AnimationPlayLength(int milliseconds) {
 			action.SetAnimationPlayLength(milliseconds);
+			return this;
+		}
+
+		public ActionBuilder HeldItemMesh(Spatial mesh) {
+			action.HeldItemMesh = mesh;
 			return this;
 		}
 

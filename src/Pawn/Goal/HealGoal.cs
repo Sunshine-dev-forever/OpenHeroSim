@@ -21,7 +21,10 @@ namespace Pawn.Goal {
 				pawnController.TakeDamage(potion.Healing * (-1));
 			};
 			//we know it is only health potions
-			IAction action = ActionBuilder.Start(pawnController, executable).Animation(AnimationName.Drink).Finish();
+			IAction action = ActionBuilder.Start(pawnController, executable)
+										.Animation(AnimationName.Drink)
+										.HeldItemMesh(potion.Mesh)
+										.Finish();
 			return new StaticPointTask(action, 1.5f, pawnController.GlobalTransform.origin);
 		}
 	}

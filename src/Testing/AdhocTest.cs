@@ -47,6 +47,7 @@ public class AdhocTest : Node
 		Vector3 location = GenerateRandomVector();
 		
 		PawnControllerBuilder.Start(this, kdTreeController, navigation)
+							.AddGoal(new HealGoal())
 							.AddGoal(new DefendSelfGoal())
 							.AddGoal(new LootGoal())
 							.AddGoal(new WanderGoal())
@@ -100,7 +101,10 @@ public class AdhocTest : Node
 	private void CreateItemContainer() {
 		Spatial TreasureChestMesh = (Spatial) GD.Load<PackedScene>("res://scenes/world_objects/treasure_chest.tscn").Instance();
 		//The iron sword gets leaked when created like this
-		ItemContainer itemContainer = new ItemContainer(CreateIronSword(), TreasureChestMesh);
+		List<IItem> items = new List<IItem>();
+		items.Add(CreateHealingPotion());
+		items.Add(CreateIronSword());
+		ItemContainer itemContainer = new ItemContainer(items, TreasureChestMesh);
 		this.AddChild(itemContainer);
 		itemContainer.GlobalTransform = new Transform(itemContainer.GlobalTransform.basis, new Vector3(0,1,0));
 		kdTreeController.AddInteractable(itemContainer);

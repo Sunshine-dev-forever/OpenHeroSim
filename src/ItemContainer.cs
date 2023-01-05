@@ -9,9 +9,11 @@ using System.Collections.Generic;
 using Pawn.Item;
 
 public class ItemContainer : Spatial, IInteractable {
+	public List<IItem> Items;
+	public Spatial Mesh;
 
-	public ItemContainer(IItem _containedItem, Spatial _mesh) {
-		ContainedItem = _containedItem;
+	public ItemContainer(List<IItem> _items, Spatial _mesh) {
+		Items = _items;
 		Mesh = _mesh;
 		this.AddChild(Mesh);
 	}
@@ -20,10 +22,8 @@ public class ItemContainer : Spatial, IInteractable {
 	}
 	public new void QueueFree() {
 		base.QueueFree();
-		if(ContainedItem != null){
-			ContainedItem.QueueFree();
+		foreach(IItem item in Items) {
+			item.QueueFree();
 		}
 	}
-	public IItem ContainedItem;
-	public Spatial Mesh;
 }
