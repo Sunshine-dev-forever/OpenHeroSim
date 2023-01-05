@@ -38,8 +38,7 @@ texture = SubResource( 7 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0 )
 script = ExtResource( 5 )
 
-[node name="RiggedCharacter" parent="RigidBody/VisualController" instance=ExtResource( 2 )]
-transform = Transform( -1, 0, -1.50996e-07, 0, 1, 0, 1.50996e-07, 0, -1, 0, 0, 0 )
+[node name="Display_example" parent="RigidBody/VisualController" instance=ExtResource( 2 )]
 
 [node name="CollisionShape" type="CollisionShape" parent="RigidBody"]
 transform = Transform( 0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, 0.999416, 0 )

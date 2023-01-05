@@ -21,6 +21,8 @@ namespace Pawn
 		PawnController pawn;
 		//NavigationServer navigationServer = null!;
 
+		private static string PAWN_RIG_RESOURCE_FILE_DEFAULT = "res://assets/basic_pawn.glb";
+		private string pawnRigResourceFile = PAWN_RIG_RESOURCE_FILE_DEFAULT;
 		public static PawnController CreateTrainingDummy(Vector3 location, 
 														Node parent, 
 														KdTreeController _kdTreeController, 
@@ -33,8 +35,7 @@ namespace Pawn
 		}
 
 		public PawnControllerBuilder(Node parent, KdTreeController _kdTreeController, Navigation navigation){
-			PackedScene pawnScene = GD.Load<PackedScene>("res://scenes/pawn/pawn.tscn");
-			pawn = pawnScene.Instance<PawnController>();
+			pawn = ResourceLoader.Load<PackedScene>("res://scenes/pawn/pawn.tscn").Instance<PawnController>();
 			parent.AddChild(pawn);
 
 			kdTreeController = _kdTreeController;
@@ -64,6 +65,7 @@ namespace Pawn
 		}
 
 		public PawnController Finish() {
+			pawn.VisualController.SetPawnRig(pawnRigResourceFile);
 			pawn.Setup(kdTreeController);
 			return pawn;
 		}
@@ -80,6 +82,12 @@ namespace Pawn
 
 		public PawnControllerBuilder DealDamage(double damage) {
 			pawn.TakeDamage(damage);
+			return this;
+		}
+
+		//sets the resource file for the pawnMesh
+		public PawnControllerBuilder SetPawnRig(string filename) {
+			pawnRigResourceFile = filename;
 			return this;
 		}
 	}

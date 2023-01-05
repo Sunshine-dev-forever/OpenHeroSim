@@ -103,7 +103,6 @@ namespace Pawn.Controller
 		public void SetWeapon(Weapon _weapon) {
 			Weapon = _weapon;
 			VisualController.SetWeapon(Weapon);
-			Log.Information("Weapon is now set");
 		}
 
 

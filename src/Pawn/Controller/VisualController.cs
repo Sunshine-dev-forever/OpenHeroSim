@@ -23,13 +23,20 @@ namespace Pawn.Controller
 		Spatial currentWeapon = null!;
 		Spatial? currentHeldItem;
 
-		public override void _Ready()
-		{
+		public override void _Ready(){}
+
+		public void SetPawnRig(string filename) {
+			Spatial pawnMesh = ResourceLoader.Load<PackedScene>(filename).Instance<Spatial>();
+			//clear all old nodes
+			foreach (Node node in this.GetChildren()) {
+				node.QueueFree();
+			}
+			this.AddChild(pawnMesh);
 			//TODO need a better way of extracting this information
-			animationPlayer = this.GetNode<AnimationPlayer>("RiggedCharacter/AnimationPlayer");
-			riggedCharacterRootNode = this.GetNode<Spatial>("RiggedCharacter");
-			heldItemAttachment = this.GetNode<BoneAttachment>("RiggedCharacter/Character/Skeleton/BoneAttachment");
-			scabbardAttachment = this.GetNode<BoneAttachment>("RiggedCharacter/Character/Skeleton/BoneAttachment2");
+			animationPlayer = pawnMesh.GetNode<AnimationPlayer>("AnimationPlayer");
+			riggedCharacterRootNode = pawnMesh;
+			heldItemAttachment = pawnMesh.GetNode<BoneAttachment>("Character/Skeleton/BoneAttachment");
+			scabbardAttachment = pawnMesh.GetNode<BoneAttachment>("Character/Skeleton/BoneAttachment2");
 			//clear the children of scabbard and node
 			//There should really only be 1 child in both cases
 			if(heldItemAttachment.GetChildCount() != 1 || scabbardAttachment.GetChildCount() != 1) {
@@ -81,7 +88,7 @@ namespace Pawn.Controller
 		}
 		public void SetWeapon(Weapon weapon) {
 			currentWeapon = weapon.Mesh;
-			PutWeaponInScabbard();
+			//PutWeaponInScabbard();
 		}
 
 		public void PutWeaponInScabbard() {

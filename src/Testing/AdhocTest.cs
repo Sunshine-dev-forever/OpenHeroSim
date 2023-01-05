@@ -83,7 +83,9 @@ public class AdhocTest : Node
 	}
 
 	private void Adhoc2(){
-		CreateItemContainer();
+		//want to create and instnace a mesh
+		//Spatial test =  (Spatial) ResourceLoader.Load<PackedScene>("res://assets/basic_pawn.glb").Instance();
+		//this.AddChild(test);
 	}
 
 	private void CreateHealingPotionTester() {
