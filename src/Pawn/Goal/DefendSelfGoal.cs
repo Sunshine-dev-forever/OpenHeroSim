@@ -18,11 +18,14 @@ namespace Pawn.Goal {
 			List<IAction> validActions = pawnController.ActionController.GetAllActionsWithTags(requestedTags, false);
 			
 			//The only valid action in combat is stabbing
-			if (validActions.Count < 1)
+			if (validActions.Count == 0)
 			{
 				//if not actions are vaild, then we have to wait
 				int waitTimeMilliseconds = 100;
-				IAction waitAction = new WaitAction(pawnController, waitTimeMilliseconds);
+				IAction waitAction = ActionBuilder.Start(pawnController, () => {})
+										.Animation(AnimationName.Idle)
+										.AnimationPlayLength(waitTimeMilliseconds)
+										.Finish();
 				//TODO: pawnController.Weapon.Mesh should default to a spatial node. even if Weapon is null
 				if(pawnController.Weapon != null) {
 					waitAction.HeldItemMesh = pawnController.Weapon.Mesh;

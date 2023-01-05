@@ -8,7 +8,12 @@ namespace Pawn.Goal {
 	public class DebugGoal : IPawnGoal
 	{
 		public ITask GetTask(PawnController pawnController, SensesStruct sensesStruct) {
-			return new StaticPointTask(new WaitAction(pawnController, 10000),  1.5f, pawnController.GlobalTransform.origin);
+			int waitTimeMilliseconds = 10000;
+			IAction waitAction = ActionBuilder.Start(pawnController, () => {})
+										.Animation(AnimationName.Idle)
+										.AnimationPlayLength(waitTimeMilliseconds)
+										.Finish();
+			return new StaticPointTask(waitAction,  1.5f, pawnController.GlobalTransform.origin);
 		}
 	}
 }

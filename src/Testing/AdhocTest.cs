@@ -26,6 +26,8 @@ public class AdhocTest : Node
 			//Adhoc();
 		 } else if(input.IsActionPressed("ui_left")) {
 			Adhoc2();
+		 } else if (input.IsActionPressed("ui_right")) {
+			CreateHealingPotionTester();
 		 }
 	}
 	private float TimeSinceLastPawnCreation = 4;

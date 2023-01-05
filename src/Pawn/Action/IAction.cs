@@ -11,6 +11,8 @@ namespace Pawn.Action {
 		List<ActionTags> Tags {get;}
 		string Name {get;}
 		float MaxRange {get;}
+
+		//TODO: remove Duplicate from this interface
 		public IAction Duplicate(PawnController ownerPawnController, PawnController otherPawnController);
 		void execute();
 		public Spatial? HeldItemMesh {get; set;}

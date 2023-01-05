@@ -13,7 +13,11 @@ namespace Pawn.Goal {
 			float x = (float) ((random.NextDouble() * sideLength) - (sideLength/2));
 			float z = (float) ((random.NextDouble() * sideLength) - (sideLength/2));
 			int waitTimeMilliseconds = 2000;
-			return new StaticPointTask(new WaitAction(pawnController, waitTimeMilliseconds),  1.5f, new Godot.Vector3(x,5,z));
+			IAction action = ActionBuilder.Start(pawnController, () => {})
+										.Animation(AnimationName.Idle)
+										.AnimationPlayLength(waitTimeMilliseconds)
+										.Finish();
+			return new StaticPointTask(action,  1.5f, new Godot.Vector3(x,5,z));
 		}
 	}
 }
