@@ -3,43 +3,46 @@ using Serilog;
 using System.Collections.Generic;
 using Pawn.Tasks;
 using Pawn.Action;
+using Pawn.Action.Ability;
 using System.Linq;
 using Godot;
 
 namespace Pawn.Controller{
 	public class ActionController
 	{
-		struct ActionStruct {
-			public ActionStruct(IAction _action, DateTime _timeLastUsed) {
-				action = _action;
+		struct AbilityStruct {
+			public AbilityStruct(IAbility _ability, DateTime _timeLastUsed) {
+				ability = _ability;
 				timeLastUsed = _timeLastUsed;
 			}
-			public IAction action;
+			public IAbility ability;
 			public DateTime timeLastUsed;
 		}
 
 		private MultiThreadUtil multiThreadUtil = new MultiThreadUtil();
 
-		private Dictionary<string, ActionStruct> actionsDict = new Dictionary<string, ActionStruct>();
+		//Keeps track of cooldowns
+		//TODO: this should be handled in the pawn information class
+		private Dictionary<string, AbilityStruct> abilitiesDict = new Dictionary<string, AbilityStruct>();
 
 		public ActionController() {
 			//none of this should be needed!
-			IAction stabAction = new StabAction();
-			actionsDict.Add(stabAction.Name, new ActionStruct(stabAction, DateTime.MinValue));
+			IAbility stabAction = new StabAbility();
+			abilitiesDict.Add(stabAction.Name, new AbilityStruct(stabAction, DateTime.MinValue));
 		}
 
-		public void addValidAction(IAction action) {
-			if(!actionsDict.ContainsKey(action.Name)) {
-				actionsDict.Add(action.Name, new ActionStruct(action, DateTime.MinValue));
+		public void AddAbility(IAbility ability) {
+			if(!abilitiesDict.ContainsKey(ability.Name)) {
+				abilitiesDict.Add(ability.Name, new AbilityStruct(ability, DateTime.MinValue));
 			}
 		}
 
 		public void ExecuteActionFromTask(ITask task, VisualController visualController) {
 			//task.action.execute()
-			if(actionsDict.ContainsKey(task.Action.Name)) {
-				IAction action = task.Action;
+			if(abilitiesDict.ContainsKey(task.Action.Name)) {
+				IAbility action = (IAbility) task.Action;
 				//TODO: This HAS to be refactored
-				actionsDict[task.Action.Name] = new ActionStruct(action, DateTime.Now);
+				abilitiesDict[task.Action.Name] = new AbilityStruct(action, DateTime.Now);
 				multiThreadUtil.Run(() => {action.execute();});
 			} else {
 				//Log.Error("Tried to start an action not in the actions dict REFACTOR ME AJ!!!");
@@ -47,19 +50,19 @@ namespace Pawn.Controller{
 			}
 		}
 
-		public List<IAction> GetAllActionsWithTags(List<ActionTags> actionTags, bool canBeOnCooldown) {
+		public List<IAbility> GetAllActionsWithTags(List<ActionTags> actionTags, bool canBeOnCooldown) {
 			//Convert to dictionary values to IEnumerable<ActionStruct>
-			IEnumerable<ActionStruct> actionStructs = actionsDict.Values.AsEnumerable();
+			IEnumerable<AbilityStruct> actionStructs = abilitiesDict.Values.AsEnumerable();
 			//Get all actions with the specified tags
-			actionStructs = actionStructs.Where( (actionStruct) => actionStruct.action.Tags.Intersect(actionTags).Count() == actionTags.Count);
+			actionStructs = actionStructs.Where( (actionStruct) => actionStruct.ability.Tags.Intersect(actionTags).Count() == actionTags.Count);
 			//filter out on CD stuff
 			if(!canBeOnCooldown) {
 				actionStructs = actionStructs.Where( (actionStruct) =>  
 													(DateTime.Now - actionStruct.timeLastUsed).TotalMilliseconds 
-													> actionStruct.action.CooldownMilliseconds);
+													> actionStruct.ability.CooldownMilliseconds);
 			}
 
-			return actionStructs.Select((actionStruct) => actionStruct.action).ToList();
+			return actionStructs.Select((actionStruct) => actionStruct.ability).ToList();
 		}
 
 		public void HandleTask(ITask task , MovementController movementController, VisualController visualController) {

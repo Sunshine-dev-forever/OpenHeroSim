@@ -40,11 +40,6 @@ namespace Pawn.Action {
 
 		public Spatial? HeldItemMesh {get; set;} = null;
 
-		public IAction Duplicate(PawnController ownerPawnController, PawnController otherPawnController)
-		{
-			throw new System.NotImplementedException();
-		}
-
 		public void execute() {
 			executable();
 			ownerPawnController.VisualController.SetAnimation(AnimationToPlay, loopAnimation);
