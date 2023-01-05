@@ -4,11 +4,12 @@ using System;
 using Serilog;
 using Pawn.Controller;
 namespace Pawn.Action.Ability {
-	public class StabAbility : IAction, IAbility {
+	public class StabAbility : IAbility {
 		
 		private PawnController? ownerPawnController;
 		private PawnController? otherPawnController;
 		public Godot.Spatial? HeldItemMesh {get; set;}
+		//Stab action wont work like this but I need an object reference to the type
 		public StabAbility() {}
 		public StabAbility( PawnController _ownerPawnController, PawnController _otherPawnController){
 			ownerPawnController = _ownerPawnController;
@@ -17,27 +18,24 @@ namespace Pawn.Action.Ability {
 				HeldItemMesh = ownerPawnController.Weapon.Mesh;
 			}
 		}
-
 		public IAbility Duplicate(PawnController _ownerPawnController, PawnController _otherPawnController) {
 			return new StabAbility(_ownerPawnController, _otherPawnController);
 		}
-
-		public int CooldownMilliseconds {get {return 2000;} }
-		public string Name {get {return "StabAction";}}
-		public float MaxRange {get {return 2;}}
+		private static int STAB_ACTION_COOLDOWN = 2000;
+		private static float STAB_ACTION_MAX_RANGE = 2;
+		public int CooldownMilliseconds {get {return STAB_ACTION_COOLDOWN;} }
+		public string Name {get {return this.GetType().Name;}}
+		public float MaxRange {get {return STAB_ACTION_MAX_RANGE;}}
 		private ActionTags[] tags = {ActionTags.COMBAT};
 		public List<ActionTags> Tags {get {return new List<ActionTags>(tags);}}
-
-		public void execute() {
+		public AnimationName AnimationToPlay {get {return AnimationName.Stab;}}
+		public new void execute() {
 			//TODO: Stab should provide its own multipliers
 			if(ownerPawnController == null || otherPawnController == null) {
 				throw new NullReferenceException();
 			}
 			double damage = ownerPawnController.GetDamage();
 			otherPawnController.TakeDamage(damage);
-
-			ownerPawnController.VisualController.SetAnimation(AnimationName.Stab);
-			Thread.Sleep( (int) (ownerPawnController.VisualController.getAnimationLengthMilliseconds(AnimationName.Stab)) );
 		}
 
 	}

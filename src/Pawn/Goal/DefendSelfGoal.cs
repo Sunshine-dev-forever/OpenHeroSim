@@ -34,7 +34,8 @@ namespace Pawn.Goal {
 				return new TargetInteractableTask(waitAction, otherPawnController);
 			}
 			//This action has to be a stab action for now
-			IAction action = validAbilities[0].Duplicate(pawnController, otherPawnController);
+			IAbility ability = validAbilities[0].Duplicate(pawnController, otherPawnController);
+			IAction action = ActionBuilder.Start(ability, pawnController).Finish();
 			ITask task = new TargetInteractableTask(action, otherPawnController);
 			return task;
 		}

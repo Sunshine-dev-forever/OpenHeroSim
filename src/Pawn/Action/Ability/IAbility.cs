@@ -6,5 +6,6 @@ using Pawn.Controller;
 namespace Pawn.Action.Ability {
 	public interface IAbility : IAction {
 		public IAbility Duplicate(PawnController ownerPawnController, PawnController otherPawnController);
+		public AnimationName AnimationToPlay {get;}
 	}
 }

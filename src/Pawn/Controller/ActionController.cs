@@ -40,10 +40,9 @@ namespace Pawn.Controller{
 		public void ExecuteActionFromTask(ITask task, VisualController visualController) {
 			//task.action.execute()
 			if(abilitiesDict.ContainsKey(task.Action.Name)) {
-				IAbility action = (IAbility) task.Action;
-				//TODO: This HAS to be refactored
-				abilitiesDict[task.Action.Name] = new AbilityStruct(action, DateTime.Now);
-				multiThreadUtil.Run(() => {action.execute();});
+				//TODO: I cannot convert the action back into an ability so I must reference the old ability
+				abilitiesDict[task.Action.Name] = new AbilityStruct(abilitiesDict[task.Action.Name].ability, DateTime.Now);
+				multiThreadUtil.Run(() => {task.Action.execute();});
 			} else {
 				//Log.Error("Tried to start an action not in the actions dict REFACTOR ME AJ!!!");
 				multiThreadUtil.Run(() => {task.Action.execute();});
