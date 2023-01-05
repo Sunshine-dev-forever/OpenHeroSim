@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Pawn.Controller;
 using Godot;
 using System;
+using Serilog;
 
 namespace Pawn.Action {
 	public class Action : IAction
@@ -42,13 +43,14 @@ namespace Pawn.Action {
 		private bool isCurrentlyRunning = false;
 		private DateTime timeStarted = DateTime.MinValue;
 		public void execute() {
+			if(isCurrentlyRunning) {
+				Log.Error("Attempted to start the same action twice");
+				Log.Error(System.Environment.StackTrace);
+			}
 			executable();
 			ownerPawnController.VisualController.SetAnimation(AnimationToPlay, loopAnimation);
-			if(loopAnimation) {
-				System.Threading.Thread.Sleep( animationPlayLengthMilliseconds );
-			} else {
-				System.Threading.Thread.Sleep( (int) ownerPawnController.VisualController.getAnimationLengthMilliseconds(AnimationToPlay) );
-			}	
+			isCurrentlyRunning = true;
+			timeStarted = DateTime.Now;
 		}
 
 		public System.Action executable {get; set;}
@@ -59,7 +61,8 @@ namespace Pawn.Action {
 			if(!isCurrentlyRunning) {
 				throw new InvalidOperationException();
 			}
-			int timeRunningMilliseconds = (DateTime.Now - timeStarted).Milliseconds;
+			//only gets milliseconds between 0 and 1000
+			double timeRunningMilliseconds = (DateTime.Now - timeStarted).TotalMilliseconds;
 			if(loopAnimation) {
 				return timeRunningMilliseconds > animationPlayLengthMilliseconds;
 			} else {

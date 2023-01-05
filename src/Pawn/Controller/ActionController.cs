@@ -21,6 +21,8 @@ namespace Pawn.Controller{
 
 		private MultiThreadUtil multiThreadUtil = new MultiThreadUtil();
 
+		private IAction actionInExecution;
+
 		//Keeps track of cooldowns
 		//TODO: this should be handled in the pawn information class
 		private Dictionary<string, AbilityStruct> abilitiesDict = new Dictionary<string, AbilityStruct>();
@@ -38,15 +40,12 @@ namespace Pawn.Controller{
 		}
 
 		public void ExecuteActionFromTask(ITask task, VisualController visualController) {
-			//task.action.execute()
 			if(abilitiesDict.ContainsKey(task.Action.Name)) {
 				//TODO: I cannot convert the action back into an ability so I must reference the old ability
 				abilitiesDict[task.Action.Name] = new AbilityStruct(abilitiesDict[task.Action.Name].ability, DateTime.Now);
-				multiThreadUtil.Run(() => {task.Action.execute();});
-			} else {
-				//Log.Error("Tried to start an action not in the actions dict REFACTOR ME AJ!!!");
-				multiThreadUtil.Run(() => {task.Action.execute();});
 			}
+			actionInExecution = task.Action;
+			actionInExecution.execute();
 		}
 
 		public List<IAbility> GetAllActionsWithTags(List<ActionTags> actionTags, bool canBeOnCooldown) {
@@ -102,7 +101,7 @@ namespace Pawn.Controller{
 		}
 
 		public bool IsActionCompleted() {
-			return multiThreadUtil.IsTaskCompleted();
+			return actionInExecution.IsFinished();
 		}
 	}
 }

@@ -38,5 +38,10 @@ namespace Pawn.Action.Ability {
 			otherPawnController.TakeDamage(damage);
 		}
 
+		//A sign that this is now how I should be defining abilites
+		public bool IsFinished() {
+			throw new NotImplementedException();
+		}
+
 	}
 }

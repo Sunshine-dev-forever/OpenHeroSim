@@ -11,6 +11,7 @@ namespace Pawn.Action {
 		float MaxRange {get;}
 		void execute();
 		public Spatial? HeldItemMesh {get; set;}
+		public bool IsFinished();
 	}
 
 	public enum ActionTags {COMBAT}
