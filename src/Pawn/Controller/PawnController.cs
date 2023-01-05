@@ -23,8 +23,9 @@ namespace Pawn.Controller
 		private double maxHealth = 100;
 		private double pawnBaseDamageAbility = 10;
 		private string faction = "none";
+		
 		//TODO: have a non-null representation of weapon
-		public Weapon Weapon {get; set;} = null;
+		public Weapon Weapon {get; set;} = null!;
 		public List<Consumable> ItemList = new List<Consumable>();
 		public string pawnName = "Testy Mc Testerson";
 		public ActionController ActionController {get;}

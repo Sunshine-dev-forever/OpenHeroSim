@@ -8,12 +8,9 @@ namespace Pawn.Tasks {
 		private IInteractable targetInteractable;
 
 		public TargetInteractableTask(IAction _action,
-								float _targetDistance,
-								IInteractable _targetInteractable
-								) 
+								IInteractable _targetInteractable) 
 		{
 			Action = _action;
-			TargetDistance = _targetDistance;
 			targetInteractable = _targetInteractable;
 			TaskState = TaskState.MOVING_TO;
 		}
@@ -24,8 +21,6 @@ namespace Pawn.Tasks {
 			return targetInteractable.GlobalTransform.origin;
 		}
 		public IAction Action {get;}
-		//How close the pawn will attempt to get to the target before starting the action
-		public float TargetDistance {get;}
 		//Represents whether the task is valid or not
 		//This should be smart enough to not go off on null pointer error
 		public bool IsValid {get {return (targetInteractable == null || targetInteractable.IsInstanceValid());}}

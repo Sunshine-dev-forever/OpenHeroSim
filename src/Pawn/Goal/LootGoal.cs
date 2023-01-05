@@ -26,7 +26,7 @@ namespace Pawn.Goal {
 			};
 
 			IAction action = ActionBuilder.Start(pawnController, executable).Animation(AnimationName.Interact).Finish();
-			return new TargetInteractableTask(action, 2, nearbyLoot[0]);
+			return new TargetInteractableTask(action, nearbyLoot[0]);
 		}
 
 		private void processItem(IItem item, PawnController pawnController, ItemContainer container) {

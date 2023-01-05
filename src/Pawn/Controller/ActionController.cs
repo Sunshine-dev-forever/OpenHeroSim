@@ -91,7 +91,7 @@ namespace Pawn.Controller{
 			//TODO: refactor so I dont call process movement first (movementController has to update the final location)
 			int speed = 10;
 			movementController.ProcessMovement(task.GetTargetLocation(), speed);
-			if(movementController.HasFinishedMovement(task.TargetDistance)) {
+			if(movementController.HasFinishedMovement(task.Action.MaxRange)) {
 				movementController.Stop();
 				//we could get rid of the starting action state and just start he action here
 				ExecuteActionFromTask(task, visualController);

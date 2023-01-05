@@ -8,7 +8,6 @@ namespace Pawn.Action.Ability {
 		
 		private PawnController? ownerPawnController;
 		private PawnController? otherPawnController;
-
 		public Godot.Spatial? HeldItemMesh {get; set;}
 		public StabAbility() {}
 		public StabAbility( PawnController _ownerPawnController, PawnController _otherPawnController){
@@ -31,6 +30,9 @@ namespace Pawn.Action.Ability {
 
 		public void execute() {
 			//TODO: Stab should provide its own multipliers
+			if(ownerPawnController == null || otherPawnController == null) {
+				throw new NullReferenceException();
+			}
 			double damage = ownerPawnController.GetDamage();
 			otherPawnController.TakeDamage(damage);
 

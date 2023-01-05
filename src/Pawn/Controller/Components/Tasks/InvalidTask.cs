@@ -9,8 +9,7 @@ namespace Pawn.Tasks {
 		public InvalidTask() 
 		{
 			IsValid = false;
-			IsInterruptable = true;
-			Action = null;
+			Action = null!;
 			TaskState = TaskState.COMPLETED;
 		}
 		public Vector3 GetTargetLocation(){
@@ -21,7 +20,6 @@ namespace Pawn.Tasks {
 		public float TargetDistance {get;}
 		//Represents whether the task is valid or not
 		public bool IsValid {get;}
-		public bool IsInterruptable {get;}
 		public TaskState TaskState {get; set;}
 		public int Priority {get; set;}
 	}

@@ -13,7 +13,7 @@ namespace Pawn.Goal {
 										.Animation(AnimationName.Idle)
 										.AnimationPlayLength(waitTimeMilliseconds)
 										.Finish();
-			return new StaticPointTask(waitAction,  1.5f, pawnController.GlobalTransform.origin);
+			return new StaticPointTask(waitAction, pawnController.GlobalTransform.origin);
 		}
 	}
 }

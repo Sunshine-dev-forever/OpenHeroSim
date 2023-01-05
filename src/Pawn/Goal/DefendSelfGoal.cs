@@ -31,12 +31,11 @@ namespace Pawn.Goal {
 				if(pawnController.Weapon != null) {
 					waitAction.HeldItemMesh = pawnController.Weapon.Mesh;
 				}
-				int FOLLOW_DISTNACE = 2;
-				return new TargetInteractableTask(waitAction, FOLLOW_DISTNACE, otherPawnController);
+				return new TargetInteractableTask(waitAction, otherPawnController);
 			}
 			//This action has to be a stab action for now
 			IAction action = validAbilities[0].Duplicate(pawnController, otherPawnController);
-			ITask task = new TargetInteractableTask(action, action.MaxRange, otherPawnController);
+			ITask task = new TargetInteractableTask(action, otherPawnController);
 			return task;
 		}
 	}

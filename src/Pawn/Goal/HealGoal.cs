@@ -25,7 +25,7 @@ namespace Pawn.Goal {
 										.Animation(AnimationName.Drink)
 										.HeldItemMesh(potion.Mesh)
 										.Finish();
-			return new StaticPointTask(action, 1.5f, pawnController.GlobalTransform.origin);
+			return new StaticPointTask(action, pawnController.GlobalTransform.origin);
 		}
 	}
 }

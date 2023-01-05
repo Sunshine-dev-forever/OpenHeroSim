@@ -17,7 +17,7 @@ namespace Pawn.Goal {
 										.Animation(AnimationName.Idle)
 										.AnimationPlayLength(waitTimeMilliseconds)
 										.Finish();
-			return new StaticPointTask(action,  1.5f, new Godot.Vector3(x,5,z));
+			return new StaticPointTask(action, new Godot.Vector3(x,5,z));
 		}
 	}
 }
