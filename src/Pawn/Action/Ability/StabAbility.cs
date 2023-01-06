@@ -3,20 +3,19 @@ using System.Threading;
 using System;
 using Serilog;
 using Pawn.Controller;
+using Pawn.Item;
 namespace Pawn.Action.Ability {
 	public class StabAbility : IAbility {
 		
 		private PawnController? ownerPawnController;
 		private PawnController? otherPawnController;
-		public Godot.Spatial? HeldItemMesh {get; set;}
+		public IItem? HeldItem {get; set;}
 		//Stab action wont work like this but I need an object reference to the type
 		public StabAbility() {}
 		public StabAbility( PawnController _ownerPawnController, PawnController _otherPawnController){
 			ownerPawnController = _ownerPawnController;
 			otherPawnController = _otherPawnController;
-			if(ownerPawnController.Weapon != null){
-				HeldItemMesh = ownerPawnController.Weapon.Mesh;
-			}
+			HeldItem = ownerPawnController.PawnInventory.GetWornEquipment(EquipmentType.HELD);
 		}
 		public IAbility Duplicate(PawnController _ownerPawnController, PawnController _otherPawnController) {
 			return new StabAbility(_ownerPawnController, _otherPawnController);

@@ -3,6 +3,7 @@ using Godot;
 using Pawn.Tasks;
 using Serilog;
 using Pawn.Item;
+using Util;
 
 //Handles all animations and particle effects.. etc
 namespace Pawn.Controller
@@ -12,19 +13,19 @@ namespace Pawn.Controller
 		AnimationPlayer animationPlayer = null!;
 		Spatial riggedCharacterRootNode = null!;
 
+		//TODO: All of the below should be in thier own class
 		BoneAttachment heldItemAttachment = null!;
 		BoneAttachment scabbardAttachment = null!;
-
 		Vector3 scabbardRotation = new Vector3();
 		Vector3 scabbardOrigin = new Vector3();
 		Vector3 heldItemRotation = new Vector3();
 		Vector3 heldItemOrigin = new Vector3();
+		//end scary instance variables
 
-		Spatial currentWeapon = null!;
-		Spatial? currentHeldItem;
-
+		IItem? currentHeldItem;
 		public override void _Ready(){}
 
+		//I really need a pawn rig loader
 		public void SetPawnRig(string filename) {
 			Spatial pawnMesh = ResourceLoader.Load<PackedScene>(filename).Instance<Spatial>();
 			//clear all old nodes
@@ -57,44 +58,67 @@ namespace Pawn.Controller
 			}
 		}
 
-		public void ProcessTask(ITask task) {
-			
-			if(task.Action.HeldItemMesh == null) {
-				ClearHeldItem();
-				return;
-			} else if (task.Action.HeldItemMesh.Equals(currentHeldItem)) {
+		public void ProcessTask(ITask task, PawnInventory pawnInventory) {
+			//ok lets try this again
+			if(task.Action.HeldItem == currentHeldItem) {
+				//item has not changed, we dont have to do anything
 				return;
 			}
-			Spatial newMeshToHold = task.Action.HeldItemMesh;
+
+			//now we reset everything back to the way it was
 			ClearHeldItem();
-			if(newMeshToHold.GetParent() != null) {
-				//For some reason the mesh is parented elsewhere, now it is in our hand
-				newMeshToHold.GetParent().RemoveChild(newMeshToHold);
+			//check to see if the currently held item should be our weapon
+			currentHeldItem = task.Action.HeldItem;
+			Equipment? currentWeapon = pawnInventory.GetWornEquipment(EquipmentType.HELD);
+			if(currentHeldItem != currentWeapon) {
+				//then we must put our weapon back in scabbard
+				PutWeaponInScabbard(currentWeapon);
 			}
-			heldItemAttachment.AddChild(newMeshToHold);
-			newMeshToHold.Rotation = heldItemRotation;
-			newMeshToHold.Transform = new Transform(currentWeapon.Transform.basis, heldItemOrigin);
+			//if the next item to hold is null, we are done!
+			if(currentHeldItem == null) {
+				return;
+			}
+			//new item to hold could have a parent, so we remove it
+			if(currentHeldItem.Mesh.GetParent() != null) {
+				currentHeldItem.Mesh.GetParent().RemoveChild(currentHeldItem.Mesh);
+			}
+			//now we add the new item to our hand
+			heldItemAttachment.AddChild(currentHeldItem.Mesh);
+			currentHeldItem.Mesh.Rotation = heldItemRotation;
+			currentHeldItem.Mesh.Transform = new Transform(currentHeldItem.Mesh.Transform.basis, heldItemOrigin);
+		}
+
+		public void ForceVisualUpdate(PawnInventory pawnInventory) {
+			PutWeaponInScabbard(pawnInventory.GetWornEquipment(EquipmentType.HELD));
 		}
 
 		private void ClearHeldItem() {
 			if(currentHeldItem == null) {
 				return;
 			}
-			currentHeldItem.GetParent().RemoveChild(currentHeldItem);
-			if(currentHeldItem.Equals(currentWeapon)) {
-				//we need to put weapon in scabbard
-				PutWeaponInScabbard();
-			}
-		}
-		public void SetWeapon(Weapon weapon) {
-			currentWeapon = weapon.Mesh;
-			//PutWeaponInScabbard();
+			currentHeldItem.Mesh.GetParent().RemoveChild(currentHeldItem.Mesh);
+			currentHeldItem = null;
 		}
 
-		public void PutWeaponInScabbard() {
-			scabbardAttachment.AddChild(currentWeapon);
-			currentWeapon.Rotation = scabbardRotation;
-			currentWeapon.Transform = new Transform(currentWeapon.Transform.basis, scabbardOrigin);
+		public void PutWeaponInScabbard(Equipment? currentWeapon) {
+			//no weapon
+			if(currentWeapon == null) {
+				//make sure there is no weapon in the scabbard
+				SceneTreeUtil.RemoveAllChildren(scabbardAttachment);
+				return;
+			}
+			//if the current weapon is already in scabbard, do nothing
+			if(currentWeapon.Mesh.GetParent() == scabbardAttachment) {
+				return;
+			}
+			//if the current weapon has a parent other than the scabbard, remove it
+			if(currentWeapon.Mesh.GetParent() != null) {
+				currentWeapon.Mesh.GetParent().RemoveChild(currentWeapon.Mesh);
+			}
+			//put weapon in scabbard
+			scabbardAttachment.AddChild(currentWeapon.Mesh);
+			currentWeapon.Mesh.Rotation = scabbardRotation;
+			currentWeapon.Mesh.Transform = new Transform(currentWeapon.Mesh.Transform.basis, scabbardOrigin);
 		}
 
 		public float getAnimationLengthMilliseconds(AnimationName animationName) {

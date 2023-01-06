@@ -2,6 +2,7 @@ using System;
 using Godot;
 using System.Collections.Generic;
 using Pawn.Controller;
+using Pawn.Item;
 
 namespace Pawn.Action {
 	public interface IAction {
@@ -10,7 +11,7 @@ namespace Pawn.Action {
 		string Name {get;}
 		float MaxRange {get;}
 		void execute();
-		public Spatial? HeldItemMesh {get; set;}
+		public IItem? HeldItem {get; set;}
 		public bool IsFinished();
 	}
 

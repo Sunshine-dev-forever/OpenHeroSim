@@ -30,15 +30,16 @@ namespace Pawn.Goal {
 		}
 
 		private void processItem(IItem item, PawnController pawnController, ItemContainer container) {
-			if(item is Weapon) {
-				Weapon weapon = (Weapon) item;
-				if(pawnController.Weapon == null || (weapon.Damage > pawnController.Weapon.Damage)) {
+			if(item is Equipment) {
+				Equipment newWeapon = (Equipment) item;
+				Equipment? currentWeapon = pawnController.PawnInventory.GetWornEquipment(EquipmentType.HELD);
+				if(currentWeapon == null || (newWeapon.Damage > currentWeapon.Damage)) {
 					//if we want the weapon, we take the weapon
-					pawnController.SetWeapon(weapon);
-					container.Items.Remove(weapon);
+					pawnController.PawnInventory.WearEquipment(newWeapon);
+					container.Items.Remove(newWeapon);
 				} 
 			} else if (item is Consumable) {
-				pawnController.ItemList.Add((Consumable) item);
+				pawnController.PawnInventory.inventory.Add((Consumable) item);
 				container.Items.Remove(item);
 			} else {
 				Log.Error("Loot goal mangaged to find something other than a weapon or consumable as an item");

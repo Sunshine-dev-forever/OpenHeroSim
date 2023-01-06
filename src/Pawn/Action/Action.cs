@@ -3,6 +3,7 @@ using Pawn.Controller;
 using Godot;
 using System;
 using Serilog;
+using Pawn.Item;
 
 namespace Pawn.Action {
 	public class Action : IAction
@@ -38,7 +39,7 @@ namespace Pawn.Action {
 
 		public float MaxRange {get; set;} = DEFAULT_RANGE;
 
-		public Spatial? HeldItemMesh {get; set;} = null;
+		public IItem? HeldItem {get; set;} = null;
 
 		private bool isCurrentlyRunning = false;
 		private DateTime timeStarted = DateTime.MinValue;

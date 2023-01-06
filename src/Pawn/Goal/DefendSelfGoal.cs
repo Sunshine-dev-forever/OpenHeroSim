@@ -5,6 +5,8 @@ using Pawn.Tasks;
 using Pawn.Action;
 using Pawn.Action.Ability;
 using Pawn.Controller;
+using Pawn.Item;
+
 namespace Pawn.Goal {
 	public class DefendSelfGoal : IPawnGoal
 	{
@@ -28,9 +30,8 @@ namespace Pawn.Goal {
 										.AnimationPlayLength(waitTimeMilliseconds)
 										.Finish();
 				//TODO: pawnController.Weapon.Mesh should default to a spatial node. even if Weapon is null
-				if(pawnController.Weapon != null) {
-					waitAction.HeldItemMesh = pawnController.Weapon.Mesh;
-				}
+				
+				waitAction.HeldItem = pawnController.PawnInventory.GetWornEquipment(EquipmentType.HELD);
 				return new TargetInteractableTask(waitAction, otherPawnController);
 			}
 			//This action has to be a stab action for now

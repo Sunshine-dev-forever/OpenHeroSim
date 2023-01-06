@@ -25,7 +25,7 @@ public class AdhocTest : Node
 		 if(input.IsActionPressed("mouse_left_click")) {
 			//Adhoc();
 		 } else if(input.IsActionPressed("ui_left")) {
-			Adhoc2();
+			//Adhoc2();
 		 } else if (input.IsActionPressed("ui_right")) {
 			CreateHealingPotionTester();
 		 }
@@ -41,16 +41,17 @@ public class AdhocTest : Node
 		
 	}
 
-	private void CreatePawn(){
+	private PawnController CreatePawn(){
 		Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
 		
 		Vector3 location = GenerateRandomVector();
 		
-		PawnControllerBuilder.Start(this, kdTreeController, navigation)
+		return PawnControllerBuilder.Start(this, kdTreeController, navigation)
 							.AddGoal(new HealGoal())
 							.AddGoal(new DefendSelfGoal())
 							.AddGoal(new LootGoal())
 							.AddGoal(new WanderGoal())
+							.WearEquiptment(GetRandomWeapon())
 							.Location(location)
 							.Finish();		
 	}
@@ -70,7 +71,7 @@ public class AdhocTest : Node
 		return new Vector3();
 	}
 
-	private Weapon GetRandomWeapon() {
+	private Equipment GetRandomWeapon() {
 		Random rand = new Random();
 		int rng = rand.Next(0,3);
 		switch (rng) {
@@ -82,19 +83,22 @@ public class AdhocTest : Node
 		}
 	}
 
+	private PawnController tester = null!;
 	private void Adhoc2(){
-		//want to create and instnace a mesh
-		//Spatial test =  (Spatial) ResourceLoader.Load<PackedScene>("res://assets/basic_pawn.glb").Instance();
-		//this.AddChild(test);
+		if(tester == null) {
+			tester = CreateHealingPotionTester();
+		} else {
+			Log.Information("currentWeapon: " + tester.PawnInventory.GetWornEquipment(EquipmentType.HEAD));
+		}
 	}
 
-	private void CreateHealingPotionTester() {
-				Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
-		PawnControllerBuilder.Start(this, kdTreeController, navigation)
+	private PawnController CreateHealingPotionTester() {
+		Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
+		return PawnControllerBuilder.Start(this, kdTreeController, navigation)
 							.AddGoal(new HealGoal())
 							.AddGoal(new WanderGoal())
 							.Location(new Vector3(0,5,0))
-							.Weapon(CreateOPLightSaber())
+							.WearEquiptment(CreateLightSaber())
 							.AddConsumable(CreateHealingPotion()).AddConsumable(CreateHealingPotion())
 							.DealDamage(50)
 							.Finish();
@@ -112,24 +116,25 @@ public class AdhocTest : Node
 		kdTreeController.AddInteractable(itemContainer);
 	}
 
-	private Weapon CreateIronSword() {
+	private Equipment CreateIronSword() {
 		Spatial ironSword = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/iron_sword.tscn").Instance();
-		return new Weapon(5, ironSword);
+		Equipment equipment = new Equipment(ironSword, EquipmentType.HELD);
+		equipment.Damage = 5;
+		return equipment;
 	}
 
-	private Weapon CreateRustedDagger() {
+	private Equipment CreateRustedDagger() {
 		Spatial rustedDagger = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/rusted_dagger.tscn").Instance();
-		return new Weapon(4, rustedDagger);
+		Equipment equipment = new Equipment(rustedDagger, EquipmentType.HELD);
+		equipment.Damage = 3;
+		return equipment;
 	}
 
-	private Weapon CreateLightSaber() {
+	private Equipment CreateLightSaber() {
 		Spatial lightSaber = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/light_saber.tscn").Instance();
-		return new Weapon(6, lightSaber);
-	}
-
-	private Weapon CreateOPLightSaber() {
-		Spatial lightSaber = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/light_saber.tscn").Instance();
-		return new Weapon(50, lightSaber);
+		Equipment equipment = new Equipment(lightSaber, EquipmentType.HELD);
+		equipment.Damage = 10;
+		return equipment;
 	}
 
 	private Consumable CreateHealingPotion() {

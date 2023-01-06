@@ -19,8 +19,6 @@ namespace Pawn.Controller{
 			public DateTime timeLastUsed;
 		}
 
-		private MultiThreadUtil multiThreadUtil = new MultiThreadUtil();
-
 		private IAction actionInExecution;
 
 		//Keeps track of cooldowns

@@ -22,11 +22,7 @@ namespace Pawn.Controller
 		public double health {get; private set;} = 100;
 		private double maxHealth = 100;
 		private double pawnBaseDamageAbility = 10;
-		private string faction = "none";
-		
-		//TODO: have a non-null representation of weapon
-		public Weapon Weapon {get; set;} = null!;
-		public List<Consumable> ItemList = new List<Consumable>();
+		public PawnInventory PawnInventory {get;}
 		public string pawnName = "Testy Mc Testerson";
 		public ActionController ActionController {get;}
 		public PawnBrainController PawnBrain {get;}
@@ -53,6 +49,7 @@ namespace Pawn.Controller
 			ActionController = new ActionController();
 			sensesStruct = new SensesStruct();
 			PawnBrain = new PawnBrainController(ActionController);
+			PawnInventory = new PawnInventory();
 		}
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
@@ -76,7 +73,7 @@ namespace Pawn.Controller
 		{
 			sensesStruct = sensesController.UpdatePawnSenses(sensesStruct);
 			currentTask = PawnBrain.updateCurrentTask(currentTask, sensesStruct, this);
-			VisualController.ProcessTask(currentTask);
+			VisualController.ProcessTask(currentTask, PawnInventory);
 		}
 
 		public override void _PhysicsProcess(float delta)
@@ -87,22 +84,23 @@ namespace Pawn.Controller
 		public void Setup(KdTreeController kdTreeController)
 		{
 			sensesController = new SensesController(kdTreeController, this);
+			VisualController.ForceVisualUpdate(PawnInventory);
 		}
 
 		//Gets the total damage that this pawn is able to produce.
 		//TODO: needs to be replaced with actual pawn stats
 		public double GetDamage() {
-			if(Weapon != null) {
-				return pawnBaseDamageAbility + Weapon.Damage;
+			Equipment? weapon = PawnInventory.GetWornEquipment(EquipmentType.HELD);
+			if(weapon != null) {
+				return pawnBaseDamageAbility + weapon.Damage;
 			} else {
 				return pawnBaseDamageAbility;
 			}
 		}
 
 		//TODO: This should be handled by a pawnInventory class or something
-		public void SetWeapon(Weapon _weapon) {
-			Weapon = _weapon;
-			VisualController.SetWeapon(Weapon);
+		public void SetWeapon(Equipment _weapon) {
+			PawnInventory.WearEquipment(_weapon);
 		}
 
 
@@ -122,7 +120,7 @@ namespace Pawn.Controller
 
 		private void Die()
 		{
-			ItemList.ForEach( (item) => item.Mesh.QueueFree());
+			PawnInventory.QueueFree();
 			this.QueueFree();
 		}
 

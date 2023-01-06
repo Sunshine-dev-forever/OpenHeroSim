@@ -59,8 +59,8 @@ namespace Pawn
 			return this;
 		}
 
-		public PawnControllerBuilder Weapon(Weapon weapon){
-			pawn.SetWeapon(weapon);
+		public PawnControllerBuilder WearEquiptment(Equipment equipment){
+			pawn.PawnInventory.WearEquipment(equipment);
 			return this;
 		}
 
@@ -76,7 +76,7 @@ namespace Pawn
 		}
 
 		public PawnControllerBuilder AddConsumable(Consumable item) {
-			pawn.ItemList.Add(item);
+			pawn.PawnInventory.inventory.Add(item);
 			return this;
 		}
 

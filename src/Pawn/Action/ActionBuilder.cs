@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Godot;
 using Pawn.Controller;
 using Pawn.Action.Ability;
+using Pawn.Item;
 
 namespace Pawn.Action {
 	public class ActionBuilder {
@@ -22,7 +23,7 @@ namespace Pawn.Action {
 					.AddTags(ability.Tags)
 					.MaxRange(ability.MaxRange)
 					.Name(ability.Name)
-					.HeldItemMesh(ability.HeldItemMesh);
+					.HeldItem(ability.HeldItem);
 		}
 
 		public ActionBuilder AddTag(ActionTags actionTag) {
@@ -51,8 +52,8 @@ namespace Pawn.Action {
 			return this;
 		}
 
-		public ActionBuilder HeldItemMesh(Spatial mesh) {
-			action.HeldItemMesh = mesh;
+		public ActionBuilder HeldItem(IItem item) {
+			action.HeldItem = item;
 			return this;
 		}
 

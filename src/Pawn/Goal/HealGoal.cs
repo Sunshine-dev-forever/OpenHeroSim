@@ -10,20 +10,29 @@ namespace Pawn.Goal {
 	public class HealGoal : IPawnGoal
 	{
 		public ITask GetTask(PawnController pawnController, SensesStruct sensesStruct) {
-			if(pawnController.ItemList.Count == 0 || pawnController.health > 50) {
+			IItem? currentItem = null;
+			foreach( IItem item in pawnController.PawnInventory.inventory) {
+				if(item is Consumable) {
+					currentItem = item;
+					break;
+				}
+			}
+
+			if(currentItem == null) {
+				//if we have no consumables, then we early exit
 				return new InvalidTask();
 			}
 
-			Consumable potion = pawnController.ItemList[0];
+			Consumable potion = (Consumable) currentItem;
 			System.Action executable = () => {
-				pawnController.ItemList.Remove(potion);
+				pawnController.PawnInventory.inventory.Remove(potion);
 				//TODO: TakeDamage should be called 'change health'
 				pawnController.TakeDamage(potion.Healing * (-1));
 			};
 			//we know it is only health potions
 			IAction action = ActionBuilder.Start(pawnController, executable)
 										.Animation(AnimationName.Drink)
-										.HeldItemMesh(potion.Mesh)
+										.HeldItem(potion)
 										.Finish();
 			return new StaticPointTask(action, pawnController.GlobalTransform.origin);
 		}
