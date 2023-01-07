@@ -22,6 +22,10 @@ namespace Pawn.Goal {
 				//if we have no consumables, then we early exit
 				return new InvalidTask();
 			}
+			if(pawnController.health > 50) {
+				//we are not hurt, no reason to use a potion
+				return new InvalidTask();
+			}
 
 			Consumable potion = (Consumable) currentItem;
 			System.Action executable = () => {

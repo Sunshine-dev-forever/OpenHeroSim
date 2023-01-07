@@ -5,6 +5,6 @@ albedo_color = Color( 0.196078, 0.72549, 0.164706, 1 )
 
 [resource]
 material = SubResource( 1 )
-size = Vector2( 50, 50 )
+size = Vector2( 500, 500 )
 subdivide_width = 4
 subdivide_depth = 4

@@ -21,6 +21,9 @@ var _d = false
 var _q = false
 var _e = false
 
+var MAX_SPEED = 100
+var MIN_SPEED = 0.2
+
 func _input(event):
 	# Receives mouse motion
 	if event is InputEventMouseMotion:
@@ -32,9 +35,9 @@ func _input(event):
 			BUTTON_RIGHT: # Only allows rotation if right click down
 				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED if event.pressed else Input.MOUSE_MODE_VISIBLE)
 			BUTTON_WHEEL_UP: # Increases max velocity
-				_vel_multiplier = clamp(_vel_multiplier * 1.1, 0.2, 20)
+				_vel_multiplier = clamp(_vel_multiplier * 1.1, MIN_SPEED, MAX_SPEED)
 			BUTTON_WHEEL_DOWN: # Decereases max velocity
-				_vel_multiplier = clamp(_vel_multiplier / 1.1, 0.2, 20)
+				_vel_multiplier = clamp(_vel_multiplier / 1.1, MIN_SPEED, MAX_SPEED)
 
 	# Receives key input
 	if event is InputEventKey:
