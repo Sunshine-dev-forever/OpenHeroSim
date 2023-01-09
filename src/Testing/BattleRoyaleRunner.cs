@@ -13,6 +13,7 @@ public class BattleRoyaleRunner : Node
 {
 	private static int NUMBER_OF_PAWNS_TO_SPAWN = 100;
 	private static int NUMBER_OF_CHESTS_TO_SPAWN = 50;
+	private List<PawnController> pawns = new List<PawnController>();
 
 	private KdTreeController kdTreeController = null!; 
 	public override void _Ready()
@@ -27,13 +28,25 @@ public class BattleRoyaleRunner : Node
 		 } else if(input.IsActionPressed("ui_left")) {
 			//spawns pawns in random locations
 			for(int x = 0; x < NUMBER_OF_PAWNS_TO_SPAWN; x++) {
-				CreatePawn(GetRandomLocationInArena());
+				pawns.Add(CreatePawn(GetRandomLocationInArena()));
 			}
 		 } else if (input.IsActionPressed("ui_right")) {
 			for(int x = 0; x < NUMBER_OF_CHESTS_TO_SPAWN; x++) {
 				CreateItemChest(GetRandomLocationInArena());
 			}
 		 }
+	}
+
+	public void _Process(float  delta){
+		//iterate through all pawns, deal damage those that are outside the bounds
+		for(int i = pawns.Count - 1; i >= 0; i--) {
+			PawnController pawn = pawns[i];
+			if(!IsInstanceValid(pawn)) {
+				pawns.RemoveAt(i);
+				break;
+			}
+			//TODO: do damage to pawn if they are outside bounds
+		}
 	}
 
 
@@ -47,12 +60,12 @@ public class BattleRoyaleRunner : Node
 
 	private PawnController CreatePawn(Vector3 location){
 		Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
-		
+		int SIDE_LENGTH = 500;
 		return PawnControllerBuilder.Start(this, kdTreeController, navigation)
 							.AddGoal(new HealGoal())
 							.AddGoal(new DefendSelfGoal())
 							.AddGoal(new LootGoal())
-							.AddGoal(new WanderGoal())
+							.AddGoal(new WanderGoal(SIDE_LENGTH))
 							.WearEquiptment(GetRandomWeapon())
 							.Location(location)
 							.Finish();		
