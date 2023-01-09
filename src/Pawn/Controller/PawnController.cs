@@ -21,7 +21,7 @@ namespace Pawn.Controller
 		//TODO should all be in a pawnInfomration class
 		public double health {get; private set;} = 100;
 		private double maxHealth = 100;
-		private double pawnBaseDamageAbility = 10;
+		private double pawnBaseDamageAbility = 7;
 		public PawnInventory PawnInventory {get;}
 		public string pawnName = "Testy Mc Testerson";
 		public ActionController ActionController {get;}

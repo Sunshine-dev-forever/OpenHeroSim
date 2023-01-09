@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://src/Testing/BattleRoyaleRunner.cs" type="Script" id=1]
 [ext_resource path="res://scenes/gui/debug_gui.tscn" type="PackedScene" id=3]
@@ -22,6 +22,11 @@ rough = true
 
 [sub_resource type="ConvexPolygonShape" id=3]
 points = PoolVector3Array( -250, 0, -250, -250, 0, 250, 250, 0, -250, 250, 0, 250 )
+
+[sub_resource type="CubeMesh" id=11]
+size = Vector3( 500, 2, 2 )
+
+[sub_resource type="CapsuleMesh" id=12]
 
 [node name="Spatial" type="Spatial"]
 
@@ -51,6 +56,22 @@ transform = Transform( 1, 0, 0, 0, 0.527519, 0.849543, 0, -0.849543, 0.527519, 0
 [node name="BattleRoyalRunner" type="Spatial" parent="."]
 script = ExtResource( 1 )
 
+[node name="NegZ" type="MeshInstance" parent="BattleRoyalRunner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -256.286 )
+mesh = SubResource( 11 )
+
+[node name="PosZ" type="MeshInstance" parent="BattleRoyalRunner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 251.936 )
+mesh = SubResource( 11 )
+
+[node name="PosX" type="MeshInstance" parent="BattleRoyalRunner"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 254.67, 0, 0 )
+mesh = SubResource( 11 )
+
+[node name="NegX" type="MeshInstance" parent="BattleRoyalRunner"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -253.35, 0, 0 )
+mesh = SubResource( 11 )
+
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_left = 8.0
 margin_top = 7.0
@@ -77,3 +98,199 @@ far = 1000.0
 script = ExtResource( 7 )
 
 [node name="GUI" parent="DebugUI" instance=ExtResource( 3 )]
+
+[node name="Decorations2" type="Spatial" parent="."]
+
+[node name="DecorationsSet" type="Spatial" parent="Decorations2"]
+transform = Transform( -0.121159, 0, 0.992633, 0, 1, 0, -0.992633, 0, -0.121159, 142.07, 0, 0 )
+
+[node name="Rock" type="MeshInstance" parent="Decorations2/DecorationsSet"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.721, 0, 0 )
+mesh = SubResource( 12 )
+
+[node name="Rock2" type="MeshInstance" parent="Decorations2/DecorationsSet"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -22.4676, 0, 5.73388 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock")
+
+[node name="Rock3" type="MeshInstance" parent="Decorations2/DecorationsSet"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.74659, 0, 25.8983 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock2")
+
+[node name="Rock4" type="MeshInstance" parent="Decorations2/DecorationsSet"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.14734, 0, -11.5192 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock3")
+
+[node name="Rock5" type="MeshInstance" parent="Decorations2/DecorationsSet"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.2645, 0, 17.6656 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock4")
+
+[node name="DecorationsSet2" type="Spatial" parent="Decorations2"]
+
+[node name="Rock" type="MeshInstance" parent="Decorations2/DecorationsSet2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.721, 0, 0 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../../DecorationsSet2")
+
+[node name="Rock2" type="MeshInstance" parent="Decorations2/DecorationsSet2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -22.4676, 0, 5.73388 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock")
+
+[node name="Rock3" type="MeshInstance" parent="Decorations2/DecorationsSet2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.74659, 0, 25.8983 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock2")
+
+[node name="Rock4" type="MeshInstance" parent="Decorations2/DecorationsSet2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.14734, 0, -11.5192 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock3")
+
+[node name="Rock5" type="MeshInstance" parent="Decorations2/DecorationsSet2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.2645, 0, 17.6656 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock4")
+
+[node name="DecorationsSet3" type="Spatial" parent="Decorations2"]
+transform = Transform( -0.762465, 0, 0.647029, 0, 1, 0, -0.647029, 0, -0.762465, 62.4683, 0, -111.534 )
+
+[node name="Rock" type="MeshInstance" parent="Decorations2/DecorationsSet3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.721, 0, 0 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../../DecorationsSet2")
+
+[node name="Rock2" type="MeshInstance" parent="Decorations2/DecorationsSet3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -22.4676, 0, 5.73388 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock")
+
+[node name="Rock3" type="MeshInstance" parent="Decorations2/DecorationsSet3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.74659, 0, 25.8983 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock2")
+
+[node name="Rock4" type="MeshInstance" parent="Decorations2/DecorationsSet3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.14734, 0, -11.5192 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock3")
+
+[node name="Rock5" type="MeshInstance" parent="Decorations2/DecorationsSet3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.2645, 0, 17.6656 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock4")
+
+[node name="DecorationsSet4" type="Spatial" parent="Decorations2"]
+transform = Transform( -0.245477, 0, -0.969403, 0, 1, 0, 0.969403, 0, -0.245477, -153.19, 0, -111.534 )
+
+[node name="Rock" type="MeshInstance" parent="Decorations2/DecorationsSet4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.721, 0, 0 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../../DecorationsSet2")
+
+[node name="Rock2" type="MeshInstance" parent="Decorations2/DecorationsSet4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -22.4676, 0, 5.73388 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock")
+
+[node name="Rock3" type="MeshInstance" parent="Decorations2/DecorationsSet4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.74659, 0, 25.8983 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock2")
+
+[node name="Rock4" type="MeshInstance" parent="Decorations2/DecorationsSet4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.14734, 0, -11.5192 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock3")
+
+[node name="Rock5" type="MeshInstance" parent="Decorations2/DecorationsSet4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.2645, 0, 17.6656 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock4")
+
+[node name="DecorationsSet5" type="Spatial" parent="Decorations2"]
+transform = Transform( -0.245477, 0, -0.969403, 0, 1, 0, 0.969403, 0, -0.245477, -153.19, 0, 121.075 )
+
+[node name="Rock" type="MeshInstance" parent="Decorations2/DecorationsSet5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.721, 0, 0 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../../DecorationsSet2")
+
+[node name="Rock2" type="MeshInstance" parent="Decorations2/DecorationsSet5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -22.4676, 0, 5.73388 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock")
+
+[node name="Rock3" type="MeshInstance" parent="Decorations2/DecorationsSet5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.74659, 0, 25.8983 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock2")
+
+[node name="Rock4" type="MeshInstance" parent="Decorations2/DecorationsSet5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.14734, 0, -11.5192 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock3")
+
+[node name="Rock5" type="MeshInstance" parent="Decorations2/DecorationsSet5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.2645, 0, 17.6656 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock4")
+
+[node name="DecorationsSet6" type="Spatial" parent="Decorations2"]
+transform = Transform( -0.245477, 0, -0.969403, 0, 1, 0, 0.969403, 0, -0.245477, 56.753, 0, 121.075 )
+
+[node name="Rock" type="MeshInstance" parent="Decorations2/DecorationsSet6"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.721, 0, 0 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../../DecorationsSet2")
+
+[node name="Rock2" type="MeshInstance" parent="Decorations2/DecorationsSet6"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -22.4676, 0, 5.73388 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock")
+
+[node name="Rock3" type="MeshInstance" parent="Decorations2/DecorationsSet6"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.74659, 0, 25.8983 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock2")
+
+[node name="Rock4" type="MeshInstance" parent="Decorations2/DecorationsSet6"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.14734, 0, -11.5192 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock3")
+
+[node name="Rock5" type="MeshInstance" parent="Decorations2/DecorationsSet6"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.2645, 0, 17.6656 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock4")
+
+[node name="DecorationsSet7" type="Spatial" parent="Decorations2"]
+transform = Transform( 0.985698, 0, -0.168524, 0, 1, 0, 0.168524, 0, 0.985698, -22.229, 0, 157.366 )
+
+[node name="Rock" type="MeshInstance" parent="Decorations2/DecorationsSet7"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.721, 0, 0 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../../DecorationsSet2")
+
+[node name="Rock2" type="MeshInstance" parent="Decorations2/DecorationsSet7"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -22.4676, 0, 5.73388 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock")
+
+[node name="Rock3" type="MeshInstance" parent="Decorations2/DecorationsSet7"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.74659, 0, 25.8983 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock2")
+
+[node name="Rock4" type="MeshInstance" parent="Decorations2/DecorationsSet7"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.14734, 0, -11.5192 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock3")
+
+[node name="Rock5" type="MeshInstance" parent="Decorations2/DecorationsSet7"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -47.2645, 0, 17.6656 )
+mesh = SubResource( 12 )
+skeleton = NodePath("../Rock4")

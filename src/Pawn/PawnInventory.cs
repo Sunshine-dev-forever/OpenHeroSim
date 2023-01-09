@@ -28,9 +28,9 @@ namespace Pawn {
 			//if we already were wearing something
 			if(wornGear.ContainsKey(equipment.EquipmentType)) {
 				Equipment oldEquipment = wornGear[equipment.EquipmentType];
+				//store it for later
 				inventory.Add(oldEquipment);
 			}
-			//store it for later
 			wornGear[equipment.EquipmentType] = equipment;
 		}
 
