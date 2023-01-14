@@ -6,6 +6,7 @@ using Pawn.Tasks;
 using Pawn.Action;
 using Pawn.Controller;
 using Pawn.Item;
+using Pawn.Targeting;
 namespace Pawn.Goal {
 	public class LootGoal : IPawnGoal
 	{
@@ -26,7 +27,8 @@ namespace Pawn.Goal {
 			};
 
 			IAction action = ActionBuilder.Start(pawnController, executable).Animation(AnimationName.Interact).Finish();
-			return new TargetInteractableTask(action, nearbyLoot[0]);
+			ITargeting targeting = new InteractableTargeting(nearbyLoot[0]);
+			return new Task(targeting, action);
 		}
 
 		private void processItem(IItem item, PawnController pawnController, ItemContainer container) {

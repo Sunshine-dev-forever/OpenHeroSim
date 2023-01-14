@@ -6,6 +6,7 @@ using Pawn.Tasks;
 using Pawn.Action;
 using Pawn.Controller;
 using Pawn.Item;
+using Pawn.Targeting;
 namespace Pawn.Goal {
 	public class HealGoal : IPawnGoal
 	{
@@ -38,7 +39,8 @@ namespace Pawn.Goal {
 										.Animation(AnimationName.Drink)
 										.HeldItem(potion)
 										.Finish();
-			return new StaticPointTask(action, pawnController.GlobalTransform.origin);
+			ITargeting targeting = new InteractableTargeting(pawnController);
+			return new Task(targeting, action);
 		}
 	}
 }

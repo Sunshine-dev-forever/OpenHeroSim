@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Pawn.Tasks;
 using Pawn.Action;
 using Pawn.Controller;
+using Pawn.Targeting;
 namespace Pawn.Goal {
 	public class WanderGoal : IPawnGoal
 	{
@@ -26,7 +27,8 @@ namespace Pawn.Goal {
 										.Animation(AnimationName.Idle)
 										.AnimationPlayLength(waitTimeMilliseconds)
 										.Finish();
-			return new StaticPointTask(action, new Godot.Vector3(x,5,z));
+			ITargeting targeting = new StaticPointTargeting(new Godot.Vector3(x,5,z));
+			return new Task(targeting, action);
 		}
 	}
 }

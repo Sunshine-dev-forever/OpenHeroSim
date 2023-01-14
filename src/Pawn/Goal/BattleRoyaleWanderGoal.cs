@@ -5,6 +5,9 @@ using Pawn.Tasks;
 using Pawn.Action;
 using Pawn.Controller;
 using Testing.BattleRoyale;
+using Pawn.Targeting;
+using Godot;
+
 namespace Pawn.Goal {
 	public class BattleRoyaleWanderGoal : IPawnGoal
 	{
@@ -20,7 +23,9 @@ namespace Pawn.Goal {
 										.Animation(AnimationName.Idle)
 										.AnimationPlayLength(waitTimeMilliseconds)
 										.Finish();
-			return new StaticPointTask(action, new Godot.Vector3(x,5,z));
+			Predicate<Vector3> predicate = FogController.GetFogController().IsInbounds;
+			ITargeting targeting = new StaticPointTargeting(new Vector3(x,5,z), predicate);
+			return new Task(targeting, action);
 		}
 	}
 }

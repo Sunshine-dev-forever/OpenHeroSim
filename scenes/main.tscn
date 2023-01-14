@@ -147,6 +147,7 @@ script = ExtResource( 4 )
 
 [node name="Camera" type="Camera" parent="DebugUI"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2747, 7.04908, 29.5765 )
+far = 10000.0
 script = ExtResource( 7 )
 
 [node name="GUI" parent="DebugUI" instance=ExtResource( 3 )]

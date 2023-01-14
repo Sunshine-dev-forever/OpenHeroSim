@@ -37,5 +37,12 @@ namespace Testing.BattleRoyale {
 			return (1 - (timeDiffSeconds/TIME_TILL_ALL_FOG)) * (SIDE_LENGTH/2);
 		}
 
+		public Boolean IsInbounds(Godot.Vector3 point) {
+			double x = point.x;
+			double z = point.z;
+			double fogPosition = GetFogPosition();
+			return (Math.Abs(x) < fogPosition) && (Math.Abs(z) < fogPosition);
+		}
+
 	}
 }

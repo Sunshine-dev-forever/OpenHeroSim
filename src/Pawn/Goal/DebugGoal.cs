@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Pawn.Tasks;
 using Pawn.Action;
 using Pawn.Controller;
+using Pawn.Targeting;
 namespace Pawn.Goal {
 	public class DebugGoal : IPawnGoal
 	{
@@ -13,7 +14,9 @@ namespace Pawn.Goal {
 										.Animation(AnimationName.Idle)
 										.AnimationPlayLength(waitTimeMilliseconds)
 										.Finish();
-			return new StaticPointTask(waitAction, pawnController.GlobalTransform.origin);
+			//we have the pawn target itself
+			ITargeting targeting = new InteractableTargeting(pawnController);
+			return new Task(targeting, waitAction);
 		}
 	}
 }
