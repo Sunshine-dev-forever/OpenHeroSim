@@ -15,9 +15,9 @@
             "name": "Launch",
             "type": "godot-mono",
             "request": "launch",
-            "mode": "executable",
+            "mode": "executable",   //Laptop: C:/Users/ajmck/Documents/Development/Godot_v3.5-stable_mono_win64/Godot_v3.5-stable_mono_win64.exe
             "preLaunchTask": "build",  //desktop: C:/Users/andrew/Documents/Godot/Godot_v3.5-stable_mono_win64/Godot_v3.5-stable_mono_win64.exe
-            "executable": "C:/Users/ajmck/Documents/Development/Godot_v3.5-stable_mono_win64/Godot_v3.5-stable_mono_win64.exe",
+            "executable": "C:/Users/andrew/Documents/Godot/Godot_v3.5-stable_mono_win64/Godot_v3.5-stable_mono_win64.exe",
             "executableArguments": [
                 "--path",
                 "${workspaceRoot}",
@@ -30,7 +30,7 @@
             "request": "launch",
             "mode": "executable",
             "preLaunchTask": "build",
-            "executable": "C:/Users/ajmck/Documents/Development/Godot_v3.5-stable_mono_win64/Godot_v3.5-stable_mono_win64.exe",
+            "executable": "C:/Users/andrew/Documents/Godot/Godot_v3.5-stable_mono_win64/Godot_v3.5-stable_mono_win64.exe",
             "executableArguments": [
                 "--path",
                 "${workspaceRoot}",

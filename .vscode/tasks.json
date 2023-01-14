@@ -3,7 +3,7 @@
     "tasks": [
         {
             "label": "build",
-            "command": "C:/Users/ajmck/Documents/Development/Godot_v3.5-stable_mono_win64/Godot_v3.5-stable_mono_win64.exe",
+            "command": "C:/Users/andrew/Documents/Godot/Godot_v3.5-stable_mono_win64/Godot_v3.5-stable_mono_win64.exe",
             "type": "process",
             "args": [
                 "--build-solutions",
