@@ -23,11 +23,6 @@ namespace Pawn {
 
 		private Dictionary<string, AbilityStruct> abilitiesDict = new Dictionary<string, AbilityStruct>();
 
-		public PawnInformation() {
-			//TODO: this should be in the PawnControllerBuilder
-			AddAbility(new StabAbility());
-		}
-
 		public void AddAbility(IAbility ability) {
 			if(!abilitiesDict.ContainsKey(ability.Name)) {
 				abilitiesDict.Add(ability.Name, new AbilityStruct(ability, DateTime.MinValue));

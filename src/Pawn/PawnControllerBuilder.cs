@@ -8,6 +8,7 @@ using Pawn.Goal;
 using Godot;
 using Pawn.Controller;
 using Pawn.Item;
+using Pawn.Action.Ability;
 
 namespace Pawn
 {
@@ -19,7 +20,6 @@ namespace Pawn
 	{
 		KdTreeController kdTreeController;
 		PawnController pawn;
-		//NavigationServer navigationServer = null!;
 
 		private static string PAWN_RIG_RESOURCE_FILE_DEFAULT = "res://assets/basic_pawn.glb";
 		private string pawnRigResourceFile = PAWN_RIG_RESOURCE_FILE_DEFAULT;
@@ -43,7 +43,6 @@ namespace Pawn
 
 			pawn.MovementController.SetNavigation(navigation);
 		}
-		//TODO: in the future, perhaps the kdTreeController could be an option?
 		public static PawnControllerBuilder Start(Node parent, KdTreeController _kdTreeController, Navigation navigation) {
 			return new PawnControllerBuilder(parent, _kdTreeController, navigation);
 		}
@@ -59,7 +58,7 @@ namespace Pawn
 			return this;
 		}
 
-		public PawnControllerBuilder WearEquiptment(Equipment equipment){
+		public PawnControllerBuilder WearEquipment(Equipment equipment){
 			pawn.PawnInventory.WearEquipment(equipment);
 			return this;
 		}
@@ -88,6 +87,11 @@ namespace Pawn
 		//sets the resource file for the pawnMesh
 		public PawnControllerBuilder SetPawnRig(string filename) {
 			pawnRigResourceFile = filename;
+			return this;
+		}
+
+		public PawnControllerBuilder AddAbility(IAbility ability) {
+			pawn.PawnInformation.AddAbility(ability);
 			return this;
 		}
 	}

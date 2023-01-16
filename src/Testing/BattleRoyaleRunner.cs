@@ -8,8 +8,9 @@ using Pawn;
 using Pawn.Controller;
 using Pawn.Goal;
 using Pawn.Item;
+using Pawn.Action.Ability;
 
-	namespace Testing.BattleRoyale {
+namespace Testing.BattleRoyale {
 	public class BattleRoyaleRunner : Node
 	{
 		private static int NUMBER_OF_PAWNS_TO_SPAWN = 100;
@@ -72,6 +73,7 @@ using Pawn.Item;
 								.AddGoal(new DefendSelfGoal())
 								.AddGoal(new LootGoal())
 								.AddGoal(new BattleRoyaleWanderGoal())
+								.AddAbility(new StabAbility())
 								.Location(location)
 								.Finish();		
 		}

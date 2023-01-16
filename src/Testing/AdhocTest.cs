@@ -8,6 +8,7 @@ using Pawn;
 using Pawn.Controller;
 using Pawn.Goal;
 using Pawn.Item;
+using Pawn.Action.Ability;
 
 //TODO: I need more examples on this
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Non-nullable", "CA8618:must contain non-null value exiting constructor", Justification = "Not production code.")]
@@ -51,7 +52,8 @@ public class AdhocTest : Node
 							.AddGoal(new DefendSelfGoal())
 							.AddGoal(new LootGoal())
 							.AddGoal(new WanderGoal())
-							.WearEquiptment(GetRandomWeapon())
+							.AddAbility(new StabAbility())
+							.WearEquipment(GetRandomWeapon())
 							.Location(location)
 							.Finish();		
 	}
@@ -98,7 +100,7 @@ public class AdhocTest : Node
 							.AddGoal(new HealGoal())
 							.AddGoal(new WanderGoal())
 							.Location(new Vector3(0,5,0))
-							.WearEquiptment(CreateLightSaber())
+							.WearEquipment(CreateLightSaber())
 							.AddConsumable(CreateHealingPotion()).AddConsumable(CreateHealingPotion())
 							.DealDamage(50)
 							.Finish();
