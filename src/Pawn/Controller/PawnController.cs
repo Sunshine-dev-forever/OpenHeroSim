@@ -17,13 +17,8 @@ namespace Pawn.Controller
 			get { return rigidBody.GlobalTransform; }
 			set { rigidBody.GlobalTransform = value; }
 		}
-
-		//TODO should all be in a pawnInfomration class
-		public double health {get; private set;} = 100;
-		private double maxHealth = 100;
-		private double pawnBaseDamageAbility = 7;
+		public PawnInformation PawnInformation {get;}
 		public PawnInventory PawnInventory {get;}
-		public string pawnName = "Testy Mc Testerson";
 		public ActionController ActionController {get;}
 		public PawnBrainController PawnBrain {get;}
 		private SensesStruct sensesStruct;
@@ -50,6 +45,7 @@ namespace Pawn.Controller
 			sensesStruct = new SensesStruct();
 			PawnBrain = new PawnBrainController(ActionController);
 			PawnInventory = new PawnInventory();
+			PawnInformation = new PawnInformation();
 		}
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
@@ -92,9 +88,9 @@ namespace Pawn.Controller
 		public double GetDamage() {
 			Equipment? weapon = PawnInventory.GetWornEquipment(EquipmentType.HELD);
 			if(weapon != null) {
-				return pawnBaseDamageAbility + weapon.Damage;
+				return PawnInformation.BaseDamage + weapon.Damage;
 			} else {
-				return pawnBaseDamageAbility;
+				return PawnInformation.BaseDamage;
 			}
 		}
 
@@ -106,16 +102,16 @@ namespace Pawn.Controller
 
 		public void TakeDamage(double damage)
 		{
-			health = health - damage;
-			if (health <= 0)
+			PawnInformation.Health = PawnInformation.Health - damage;
+			if (PawnInformation.Health <= 0)
 			{
 				Die();
 				return;
 			}
-			if(health > maxHealth) {
-				health = maxHealth;
+			if(PawnInformation.Health > PawnInformation.MaxHealth) {
+				PawnInformation.Health = PawnInformation.MaxHealth;
 			}
-			healthBar.SetHealthPercent(health / maxHealth);
+			healthBar.SetHealthPercent(PawnInformation.Health / PawnInformation.MaxHealth);
 		}
 
 		private void Die()

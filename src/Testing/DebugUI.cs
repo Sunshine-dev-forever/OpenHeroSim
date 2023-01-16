@@ -43,7 +43,7 @@ public class DebugUI : Spatial
 			PawnController pawnController = ((PawnRigidBody) result["collider"]).GetPawnController();
 			ITask task = pawnController.GetTask();
 			pawnTaskStatusValue.Text = Enum.GetName(typeof(TaskState), task.TaskState);
-			pawnNameValue.Text = pawnController.pawnName;
+			pawnNameValue.Text = pawnController.PawnInformation.Name;
 		}
 
 	}

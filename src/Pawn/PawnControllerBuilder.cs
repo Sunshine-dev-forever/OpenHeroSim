@@ -71,7 +71,7 @@ namespace Pawn
 		}
 
 		public PawnControllerBuilder SetName(string name) {
-			pawn.pawnName = name;
+			pawn.PawnInformation.Name = name;
 			return this;
 		}
 

@@ -23,7 +23,7 @@ namespace Pawn.Goal {
 				//if we have no consumables, then we early exit
 				return new InvalidTask();
 			}
-			if(pawnController.health > 50) {
+			if(pawnController.PawnInformation.Health > 50) {
 				//we are not hurt, no reason to use a potion
 				return new InvalidTask();
 			}
