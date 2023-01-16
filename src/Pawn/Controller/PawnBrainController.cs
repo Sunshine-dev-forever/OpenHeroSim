@@ -10,15 +10,9 @@ namespace Pawn.Controller
 	public class PawnBrainController
 	{
 		private List<IPawnGoal> goals = new List<IPawnGoal>();
-		private ActionController actionController;
 
 		//TODO: implement a combat goal list (combat goals would be like heal, save ally, kill, etc)
 		//private List<IPawnGoal> combatGoalList = new List<IPawnGoal>();
-
-		public PawnBrainController(ActionController _actionController)
-		{
-			actionController = _actionController;
-		}
 
 		public void AddGoal(IPawnGoal goal) {
 			goals.Add(goal);

@@ -19,13 +19,14 @@ namespace Pawn.Controller
 		}
 		public PawnInformation PawnInformation {get;}
 		public PawnInventory PawnInventory {get;}
-		public ActionController ActionController {get;}
+
 		public PawnBrainController PawnBrain {get;}
 		private SensesStruct sensesStruct;
 
 		//ALL OF THE BELOW VARIABLES ARE CREATED IN Setup() or _Ready
 		private SensesController sensesController = null!;
 		private HealthBar3D healthBar = null!;
+		public ActionController ActionController {get; private set;} = null!;
 		public VisualController VisualController {get; private set;} = null!;
 		private CollisionShape collisionShape = null!;
 		private RayCast downwardRayCast = null!;
@@ -41,9 +42,8 @@ namespace Pawn.Controller
 
 		//When created by instancing a scene, the default constructor is called.
 		public PawnController() {
-			ActionController = new ActionController();
 			sensesStruct = new SensesStruct();
-			PawnBrain = new PawnBrainController(ActionController);
+			PawnBrain = new PawnBrainController();
 			PawnInventory = new PawnInventory();
 			PawnInformation = new PawnInformation();
 		}
@@ -62,6 +62,19 @@ namespace Pawn.Controller
 														VisualController,
 														navigationAgent,
 														downwardRayCast);
+			ActionController = new ActionController(MovementController, VisualController, PawnInformation);
+		}
+
+		//Setup HAS to be called for a pawn to work
+		//For a pawn to function: the constructor is called,
+		//then _Ready is called
+		//Then Setup has to be called
+		//Setup basically fills in for an actual constructor since I cannot seem to call a real constructor with args
+		//for the PackedScene.Instance function
+		public void Setup(KdTreeController kdTreeController)
+		{
+			sensesController = new SensesController(kdTreeController, this);
+			VisualController.ForceVisualUpdate(PawnInventory);
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -74,14 +87,10 @@ namespace Pawn.Controller
 
 		public override void _PhysicsProcess(float delta)
 		{
-			ActionController.HandleTask(currentTask, MovementController, VisualController);
+			ActionController.HandleTask(currentTask);
 		}
 
-		public void Setup(KdTreeController kdTreeController)
-		{
-			sensesController = new SensesController(kdTreeController, this);
-			VisualController.ForceVisualUpdate(PawnInventory);
-		}
+
 
 		//Gets the total damage that this pawn is able to produce.
 		//TODO: needs to be replaced with actual pawn stats
