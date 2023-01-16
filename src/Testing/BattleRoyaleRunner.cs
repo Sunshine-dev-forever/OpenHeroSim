@@ -67,7 +67,6 @@ using Pawn.Item;
 
 		private PawnController CreatePawn(Vector3 location){
 			Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
-			int SIDE_LENGTH = 500;
 			return PawnControllerBuilder.Start(this, kdTreeController, navigation)
 								.AddGoal(new HealGoal())
 								.AddGoal(new DefendSelfGoal())
@@ -117,7 +116,7 @@ using Pawn.Item;
 			//The iron sword gets leaked when created like this
 			List<IItem> items = new List<IItem>();
 			items.Add(CreateHealingPotion());
-			Equipment equipment = GetRandomWeapon();
+			Equipment? equipment = GetRandomWeapon();
 			if(equipment != null) {
 				items.Add(equipment);
 			}

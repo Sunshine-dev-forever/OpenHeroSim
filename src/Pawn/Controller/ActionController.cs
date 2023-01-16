@@ -19,7 +19,7 @@ namespace Pawn.Controller{
 			public DateTime timeLastUsed;
 		}
 
-		private IAction actionInExecution;
+		private IAction? actionInExecution;
 
 		//Keeps track of cooldowns
 		//TODO: this should be handled in the pawn information class
@@ -99,6 +99,10 @@ namespace Pawn.Controller{
 		}
 
 		public bool IsActionCompleted() {
+			//defaults to true if action is null
+			if(actionInExecution == null) {
+				return true;
+			}
 			return actionInExecution.IsFinished();
 		}
 	}

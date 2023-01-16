@@ -28,7 +28,7 @@ namespace Pawn.Action.Ability {
 		private ActionTags[] tags = {ActionTags.COMBAT};
 		public List<ActionTags> Tags {get {return new List<ActionTags>(tags);}}
 		public AnimationName AnimationToPlay {get {return AnimationName.Stab;}}
-		public new void execute() {
+		public void execute() {
 			//TODO: Stab should provide its own multipliers
 			if(ownerPawnController == null || otherPawnController == null) {
 				throw new NullReferenceException();

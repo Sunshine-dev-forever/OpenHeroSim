@@ -52,7 +52,7 @@ namespace Pawn.Action {
 			return this;
 		}
 
-		public ActionBuilder HeldItem(IItem item) {
+		public ActionBuilder HeldItem(IItem? item) {
 			action.HeldItem = item;
 			return this;
 		}
