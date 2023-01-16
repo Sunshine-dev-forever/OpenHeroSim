@@ -26,7 +26,7 @@ namespace Pawn.Controller
 		//ALL OF THE BELOW VARIABLES ARE CREATED IN Setup() or _Ready
 		private SensesController sensesController = null!;
 		private HealthBar3D healthBar = null!;
-		public ActionController ActionController {get; private set;} = null!;
+		public TaskExecutor ActionController {get; private set;} = null!;
 		public VisualController VisualController {get; private set;} = null!;
 		private CollisionShape collisionShape = null!;
 		private RayCast downwardRayCast = null!;
@@ -62,7 +62,7 @@ namespace Pawn.Controller
 														VisualController,
 														navigationAgent,
 														downwardRayCast);
-			ActionController = new ActionController(MovementController, VisualController, PawnInformation);
+			ActionController = new TaskExecutor(MovementController, VisualController, PawnInformation);
 		}
 
 		//Setup HAS to be called for a pawn to work
