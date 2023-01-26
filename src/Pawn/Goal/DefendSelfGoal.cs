@@ -7,16 +7,20 @@ using Pawn.Action.Ability;
 using Pawn.Controller;
 using Pawn.Item;
 using Pawn.Targeting;
+using System.Linq;
 
 namespace Pawn.Goal {
 	public class DefendSelfGoal : IPawnGoal
 	{
 		public ITask GetTask(PawnController pawnController, SensesStruct sensesStruct) {
-
-			if(sensesStruct.nearbyPawns.Count == 0) {
+			Func<PawnController, bool> pawnIsAliveAndValid = (pawnController) => { 
+				return pawnController != null && pawnController.IsInstanceValid() && !pawnController.IsDying;
+			};
+			List<PawnController> nearbyLivingPawns = sensesStruct.nearbyPawns.AsEnumerable().Where(pawnIsAliveAndValid).ToList();
+			if(nearbyLivingPawns.Count == 0) {
 				return new InvalidTask();
 			}
-			PawnController otherPawnController = sensesStruct.nearbyPawns[0];
+			PawnController otherPawnController = nearbyLivingPawns[0];
 			List<ActionTags> requestedTags = new List<ActionTags>();
 			requestedTags.Add(ActionTags.COMBAT);
 			List<IAbility> validAbilities = pawnController.PawnInformation.GetAllAbilitiesWithTags(requestedTags, false);

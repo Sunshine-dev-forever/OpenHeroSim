@@ -42,7 +42,11 @@ public class DebugUI : Spatial
 		if(result["collider"] is PawnRigidBody) {
 			PawnController pawnController = ((PawnRigidBody) result["collider"]).GetPawnController();
 			ITask task = pawnController.GetTask();
-			pawnTaskStatusValue.Text = Enum.GetName(typeof(TaskState), task.TaskState);
+			if(pawnController.IsDying) {
+				pawnTaskStatusValue.Text = "Dying";
+			} else {
+				pawnTaskStatusValue.Text = "Alive";
+			}
 			pawnNameValue.Text = pawnController.PawnInformation.Name;
 		}
 

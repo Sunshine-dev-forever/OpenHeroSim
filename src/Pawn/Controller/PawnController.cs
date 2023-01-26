@@ -33,9 +33,11 @@ namespace Pawn.Controller
 		private NavigationAgent navigationAgent = null!;
 		private RigidBody rigidBody = null!;
 		public MovementController MovementController {get; private set;} = null!;
-
-
 		private ITask currentTask = new InvalidTask();
+		
+		//if death has been started, then this pawn is in the process of Dying
+		public bool IsDying {get { return startedDeath != DateTime.MaxValue;}}
+		private DateTime startedDeath = DateTime.MaxValue;
 
 		//TODO: implement something like the below:
 		//private List<IPawnTrait> pawnTraits;
@@ -80,17 +82,45 @@ namespace Pawn.Controller
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
 		public override void _Process(float delta)
 		{
-			sensesStruct = sensesController.UpdatePawnSenses(sensesStruct);
-			currentTask = PawnBrain.updateCurrentTask(currentTask, sensesStruct, this);
-			VisualController.ProcessTask(currentTask, PawnInventory);
+			if(IsDying) {
+				HandleDying();
+			} else {
+				//only living pawns get to think
+				sensesStruct = sensesController.UpdatePawnSenses(sensesStruct);
+				currentTask = PawnBrain.updateCurrentTask(currentTask, sensesStruct, this);
+				VisualController.ProcessTask(currentTask, PawnInventory);
+			}
 		}
 
 		public override void _PhysicsProcess(float delta)
 		{
-			ActionController.HandleTask(currentTask);
+			if(!IsDying) {
+				//Placed in physics process since Handle task may call some functions
+				//in movement controller which **I Think** means this function has to be placed in 
+				//_PhysicsProcess
+				ActionController.HandleTask(currentTask);
+			}
 		}
 
-
+		public void HandleDying() {
+			int TIME_TO_WAIT_AFTER_DEATH = 5;
+			if( (DateTime.Now - startedDeath).TotalSeconds > TIME_TO_WAIT_AFTER_DEATH) {
+				//Corpse has gone cold for 5 seconds, we finally pass
+				Die();
+			}
+		}
+		//This function begins the death process
+		public void StartDying() {
+			//I need to start playing the death animation
+			startedDeath = DateTime.Now;
+			VisualController.SetAnimation(AnimationName.Death);
+			//TODO: cannot figure out how to 'turn off' the rigid body
+			//This basically 'turns off' the rigid body
+			//rigidBody.CollisionLayer = 0;
+			//uint MASK_JUST_FLOOR = 1;
+			//rigidBody.CollisionMask = MASK_JUST_FLOOR;
+			//rigidBody.Sleeping = true;
+		}
 
 		//Gets the total damage that this pawn is able to produce.
 		//TODO: needs to be replaced with actual pawn stats
@@ -103,7 +133,6 @@ namespace Pawn.Controller
 			}
 		}
 
-		//TODO: This should be handled by a pawnInventory class or something
 		public void SetWeapon(Equipment _weapon) {
 			PawnInventory.WearEquipment(_weapon);
 		}
@@ -114,7 +143,8 @@ namespace Pawn.Controller
 			PawnInformation.Health = PawnInformation.Health - damage;
 			if (PawnInformation.Health <= 0)
 			{
-				Die();
+				healthBar.SetHealthPercent(0);
+				StartDying();
 				return;
 			}
 			if(PawnInformation.Health > PawnInformation.MaxHealth) {
