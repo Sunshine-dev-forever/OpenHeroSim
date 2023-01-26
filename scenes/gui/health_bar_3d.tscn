@@ -5,6 +5,7 @@
 
 [node name="Sprite3D" type="Sprite3D"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.98023e-08, 0 )
+opacity = 0.41
 billboard = 1
 script = ExtResource( 1 )
 
