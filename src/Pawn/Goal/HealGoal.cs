@@ -32,7 +32,7 @@ namespace Pawn.Goal {
 			System.Action executable = () => {
 				pawnController.PawnInventory.inventory.Remove(potion);
 				//TODO: TakeDamage should be called 'change health'
-				pawnController.TakeDamage(potion.Healing * (-1));
+				pawnController.TakeHealing(potion.Healing);
 			};
 			//we know it is only health potions
 			IAction action = ActionBuilder.Start(pawnController, executable)

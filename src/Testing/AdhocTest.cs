@@ -24,9 +24,9 @@ public class AdhocTest : Node
 	
 	public override void _Input(InputEvent input) {
 		 if(input.IsActionPressed("mouse_left_click")) {
-			//Adhoc();
+			
 		 } else if(input.IsActionPressed("ui_left")) {
-			//Adhoc2();
+			CreateItemContainer();
 		 } else if (input.IsActionPressed("ui_right")) {
 			CreateHealingPotionTester();
 		 }

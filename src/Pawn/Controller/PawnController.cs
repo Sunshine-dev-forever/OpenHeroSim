@@ -141,6 +141,11 @@ namespace Pawn.Controller
 				StartDying();
 				return;
 			}
+			healthBar.SetHealthPercent(PawnInformation.Health / PawnInformation.MaxHealth);
+		}
+
+		public void TakeHealing(double amount) {
+			PawnInformation.Health = PawnInformation.Health + amount;
 			if(PawnInformation.Health > PawnInformation.MaxHealth) {
 				PawnInformation.Health = PawnInformation.MaxHealth;
 			}
