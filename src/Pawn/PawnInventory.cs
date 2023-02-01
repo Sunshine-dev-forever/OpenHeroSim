@@ -34,6 +34,23 @@ namespace Pawn {
 			wornGear[equipment.EquipmentType] = equipment;
 		}
 
+		//TODO: somehow combine GetTotalEquiptmentDefense and GetTotalEquiptmentDamage and GetTotal<whateverElse> into one function
+		public double GetTotalEquiptmentDefense() {
+			double total = 0;
+			foreach(Equipment equipment in wornGear.Values) {
+				total += equipment.Defense;
+			}
+			return total;
+		}
+
+		public double GetTotalEquiptmentDamage() {
+			double total = 0;
+			foreach(Equipment equipment in wornGear.Values) {
+				total += equipment.Damage;
+			}
+			return total;
+		}
+
 		public void QueueFree() {
 			foreach(Equipment equipment in wornGear.Values) {
 				equipment.QueueFree();

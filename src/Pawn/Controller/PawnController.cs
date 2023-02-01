@@ -125,22 +125,16 @@ namespace Pawn.Controller
 		//Gets the total damage that this pawn is able to produce.
 		//TODO: needs to be replaced with actual pawn stats
 		public double GetDamage() {
-			Equipment? weapon = PawnInventory.GetWornEquipment(EquipmentType.HELD);
-			if(weapon != null) {
-				return PawnInformation.BaseDamage + weapon.Damage;
-			} else {
-				return PawnInformation.BaseDamage;
-			}
+			return PawnInformation.BaseDamage + PawnInventory.GetTotalEquiptmentDamage();
 		}
-
-		public void SetWeapon(Equipment _weapon) {
-			PawnInventory.WearEquipment(_weapon);
-		}
-
 
 		public void TakeDamage(double damage)
 		{
-			PawnInformation.Health = PawnInformation.Health - damage;
+			double taken_damage = damage - PawnInventory.GetTotalEquiptmentDefense();
+			if(taken_damage < 0) {
+				return;
+			}
+			PawnInformation.Health = PawnInformation.Health - taken_damage;
 			if (PawnInformation.Health <= 0)
 			{
 				healthBar.SetHealthPercent(0);
