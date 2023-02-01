@@ -16,6 +16,7 @@ material = SubResource( 4 )
 size = Vector3( 0.35, 0.1, 0.35 )
 
 [node name="Spatial" type="Spatial"]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0 )
 
 [node name="BigCube" type="MeshInstance" parent="."]
 transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )

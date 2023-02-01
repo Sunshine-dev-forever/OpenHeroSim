@@ -54,8 +54,16 @@ public class AdhocTest : Node
 							.AddGoal(new WanderGoal())
 							.AddAbility(new StabAbility())
 							.WearEquipment(GetRandomWeapon())
+							.WearEquipment(GetHelmet())
 							.Location(location)
 							.Finish();		
+	}
+
+	private Equipment GetHelmet() {
+		Spatial boxHelm = (Spatial) GD.Load<PackedScene>("res://scenes/world_objects/box_helm.tscn").Instance();
+		Equipment equipment = new Equipment(boxHelm, EquipmentType.HEAD);
+		equipment.Defense = 5;
+		return equipment;
 	}
 
 	private Vector3 GenerateRandomVector() {
@@ -84,14 +92,8 @@ public class AdhocTest : Node
 			return CreateRustedDagger();
 		}
 	}
-
-	private PawnController tester = null!;
 	private void Adhoc2(){
-		if(tester == null) {
-			tester = CreateHealingPotionTester();
-		} else {
-			Log.Information("currentWeapon: " + tester.PawnInventory.GetWornEquipment(EquipmentType.HEAD));
-		}
+
 	}
 
 	private PawnController CreateHealingPotionTester() {

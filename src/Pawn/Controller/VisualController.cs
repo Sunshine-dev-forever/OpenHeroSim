@@ -22,7 +22,7 @@ namespace Pawn.Controller
 		Vector3 heldItemOrigin = new Vector3();
 
 		//Taking a guess for where to put the helmet
-		Vector3 helmetOrigin = new Vector3(0,2,0);
+		Vector3 helmetOrigin = new Vector3(0,4,0);
 		Vector3 helmetRotation = new Vector3();
 		Spatial helmetParent = null!;
 		//end scary instance variables
@@ -112,7 +112,7 @@ namespace Pawn.Controller
 			SceneTreeUtil.OrphanChild(helmet.Mesh);
 			helmetParent.AddChild(helmet.Mesh);
 			helmet.Mesh.Rotation = helmetRotation;
-			helmet.Mesh.Transform = new Transform(helmet.Mesh.Transform.basis, scabbardOrigin);
+			helmet.Mesh.Transform = new Transform(helmet.Mesh.Transform.basis, helmetOrigin);
 		}
 
 		private void ClearHeldItem() {
