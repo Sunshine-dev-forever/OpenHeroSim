@@ -20,6 +20,11 @@ namespace Pawn.Controller
 		Vector3 scabbardOrigin = new Vector3();
 		Vector3 heldItemRotation = new Vector3();
 		Vector3 heldItemOrigin = new Vector3();
+
+		//Taking a guess for where to put the helmet
+		Vector3 helmetOrigin = new Vector3(0,2,0);
+		Vector3 helmetRotation = new Vector3();
+		Spatial helmetParent = null!;
 		//end scary instance variables
 
 		IItem? currentHeldItem;
@@ -38,11 +43,14 @@ namespace Pawn.Controller
 			riggedCharacterRootNode = pawnMesh;
 			heldItemAttachment = pawnMesh.GetNode<BoneAttachment>("Character/Skeleton/BoneAttachment");
 			scabbardAttachment = pawnMesh.GetNode<BoneAttachment>("Character/Skeleton/BoneAttachment2");
+			//TODO: making the helmet a child of the parent for now
+			helmetParent = pawnMesh.GetNode<Spatial>("Character/Skeleton/Char_Model");
 			//clear the children of scabbard and node
 			//There should really only be 1 child in both cases
 			if(heldItemAttachment.GetChildCount() != 1 || scabbardAttachment.GetChildCount() != 1) {
 					Log.Information("Child count of BoneAttachments not 1, what do?");
 			}
+			//loop should only run once
 			foreach(Node node in heldItemAttachment.GetChildren()) {
 				//I know these have to be spatials
 				Spatial betterNode = (Spatial) node;
@@ -50,6 +58,7 @@ namespace Pawn.Controller
 				heldItemOrigin = betterNode.Transform.origin;
 				node.QueueFree();
 			}
+			//loop should only run once
 			foreach(Node node in scabbardAttachment.GetChildren()) {
 				Spatial betterNode = (Spatial) node;
 				scabbardRotation = betterNode.Rotation;
@@ -68,6 +77,7 @@ namespace Pawn.Controller
 			//now we reset everything back to the way it was
 			ClearHeldItem();
 			//check to see if the currently held item should be our weapon
+			//TODO: held item should be a request of item type? How would that work for potions?
 			currentHeldItem = task.Action.HeldItem;
 			Equipment? currentWeapon = pawnInventory.GetWornEquipment(EquipmentType.HELD);
 			if(currentHeldItem != currentWeapon) {
@@ -79,6 +89,7 @@ namespace Pawn.Controller
 				return;
 			}
 			//new item to hold could have a parent, so we remove it
+			SceneTreeUtil.OrphanChild(currentHeldItem.Mesh);
 			if(currentHeldItem.Mesh.GetParent() != null) {
 				currentHeldItem.Mesh.GetParent().RemoveChild(currentHeldItem.Mesh);
 			}
@@ -90,6 +101,18 @@ namespace Pawn.Controller
 
 		public void ForceVisualUpdate(PawnInventory pawnInventory) {
 			PutWeaponInScabbard(pawnInventory.GetWornEquipment(EquipmentType.HELD));
+			PutOnHelmet(pawnInventory.GetWornEquipment(EquipmentType.HEAD));
+		}
+
+		private void PutOnHelmet(Equipment? helmet) {
+			SceneTreeUtil.RemoveAllChildren(helmetParent);
+			if(helmet == null) {
+				return;
+			}
+			SceneTreeUtil.OrphanChild(helmet.Mesh);
+			helmetParent.AddChild(helmet.Mesh);
+			helmet.Mesh.Rotation = helmetRotation;
+			helmet.Mesh.Transform = new Transform(helmet.Mesh.Transform.basis, scabbardOrigin);
 		}
 
 		private void ClearHeldItem() {
@@ -112,9 +135,7 @@ namespace Pawn.Controller
 				return;
 			}
 			//if the current weapon has a parent other than the scabbard, remove it
-			if(currentWeapon.Mesh.GetParent() != null) {
-				currentWeapon.Mesh.GetParent().RemoveChild(currentWeapon.Mesh);
-			}
+			SceneTreeUtil.OrphanChild(currentWeapon.Mesh);
 			//put weapon in scabbard
 			scabbardAttachment.AddChild(currentWeapon.Mesh);
 			currentWeapon.Mesh.Rotation = scabbardRotation;

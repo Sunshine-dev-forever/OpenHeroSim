@@ -8,6 +8,13 @@ namespace Util {
 			}
 		}
 
+		//Removes a child from its parent without affecting the parent
+		public static void OrphanChild(Node node) {
+			if(node.GetParent() != null) {
+				node.GetParent().RemoveChild(node);
+			}
+		}
+
 		// public static void PrintAllChildren(){
 			//TODO
 		// }
