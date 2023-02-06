@@ -9,6 +9,7 @@ using Pawn.Controller;
 using Pawn.Goal;
 using Pawn.Item;
 using Pawn.Action.Ability;
+using Util;
 
 //TODO: I need more examples on this
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Non-nullable", "CA8618:must contain non-null value exiting constructor", Justification = "Not production code.")]
@@ -60,7 +61,8 @@ public class AdhocTest : Node
 	}
 
 	private Equipment GetHelmet() {
-		Spatial boxHelm = (Spatial) GD.Load<PackedScene>("res://scenes/world_objects/box_helm.tscn").Instance();
+		//"res://scenes/world_objects/box_helm.tscn"
+		Spatial boxHelm = CustomResourceLoader.LoadMesh("res://scenes/world_objects/box_helm.tscn");
 		Equipment equipment = new Equipment(boxHelm, EquipmentType.HEAD);
 		equipment.Defense = 5;
 		return equipment;
