@@ -9,6 +9,7 @@ namespace Util {
 		}
 
 		//Removes a child from its parent without affecting the parent
+		//If the parent does not exist this will not throw an error
 		public static void OrphanChild(Node node) {
 			if(node.GetParent() != null) {
 				node.GetParent().RemoveChild(node);

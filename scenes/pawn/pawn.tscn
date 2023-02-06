@@ -1,7 +1,6 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scenes/gui/health_bar_3d.tscn" type="PackedScene" id=1]
-[ext_resource path="res://scenes/pawn/pawn_model.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/Pawn/PawnRigidBody.cs" type="Script" id=3]
 [ext_resource path="res://src/Pawn/Controller/PawnController.cs" type="Script" id=4]
 [ext_resource path="res://src/Pawn/Controller/VisualController.cs" type="Script" id=5]
@@ -37,8 +36,6 @@ texture = SubResource( 7 )
 [node name="VisualController" type="Spatial" parent="RigidBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0 )
 script = ExtResource( 5 )
-
-[node name="Display_example" parent="RigidBody/VisualController" instance=ExtResource( 2 )]
 
 [node name="CollisionShape" type="CollisionShape" parent="RigidBody"]
 transform = Transform( 0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, 0.999416, 0 )
