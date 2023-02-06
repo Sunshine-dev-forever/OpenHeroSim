@@ -34,7 +34,7 @@ namespace Pawn.Controller
 			}
 		}
 
-		public ITask GetHigherPriorityTaskOrCurrentTask(ITask currentTask, SensesStruct sensesStruct, PawnController pawnController) {
+		private ITask GetHigherPriorityTaskOrCurrentTask(ITask currentTask, SensesStruct sensesStruct, PawnController pawnController) {
 			//Lower index means HigherPriority
 			for (int i = 0; i < goals.Count; i++)
 			{
@@ -53,7 +53,7 @@ namespace Pawn.Controller
 			return currentTask;
 		}
 
-		public ITask GetNextTask(PawnController pawnController, SensesStruct sensesStruct)
+		private ITask GetNextTask(PawnController pawnController, SensesStruct sensesStruct)
 		{
 			for (int i = 0; i < goals.Count; i++)
 			{
@@ -65,6 +65,8 @@ namespace Pawn.Controller
 					return nextTask;
 				}
 			}
+			//TODO: should return a "wait for 100 milliseconds task" so that hte pawncontroller does not constantly 
+			//ask for a new task
 			return new InvalidTask();
 		}
 
