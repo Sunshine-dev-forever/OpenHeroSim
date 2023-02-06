@@ -111,7 +111,7 @@ public class AdhocTest : Node
 	}
 
 	private void CreateItemContainer() {
-		Spatial TreasureChestMesh = (Spatial) GD.Load<PackedScene>("res://scenes/world_objects/treasure_chest.tscn").Instance();
+		Spatial TreasureChestMesh = CustomResourceLoader.LoadMesh("res://scenes/world_objects/treasure_chest.tscn");
 		//The iron sword gets leaked when created like this
 		List<IItem> items = new List<IItem>();
 		items.Add(CreateHealingPotion());
@@ -123,28 +123,28 @@ public class AdhocTest : Node
 	}
 
 	private Equipment CreateIronSword() {
-		Spatial ironSword = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/iron_sword.tscn").Instance();
+		Spatial ironSword = CustomResourceLoader.LoadMesh("res://scenes/weapons/iron_sword.tscn");
 		Equipment equipment = new Equipment(ironSword, EquipmentType.HELD);
 		equipment.Damage = 5;
 		return equipment;
 	}
 
 	private Equipment CreateRustedDagger() {
-		Spatial rustedDagger = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/rusted_dagger.tscn").Instance();
+		Spatial rustedDagger = CustomResourceLoader.LoadMesh("res://scenes/weapons/rusted_dagger.tscn");;
 		Equipment equipment = new Equipment(rustedDagger, EquipmentType.HELD);
 		equipment.Damage = 3;
 		return equipment;
 	}
 
 	private Equipment CreateLightSaber() {
-		Spatial lightSaber = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/light_saber.tscn").Instance();
+		Spatial lightSaber = CustomResourceLoader.LoadMesh("res://scenes/weapons/rusted_dagger.tscn");
 		Equipment equipment = new Equipment(lightSaber, EquipmentType.HELD);
 		equipment.Damage = 10;
 		return equipment;
 	}
 
 	private Consumable CreateHealingPotion() {
-		Spatial healthPotion = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/health_potion.tscn").Instance();
+		Spatial healthPotion = CustomResourceLoader.LoadMesh("res://scenes/weapons/rusted_dagger.tscn");
 		return new Consumable(40, healthPotion);
 	}
 }

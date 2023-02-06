@@ -32,7 +32,7 @@ namespace Pawn.Controller
 
 		//I really need a pawn rig loader
 		public void SetPawnRig(string filename) {
-			Spatial pawnMesh = ResourceLoader.Load<PackedScene>(filename).Instance<Spatial>();
+			Spatial pawnMesh = CustomResourceLoader.LoadMesh(filename);
 			//clear all old nodes
 			foreach (Node node in this.GetChildren()) {
 				node.QueueFree();

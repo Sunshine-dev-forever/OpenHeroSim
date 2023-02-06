@@ -9,6 +9,7 @@ using Pawn.Controller;
 using Pawn.Goal;
 using Pawn.Item;
 using Pawn.Action.Ability;
+using Util;
 
 namespace Testing.BattleRoyale {
 	public class BattleRoyaleRunner : Node
@@ -114,7 +115,7 @@ namespace Testing.BattleRoyale {
 			//gonna override the height here
 			//TODO: not sure if this is mutable
 			location.y = 0.5f;
-			Spatial TreasureChestMesh = (Spatial) GD.Load<PackedScene>("res://scenes/world_objects/treasure_chest.tscn").Instance();
+			Spatial TreasureChestMesh = CustomResourceLoader.LoadMesh("res://scenes/world_objects/treasure_chest.tscn");
 			//The iron sword gets leaked when created like this
 			List<IItem> items = new List<IItem>();
 			items.Add(CreateHealingPotion());
@@ -130,29 +131,29 @@ namespace Testing.BattleRoyale {
 		}
 
 		private Equipment CreateIronSword() {
-			Spatial ironSword = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/iron_sword.tscn").Instance();
-			Equipment equipment = new Equipment(ironSword, EquipmentType.HELD);
-			equipment.Damage = 7;
-			return equipment;
-		}
+		Spatial ironSword = CustomResourceLoader.LoadMesh("res://scenes/weapons/iron_sword.tscn");
+		Equipment equipment = new Equipment(ironSword, EquipmentType.HELD);
+		equipment.Damage = 7;
+		return equipment;
+	}
 
-		private Equipment CreateRustedDagger() {
-			Spatial rustedDagger = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/rusted_dagger.tscn").Instance();
-			Equipment equipment = new Equipment(rustedDagger, EquipmentType.HELD);
-			equipment.Damage = 3;
-			return equipment;
-		}
+	private Equipment CreateRustedDagger() {
+		Spatial rustedDagger = CustomResourceLoader.LoadMesh("res://scenes/weapons/rusted_dagger.tscn");;
+		Equipment equipment = new Equipment(rustedDagger, EquipmentType.HELD);
+		equipment.Damage = 3;
+		return equipment;
+	}
 
-		private Equipment CreateLightSaber() {
-			Spatial lightSaber = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/light_saber.tscn").Instance();
-			Equipment equipment = new Equipment(lightSaber, EquipmentType.HELD);
-			equipment.Damage = 15;
-			return equipment;
-		}
+	private Equipment CreateLightSaber() {
+		Spatial lightSaber = CustomResourceLoader.LoadMesh("res://scenes/weapons/rusted_dagger.tscn");
+		Equipment equipment = new Equipment(lightSaber, EquipmentType.HELD);
+		equipment.Damage = 15;
+		return equipment;
+	}
 
-		private Consumable CreateHealingPotion() {
-			Spatial healthPotion = (Spatial) GD.Load<PackedScene>("res://scenes/weapons/health_potion.tscn").Instance();
-			return new Consumable(40, healthPotion);
-		}
+	private Consumable CreateHealingPotion() {
+		Spatial healthPotion = CustomResourceLoader.LoadMesh("res://scenes/weapons/rusted_dagger.tscn");
+		return new Consumable(40, healthPotion);
+	}
 	}
 }

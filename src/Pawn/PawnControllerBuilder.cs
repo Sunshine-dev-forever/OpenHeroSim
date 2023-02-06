@@ -35,6 +35,8 @@ namespace Pawn
 		}
 
 		public PawnControllerBuilder(Node parent, KdTreeController _kdTreeController, Navigation navigation){
+			//TODO: my custom resource loader should support return types other than spatial...
+			//But then how do I create defaults?
 			pawn = ResourceLoader.Load<PackedScene>("res://scenes/pawn/pawn.tscn").Instance<PawnController>();
 			parent.AddChild(pawn);
 
