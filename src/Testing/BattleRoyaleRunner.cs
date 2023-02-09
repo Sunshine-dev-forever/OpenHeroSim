@@ -115,7 +115,7 @@ namespace Testing.BattleRoyale {
 			//gonna override the height here
 			//TODO: not sure if this is mutable
 			location.y = 0.5f;
-			Spatial TreasureChestMesh = CustomResourceLoader.LoadMesh("res://scenes/world_objects/treasure_chest.tscn");
+			Spatial TreasureChestMesh = CustomResourceLoader.LoadMesh(ResourcePaths.TREASURE_CHEST);
 			//The iron sword gets leaked when created like this
 			List<IItem> items = new List<IItem>();
 			items.Add(CreateHealingPotion());
@@ -131,28 +131,28 @@ namespace Testing.BattleRoyale {
 		}
 
 		private Equipment CreateIronSword() {
-		Spatial ironSword = CustomResourceLoader.LoadMesh("res://scenes/weapons/iron_sword.tscn");
+		Spatial ironSword = CustomResourceLoader.LoadMesh(ResourcePaths.IRON_SWORD);
 		Equipment equipment = new Equipment(ironSword, EquipmentType.HELD);
 		equipment.Damage = 7;
 		return equipment;
 	}
 
 	private Equipment CreateRustedDagger() {
-		Spatial rustedDagger = CustomResourceLoader.LoadMesh("res://scenes/weapons/rusted_dagger.tscn");;
+		Spatial rustedDagger = CustomResourceLoader.LoadMesh(ResourcePaths.RUSTED_DAGGER);
 		Equipment equipment = new Equipment(rustedDagger, EquipmentType.HELD);
 		equipment.Damage = 3;
 		return equipment;
 	}
 
 	private Equipment CreateLightSaber() {
-		Spatial lightSaber = CustomResourceLoader.LoadMesh("res://scenes/weapons/rusted_dagger.tscn");
+		Spatial lightSaber = CustomResourceLoader.LoadMesh(ResourcePaths.LIGHTSABER);
 		Equipment equipment = new Equipment(lightSaber, EquipmentType.HELD);
 		equipment.Damage = 15;
 		return equipment;
 	}
 
 	private Consumable CreateHealingPotion() {
-		Spatial healthPotion = CustomResourceLoader.LoadMesh("res://scenes/weapons/rusted_dagger.tscn");
+		Spatial healthPotion = CustomResourceLoader.LoadMesh(ResourcePaths.HEALTH_POTION);
 		return new Consumable(40, healthPotion);
 	}
 	}

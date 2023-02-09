@@ -9,7 +9,7 @@ using Godot;
 using Pawn.Controller;
 using Pawn.Item;
 using Pawn.Action.Ability;
-
+using Util;
 namespace Pawn
 {
 	//What exactally do I want to be able to setup?
@@ -21,7 +21,7 @@ namespace Pawn
 		KdTreeController kdTreeController;
 		PawnController pawn;
 
-		private static string PAWN_RIG_RESOURCE_FILE_DEFAULT = "res://assets/basic_pawn.glb";
+		private static string PAWN_RIG_RESOURCE_FILE_DEFAULT = ResourcePaths.PAWN_MODEL;
 		private string pawnRigResourceFile = PAWN_RIG_RESOURCE_FILE_DEFAULT;
 		public static PawnController CreateTrainingDummy(Vector3 location, 
 														Node parent, 
@@ -37,7 +37,7 @@ namespace Pawn
 		public PawnControllerBuilder(Node parent, KdTreeController _kdTreeController, Navigation navigation){
 			//TODO: my custom resource loader should support return types other than spatial...
 			//But then how do I create defaults?
-			pawn = ResourceLoader.Load<PackedScene>("res://scenes/pawn/pawn.tscn").Instance<PawnController>();
+			pawn = ResourceLoader.Load<PackedScene>(ResourcePaths.PAWN_SCENE).Instance<PawnController>();
 			parent.AddChild(pawn);
 
 			kdTreeController = _kdTreeController;
