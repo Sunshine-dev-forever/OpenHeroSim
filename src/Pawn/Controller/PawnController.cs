@@ -5,6 +5,7 @@ using Serilog;
 using Pawn.Tasks;
 using System.Collections.Generic;
 using Pawn.Item;
+using Util;
 
 //HAVE TO CALL Setup() before this node will function!!!
 namespace Pawn.Controller
@@ -22,6 +23,7 @@ namespace Pawn.Controller
 
 		public PawnBrainController PawnBrain {get;}
 		private SensesStruct sensesStruct;
+		private ITask currentTask = new InvalidTask();
 
 		//ALL OF THE BELOW VARIABLES ARE CREATED IN Setup() or _Ready
 		private SensesController sensesController = null!;
@@ -33,7 +35,8 @@ namespace Pawn.Controller
 		private NavigationAgent navigationAgent = null!;
 		private RigidBody rigidBody = null!;
 		public MovementController MovementController {get; private set;} = null!;
-		private ITask currentTask = new InvalidTask();
+
+		private KdTreeController KdTreeController = null!;
 		
 		//if death has been started, then this pawn is in the process of Dying
 		public bool IsDying {get { return startedDeath != DateTime.MaxValue;}}
@@ -75,6 +78,7 @@ namespace Pawn.Controller
 		//for the PackedScene.Instance function
 		public void Setup(KdTreeController kdTreeController)
 		{
+			KdTreeController = kdTreeController;
 			sensesController = new SensesController(kdTreeController, this);
 			VisualController.ForceVisualUpdate(PawnInventory);
 		}
@@ -154,8 +158,24 @@ namespace Pawn.Controller
 
 		private void Die()
 		{
+			CreateGraveStone();
+			//free all memory
+			//PawnInventory really should not have a reference to anything, since the gravestone should contain
+			//all of this pawns items, but whatever
 			PawnInventory.QueueFree();
 			this.QueueFree();
+		}
+
+		private void CreateGraveStone() {
+			Spatial TreasureChestMesh = CustomResourceLoader.LoadMesh(ResourcePaths.GRAVESTONE);
+			ItemContainer itemContainer = new ItemContainer(PawnInventory.EmptyAllItems(), TreasureChestMesh);
+			//Where goes the item container?????????????????????
+			//TODO: I need to inject a place to put gravestones into this pawn
+			//Anykind of summoning ability or cloning will also need that place
+			Node SUPER_TEMP_CHANGE_ME_PARENT = GetNode("/root/Spatial");
+			SUPER_TEMP_CHANGE_ME_PARENT.AddChild(itemContainer);
+			itemContainer.GlobalTransform = new Transform(itemContainer.GlobalTransform.basis, this.GlobalTransform.origin);
+			KdTreeController.AddInteractable(itemContainer);
 		}
 
 		public void Adhoc()

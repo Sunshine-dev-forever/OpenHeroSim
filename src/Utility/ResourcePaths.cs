@@ -14,5 +14,6 @@ namespace Util {
 		public static string PAWN_MODEL = "res://assets/basic_pawn.glb";
 		//Pawn scene comes with all the scripts and structure
 		public static string PAWN_SCENE = "res://scenes/pawn/pawn.tscn";
+		public static string GRAVESTONE = "res://scenes/world_objects/gravestone.tscn";
 	}
 }

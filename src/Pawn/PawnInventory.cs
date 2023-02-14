@@ -8,11 +8,29 @@ namespace Pawn {
 	public class PawnInventory
 	{
 		//Held items should be seperate, but that is a later issue
+		//TODO: both wornGear and Inventory should be private
 		public Dictionary<EquipmentType, Equipment> wornGear;
 		public List<IItem> inventory;
 		public PawnInventory() {
 			inventory = new List<IItem>();
 			wornGear = new Dictionary<EquipmentType, Equipment>();
+		}
+
+		//Returns all items in the pawn's inventory, including equiptment
+		public List<IItem> GetAllItems() {
+			List<IItem> rtn = new List<IItem>();
+			rtn.AddRange(inventory);
+			rtn.AddRange(wornGear.Values);
+			return rtn;
+		}
+
+		//Returns all items in the pawn's inventory, including equiptment
+		//Removes the reference of all items from the pawns inventory
+		public List<IItem> EmptyAllItems() {
+			List<IItem> rtn = GetAllItems();
+			inventory = new List<IItem>();
+			wornGear = new Dictionary<EquipmentType, Equipment>();
+			return rtn;
 		}
 
 		//returns null if no equiptment of that type is worn
