@@ -77,7 +77,7 @@ namespace Pawn
 		}
 
 		public PawnControllerBuilder AddConsumable(Consumable item) {
-			pawn.PawnInventory.inventory.Add(item);
+			pawn.PawnInventory.AddItem(item);
 			return this;
 		}
 

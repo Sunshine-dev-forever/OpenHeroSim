@@ -41,7 +41,7 @@ namespace Pawn.Goal {
 					container.Items.Remove(newWeapon);
 				} 
 			} else if (item is Consumable) {
-				pawnController.PawnInventory.inventory.Add((Consumable) item);
+				pawnController.PawnInventory.AddItem((Consumable) item);
 				container.Items.Remove(item);
 			} else {
 				Log.Error("Loot goal mangaged to find something other than a weapon or consumable as an item");

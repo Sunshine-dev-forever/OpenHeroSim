@@ -7,28 +7,54 @@ using Pawn.Item;
 namespace Pawn {
 	public class PawnInventory
 	{
+		//for now all pawns can only carry 5 items
+		private static int INVENTORY_SPACE = 5;
 		//Held items should be seperate, but that is a later issue
-		//TODO: both wornGear and Inventory should be private
-		public Dictionary<EquipmentType, Equipment> wornGear;
-		public List<IItem> inventory;
+		private Dictionary<EquipmentType, Equipment> wornGear;
+		private List<IItem> bag;
 		public PawnInventory() {
-			inventory = new List<IItem>();
+			bag = new List<IItem>();
 			wornGear = new Dictionary<EquipmentType, Equipment>();
 		}
 
 		//Returns all items in the pawn's inventory, including equiptment
 		public List<IItem> GetAllItems() {
 			List<IItem> rtn = new List<IItem>();
-			rtn.AddRange(inventory);
+			rtn.AddRange(bag);
 			rtn.AddRange(wornGear.Values);
 			return rtn;
+		}
+
+		public List<IItem> GetAllItemsInBag() {
+			return new List<IItem>(bag);
+		}
+
+		public void AddItem(IItem item) {
+			bag.Add(item);
+		}
+
+		//Tries to remove items from the bag first
+		//Returns true if the item was successfully removed, otherwise false
+		public bool RemoveItem(IItem item) {
+			//Try to remove items from bag first
+			if(bag.Contains(item)) {
+				return bag.Remove(item);
+			} else if (item is Equipment) {
+				//Then we will remove equipt gear
+				Equipment equipment = (Equipment) item;
+				if(wornGear.ContainsValue(equipment)){
+					return wornGear.Remove(equipment.EquipmentType);
+				}
+			}
+			//failed to remove anything
+			return false;
 		}
 
 		//Returns all items in the pawn's inventory, including equiptment
 		//Removes the reference of all items from the pawns inventory
 		public List<IItem> EmptyAllItems() {
 			List<IItem> rtn = GetAllItems();
-			inventory = new List<IItem>();
+			bag = new List<IItem>();
 			wornGear = new Dictionary<EquipmentType, Equipment>();
 			return rtn;
 		}
@@ -47,7 +73,7 @@ namespace Pawn {
 			if(wornGear.ContainsKey(equipment.EquipmentType)) {
 				Equipment oldEquipment = wornGear[equipment.EquipmentType];
 				//store it for later
-				inventory.Add(oldEquipment);
+				bag.Add(oldEquipment);
 			}
 			wornGear[equipment.EquipmentType] = equipment;
 		}
@@ -73,7 +99,7 @@ namespace Pawn {
 			foreach(Equipment equipment in wornGear.Values) {
 				equipment.QueueFree();
 			}
-			foreach(IItem item in inventory) {
+			foreach(IItem item in bag) {
 				item.QueueFree();
 			}
 		}

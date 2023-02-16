@@ -12,7 +12,7 @@ namespace Pawn.Goal {
 	{
 		public ITask GetTask(PawnController pawnController, SensesStruct sensesStruct) {
 			IItem? currentItem = null;
-			foreach( IItem item in pawnController.PawnInventory.inventory) {
+			foreach( IItem item in pawnController.PawnInventory.GetAllItemsInBag()) {
 				if(item is Consumable) {
 					currentItem = item;
 					break;
@@ -30,7 +30,7 @@ namespace Pawn.Goal {
 
 			Consumable potion = (Consumable) currentItem;
 			System.Action executable = () => {
-				pawnController.PawnInventory.inventory.Remove(potion);
+				pawnController.PawnInventory.RemoveItem(potion);
 				//TODO: TakeDamage should be called 'change health'
 				pawnController.TakeHealing(potion.Healing);
 			};
