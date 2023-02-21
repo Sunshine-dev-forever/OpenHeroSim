@@ -11,23 +11,20 @@ namespace Pawn.Goal {
 	public class LootGoal : IPawnGoal
 	{
 		public ITask GetTask(PawnController pawnController, SensesStruct sensesStruct) {
-			List<ItemContainer> nearbyLoot = sensesStruct.nearbyContainers;
-			if(nearbyLoot.Count == 0) {
+			ItemContainer? nearbyLoot = GetFirstNonemptyContainer(sensesStruct.nearbyContainers);
+			if(nearbyLoot == null) {
 				return new InvalidTask();
 			}
-			ItemContainer containerToLoot = nearbyLoot[0];
 
 			System.Action executable = () => {
-				for (int i = containerToLoot.Items.Count - 1 ; i >= 0; i--) {
-					IItem item = containerToLoot.Items[i];
-					processItem(item, pawnController, containerToLoot);
+				for (int i = nearbyLoot.Items.Count - 1 ; i >= 0; i--) {
+					IItem item = nearbyLoot.Items[i];
+					processItem(item, pawnController, nearbyLoot);
 				}
-				//TODO: the container should free itself when it is empty after a set time
-				containerToLoot.QueueFree();
 			};
 
 			IAction action = ActionBuilder.Start(pawnController, executable).Animation(AnimationName.Interact).Finish();
-			ITargeting targeting = new InteractableTargeting(nearbyLoot[0]);
+			ITargeting targeting = new InteractableTargeting(nearbyLoot);
 			return new Task(targeting, action);
 		}
 
@@ -50,6 +47,15 @@ namespace Pawn.Goal {
 			} else {
 				Log.Error("Loot goal mangaged to find something other than a weapon or consumable as an item");
 			}
+		}
+
+		private ItemContainer? GetFirstNonemptyContainer(List<ItemContainer> nearbyContainers) {
+			foreach( ItemContainer itemContainer in nearbyContainers) {
+				if(itemContainer.Items.Count > 1) {
+					return itemContainer;
+				}
+			}
+			return null;
 		}
 	}
 }
