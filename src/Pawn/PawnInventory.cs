@@ -29,8 +29,15 @@ namespace Pawn {
 			return new List<IItem>(bag);
 		}
 
-		public void AddItem(IItem item) {
-			bag.Add(item);
+		//returns true if the item was successfully added
+		public bool AddItem(IItem item) {
+			//if out of inventory space then fail
+			if(bag.Count >= INVENTORY_SPACE) {
+				return false;
+			} else {
+				bag.Add(item);
+				return true;
+			}
 		}
 
 		//Tries to remove items from the bag first
