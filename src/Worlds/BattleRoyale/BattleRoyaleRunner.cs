@@ -11,7 +11,7 @@ using Pawn.Item;
 using Pawn.Action.Ability;
 using Util;
 
-namespace Testing.BattleRoyale {
+namespace Worlds.BattleRoyale {
 	public class BattleRoyaleRunner : Node
 	{
 		private static int NUMBER_OF_PAWNS_TO_SPAWN = 100;

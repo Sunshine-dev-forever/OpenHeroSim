@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using Pawn.Tasks;
 using Pawn.Action;
 using Pawn.Controller;
-using Testing.BattleRoyale;
+using Worlds.BattleRoyale;
 using Pawn.Targeting;
 using Godot;
+using Pawn.Goal;
 
-namespace Pawn.Goal {
+namespace Worlds.BattleRoyale {
 	public class BattleRoyaleWanderGoal : IPawnGoal
 	{
 		public BattleRoyaleWanderGoal() {}
