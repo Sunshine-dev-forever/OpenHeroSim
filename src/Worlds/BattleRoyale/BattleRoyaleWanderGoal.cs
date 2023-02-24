@@ -8,6 +8,7 @@ using Worlds.BattleRoyale;
 using Pawn.Targeting;
 using Godot;
 using Pawn.Goal;
+using Pawn.Controller.Components;
 
 namespace Worlds.BattleRoyale {
 	public class BattleRoyaleWanderGoal : IPawnGoal

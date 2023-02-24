@@ -8,6 +8,7 @@ using Pawn.Controller;
 using Pawn.Item;
 using Pawn.Targeting;
 using System.Linq;
+using Pawn.Controller.Components;
 
 namespace Pawn.Goal {
 	public class DefendSelfGoal : IPawnGoal

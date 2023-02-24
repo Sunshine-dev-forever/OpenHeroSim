@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Pawn.Controller.Components;
 
 namespace Pawn.Controller
 {

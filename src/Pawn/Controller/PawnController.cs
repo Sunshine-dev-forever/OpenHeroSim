@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Pawn.Item;
 using Util;
 using UI;
+using Pawn.Controller.Components;
 
 //HAVE TO CALL Setup() before this node will function!!!
 namespace Pawn.Controller

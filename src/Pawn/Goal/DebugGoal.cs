@@ -5,6 +5,8 @@ using Pawn.Tasks;
 using Pawn.Action;
 using Pawn.Controller;
 using Pawn.Targeting;
+using Pawn.Controller.Components;
+
 namespace Pawn.Goal {
 	public class DebugGoal : IPawnGoal
 	{

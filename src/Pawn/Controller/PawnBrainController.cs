@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Pawn.Tasks;
 using Pawn.Action;
 using Pawn.Goal;
+using Pawn.Controller.Components;
 
 namespace Pawn.Controller
 {
