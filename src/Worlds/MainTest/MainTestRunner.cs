@@ -87,7 +87,7 @@ namespace Worlds.MainTest
 			Random rand = new Random();
 			int rng = rand.Next(0,3);
 			switch (rng) {
-				case 0: return CreateLightSaber();
+				case 0: return CreateSpearMelee();
 				case 1: return CreateRustedDagger();
 				case 2: return CreateIronSword();
 				default:
@@ -140,6 +140,12 @@ namespace Worlds.MainTest
 			Spatial lightSaber = CustomResourceLoader.LoadMesh(ResourcePaths.LIGHTSABER);
 			Equipment equipment = new Equipment(lightSaber, EquipmentType.HELD);
 			equipment.Damage = 10;
+			return equipment;
+		}
+		private Equipment CreateSpearMelee() {
+			Spatial spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
+			Equipment equipment = new Equipment(spear, EquipmentType.HELD);
+			equipment.Damage = 40;
 			return equipment;
 		}
 

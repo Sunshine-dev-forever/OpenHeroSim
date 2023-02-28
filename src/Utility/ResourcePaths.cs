@@ -15,5 +15,7 @@ namespace Util {
 		//Pawn scene comes with all the scripts and structure
 		public static string PAWN_SCENE = "res://scenes/pawn/pawn.tscn";
 		public static string GRAVESTONE = "res://scenes/world_objects/gravestone.tscn";
+		//A kind of throwing spear used in the middle east. It is really cool!
+		public static string DJERID = "res://scenes/weapons/djerid.tscn";
 	}
 }
