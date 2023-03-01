@@ -171,11 +171,9 @@ namespace Pawn.Controller
 		private void CreateGraveStone() {
 			Spatial TreasureChestMesh = CustomResourceLoader.LoadMesh(ResourcePaths.GRAVESTONE);
 			ItemContainer itemContainer = new ItemContainer(PawnInventory.EmptyAllItems(), TreasureChestMesh);
-			//Where goes the item container?????????????????????
-			//TODO: I need to inject a place to put gravestones into this pawn
-			//Anykind of summoning ability or cloning will also need that place
-			Node SUPER_TEMP_CHANGE_ME_PARENT = GetNode("/root/Spatial");
-			SUPER_TEMP_CHANGE_ME_PARENT.AddChild(itemContainer);
+			//Add newly created object to this objects current parent
+			//This might be an issue somehow... but probably now
+			this.GetParent().AddChild(itemContainer);
 			itemContainer.GlobalTransform = new Transform(itemContainer.GlobalTransform.basis, this.GlobalTransform.origin);
 			KdTreeController.AddInteractable(itemContainer);
 		}
