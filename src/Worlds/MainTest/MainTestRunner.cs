@@ -10,6 +10,7 @@ using Pawn.Goal;
 using Pawn.Item;
 using Pawn.Action.Ability;
 using Util;
+using Pawn.Targeting;
 
 namespace Worlds.MainTest 
 {
@@ -27,20 +28,31 @@ namespace Worlds.MainTest
 			if(input.IsActionPressed("mouse_left_click")) {
 				
 			} else if(input.IsActionPressed("ui_left")) {
-				CreateItemContainer();
+				CreateTestProjectile();
 			} else if (input.IsActionPressed("ui_right")) {
 				CreateHealingPotionTester();
 			}
 		}
 		private float TimeSinceLastPawnCreation = 4;
+		//lazy, bad coding
+		private PawnController lastPawnSpawned = null!;
 		public override void _Process(float delta)
 		{
 			TimeSinceLastPawnCreation += delta;
 			if(TimeSinceLastPawnCreation > 5) {
 				TimeSinceLastPawnCreation = 0;
-				CreatePawn();
+				lastPawnSpawned = CreatePawn();
 			}
 			
+		}
+
+		private void CreateTestProjectile() {
+
+			Spatial spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
+			ITargeting target = new InteractableTargeting(lastPawnSpawned);
+			Projectile projectile = new Projectile(spear, target, 3 );
+			this.AddChild(projectile);
+			projectile.GlobalTransform = new Transform(projectile.GlobalTransform.basis, new Vector3(0,5,0));
 		}
 
 		private PawnController CreatePawn(){
