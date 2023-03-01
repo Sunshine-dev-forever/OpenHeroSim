@@ -12,7 +12,7 @@ public class ItemContainer : Spatial, IInteractable {
 	public List<IItem> Items;
 	public Spatial Mesh;
 	private DateTime TimeSinceLastEmpty = DateTime.MaxValue;
-	private static int TIME_TO_LIVE_WHEN_EMPTY_SECONDS = 30;
+	private static int TIME_TO_LIVE_WHEN_EMPTY_SECONDS = 5;
 
 	public override void _Process(float delta)
 	{
