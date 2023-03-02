@@ -14,6 +14,7 @@ namespace Pawn.Controller
 {
 	public class PawnController : Node, IInteractable
 	{
+		private static int TIME_TO_WAIT_AFTER_DEATH = 2;
 		//TODO: This might be bad design, time will tell
 		public Transform GlobalTransform
 		{
@@ -109,7 +110,6 @@ namespace Pawn.Controller
 		}
 
 		public void HandleDying() {
-			int TIME_TO_WAIT_AFTER_DEATH = 5;
 			if( (DateTime.Now - startedDeath).TotalSeconds > TIME_TO_WAIT_AFTER_DEATH) {
 				//Corpse has gone cold for 5 seconds, we finally pass
 				Die();

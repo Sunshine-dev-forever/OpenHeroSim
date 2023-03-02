@@ -47,10 +47,11 @@ namespace Worlds.MainTest
 		}
 
 		private void CreateTestProjectile() {
-
 			Spatial spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
-			ITargeting target = new InteractableTargeting(lastPawnSpawned);
-			Projectile projectile = new Projectile(spear, target, 3 );
+			//I add an offset so the spear target's the pawns chest and not the pawn's feet
+			Vector3 offset = new Vector3(0,1,0);
+			ITargeting target = new InteractableTargeting(lastPawnSpawned, offset);
+			Projectile projectile = new Projectile(spear, target, 50 );
 			this.AddChild(projectile);
 			projectile.GlobalTransform = new Transform(projectile.GlobalTransform.basis, new Vector3(0,5,0));
 		}
