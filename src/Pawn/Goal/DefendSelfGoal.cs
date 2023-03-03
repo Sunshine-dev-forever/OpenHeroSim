@@ -24,7 +24,7 @@ namespace Pawn.Goal {
 			PawnController otherPawnController = nearbyLivingPawns[0];
 			List<ActionTags> requestedTags = new List<ActionTags>();
 			requestedTags.Add(ActionTags.COMBAT);
-			List<IAbility> validAbilities = pawnController.PawnInformation.GetAllAbilitiesWithTags(requestedTags, false);
+			List<IAbility> validAbilities = pawnController.PawnInformation.GetAllAbilitiesWithTags(requestedTags, pawnController, otherPawnController);
 			//no matter what we are targeting the other pawn
 			ITargeting targeting = new InteractableTargeting(otherPawnController);
 			//The only valid action in combat is stabbing

@@ -51,12 +51,21 @@ namespace Pawn.Action.Ability {
 			double damage = ownerPawnController.PawnInformation.BaseDamage + ItemToThrow.Damage;
 			//hopefully duplicate works as intended
 			//TODO: actually remove ammo
-			//ownerPawnController.PawnInventory.RemoveItem(ItemToThrow);
+			ownerPawnController.PawnInventory.RemoveItem(ItemToThrow);
 			Spatial mesh = (Spatial) ItemToThrow.Mesh.Duplicate();
 
 			otherPawnController.TakeDamage(damage);
 			//also make a new projectile with the mesh in question
 			CreateProjectile(mesh, ownerPawnController, otherPawnController);
+		}
+
+		public Boolean CanBeUsed(PawnController ownerPawnController, PawnController otherPawnController) {
+			foreach (IItem item in ownerPawnController.PawnInventory.GetAllItemsInBag()) {
+				if(item is Throwable) {
+					return true;
+				}
+			}
+			return false;
 		}
 
 		private void CreateProjectile(Spatial mesh, PawnController ownerPawnController, PawnController otherPawnController) {

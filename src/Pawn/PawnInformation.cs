@@ -29,18 +29,22 @@ namespace Pawn {
 			}
 		}
 
-		public List<IAbility> GetAllAbilitiesWithTags(List<ActionTags> actionTags, bool canBeOnCooldown) {
+		public List<IAbility> GetAllAbilitiesWithTags(List<ActionTags> actionTags, PawnController ownerPawnController, PawnController otherPawnController) {
 			//Convert to dictionary values to IEnumerable<ActionStruct>
 			IEnumerable<AbilityStruct> actionStructs = abilitiesDict.Values.AsEnumerable();
 			//Get all actions with the specified tags
 			actionStructs = actionStructs.Where( (actionStruct) => actionStruct.ability.Tags.Intersect(actionTags).Count() == actionTags.Count);
 			//filter out on CD stuff
-			if(!canBeOnCooldown) {
-				actionStructs = actionStructs.Where( (actionStruct) =>  
-													(DateTime.Now - actionStruct.timeLastUsed).TotalMilliseconds 
-													> actionStruct.ability.CooldownMilliseconds);
-			}
-			return actionStructs.Select((actionStruct) => actionStruct.ability).ToList();
+			actionStructs = actionStructs.Where( (actionStruct) =>  
+												(DateTime.Now - actionStruct.timeLastUsed).TotalMilliseconds 
+												> actionStruct.ability.CooldownMilliseconds);
+
+			//convert to abilites list
+			IEnumerable<IAbility> abilities = actionStructs.Select((actionStruct) => actionStruct.ability);
+			//filter out abilities that can not be used in current envirionmental context
+			abilities = abilities.Where<IAbility>( (ability) => (ability.CanBeUsed(ownerPawnController, otherPawnController))).ToList();
+
+			return abilities.ToList();
 		}
 
 		public bool HasAbility(string abilityName) {

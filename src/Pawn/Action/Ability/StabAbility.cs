@@ -20,6 +20,10 @@ namespace Pawn.Action.Ability {
 		public IAbility Duplicate(PawnController _ownerPawnController, PawnController _otherPawnController) {
 			return new StabAbility(_ownerPawnController, _otherPawnController);
 		}
+		public Boolean CanBeUsed(PawnController _ownerPawnController, PawnController _otherPawnController){
+			//Stab abilty should pretty much always be valid to use
+			return true;
+		}
 		private static int STAB_ACTION_COOLDOWN = 4000;
 		private static float STAB_ACTION_MAX_RANGE = 2;
 		public int CooldownMilliseconds {get {return STAB_ACTION_COOLDOWN;} }

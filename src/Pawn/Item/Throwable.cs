@@ -5,7 +5,8 @@ using Pawn.Controller;
 namespace Pawn.Item {
 	public class Throwable : IItem
 	{
-		public double Damage {get; set;} = 0;
+		public double Damage {get; set;} = 40;
+		public int Count = 4;
 		public Spatial Mesh {get;}
 		public Throwable(Spatial mesh, double _damage) {
 			Mesh = mesh;
