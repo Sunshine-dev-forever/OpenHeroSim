@@ -45,7 +45,7 @@ namespace Worlds.MainTest
 			TimeSinceLastPawnCreation += delta;
 			if(TimeSinceLastPawnCreation > 5) {
 				TimeSinceLastPawnCreation = 0;
-				//lastPawnSpawned = CreatePawn();
+				lastPawnSpawned = CreatePawn();
 			}
 			
 		}

@@ -50,7 +50,8 @@ namespace Pawn.Action.Ability {
 			}
 			double damage = ownerPawnController.PawnInformation.BaseDamage + ItemToThrow.Damage;
 			//hopefully duplicate works as intended
-			ownerPawnController.PawnInventory.RemoveItem(ItemToThrow);
+			//TODO: actually remove ammo
+			//ownerPawnController.PawnInventory.RemoveItem(ItemToThrow);
 			Spatial mesh = (Spatial) ItemToThrow.Mesh.Duplicate();
 
 			otherPawnController.TakeDamage(damage);
