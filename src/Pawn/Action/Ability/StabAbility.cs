@@ -20,7 +20,7 @@ namespace Pawn.Action.Ability {
 		public IAbility Duplicate(PawnController _ownerPawnController, PawnController _otherPawnController) {
 			return new StabAbility(_ownerPawnController, _otherPawnController);
 		}
-		private static int STAB_ACTION_COOLDOWN = 2000;
+		private static int STAB_ACTION_COOLDOWN = 4000;
 		private static float STAB_ACTION_MAX_RANGE = 2;
 		public int CooldownMilliseconds {get {return STAB_ACTION_COOLDOWN;} }
 		public string Name {get {return this.GetType().Name;}}

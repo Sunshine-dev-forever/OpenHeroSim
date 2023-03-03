@@ -28,9 +28,13 @@ namespace Worlds.MainTest
 			if(input.IsActionPressed("mouse_left_click")) {
 				
 			} else if(input.IsActionPressed("ui_left")) {
-				CreateTestProjectile();
+				//CreateTestProjectile();
+				Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
+			
+				Vector3 location = new Vector3(4,0,4);
+				PawnControllerBuilder.CreateTrainingDummy(location, this, kdTreeController, navigation);
 			} else if (input.IsActionPressed("ui_right")) {
-				CreateHealingPotionTester();
+				CreateThrowableTester();
 			}
 		}
 		private float TimeSinceLastPawnCreation = 4;
@@ -41,9 +45,32 @@ namespace Worlds.MainTest
 			TimeSinceLastPawnCreation += delta;
 			if(TimeSinceLastPawnCreation > 5) {
 				TimeSinceLastPawnCreation = 0;
-				lastPawnSpawned = CreatePawn();
+				//lastPawnSpawned = CreatePawn();
 			}
 			
+		}
+
+		public PawnController CreateThrowableTester() {
+			Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
+			
+			Vector3 location = new Vector3(0,5,0);
+			return PawnControllerBuilder.Start(this, kdTreeController, navigation)
+								.AddGoal(new HealGoal())
+								.AddGoal(new DefendSelfGoal())
+								.AddGoal(new LootGoal())
+								.AddGoal(new WanderGoal())
+								.AddAbility(new ThrowAbility())
+								.AddAbility(new StabAbility())
+								.WearEquipment(GetRandomWeapon())
+								.WearEquipment(GetHelmet())
+								.AddItem(CreateThrowable())
+								.Location(location)
+								.Finish();		
+		}
+
+		public Throwable CreateThrowable() {
+			Spatial spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
+			return new Throwable(spear, 60);
 		}
 
 		private void CreateTestProjectile() {
@@ -118,7 +145,7 @@ namespace Worlds.MainTest
 								.AddGoal(new WanderGoal())
 								.Location(new Vector3(0,5,0))
 								.WearEquipment(CreateLightSaber())
-								.AddConsumable(CreateHealingPotion()).AddConsumable(CreateHealingPotion())
+								.AddItem(CreateHealingPotion()).AddItem(CreateHealingPotion())
 								.DealDamage(50)
 								.Finish();
 		}
