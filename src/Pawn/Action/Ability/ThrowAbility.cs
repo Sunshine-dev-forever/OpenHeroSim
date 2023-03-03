@@ -26,7 +26,11 @@ namespace Pawn.Action.Ability {
 			//TODO: implement an item count/amunition system of some kind
 			foreach (IItem item in ownerPawnController.PawnInventory.GetAllItemsInBag()) {
 				if(item is Throwable) {
-					ItemToThrow = (Throwable) item;
+					if( ((Throwable) item).Count <= 0) {
+						Log.Warning("There is a throwable with an ammo count of 0 in a pawn inventory");
+					} else {
+						ItemToThrow = (Throwable) item;
+					}
 				}
 			}
 		}
@@ -50,8 +54,12 @@ namespace Pawn.Action.Ability {
 			}
 			double damage = ownerPawnController.PawnInformation.BaseDamage + ItemToThrow.Damage;
 			//hopefully duplicate works as intended
-			//TODO: actually remove ammo
-			ownerPawnController.PawnInventory.RemoveItem(ItemToThrow);
+			//remove 1 ammo
+			ItemToThrow.Count -= 1;
+			if(ItemToThrow.Count == 0) {
+				ownerPawnController.PawnInventory.RemoveItem(ItemToThrow);
+			}
+			
 			Spatial mesh = (Spatial) ItemToThrow.Mesh.Duplicate();
 
 			otherPawnController.TakeDamage(damage);
