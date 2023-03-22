@@ -70,7 +70,7 @@ namespace Pawn.Controller
 														VisualController,
 														navigationAgent,
 														downwardRayCast);
-			ActionController = new TaskExecutor(MovementController, VisualController, PawnInformation);
+			ActionController = new TaskExecutor(MovementController, VisualController, PawnInformation, PawnInventory);
 		}
 
 		//Setup HAS to be called for a pawn to work
@@ -95,7 +95,6 @@ namespace Pawn.Controller
 				//only living pawns get to think
 				sensesStruct = sensesController.UpdatePawnSenses(sensesStruct);
 				currentTask = PawnBrain.updateCurrentTask(currentTask, sensesStruct, this);
-				VisualController.ProcessTask(currentTask, PawnInventory);
 			}
 		}
 
@@ -105,7 +104,7 @@ namespace Pawn.Controller
 				//Placed in physics process since Handle task may call some functions
 				//in movement controller which **I Think** means this function has to be placed in 
 				//_PhysicsProcess
-				ActionController.HandleTask(currentTask);
+				ActionController.HandleTask(currentTask, PawnInventory);
 			}
 		}
 

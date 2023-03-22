@@ -16,11 +16,14 @@ namespace Pawn {
 		private MovementController movementController;
 		private VisualController visualController;
 		private PawnInformation pawnInformation;
+		private PawnInventory pawnInventory;
 
-		public TaskExecutor(MovementController _movementController, VisualController _visualController, PawnInformation _pawnInformation) {
+		public TaskExecutor(MovementController _movementController, VisualController _visualController, PawnInformation _pawnInformation,
+					PawnInventory _pawnInventory) {
 			movementController = _movementController;
 			visualController = _visualController;
 			pawnInformation = _pawnInformation;
+			pawnInventory = _pawnInventory;
 		}
 
 		public void ExecuteActionFromTask(ITask task) {
@@ -33,7 +36,7 @@ namespace Pawn {
 			actionInExecution.execute();
 		}
 
-		public void HandleTask(ITask task) {
+		public void HandleTask(ITask task, PawnInventory pawnInventory) {
 			if(!task.IsValid) {
 				//early exit on invalid task
 				return;
@@ -60,9 +63,10 @@ namespace Pawn {
 			movementController.ProcessMovement(task.GetTargetLocation(), pawnInformation.Speed);
 			if(movementController.HasFinishedMovement(task.Action.MaxRange)) {
 				movementController.Stop();
-				//we could get rid of the starting action state and just start he action here
+				
 				ExecuteActionFromTask(task);
 				task.TaskState = TaskState.USING_ACTION;
+				visualController.UpdateHeldItem(task.Action.HeldItem, pawnInventory);
 			} else {
 				//we also need to change animations
 				visualController.SetAnimation(AnimationName.Walking, true);

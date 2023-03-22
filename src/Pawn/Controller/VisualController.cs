@@ -14,8 +14,8 @@ namespace Pawn.Controller
 		Spatial riggedCharacterRootNode;
 
 		//TODO: All of the below should be in thier own class
-		BoneAttachment? heldItemParent = null;
-		BoneAttachment? scabbardParent = null;
+		BoneAttachment? heldItemBoneAttachment = null;
+		BoneAttachment? scabbardBoneAttachment = null;
 		Spatial? helmetParent = null;
 		Vector3 scabbardRotation = new Vector3();
 		Vector3 scabbardOrigin = new Vector3();
@@ -32,18 +32,11 @@ namespace Pawn.Controller
 		}
 		public override void _Ready(){}
 
-		public void ProcessTask(ITask task, PawnInventory pawnInventory) {
-			//ok lets try this again
-			if(task.Action.HeldItem == currentHeldItem) {
-				//item has not changed, we dont have to do anything
-				return;
-			}
-
-			//now we reset everything back to the way it was
+		//TODO: task executor will call this 
+		public void UpdateHeldItem(IItem? item, PawnInventory pawnInventory) {
+			//just assume it is a different Item every single time
 			ClearHeldItem();
-			//check to see if the currently held item should be our weapon
-			//TODO: held item should be a request of item type? How would that work for potions?
-			currentHeldItem = task.Action.HeldItem;
+			currentHeldItem = item;
 			Equipment? currentWeapon = pawnInventory.GetWornEquipment(EquipmentType.HELD);
 			if(currentHeldItem != currentWeapon) {
 				//then we must put our weapon back in scabbard
@@ -51,13 +44,13 @@ namespace Pawn.Controller
 			}
 			//if the next item to hold is null, we are done!
 			//or if there is no place to hold the item, we are done!
-			if(currentHeldItem == null || heldItemParent == null) {
+			if(currentHeldItem == null || heldItemBoneAttachment == null) {
 				return;
 			}
 			//new item to hold could have a parent, so we remove it
 			SceneTreeUtil.OrphanChild(currentHeldItem.Mesh);
 			//now we add the new item to our hand
-			heldItemParent.AddChild(currentHeldItem.Mesh);
+			heldItemBoneAttachment.AddChild(currentHeldItem.Mesh);
 			currentHeldItem.Mesh.Rotation = heldItemRotation;
 			currentHeldItem.Mesh.Transform = new Transform(currentHeldItem.Mesh.Transform.basis, heldItemOrigin);
 		}
@@ -89,24 +82,24 @@ namespace Pawn.Controller
 			currentHeldItem = null;
 		}
 
-		public void PutWeaponInScabbard(Equipment? currentWeapon) {
-			if(scabbardParent == null) {
+		private void PutWeaponInScabbard(Equipment? currentWeapon) {
+			if(scabbardBoneAttachment == null) {
 				return;
 			}
 			//no weapon
 			if(currentWeapon == null) {
 				//make sure there is no weapon in the scabbard
-				SceneTreeUtil.RemoveAllChildren(scabbardParent);
+				SceneTreeUtil.RemoveAllChildren(scabbardBoneAttachment);
 				return;
 			}
 			//if the current weapon is already in scabbard, do nothing
-			if(currentWeapon.Mesh.GetParent() == scabbardParent) {
+			if(currentWeapon.Mesh.GetParent() == scabbardBoneAttachment) {
 				return;
 			}
 			//if the current weapon has a parent other than the scabbard, remove it
 			SceneTreeUtil.OrphanChild(currentWeapon.Mesh);
 			//put weapon in scabbard
-			scabbardParent.AddChild(currentWeapon.Mesh);
+			scabbardBoneAttachment.AddChild(currentWeapon.Mesh);
 			currentWeapon.Mesh.Rotation = scabbardRotation;
 			currentWeapon.Mesh.Transform = new Transform(currentWeapon.Mesh.Transform.basis, scabbardOrigin);
 		}
@@ -155,17 +148,17 @@ namespace Pawn.Controller
 
 		//TODO: SetupHeldItem, SetupScabbard, SetupHelmet, and whatever else should be in a for loop some how
 		private void SetupHeldItem(Spatial pawnMeshRoot) {
-			heldItemParent = pawnMeshRoot.GetNodeOrNull<BoneAttachment>("Character/Skeleton/BoneAttachment");
-			if(heldItemParent == null) {
+			heldItemBoneAttachment = pawnMeshRoot.GetNodeOrNull<BoneAttachment>("Character/Skeleton/BoneAttachment");
+			if(heldItemBoneAttachment == null) {
 				//should be common, silently fail
 				return;
 			}
-			if(heldItemParent.GetChildCount() > 1) {
+			if(heldItemBoneAttachment.GetChildCount() > 1) {
 				Log.Warning("More than one child found in setupHeldItem");
 			}
 			//loop should only run once
 			//Clears children
-			foreach(Node node in heldItemParent.GetChildren()) {
+			foreach(Node node in heldItemBoneAttachment.GetChildren()) {
 				//I know these have to be spatials
 				Spatial betterNode = (Spatial) node;
 				heldItemRotation = betterNode.Rotation;
@@ -175,16 +168,16 @@ namespace Pawn.Controller
 		}
 
 		private void SetupScabbard(Spatial pawnMeshRoot) {
-			scabbardParent = pawnMeshRoot.GetNodeOrNull<BoneAttachment>("Character/Skeleton/BoneAttachment2");
-			if(scabbardParent == null) {
+			scabbardBoneAttachment = pawnMeshRoot.GetNodeOrNull<BoneAttachment>("Character/Skeleton/BoneAttachment2");
+			if(scabbardBoneAttachment == null) {
 				//should be common, silently fail
 				return;
 			}
-			if(scabbardParent.GetChildCount() > 1) {
+			if(scabbardBoneAttachment.GetChildCount() > 1) {
 				Log.Warning("More than one child found in SetupScabbard");
 			}
 			//loop should only run once
-			foreach(Node node in scabbardParent.GetChildren()) {
+			foreach(Node node in scabbardBoneAttachment.GetChildren()) {
 				Spatial betterNode = (Spatial) node;
 				scabbardRotation = betterNode.Rotation;
 				scabbardOrigin = betterNode.Transform.origin;

@@ -34,7 +34,7 @@ namespace Worlds.MainTest
 				Vector3 location = new Vector3(4,0,4);
 				PawnControllerBuilder.CreateTrainingDummy(location, this, kdTreeController, navigation);
 			} else if (input.IsActionPressed("ui_right")) {
-				CreateThrowableTester();
+				CreatePawnInCenter();
 			}
 		}
 		private float TimeSinceLastPawnCreation = 4;
@@ -87,6 +87,23 @@ namespace Worlds.MainTest
 			Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
 			
 			Vector3 location = GenerateRandomVector();
+			
+			return PawnControllerBuilder.Start(this, kdTreeController, navigation)
+								.AddGoal(new HealGoal())
+								.AddGoal(new DefendSelfGoal())
+								.AddGoal(new LootGoal())
+								.AddGoal(new WanderGoal())
+								.AddAbility(new StabAbility())
+								.WearEquipment(GetRandomWeapon())
+								.WearEquipment(GetHelmet())
+								.Location(location)
+								.Finish();		
+		}
+
+		private PawnController CreatePawnInCenter(){
+			Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
+			
+			Vector3 location = new Vector3(0,5,0);
 			
 			return PawnControllerBuilder.Start(this, kdTreeController, navigation)
 								.AddGoal(new HealGoal())
