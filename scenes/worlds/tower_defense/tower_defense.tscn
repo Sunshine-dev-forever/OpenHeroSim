@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://src/Worlds/TowerDefense/TowerDefenseRunner.cs" type="Script" id=1]
+[ext_resource path="res://scenes/visual_sphere.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/gui/debug_gui.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/UI/DebugUI.cs" type="Script" id=4]
 [ext_resource path="res://scenes/worlds/main_test/ground.tres" type="PlaneMesh" id=5]
@@ -50,6 +51,7 @@ skin = SubResource( 2 )
 skeleton = NodePath("../../../..")
 
 [node name="CollisionShape" type="CollisionShape" parent="Navigation/NavigationMeshInstance/Floor"]
+transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0 )
 shape = SubResource( 3 )
 
 [node name="RoadBlock3" type="StaticBody" parent="Navigation/NavigationMeshInstance"]
@@ -99,6 +101,18 @@ mesh = SubResource( 4 )
 
 [node name="Test" type="Spatial" parent="."]
 script = ExtResource( 1 )
+
+[node name="WayPoint1" parent="Test" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -22.6594, 1.90196, -0.277009 )
+
+[node name="WayPoint2" parent="Test" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6.82551, 1.93736, -11.8765 )
+
+[node name="WayPoint3" parent="Test" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12.6027, 1.66421, -4.19803 )
+
+[node name="Spawn" parent="Test" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35.4219, 1.90196, -0.277009 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_left = 8.0
