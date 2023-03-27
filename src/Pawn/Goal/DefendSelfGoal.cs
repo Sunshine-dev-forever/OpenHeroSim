@@ -13,7 +13,7 @@ using Pawn.Controller.Components;
 namespace Pawn.Goal {
 	public class DefendSelfGoal : IPawnGoal
 	{
-		public ITask GetTask(PawnController pawnController, SensesStruct sensesStruct) {
+		public ITask GetTask(PawnController ownerPawnController, SensesStruct sensesStruct) {
 			Func<PawnController, bool> pawnIsAliveAndValid = (pawnController) => { 
 				return pawnController != null && pawnController.IsInstanceValid() && !pawnController.IsDying;
 			};
@@ -21,12 +21,24 @@ namespace Pawn.Goal {
 			if(nearbyLivingPawns.Count == 0) {
 				return new InvalidTask();
 			}
-			PawnController otherPawnController = nearbyLivingPawns[0];
+			PawnController? pawnToAttack = null;
+			//need to get the nearest pawn on the right faction
+			foreach (PawnController pawn in nearbyLivingPawns) {
+				string otherFaction = pawn.PawnInformation.Faction;
+				string ownerFaction = ownerPawnController.PawnInformation.Faction;
+				if(ownerFaction.Equals(PawnInformation.NO_FACTION) || !otherFaction.Equals(otherFaction)){
+					pawnToAttack = pawn;
+					break;
+				}
+			}
+			if(pawnToAttack == null) {
+				return new InvalidTask();
+			}
 			List<ActionTags> requestedTags = new List<ActionTags>();
 			requestedTags.Add(ActionTags.COMBAT);
-			List<IAbility> validAbilities = pawnController.PawnInformation.GetAllAbilitiesWithTags(requestedTags, pawnController, otherPawnController);
+			List<IAbility> validAbilities = ownerPawnController.PawnInformation.GetAllAbilitiesWithTags(requestedTags, ownerPawnController, pawnToAttack);
 			//no matter what we are targeting the other pawn
-			ITargeting targeting = new InteractableTargeting(otherPawnController);
+			ITargeting targeting = new InteractableTargeting(pawnToAttack);
 			//The only valid action in combat is stabbing
 			if (validAbilities.Count == 0)
 			{
@@ -35,17 +47,17 @@ namespace Pawn.Goal {
 				//Therefore the pawn will wait until an ability is usable
 				//if not actions are vaild, then we have to wait
 				int waitTimeMilliseconds = 100;
-				IAction waitAction = ActionBuilder.Start(pawnController, () => {})
+				IAction waitAction = ActionBuilder.Start(ownerPawnController, () => {})
 										.Animation(AnimationName.Idle)
 										.AnimationPlayLength(waitTimeMilliseconds)
 										.Finish();
 				//TODO: pawnController.Weapon.Mesh should default to a spatial node. even if Weapon is null
-				waitAction.HeldItem = pawnController.PawnInventory.GetWornEquipment(EquipmentType.HELD);
+				waitAction.HeldItem = ownerPawnController.PawnInventory.GetWornEquipment(EquipmentType.HELD);
 				return new Task(targeting, waitAction);
 			} else {
 				//This action has to be a stab action for now
-				IAbility ability = validAbilities[0].Duplicate(pawnController, otherPawnController);
-				IAction action = ActionBuilder.Start(ability, pawnController).Finish();
+				IAbility ability = validAbilities[0].Duplicate(ownerPawnController, pawnToAttack);
+				IAction action = ActionBuilder.Start(ability, ownerPawnController).Finish();
 				return new Task(targeting, action);
 			}
 		}

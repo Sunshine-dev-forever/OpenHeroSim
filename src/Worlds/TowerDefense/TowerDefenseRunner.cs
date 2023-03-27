@@ -30,7 +30,7 @@ namespace Worlds.TowerDefense {
 			} else if(input.IsActionPressed("ui_left")) {
 				CreatePawn();
 			} else if (input.IsActionPressed("ui_right")) {
-
+				CreateTowers();
 			} else if(input.IsActionPressed("ui_up")) {
 
 			} else if(input.IsActionPressed("ui_down")){
@@ -57,6 +57,31 @@ namespace Worlds.TowerDefense {
 								.AddAbility(new StabAbility())
 								.Location(location)
 								.Finish();		
+		}
+
+		private void CreateTowers(){
+			Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
+			
+			List<Spatial> TowerSpawns = new List<Spatial>();
+			//I need to create a library for selecting and filtering children of a node
+			TowerSpawns.Add(this.GetNode<Spatial>("SpawnTower1"));
+			TowerSpawns.Add(this.GetNode<Spatial>("SpawnTower2"));
+			TowerSpawns.Add(this.GetNode<Spatial>("SpawnTower3"));
+			
+			foreach (Spatial location in TowerSpawns) {
+				PawnControllerBuilder.Start(this, kdTreeController, navigation)
+								.AddGoal(new DefendSelfGoal())
+								.AddAbility(new ThrowAbility())
+								.Faction("Towers")
+								.AddItem(CreateThrowable())
+								.Location(location.GlobalTransform.origin)
+								.Finish();	
+			}
+		}
+
+		public Throwable CreateThrowable() {
+			Spatial spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
+			return new Throwable(spear, 60);
 		}
 
 	}

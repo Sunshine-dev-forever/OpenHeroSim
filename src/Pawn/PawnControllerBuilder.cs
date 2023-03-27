@@ -86,6 +86,11 @@ namespace Pawn
 			return this;
 		}
 
+		public PawnControllerBuilder Faction(string faction) {
+			pawn.PawnInformation.Faction = faction;
+			return this;
+		}
+
 		//sets the resource file for the pawnMesh
 		public PawnControllerBuilder SetPawnRig(string filename) {
 			pawnRigResourceFile = filename;

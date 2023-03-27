@@ -62,7 +62,6 @@ namespace Pawn {
 		public double BaseDamage {get; set;} = 10;
 		public double Health {get; set;} = 100;
 		public double MaxHealth {get; set;} = 100;	
-		//TODO: this should be used
 		public float Speed {get; set;} = 10;	
 	}
 }
