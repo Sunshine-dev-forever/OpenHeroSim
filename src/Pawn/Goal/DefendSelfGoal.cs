@@ -13,6 +13,7 @@ using Pawn.Controller.Components;
 namespace Pawn.Goal {
 	public class DefendSelfGoal : IPawnGoal
 	{
+		//TODO: break this up into smaller functions
 		public ITask GetTask(PawnController ownerPawnController, SensesStruct sensesStruct) {
 			Func<PawnController, bool> pawnIsAliveAndValid = (pawnController) => { 
 				return pawnController != null && pawnController.IsInstanceValid() && !pawnController.IsDying;
@@ -26,7 +27,7 @@ namespace Pawn.Goal {
 			foreach (PawnController pawn in nearbyLivingPawns) {
 				string otherFaction = pawn.PawnInformation.Faction;
 				string ownerFaction = ownerPawnController.PawnInformation.Faction;
-				if(ownerFaction.Equals(PawnInformation.NO_FACTION) || !otherFaction.Equals(otherFaction)){
+				if(ownerFaction.Equals(PawnInformation.NO_FACTION) || (!ownerFaction.Equals(otherFaction)) ){
 					pawnToAttack = pawn;
 					break;
 				}
@@ -55,7 +56,8 @@ namespace Pawn.Goal {
 				waitAction.HeldItem = ownerPawnController.PawnInventory.GetWornEquipment(EquipmentType.HELD);
 				return new Task(targeting, waitAction);
 			} else {
-				//This action has to be a stab action for now
+				
+				//We take first valid ability
 				IAbility ability = validAbilities[0].Duplicate(ownerPawnController, pawnToAttack);
 				IAction action = ActionBuilder.Start(ability, ownerPawnController).Finish();
 				return new Task(targeting, action);
