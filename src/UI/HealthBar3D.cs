@@ -1,11 +1,11 @@
 using Godot;
 
 namespace UI {
-	public class HealthBar3D : Sprite3D {
+	public partial class HealthBar3D : Sprite3D {
 		private ProgressBar? bar;
 		public override void _Ready(){
-			bar = GetNode<ProgressBar>("Viewport/HealthBar2D");
-			this.Texture = GetNode<Viewport>("Viewport").GetTexture();
+			bar = GetNode<ProgressBar>("SubViewport/HealthBar2D");
+			this.Texture = GetNode<SubViewport>("SubViewport").GetTexture();
 			SetHealthPercent(1);
 		}
 

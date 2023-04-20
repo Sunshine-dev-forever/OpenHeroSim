@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Pawn.Action;
 
 namespace Pawn.Tasks {
-	public class InvalidTask : ITask {
+	public partial class InvalidTask : ITask {
 		private Vector3 targetPoint;
 
 		public InvalidTask() 
@@ -12,7 +12,7 @@ namespace Pawn.Tasks {
 			Action = null!;
 			TaskState = TaskState.COMPLETED;
 		}
-		public Vector3 GetTargetLocation(){
+		public Vector3 GetTargetPosition(){
 			return targetPoint;
 		}
 		public IAction Action {get;}

@@ -3,11 +3,11 @@ using System;
 using Serilog;
 using Pawn.Controller;
 namespace Pawn.Item {
-	public class Consumable : IItem
+	public partial class Consumable : IItem
 	{
 		public double Healing {get;}
-		public Spatial Mesh {get;}
-		public Consumable(double _Healing, Spatial mesh) {
+		public Node3D Mesh {get;}
+		public Consumable(double _Healing, Node3D mesh) {
 			Healing = _Healing;
 			Mesh = mesh;
 		}

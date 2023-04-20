@@ -12,11 +12,11 @@ using Pawn.Controller.Components;
 //HAVE TO CALL Setup() before this node will function!!!
 namespace Pawn.Controller
 {
-	public class PawnController : Node, IInteractable
+	public partial class PawnController : Node, IInteractable
 	{
 		private static int TIME_TO_WAIT_AFTER_DEATH = 2;
 		//TODO: This might be bad design, time will tell
-		public Transform GlobalTransform
+		public Transform3D GlobalTransform
 		{
 			get { return rigidBody.GlobalTransform; }
 			set { rigidBody.GlobalTransform = value; }
@@ -33,10 +33,10 @@ namespace Pawn.Controller
 		private HealthBar3D healthBar = null!;
 		public TaskExecutor ActionController {get; private set;} = null!;
 		public VisualController VisualController {get; private set;} = null!;
-		private CollisionShape collisionShape = null!;
-		private RayCast downwardRayCast = null!;
-		private NavigationAgent navigationAgent = null!;
-		private RigidBody rigidBody = null!;
+		private CollisionShape3D collisionShape = null!;
+		private RayCast3D downwardRayCast = null!;
+		private NavigationAgent3D navigationAgent = null!;
+		private RigidBody3D rigidBody = null!;
 		public MovementController MovementController {get; private set;} = null!;
 
 		private KdTreeController KdTreeController = null!;
@@ -59,12 +59,12 @@ namespace Pawn.Controller
 		public override void _Ready()
 		{
 			//so paths are *ONLY* reference here so I think I will just leave it hard coded
-			healthBar = GetNode<HealthBar3D>("RigidBody/HealthBar");
-			VisualController = GetNode<VisualController>("RigidBody/VisualController");
-			collisionShape = GetNode<CollisionShape>("RigidBody/CollisionShape");
-			downwardRayCast = GetNode<RayCast>("RigidBody/DownwardRayCast");
-			navigationAgent = GetNode<NavigationAgent>("RigidBody/NavigationAgent");
-			rigidBody = GetNode<RigidBody>("RigidBody");
+			healthBar = GetNode<HealthBar3D>("RigidBody3D/HealthBar");
+			VisualController = GetNode<VisualController>("RigidBody3D/VisualController");
+			collisionShape = GetNode<CollisionShape3D>("RigidBody3D/CollisionShape3D");
+			downwardRayCast = GetNode<RayCast3D>("RigidBody3D/DownwardRayCast");
+			navigationAgent = GetNode<NavigationAgent3D>("RigidBody3D/NavigationAgent3D");
+			rigidBody = GetNode<RigidBody3D>("RigidBody3D");
 
 			MovementController = new MovementController(rigidBody,
 														VisualController,
@@ -87,7 +87,7 @@ namespace Pawn.Controller
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
-		public override void _Process(float delta)
+		public override void _Process(double delta)
 		{
 			if(IsDying) {
 				HandleDying();
@@ -98,7 +98,7 @@ namespace Pawn.Controller
 			}
 		}
 
-		public override void _PhysicsProcess(float delta)
+		public override void _PhysicsProcess(double delta)
 		{
 			if(!IsDying) {
 				//Placed in physics process since Handle task may call some functions
@@ -168,12 +168,12 @@ namespace Pawn.Controller
 		}
 
 		private void CreateGraveStone() {
-			Spatial TreasureChestMesh = CustomResourceLoader.LoadMesh(ResourcePaths.GRAVESTONE);
+			Node3D TreasureChestMesh = CustomResourceLoader.LoadMesh(ResourcePaths.GRAVESTONE);
 			ItemContainer itemContainer = new ItemContainer(PawnInventory.EmptyAllItems(), TreasureChestMesh);
 			//Add newly created object to this objects current parent
 			//This might be an issue somehow... but probably now
 			this.GetParent().AddChild(itemContainer);
-			itemContainer.GlobalTransform = new Transform(itemContainer.GlobalTransform.basis, this.GlobalTransform.origin);
+			itemContainer.GlobalTransform = new Transform3D(itemContainer.GlobalTransform.Basis, this.GlobalTransform.Origin);
 			KdTreeController.AddInteractable(itemContainer);
 		}
 

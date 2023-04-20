@@ -1,28 +1,28 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=6 format=3 uid="uid://deouhrvtga4ef"]
 
-[sub_resource type="SpatialMaterial" id=1]
-albedo_color = Color( 0.109804, 0.85098, 0.862745, 1 )
+[sub_resource type="StandardMaterial3D" id="1"]
+albedo_color = Color(0.109804, 0.85098, 0.862745, 1)
 
-[sub_resource type="CubeMesh" id=2]
-material = SubResource( 1 )
+[sub_resource type="BoxMesh" id="2"]
+material = SubResource("1")
+size = Vector3(0.4, 0.4, 0.4)
 
-[sub_resource type="Skin" id=3]
+[sub_resource type="Skin" id="3"]
 
-[sub_resource type="SpatialMaterial" id=4]
-albedo_color = Color( 0.694118, 0.168627, 0.168627, 1 )
+[sub_resource type="StandardMaterial3D" id="4"]
+albedo_color = Color(0.694118, 0.168627, 0.168627, 1)
 
-[sub_resource type="CubeMesh" id=5]
-material = SubResource( 4 )
-size = Vector3( 0.35, 0.1, 0.35 )
+[sub_resource type="BoxMesh" id="5"]
+material = SubResource("4")
+size = Vector3(0.35, 0.1, 0.35)
 
-[node name="Spatial" type="Spatial"]
-transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0 )
+[node name="Node3D" type="Node3D"]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
 
-[node name="BigCube" type="MeshInstance" parent="."]
-transform = Transform( 0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0 )
-mesh = SubResource( 2 )
-skin = SubResource( 3 )
+[node name="BigCube" type="MeshInstance3D" parent="."]
+mesh = SubResource("2")
+skin = SubResource("3")
 
-[node name="SmallCube" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.214488, 0 )
-mesh = SubResource( 5 )
+[node name="SmallCube" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.214488, 0)
+mesh = SubResource("5")

@@ -8,16 +8,16 @@ using Pawn;
 using Pawn.Controller;
 
 namespace UI {
-	public class DebugUI : Spatial
+	public partial class DebugUI : Node3D
 	{
 		//setup in ready
-		private Camera camera = null!;
+		private Camera3D camera = null!;
 		private Label pawnNameValue = null!;
 		private Label pawnTaskStatusValue = null!;
 		private int RAY_LENGTH = 10000;
 		public override void _Ready()
 		{
-			camera = GetNode<Camera>("Camera");	
+			camera = GetNode<Camera3D>("Camera3D");	
 			pawnNameValue = GetNode<Label>("GUI/VBoxContainer/NinePatchRect/PawnNameValue");
 			pawnTaskStatusValue = GetNode<Label>("GUI/VBoxContainer/NinePatchRect/PawnStatusValue");
 		}
@@ -32,10 +32,11 @@ namespace UI {
 
 		private void CastRayFromCamera(InputEventMouseButton input) {
 			//just a query should be fine to call outside of physics_process
-			PhysicsDirectSpaceState spaceState = GetWorld().DirectSpaceState;
+			PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
 			Vector3 from = camera.ProjectRayOrigin(input.Position);
 			Vector3 to = from + camera.ProjectRayNormal(input.Position) * RAY_LENGTH;
-			Godot.Collections.Dictionary result = spaceState.IntersectRay(from, to);
+			PhysicsRayQueryParameters3D rayArgs = PhysicsRayQueryParameters3D.Create(from, to);
+			Godot.Collections.Dictionary result = spaceState.IntersectRay(rayArgs);
 			//we really dont want to be using Godot dictionaries
 			if(result.Count == 0) {
 				//we hit nothing
@@ -55,7 +56,7 @@ namespace UI {
 		}
 
 	//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-	//  public override void _Process(float delta)
+	//  public override void _Process(double delta)
 	//  {
 	//	  
 	//  }

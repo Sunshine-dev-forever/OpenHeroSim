@@ -1,6 +1,6 @@
-extends Camera
+extends Camera3D
 
-export(float, 0.0, 1.0) var sensitivity = 0.25
+@export var sensitivity = 0.25 # (float, 0.0, 1.0)
 
 # Mouse state
 var _mouse_position = Vector2(0.0, 0.0)
@@ -32,16 +32,16 @@ func _input(event):
 	# Receives mouse button input
 	if event is InputEventMouseButton:
 		match event.button_index:
-			BUTTON_RIGHT: # Only allows rotation if right click down
+			MOUSE_BUTTON_RIGHT: # Only allows rotation if right click down
 				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED if event.pressed else Input.MOUSE_MODE_VISIBLE)
-			BUTTON_WHEEL_UP: # Increases max velocity
+			MOUSE_BUTTON_WHEEL_UP: # Increases max velocity
 				_vel_multiplier = clamp(_vel_multiplier * 1.1, MIN_SPEED, MAX_SPEED)
-			BUTTON_WHEEL_DOWN: # Decereases max velocity
+			MOUSE_BUTTON_WHEEL_DOWN: # Decereases max velocity
 				_vel_multiplier = clamp(_vel_multiplier / 1.1, MIN_SPEED, MAX_SPEED)
 
 	# Receives key input
 	if event is InputEventKey:
-		match event.scancode:
+		match event.keycode:
 			KEY_W:
 				_w = event.pressed
 			KEY_S:
@@ -63,10 +63,13 @@ func _process(delta):
 # Updates camera movement
 func _update_movement(delta):
 	# Computes desired direction from key states
-	_direction = Vector3(_d as float - _a as float, 
-						 _e as float - _q as float,
-						 _s as float - _w as float)
-	
+	# AJ NOTE: code breaks here, not sure why
+	#_direction = Vector3(_d as float - _a as float, 
+	#					_e as float - _q as float,
+	#					_s as float - _w as float)
+	_direction = Vector3(float(_d) - float(_a), 
+						float(_e) - float(_q),
+						float(_s) - float(_w))
 	# Computes the change in velocity due to desired direction and "drag"
 	# The "drag" is a constant acceleration on the camera to bring it's velocity to 0
 	var offset = _direction.normalized() * _acceleration * _vel_multiplier * delta \
@@ -97,5 +100,5 @@ func _update_mouselook():
 		pitch = clamp(pitch, -90 - _total_pitch, 90 - _total_pitch)
 		_total_pitch += pitch
 	
-		rotate_y(deg2rad(-yaw))
-		rotate_object_local(Vector3(1,0,0), deg2rad(-pitch))
+		rotate_y(deg_to_rad(-yaw))
+		rotate_object_local(Vector3(1,0,0), deg_to_rad(-pitch))

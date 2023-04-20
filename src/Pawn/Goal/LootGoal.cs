@@ -9,7 +9,7 @@ using Pawn.Item;
 using Pawn.Targeting;
 using Pawn.Controller.Components;
 namespace Pawn.Goal {
-	public class LootGoal : IPawnGoal
+	public partial class LootGoal : IPawnGoal
 	{
 		public ITask GetTask(PawnController pawnController, SensesStruct sensesStruct) {
 			ItemContainer? nearbyLoot = GetFirstNonemptyContainer(sensesStruct.nearbyContainers);

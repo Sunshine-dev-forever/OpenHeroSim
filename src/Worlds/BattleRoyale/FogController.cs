@@ -2,7 +2,7 @@
 
 using System;
 namespace Worlds.BattleRoyale {
-	public class FogController {
+	public partial class FogController {
 		//Fog Controller just has the magically know the sidelength is 500
 		//its ok for testing
 		private static int SIDE_LENGTH = 500;
@@ -38,8 +38,8 @@ namespace Worlds.BattleRoyale {
 		}
 
 		public Boolean IsInbounds(Godot.Vector3 point) {
-			double x = point.x;
-			double z = point.z;
+			double x = point.X;
+			double z = point.Z;
 			double fogPosition = GetFogPosition();
 			return (Math.Abs(x) < fogPosition) && (Math.Abs(z) < fogPosition);
 		}

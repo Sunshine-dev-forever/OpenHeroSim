@@ -16,7 +16,7 @@ namespace Pawn
 	//I want to change brain-modules
 	//I want to change stats (pawn informaiton class that does not exist yet)
 
-	public class PawnControllerBuilder
+	public partial class PawnControllerBuilder
 	{
 		KdTreeController kdTreeController;
 		PawnController pawn;
@@ -26,7 +26,7 @@ namespace Pawn
 		public static PawnController CreateTrainingDummy(Vector3 location, 
 														Node parent, 
 														KdTreeController _kdTreeController, 
-														Navigation navigation) {
+														NavigationRegion3D navigation) {
 			return PawnControllerBuilder.Start(parent, _kdTreeController, navigation)
 										.Location(location)
 										.AddGoal(new DebugGoal())
@@ -34,10 +34,10 @@ namespace Pawn
 										.Finish();
 		}
 
-		public PawnControllerBuilder(Node parent, KdTreeController _kdTreeController, Navigation navigation){
+		public PawnControllerBuilder(Node parent, KdTreeController _kdTreeController, NavigationRegion3D navigation){
 			//TODO: my custom resource loader should support return types other than spatial...
 			//But then how do I create defaults?
-			pawn = ResourceLoader.Load<PackedScene>(ResourcePaths.PAWN_SCENE).Instance<PawnController>();
+			pawn = ResourceLoader.Load<PackedScene>(ResourcePaths.PAWN_SCENE).Instantiate<PawnController>();
 			parent.AddChild(pawn);
 
 			kdTreeController = _kdTreeController;
@@ -45,12 +45,12 @@ namespace Pawn
 
 			pawn.MovementController.SetNavigation(navigation);
 		}
-		public static PawnControllerBuilder Start(Node parent, KdTreeController _kdTreeController, Navigation navigation) {
+		public static PawnControllerBuilder Start(Node parent, KdTreeController _kdTreeController, NavigationRegion3D navigation) {
 			return new PawnControllerBuilder(parent, _kdTreeController, navigation);
 		}
 
 		public PawnControllerBuilder Location(Vector3 spawnLocation) {
-			pawn.GlobalTransform = new Transform(pawn.GlobalTransform.basis, spawnLocation);
+			pawn.GlobalTransform = new Transform3D(pawn.GlobalTransform.Basis, spawnLocation);
 			return this;
 		}
 

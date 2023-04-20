@@ -8,7 +8,7 @@ using Godot;
 using Pawn.Targeting;
 
 namespace Pawn.Action.Ability {
-	public class ThrowAbility : IAbility {
+	public partial class ThrowAbility : IAbility {
 		private static float DEFAULT_PROJECTILE_SPEED = 50;
 		private PawnController? ownerPawnController;
 		private PawnController? otherPawnController;
@@ -60,7 +60,7 @@ namespace Pawn.Action.Ability {
 				ownerPawnController.PawnInventory.RemoveItem(ItemToThrow);
 			}
 			
-			Spatial mesh = (Spatial) ItemToThrow.Mesh.Duplicate();
+			Node3D mesh = (Node3D) ItemToThrow.Mesh.Duplicate();
 
 			otherPawnController.TakeDamage(damage);
 			//also make a new projectile with the mesh in question
@@ -76,13 +76,13 @@ namespace Pawn.Action.Ability {
 			return false;
 		}
 
-		private void CreateProjectile(Spatial mesh, PawnController ownerPawnController, PawnController otherPawnController) {
+		private void CreateProjectile(Node3D mesh, PawnController ownerPawnController, PawnController otherPawnController) {
 			//just needs to be one unit up, based off height of the pawn
 			Vector3 offset = new Vector3(0,1,0);
 			ITargeting target = new InteractableTargeting(otherPawnController, offset);
 			Projectile projectile = new Projectile(mesh, target, DEFAULT_PROJECTILE_SPEED );
 			ownerPawnController.GetParent().AddChild(projectile);
-			projectile.GlobalTransform = new Transform(projectile.GlobalTransform.basis, ownerPawnController.GlobalTransform.origin + offset);
+			projectile.GlobalTransform = new Transform3D(projectile.GlobalTransform.Basis, ownerPawnController.GlobalTransform.Origin + offset);
 		}
 
 		//A sign that this is now how I should be defining abilites

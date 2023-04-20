@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Pawn {
 
-	public class PawnInformation
+	public partial class PawnInformation
 	{
 		struct AbilityStruct {
 			public AbilityStruct(IAbility _ability, DateTime _timeLastUsed) {

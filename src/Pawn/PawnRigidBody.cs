@@ -3,7 +3,7 @@ using System;
 using Serilog;
 using Pawn.Controller;
 namespace Pawn {
-	public class PawnRigidBody : RigidBody
+	public partial class PawnRigidBody : RigidBody3D
 	{
 		//This is the default values of where the PawnController Should be
 		[Export]

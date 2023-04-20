@@ -4,7 +4,7 @@ using Pawn.Action;
 
 namespace Pawn.Tasks {
 	public interface ITask {
-		Vector3 GetTargetLocation();
+		Vector3 GetTargetPosition();
 		IAction Action {get;}
 		//Represents whether the task is valid or not
 		bool IsValid {get;}

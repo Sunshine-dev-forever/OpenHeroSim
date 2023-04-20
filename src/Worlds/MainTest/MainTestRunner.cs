@@ -14,7 +14,7 @@ using Pawn.Targeting;
 
 namespace Worlds.MainTest 
 {
-	public class MainTestRunner : Node
+	public partial class MainTestRunner : Node
 	{
 
 		private KdTreeController kdTreeController = null!; 
@@ -26,10 +26,10 @@ namespace Worlds.MainTest
 		
 		public override void _Input(InputEvent input) {
 			if(input.IsActionPressed("mouse_left_click")) {
-				
+				//CreateThrowableTester();
 			} else if(input.IsActionPressed("ui_left")) {
 				//CreateTestProjectile();
-				Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
+				NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 			
 				Vector3 location = new Vector3(4,0,4);
 				PawnControllerBuilder.CreateTrainingDummy(location, this, kdTreeController, navigation);
@@ -37,21 +37,21 @@ namespace Worlds.MainTest
 				CreatePawnInCenter();
 			}
 		}
-		private float TimeSinceLastPawnCreation = 4;
+		private double TimeSinceLastPawnCreation = 4;
 		//lazy, bad coding
 		private PawnController lastPawnSpawned = null!;
-		public override void _Process(float delta)
+		public override void _Process(double delta)
 		{
 			TimeSinceLastPawnCreation += delta;
 			if(TimeSinceLastPawnCreation > 5) {
 				TimeSinceLastPawnCreation = 0;
-				lastPawnSpawned = CreatePawn();
+				//lastPawnSpawned = CreatePawn();
 			}
 			
 		}
 
 		public PawnController CreateThrowableTester() {
-			Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
+			NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 			
 			Vector3 location = new Vector3(0,5,0);
 			return PawnControllerBuilder.Start(this, kdTreeController, navigation)
@@ -69,22 +69,22 @@ namespace Worlds.MainTest
 		}
 
 		public Throwable CreateThrowable() {
-			Spatial spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
+			Node3D spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
 			return new Throwable(spear, 60);
 		}
 
 		private void CreateTestProjectile() {
-			Spatial spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
+			Node3D spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
 			//I add an offset so the spear target's the pawns chest and not the pawn's feet
 			Vector3 offset = new Vector3(0,1,0);
 			ITargeting target = new InteractableTargeting(lastPawnSpawned, offset);
 			Projectile projectile = new Projectile(spear, target, 50 );
 			this.AddChild(projectile);
-			projectile.GlobalTransform = new Transform(projectile.GlobalTransform.basis, new Vector3(0,5,0));
+			projectile.GlobalTransform = new Transform3D(projectile.GlobalTransform.Basis, new Vector3(0,5,0));
 		}
 
 		private PawnController CreatePawn(){
-			Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
+			NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 			
 			Vector3 location = GenerateRandomVector();
 			
@@ -101,7 +101,7 @@ namespace Worlds.MainTest
 		}
 
 		private PawnController CreatePawnInCenter(){
-			Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
+			NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 			
 			Vector3 location = new Vector3(0,5,0);
 			
@@ -119,7 +119,7 @@ namespace Worlds.MainTest
 
 		private Equipment GetHelmet() {
 			//"res://scenes/world_objects/box_helm.tscn"
-			Spatial boxHelm = CustomResourceLoader.LoadMesh(ResourcePaths.BOX_HELM);
+			Node3D boxHelm = CustomResourceLoader.LoadMesh(ResourcePaths.BOX_HELM);
 			Equipment equipment = new Equipment(boxHelm, EquipmentType.HEAD);
 			equipment.Defense = 5;
 			return equipment;
@@ -156,7 +156,7 @@ namespace Worlds.MainTest
 		}
 
 		private PawnController CreateHealingPotionTester() {
-			Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
+			NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 			return PawnControllerBuilder.Start(this, kdTreeController, navigation)
 								.AddGoal(new HealGoal())
 								.AddGoal(new WanderGoal())
@@ -168,46 +168,46 @@ namespace Worlds.MainTest
 		}
 
 		private void CreateItemContainer() {
-			Spatial TreasureChestMesh = CustomResourceLoader.LoadMesh(ResourcePaths.TREASURE_CHEST);
+			Node3D TreasureChestMesh = CustomResourceLoader.LoadMesh(ResourcePaths.TREASURE_CHEST);
 			//The iron sword gets leaked when created like this
 			List<IItem> items = new List<IItem>();
 			items.Add(CreateHealingPotion());
 			items.Add(CreateIronSword());
 			ItemContainer itemContainer = new ItemContainer(items, TreasureChestMesh);
 			this.AddChild(itemContainer);
-			itemContainer.GlobalTransform = new Transform(itemContainer.GlobalTransform.basis, new Vector3(0,1,0));
+			itemContainer.GlobalTransform = new Transform3D(itemContainer.GlobalTransform.Basis, new Vector3(0,1,0));
 			kdTreeController.AddInteractable(itemContainer);
 		}
 
 		private Equipment CreateIronSword() {
-			Spatial ironSword = CustomResourceLoader.LoadMesh(ResourcePaths.IRON_SWORD);
+			Node3D ironSword = CustomResourceLoader.LoadMesh(ResourcePaths.IRON_SWORD);
 			Equipment equipment = new Equipment(ironSword, EquipmentType.HELD);
 			equipment.Damage = 5;
 			return equipment;
 		}
 
 		private Equipment CreateRustedDagger() {
-			Spatial rustedDagger = CustomResourceLoader.LoadMesh(ResourcePaths.RUSTED_DAGGER);;
+			Node3D rustedDagger = CustomResourceLoader.LoadMesh(ResourcePaths.RUSTED_DAGGER);;
 			Equipment equipment = new Equipment(rustedDagger, EquipmentType.HELD);
 			equipment.Damage = 3;
 			return equipment;
 		}
 
 		private Equipment CreateLightSaber() {
-			Spatial lightSaber = CustomResourceLoader.LoadMesh(ResourcePaths.LIGHTSABER);
+			Node3D lightSaber = CustomResourceLoader.LoadMesh(ResourcePaths.LIGHTSABER);
 			Equipment equipment = new Equipment(lightSaber, EquipmentType.HELD);
 			equipment.Damage = 10;
 			return equipment;
 		}
 		private Equipment CreateSpearMelee() {
-			Spatial spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
+			Node3D spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
 			Equipment equipment = new Equipment(spear, EquipmentType.HELD);
 			equipment.Damage = 40;
 			return equipment;
 		}
 
 		private Consumable CreateHealingPotion() {
-			Spatial healthPotion = CustomResourceLoader.LoadMesh(ResourcePaths.HEALTH_POTION);
+			Node3D healthPotion = CustomResourceLoader.LoadMesh(ResourcePaths.HEALTH_POTION);
 			return new Consumable(40, healthPotion);
 		}
 	}

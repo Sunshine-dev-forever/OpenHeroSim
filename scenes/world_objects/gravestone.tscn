@@ -1,28 +1,28 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://uo3jqrq8n6kh"]
 
-[sub_resource type="SpatialMaterial" id=1]
-albedo_color = Color( 0.623529, 0.639216, 0.301961, 1 )
+[sub_resource type="StandardMaterial3D" id="1"]
+albedo_color = Color(0.623529, 0.639216, 0.301961, 1)
 
-[sub_resource type="CubeMesh" id=2]
-material = SubResource( 1 )
+[sub_resource type="BoxMesh" id="2"]
+material = SubResource("1")
+size = Vector3(0.6, 0.2, 1)
 
-[sub_resource type="SpatialMaterial" id=3]
-albedo_color = Color( 0.65098, 0.380392, 0.0117647, 1 )
+[sub_resource type="StandardMaterial3D" id="3"]
+albedo_color = Color(0.65098, 0.380392, 0.0117647, 1)
 
-[sub_resource type="CubeMesh" id=4]
-material = SubResource( 3 )
+[sub_resource type="BoxMesh" id="4"]
+material = SubResource("3")
 
-[node name="Spatial" type="Spatial"]
+[node name="Node3D" type="Node3D"]
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( 0.435282, 0, 0, 0, 0.123793, 0, 0, 0, 0.600357, 0, 0, 0 )
-mesh = SubResource( 2 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("2")
 
-[node name="MeshInstance2" type="MeshInstance" parent="."]
-transform = Transform( 0.186662, 0, 0, 0, 0.460086, 0, 0, 0, 0.125622, 0, 0.577157, 0.398054 )
-mesh = SubResource( 4 )
+[node name="MeshInstance2" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.187, 0, 0, 0, 0.8, 0, 0, 0, 0.126, 0, 0.47524, 0.398054)
+mesh = SubResource("4")
 
-[node name="MeshInstance3" type="MeshInstance" parent="."]
-transform = Transform( 0.0128039, -0.564707, 0, 0.0934857, 0.0782339, 0, 0, 0, 0.0425604, 0.00034678, 0.839624, 0.250582 )
-mesh = SubResource( 4 )
+[node name="MeshInstance3" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.0128039, -0.564707, 0, 0.0934857, 0.0782339, 0, 0, 0, 0.0425604, 0.0451801, 0.625521, 0.331981)
+mesh = SubResource("4")
 skeleton = NodePath("../MeshInstance2")

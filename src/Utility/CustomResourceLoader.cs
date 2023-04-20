@@ -6,25 +6,25 @@ namespace Util {
 		private static string DEFAULT_MESH_FILE_PATH = "res://scenes/visual_sphere.tscn";
 
 		//This function has a default, wooohooo!
-		public static Spatial LoadMesh(string filePath) {
+		public static Node3D LoadMesh(string filePath) {
 			PackedScene? packedScene = GD.Load<PackedScene>(filePath);
 
 			if(packedScene != null) {
 				//loading went through fine, go next
-				return (Spatial) packedScene.Instance();
+				return (Node3D) packedScene.Instantiate();
 			} else {
 				Log.Error(typeof(CustomResourceLoader) + ": Failed to load mesh at " + filePath);
 				return GetDefaultMesh();
 			}
 		}
 
-		private static Spatial GetDefaultMesh() {
+		private static Node3D GetDefaultMesh() {
 			PackedScene? packedScene = GD.Load<PackedScene>(DEFAULT_MESH_FILE_PATH);
 			if(packedScene != null) {
-				return (Spatial) packedScene.Instance();
+				return (Node3D) packedScene.Instantiate();
 			} else {
 				Log.Error(typeof(CustomResourceLoader) + ": Default mesh failed to load! Default mesh path: " + DEFAULT_MESH_FILE_PATH);
-				return new Spatial();
+				return new Node3D();
 			}
 		}
 	}

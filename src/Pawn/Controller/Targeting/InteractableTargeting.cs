@@ -5,7 +5,7 @@ using Godot;
 using Pawn.Action;
 
 namespace Pawn.Targeting {
-	public class InteractableTargeting : ITargeting {
+	public partial class InteractableTargeting : ITargeting {
 		private Vector3 offset;
 		private IInteractable Interactable {get;}
 		public InteractableTargeting(IInteractable interactable) {
@@ -15,8 +15,8 @@ namespace Pawn.Targeting {
 			offset = _offset;
 			Interactable = interactable;
 		}
-		public Vector3 GetTargetLocation() {
-			return Interactable.GlobalTransform.origin + offset;
+		public Vector3 GetTargetPosition() {
+			return Interactable.GlobalTransform.Origin + offset;
 		}
 		public bool IsValid { get {
 			return Interactable.IsInstanceValid();
