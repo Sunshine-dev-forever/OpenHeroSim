@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://src/Worlds/TowerDefense/TowerDefenseRunner.cs" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/visual_sphere.tscn" id="2"]
-[ext_resource type="PackedScene" path="res://scenes/gui/debug_gui.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://btv4rmdlaem27" path="res://scenes/gui/debug_gui.tscn" id="3"]
 [ext_resource type="Script" path="res://src/UI/DebugUI.cs" id="4"]
 [ext_resource type="PlaneMesh" uid="uid://sk1pvvyu4jlr" path="res://scenes/worlds/main_test/ground.tres" id="5"]
 [ext_resource type="Script" path="res://src/UI/FPSDebugUI.gd" id="6"]
@@ -23,8 +23,8 @@ rough = true
 
 [sub_resource type="Skin" id="2"]
 
-[sub_resource type="ConvexPolygonShape3D" id="3"]
-points = PackedVector3Array(-25, 0, -25, -25, 0, 25, 25, 0, -25, 25, 0, 25)
+[sub_resource type="BoxShape3D" id="BoxShape3D_7xi4c"]
+size = Vector3(500, 1, 500)
 
 [sub_resource type="PhysicsMaterial" id="11"]
 
@@ -96,7 +96,6 @@ far = 10000.0
 script = ExtResource("7")
 
 [node name="GUI" parent="DebugUI" instance=ExtResource("3")]
-anchors_preset = -1
 
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("1")
@@ -111,8 +110,8 @@ skin = SubResource("2")
 skeleton = NodePath("../../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Floor"]
-transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0)
-shape = SubResource("3")
+transform = Transform3D(10, 0, 0, 0, 1, 0, 0, 0, 10, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_7xi4c")
 
 [node name="RoadBlock3" type="StaticBody3D" parent="NavigationRegion3D"]
 transform = Transform3D(1.72196, 0, 0, 0, 5.7803, 0, 0, 0, 1.7937, 8.69923, 1.88955, -10.4278)

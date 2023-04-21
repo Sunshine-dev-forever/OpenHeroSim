@@ -63,7 +63,7 @@ namespace Worlds.BattleRoyale {
 			Random rand = new Random();
 			int x = rand.Next(-249, 249);
 			int z = rand.Next(-249, 249);
-			int HEIGHT_DEFAULT = 2;
+			int HEIGHT_DEFAULT = 4;
 			return new Vector3(x, HEIGHT_DEFAULT, z);
 		}
 
