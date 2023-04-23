@@ -3,7 +3,7 @@ using Pawn.Controller.Components;
 
 namespace Pawn.Controller
 {
-	public class SensesController
+	public partial class SensesController
 	{
 		private const int MAX_PAWNS_TO_SEE = 20;
 		private const int VISION_RANGE = 10;
@@ -24,7 +24,7 @@ namespace Pawn.Controller
 				kdTreeController.GetNearestInteractableToInteractable(pawnController, MAX_PAWNS_TO_SEE)
 								.FindAll((IInteractable interactable) =>
 								{
-									return interactable.GlobalTransform.origin.DistanceTo(pawnController.GlobalTransform.origin) < VISION_RANGE;
+									return interactable.GlobalTransform.Origin.DistanceTo(pawnController.GlobalTransform.Origin) < VISION_RANGE;
 								});
 			//TODO: should be able to use .select instead of ConvertAll in the future
 			sensesStruct.nearbyPawns = visableInteractables

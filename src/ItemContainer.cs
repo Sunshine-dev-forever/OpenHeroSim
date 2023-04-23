@@ -8,13 +8,13 @@ using Pawn;
 using System.Collections.Generic;
 using Pawn.Item;
 
-public class ItemContainer : Spatial, IInteractable {
+public partial class ItemContainer : Node3D, IInteractable {
 	public List<IItem> Items;
-	public Spatial Mesh;
+	public Node3D Mesh;
 	private DateTime TimeSinceLastEmpty = DateTime.MaxValue;
 	private static int TIME_TO_LIVE_WHEN_EMPTY_SECONDS = 5;
 
-	public override void _Process(float delta)
+	public override void _Process(double delta)
 	{
 		if(Items.Count == 0 && TimeSinceLastEmpty == DateTime.MaxValue) {
 			TimeSinceLastEmpty = DateTime.Now;
@@ -26,7 +26,7 @@ public class ItemContainer : Spatial, IInteractable {
 		}
 	}
 
-	public ItemContainer(List<IItem> _items, Spatial _mesh) {
+	public ItemContainer(List<IItem> _items, Node3D _mesh) {
 		Items = _items;
 		Mesh = _mesh;
 		this.AddChild(Mesh);

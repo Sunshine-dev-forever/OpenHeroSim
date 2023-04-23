@@ -1,12 +1,16 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://dxhofm8vs43yb"]
 
-[ext_resource path="res://scenes/gui/health_bar_theme.tres" type="Theme" id=1]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8jjpr"]
+bg_color = Color(0.00392157, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tp82b"]
+bg_color = Color(1, 0.309804, 0.470588, 1)
 
 [node name="ProgressBar" type="ProgressBar"]
-margin_top = 40.0
-margin_right = 250.0
-margin_bottom = 80.0
-rect_scale = Vector2( 1, -1 )
-theme = ExtResource( 1 )
-custom_colors/font_color = Color( 0, 1, 0.905882, 1 )
+offset_right = 400.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(0, 1, 0.560784, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_styles/background = SubResource("StyleBoxFlat_8jjpr")
+theme_override_styles/fill = SubResource("StyleBoxFlat_tp82b")
 value = 10.0

@@ -11,7 +11,7 @@ using System.Linq;
 using Pawn.Controller.Components;
 
 namespace Pawn.Goal {
-	public class DefendSelfGoal : IPawnGoal
+	public partial class DefendSelfGoal : IPawnGoal
 	{
 		//TODO: break this up into smaller functions
 		public ITask GetTask(PawnController ownerPawnController, SensesStruct sensesStruct) {

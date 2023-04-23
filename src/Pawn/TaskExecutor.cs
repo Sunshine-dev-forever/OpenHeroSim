@@ -9,7 +9,7 @@ using System.Linq;
 using Godot;
 
 namespace Pawn {
-	public class TaskExecutor
+	public partial class TaskExecutor
 	{
 
 		private IAction? actionInExecution;
@@ -60,7 +60,7 @@ namespace Pawn {
 		private void MoveToTaskLocation(ITask task) {
 			//I have to call Process movement first
 			//TODO: refactor so I dont call process movement first (movementController has to update the final location)
-			movementController.ProcessMovement(task.GetTargetLocation(), pawnInformation.Speed);
+			movementController.ProcessMovement(task.GetTargetPosition(), pawnInformation.Speed);
 			if(movementController.HasFinishedMovement(task.Action.MaxRange)) {
 				movementController.Stop();
 				

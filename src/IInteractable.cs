@@ -7,7 +7,7 @@ using Pawn.Controller;
 //This includes other pawns, harvestable resources, treasure chests, 
 //Shop tables (to buy things), shrines, etc
 public interface IInteractable {
-	public Transform GlobalTransform {get; set;}
+	public Transform3D GlobalTransform {get; set;}
 	public Boolean IsInstanceValid();
 
 

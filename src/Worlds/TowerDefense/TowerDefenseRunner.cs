@@ -14,7 +14,7 @@ using System.Collections;
 using System.Linq;
 
 namespace Worlds.TowerDefense {
-	public class TowerDefenseRunner : Node
+	public partial class TowerDefenseRunner : Node
 	{
 		private List<PawnController> pawns = new List<PawnController>();
 		private KdTreeController kdTreeController = null!; 
@@ -38,19 +38,19 @@ namespace Worlds.TowerDefense {
 			}
 		}
 
-		public override void _Process(float  delta){
+		public override void _Process(double delta){
 
 		}
 
 		private PawnController CreatePawn(){
-			Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
+			NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 			
-			Vector3 location = this.GetNode<Spatial>("Spawn").GlobalTransform.origin;
-			List<Spatial> waypoints = new List<Spatial>();
+			Vector3 location = this.GetNode<Node3D>("Spawn").GlobalTransform.Origin;
+			List<Node3D> waypoints = new List<Node3D>();
 			//I need to create a library for selecting and filtering children of a node
-			waypoints.Add(this.GetNode<Spatial>("WayPoint1"));
-			waypoints.Add(this.GetNode<Spatial>("WayPoint2"));
-			waypoints.Add(this.GetNode<Spatial>("WayPoint3"));
+			waypoints.Add(this.GetNode<Node3D>("WayPoint1"));
+			waypoints.Add(this.GetNode<Node3D>("WayPoint2"));
+			waypoints.Add(this.GetNode<Node3D>("WayPoint3"));
 			
 			return PawnControllerBuilder.Start(this, kdTreeController, navigation)
 								.AddGoal(new WaypointGoal(waypoints))
@@ -60,27 +60,27 @@ namespace Worlds.TowerDefense {
 		}
 
 		private void CreateTowers(){
-			Navigation navigation = GetNode<Navigation>("/root/Spatial/Navigation");
+			NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 			
-			List<Spatial> TowerSpawns = new List<Spatial>();
+			List<Node3D> TowerSpawns = new List<Node3D>();
 			//I need to create a library for selecting and filtering children of a node
-			TowerSpawns.Add(this.GetNode<Spatial>("SpawnTower1"));
-			TowerSpawns.Add(this.GetNode<Spatial>("SpawnTower2"));
-			TowerSpawns.Add(this.GetNode<Spatial>("SpawnTower3"));
+			TowerSpawns.Add(this.GetNode<Node3D>("SpawnTower1"));
+			TowerSpawns.Add(this.GetNode<Node3D>("SpawnTower2"));
+			TowerSpawns.Add(this.GetNode<Node3D>("SpawnTower3"));
 			
-			foreach (Spatial location in TowerSpawns) {
+			foreach (Node3D location in TowerSpawns) {
 				PawnControllerBuilder.Start(this, kdTreeController, navigation)
 								.AddGoal(new DefendSelfGoal())
 								.AddAbility(new ThrowAbility())
 								.Faction("Towers")
 								.AddItem(CreateThrowable())
-								.Location(location.GlobalTransform.origin)
+								.Location(location.GlobalTransform.Origin)
 								.Finish();	
 			}
 		}
 
 		public Throwable CreateThrowable() {
-			Spatial spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
+			Node3D spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
 			return new Throwable(spear, 60);
 		}
 

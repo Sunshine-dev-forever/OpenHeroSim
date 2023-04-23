@@ -7,7 +7,7 @@ using Pawn.Controller;
 using Pawn.Targeting;
 using Pawn.Controller.Components;
 namespace Pawn.Goal {
-	public class WanderGoal : IPawnGoal
+	public partial class WanderGoal : IPawnGoal
 	{
 		//center is always at (0,0)
 		private int sideLength;

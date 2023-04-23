@@ -7,7 +7,7 @@ using Pawn.Action.Ability;
 using Pawn.Item;
 
 namespace Pawn.Action {
-	public class ActionBuilder {
+	public partial class ActionBuilder {
 		private Action action;
 
 		private ActionBuilder(PawnController pawnController, System.Action executable) {

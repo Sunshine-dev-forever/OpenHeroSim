@@ -6,7 +6,7 @@ using Serilog;
 using Pawn.Item;
 
 namespace Pawn.Action {
-	public class Action : IAction
+	public partial class Action : IAction
 	{
 
 		private static int NO_COOLDOWN = 0;

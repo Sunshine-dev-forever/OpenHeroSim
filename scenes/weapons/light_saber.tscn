@@ -3,4 +3,4 @@
 [ext_resource path="res://assets/light_saber.glb" type="PackedScene" id=1]
 
 [node name="light_saber" instance=ExtResource( 1 )]
-transform = Transform( 3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 0, 0, 0 )
+transform = Transform3D( 3.5, 0, 0, 0, 3.5, 0, 0, 0, 3.5, 0, 0, 0 )

@@ -8,7 +8,7 @@ using KdTree.Math;
 using System.Linq;
 using Pawn.Controller;
 
-public class KdTreeController : Node
+public partial class KdTreeController : Node
 {
 	private KdTree<float, IInteractable> kdTree = new KdTree<float, IInteractable>(3, new FloatMath());
 	private List<IInteractable> allInteractables = new List<IInteractable>();
@@ -18,7 +18,7 @@ public class KdTreeController : Node
 		//Log.Information("KD tree started!");
     }
 
-	public override void _Process(float delta)
+	public override void _Process(double delta)
 	{
 		//casually rebuild the entire tree
 		//I should be able to multithread this
@@ -32,8 +32,8 @@ public class KdTreeController : Node
 				continue;
 			}
 			//add valid instances to new tree
-			Vector3 location = interactable.GlobalTransform.origin;
-			newTree.Add(new[] {location.x, location.y, location.z}, interactable );
+			Vector3 location = interactable.GlobalTransform.Origin;
+			newTree.Add(new[] {location.X, location.Y, location.Z}, interactable );
 		}
 		//replace old tree with new tree
 		kdTree = newTree;
@@ -46,13 +46,13 @@ public class KdTreeController : Node
 	//count is the max number of neightbors to pull, keep low for better preformance I guess?
 	public List<IInteractable> GetNearestInteractables(Vector3 location, int count) {
 		IEnumerable<KdTreeNode<float, IInteractable>> nearestNodes = 
-			kdTree.GetNearestNeighbours(new[] {location.x, location.y, location.z}, count);
+			kdTree.GetNearestNeighbours(new[] {location.X, location.Y, location.Z}, count);
 		return nearestNodes.Select( (kdTreeNode) => (kdTreeNode.Value)).ToList();
 	}
 
 	//count is the max number of neightbors to pull, keep low for better preformance I guess?
 	public List<IInteractable> GetNearestInteractableToInteractable(IInteractable interactable, int count) {
-		Vector3 location = interactable.GlobalTransform.origin;
+		Vector3 location = interactable.GlobalTransform.Origin;
 		List<IInteractable> rtn = GetNearestInteractables(location, count);
 		//This probablly wont throw an exception
 		rtn.Remove(interactable);

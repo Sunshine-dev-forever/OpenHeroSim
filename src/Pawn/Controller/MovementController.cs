@@ -4,11 +4,11 @@ using Serilog;
 using System.Diagnostics;
 
 namespace Pawn.Controller {
-	public class MovementController
+	public partial class MovementController
 	{
-		private NavigationAgent navigationAgent;
-		private RayCast downwardRayCast;
-		private RigidBody rigidBody;
+		private NavigationAgent3D navigationAgent;
+		private RayCast3D downwardRayCast;
+		private RigidBody3D rigidBody;
 		//TODO: need better name. Point a a lower part of the animation controller? 
 		private VisualController visualController;
 
@@ -17,7 +17,7 @@ namespace Pawn.Controller {
 		//the Navigation Server can take some time to start up
 		private bool isNavigationServerReady;
 
-		public MovementController(RigidBody _rigidBody, VisualController _visualController, NavigationAgent _navigationAgent, RayCast _downwardRayCast) {
+		public MovementController(RigidBody3D _rigidBody, VisualController _visualController, NavigationAgent3D _navigationAgent, RayCast3D _downwardRayCast) {
 			rigidBody = _rigidBody;
 			visualController = _visualController;
 			navigationAgent = _navigationAgent;
@@ -34,7 +34,7 @@ namespace Pawn.Controller {
 
 			//TODO: dont update path for every minor change in position
 			if(targetLocation != originalLocationOfTarget){
-				navigationAgent.SetTargetLocation(targetLocation);
+				navigationAgent.TargetPosition = targetLocation;
 				originalLocationOfTarget = targetLocation;
 			}
 
@@ -45,11 +45,11 @@ namespace Pawn.Controller {
 				//if in air then let physics take over and just fall
 				return;
 			}
-			Vector3 nextLocation = navigationAgent.GetNextLocation();
-			Vector3 currentLocation = rigidBody.GlobalTransform.origin;
+			Vector3 nextLocation = navigationAgent.GetNextPathPosition();
+			Vector3 currentLocation = rigidBody.GlobalTransform.Origin;
 			Vector3 locationDiff = nextLocation - currentLocation;
 			//Look in the direction of travel
-			float newYRotation = (float) (Math.Atan2(locationDiff.x , locationDiff.z));
+			float newYRotation = (float) (Math.Atan2(locationDiff.X , locationDiff.Z));
 			visualController.setPawnRotation(newYRotation);
 			
 			Vector3 velocity = (nextLocation - currentLocation).Slide(floorNormal).Normalized() * speed;
@@ -70,7 +70,7 @@ namespace Pawn.Controller {
 		*NOTE: the final location will always be locationed on the navigation mesh
 		*/
 		public bool HasFinishedMovement(float targetDistance){
-			if(navigationAgent.GetFinalLocation().DistanceTo(rigidBody.GlobalTransform.origin)
+			if(navigationAgent.GetFinalPosition().DistanceTo(rigidBody.GlobalTransform.Origin)
 				< targetDistance) {
 				return true;
 			} else {
@@ -78,16 +78,18 @@ namespace Pawn.Controller {
 			}
 		}
 
-		public void SetNavigation(Navigation navigation){
-			navigationAgent.SetNavigation(navigation);
+		//TODO: from refactor, not sure if I am 
+		public void SetNavigation(NavigationRegion3D navigation){
+			navigationAgent.SetNavigationMap(NavigationServer3D.RegionGetMap(navigation.GetRegionRid()));
 		}
 
+		//TODO: in godot 4 there may be a better way to do this
 		private void UpdateIsNavigationServerReady(){
-			RID mapRid = NavigationServer.AgentGetMap(navigationAgent.GetRid());
+			Rid mapRid = NavigationServer3D.AgentGetMap(navigationAgent.GetRid());
 			//an ID of 0 should always be an invalid ID
 			//I use the ID of 0 to check if the Navigation server has started up
 			//This method might not be fullproof, so this is a possible source of bugs
-			if(mapRid.GetId() == 0) {
+			if(mapRid.Id == 0) {
 				isNavigationServerReady = false;
 			} else {
 				isNavigationServerReady = true;
@@ -100,7 +102,7 @@ namespace Pawn.Controller {
 		//such that quadrant 2 has the lowest bearings
 		private double GetBearingTo(Vector2 point) {
 			//Dont question it, it works :)
-			return Math.PI - Math.Atan2(point.y, point.x);
+			return Math.PI - Math.Atan2(point.Y, point.X);
 		}
 
 	}

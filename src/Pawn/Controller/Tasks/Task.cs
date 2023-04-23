@@ -4,15 +4,15 @@ using Pawn.Action;
 using Pawn.Targeting;
 
 namespace Pawn.Tasks {
-	public class Task : ITask {
+	public partial class Task : ITask {
 		ITargeting targeting;
 		public Task(ITargeting _targeting, IAction action) {
 			targeting = _targeting;
 			Action = action;
 			TaskState = TaskState.MOVING_TO;
 		}
-		public Vector3 GetTargetLocation() {
-			return targeting.GetTargetLocation();
+		public Vector3 GetTargetPosition() {
+			return targeting.GetTargetPosition();
 		}
 		public IAction Action {get;}
 		//Represents whether the task is valid or not

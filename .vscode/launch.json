@@ -1,49 +1,19 @@
 {
-    // Use IntelliSense to learn about possible attributes.
-    // Hover to view descriptions of existing attributes.
-    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
-    "version": "0.2.0",
-    "configurations": [
-
-        {
-            "name": "Play in Editor",
-            "type": "godot-mono",
-            "mode": "playInEditor",
-            "request": "launch"
-        },
-        {
-            "name": "Launch",
-            "type": "godot-mono",
-            "request": "launch",
-            "mode": "executable",   //Laptop: C:/Users/ajmck/Documents/Development/Godot_v3.5-stable_mono_win64/Godot_v3.5-stable_mono_win64.exe
-            "preLaunchTask": "build",  //desktop: C:/Users/andrew/Documents/Godot/Godot_v3.5-stable_mono_win64/Godot_v3.5-stable_mono_win64.exe
-            "executable": "C:/Users/andrew/Documents/Godot/Godot_v3.5-stable_mono_win64/Godot_v3.5-stable_mono_win64.exe",
-            "executableArguments": [
-                "--path",
-                "${workspaceRoot}",
-                "--verbose"
-            ]
-        },
-        {
-            "name": "Launch (Select Scene)",
-            "type": "godot-mono",
-            "request": "launch",
-            "mode": "executable",
-            "preLaunchTask": "build",
-            "executable": "C:/Users/andrew/Documents/Godot/Godot_v3.5-stable_mono_win64/Godot_v3.5-stable_mono_win64.exe",
-            "executableArguments": [
-                "--path",
-                "${workspaceRoot}",
-                "${command:SelectLaunchScene}",
-                "--verbose"
-            ]
-        },
-        {
-            "name": "Attach",
-            "type": "godot-mono",
-            "request": "attach",
-            "address": "localhost",
-            "port": 23685
-        }
-    ]
-}
+	"version": "0.2.0",
+	"configurations": [
+	  // For these launch configurations to work, you need to setup a GODOT4
+	  // environment variable. On mac or linux, this can be done by adding
+	  // the following to your .zshrc, .bashrc, or .bash_profile file:
+	  // export GODOT4="/Applications/Godot.app/Contents/MacOS/Godot"
+	  {
+		"name": "Play",
+		"type": "coreclr",
+		"request": "launch",
+		"preLaunchTask": "build",
+		"program": "${env:GODOT}",
+		"args": [],
+		"cwd": "${workspaceFolder}",
+		"stopAtEntry": false,
+	  }
+	]
+  }

@@ -5,7 +5,7 @@ using Pawn.Controller;
 
 namespace Pawn.Item {
 	public interface IItem {
-		public Spatial Mesh {get;}
+		public Node3D Mesh {get;}
 		public void QueueFree();
 	}
 }

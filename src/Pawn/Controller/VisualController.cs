@@ -8,15 +8,15 @@ using Util;
 //Handles all animations and particle effects.. etc
 namespace Pawn.Controller
 {
-	public class VisualController : Spatial
+	public partial class VisualController : Node3D
 	{
 		AnimationPlayer? animationPlayer = null;
-		Spatial riggedCharacterRootNode;
+		Node3D riggedCharacterRootNode;
 
 		//TODO: All of the below should be in thier own class
-		BoneAttachment? heldItemBoneAttachment = null;
-		BoneAttachment? scabbardBoneAttachment = null;
-		Spatial? helmetParent = null;
+		BoneAttachment3D? heldItemBoneAttachment = null;
+		BoneAttachment3D? scabbardBoneAttachment = null;
+		Node3D? helmetParent = null;
 		Vector3 scabbardRotation = new Vector3();
 		Vector3 scabbardOrigin = new Vector3();
 		Vector3 heldItemRotation = new Vector3();
@@ -28,7 +28,7 @@ namespace Pawn.Controller
 		IItem? currentHeldItem;
 
 		public VisualController() {
-			riggedCharacterRootNode = new Spatial();
+			riggedCharacterRootNode = new Node3D();
 		}
 		public override void _Ready(){}
 
@@ -52,7 +52,9 @@ namespace Pawn.Controller
 			//now we add the new item to our hand
 			heldItemBoneAttachment.AddChild(currentHeldItem.Mesh);
 			currentHeldItem.Mesh.Rotation = heldItemRotation;
-			currentHeldItem.Mesh.Transform = new Transform(currentHeldItem.Mesh.Transform.basis, heldItemOrigin);
+			//TODO: changed this while upgrading from godot 3 to 4.
+			//originally referenced "Transform3D" I am going to assume that is local
+			currentHeldItem.Mesh.Transform = new Transform3D(currentHeldItem.Mesh.Transform.Basis, heldItemOrigin);
 		}
 
 		public void ForceVisualUpdate(PawnInventory pawnInventory) {
@@ -71,7 +73,7 @@ namespace Pawn.Controller
 			SceneTreeUtil.OrphanChild(helmet.Mesh);
 			helmetParent.AddChild(helmet.Mesh);
 			helmet.Mesh.Rotation = helmetRotation;
-			helmet.Mesh.Transform = new Transform(helmet.Mesh.Transform.basis, helmetOrigin);
+			helmet.Mesh.Transform = new Transform3D(helmet.Mesh.Transform.Basis, helmetOrigin);
 		}
 
 		private void ClearHeldItem() {
@@ -101,7 +103,7 @@ namespace Pawn.Controller
 			//put weapon in scabbard
 			scabbardBoneAttachment.AddChild(currentWeapon.Mesh);
 			currentWeapon.Mesh.Rotation = scabbardRotation;
-			currentWeapon.Mesh.Transform = new Transform(currentWeapon.Mesh.Transform.basis, scabbardOrigin);
+			currentWeapon.Mesh.Transform = new Transform3D(currentWeapon.Mesh.Transform.Basis, scabbardOrigin);
 		}
 
 		public float getAnimationLengthMilliseconds(AnimationName animationName) {
@@ -116,11 +118,14 @@ namespace Pawn.Controller
 			return animationPlayer.GetAnimation(animationName.ToString()).Length * MILLISECONDS_IN_SECOND;
 		}
 
+		//TODO: this should take in a LoopModeEnum
 		public void SetAnimation(AnimationName animationName, bool looping = false) {
 			if(animationPlayer == null) {
 				return;
 			}
-			animationPlayer.GetAnimation(animationName.ToString()).Loop = looping;
+			if(looping) {
+				animationPlayer.GetAnimation(animationName.ToString()).LoopMode = Animation.LoopModeEnum.Linear;
+			}
 			animationPlayer.Play(animationName.ToString());
 		}
 
@@ -132,7 +137,7 @@ namespace Pawn.Controller
 		//I really need a pawn rig loader
 		//TODO: SetPawnRig and all it's related functions should be in its own class called "PawnRigLoader"
 		public void SetPawnRig(string filename) {
-			Spatial pawnMesh = CustomResourceLoader.LoadMesh(filename);
+			Node3D pawnMesh = CustomResourceLoader.LoadMesh(filename);
 			//clear all old nodes
 			foreach (Node node in this.GetChildren()) {
 				node.QueueFree();
@@ -147,8 +152,8 @@ namespace Pawn.Controller
 		}
 
 		//TODO: SetupHeldItem, SetupScabbard, SetupHelmet, and whatever else should be in a for loop some how
-		private void SetupHeldItem(Spatial pawnMeshRoot) {
-			heldItemBoneAttachment = pawnMeshRoot.GetNodeOrNull<BoneAttachment>("Character/Skeleton/BoneAttachment");
+		private void SetupHeldItem(Node3D pawnMeshRoot) {
+			heldItemBoneAttachment = pawnMeshRoot.GetNodeOrNull<BoneAttachment3D>("Character/Skeleton3D/Held_Item");
 			if(heldItemBoneAttachment == null) {
 				//should be common, silently fail
 				return;
@@ -160,15 +165,15 @@ namespace Pawn.Controller
 			//Clears children
 			foreach(Node node in heldItemBoneAttachment.GetChildren()) {
 				//I know these have to be spatials
-				Spatial betterNode = (Spatial) node;
+				Node3D betterNode = (Node3D) node;
 				heldItemRotation = betterNode.Rotation;
-				heldItemOrigin = betterNode.Transform.origin;
+				heldItemOrigin = betterNode.Transform.Origin;
 				node.QueueFree();
 			}
 		}
 
-		private void SetupScabbard(Spatial pawnMeshRoot) {
-			scabbardBoneAttachment = pawnMeshRoot.GetNodeOrNull<BoneAttachment>("Character/Skeleton/BoneAttachment2");
+		private void SetupScabbard(Node3D pawnMeshRoot) {
+			scabbardBoneAttachment = pawnMeshRoot.GetNodeOrNull<BoneAttachment3D>("Character/Skeleton3D/Scabbard");
 			if(scabbardBoneAttachment == null) {
 				//should be common, silently fail
 				return;
@@ -178,16 +183,16 @@ namespace Pawn.Controller
 			}
 			//loop should only run once
 			foreach(Node node in scabbardBoneAttachment.GetChildren()) {
-				Spatial betterNode = (Spatial) node;
+				Node3D betterNode = (Node3D) node;
 				scabbardRotation = betterNode.Rotation;
-				scabbardOrigin = betterNode.Transform.origin;
+				scabbardOrigin = betterNode.Transform.Origin;
 				node.QueueFree();
 			}
 		}
 
-		private void SetupHelmet(Spatial pawnMeshRoot) {
+		private void SetupHelmet(Node3D pawnMeshRoot) {
 			//TODO: making the helmet a child of the whole Char_model for now (Char_Model should have no other children)
-			helmetParent = pawnMeshRoot.GetNodeOrNull<Spatial>("Character/Skeleton/Char_Model");
+			helmetParent = pawnMeshRoot.GetNodeOrNull<Node3D>("Character/Skeleton3D/Char_Model");
 			if(helmetParent == null) {
 				return;
 			}

@@ -5,7 +5,7 @@ using Serilog;
 using Pawn.Controller;
 using Pawn.Item;
 namespace Pawn.Action.Ability {
-	public class StabAbility : IAbility {
+	public partial class StabAbility : IAbility {
 		
 		private PawnController? ownerPawnController;
 		private PawnController? otherPawnController;

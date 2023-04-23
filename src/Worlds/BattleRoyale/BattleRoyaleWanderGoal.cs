@@ -11,7 +11,7 @@ using Pawn.Goal;
 using Pawn.Controller.Components;
 
 namespace Worlds.BattleRoyale {
-	public class BattleRoyaleWanderGoal : IPawnGoal
+	public partial class BattleRoyaleWanderGoal : IPawnGoal
 	{
 		public BattleRoyaleWanderGoal() {}
 

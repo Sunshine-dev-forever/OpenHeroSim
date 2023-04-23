@@ -13,13 +13,13 @@ using Pawn.Controller;
 using Pawn.Targeting;
 
 //the projectile class is just a bit of eye candy and does not ahve the ability to do anything... yet
-public class Projectile : Spatial
+public partial class Projectile : Node3D
 {
-	private Spatial mesh;
+	private Node3D mesh;
 	private ITargeting target;
 	private float speed;
 	private static float GOAL_DISTANCE = 2;
-	public Projectile(Spatial _mesh, ITargeting _target, float _speed) {
+	public Projectile(Node3D _mesh, ITargeting _target, float _speed) {
 		mesh = _mesh;
 		target = _target;
 		speed = _speed;
@@ -27,21 +27,22 @@ public class Projectile : Spatial
 		//rotating the x by -90 degrees should point the projectile forward
 		mesh.RotationDegrees = new Vector3(-90, 0,0);
 	}
-	public override void _Process(float delta)
+	public override void _Process(double delta)
 	{
 		if(!target.IsValid) {
 			//Queuefree should remove all children
 			this.QueueFree();
 		}
 		
-		Vector3 targetLocation = target.GetTargetLocation();
+		Vector3 targetLocation = target.GetTargetPosition();
 		this.LookAt(targetLocation, Vector3.Up);
-		Vector3 locationDiff = targetLocation - this.GlobalTransform.origin;
+		Vector3 locationDiff = targetLocation - this.GlobalTransform.Origin;
 		if(locationDiff.Length() < GOAL_DISTANCE) {
 			this.QueueFree();
 		}
 		Vector3 goalDirection = locationDiff.Normalized();
-		this.GlobalTransform = new Transform(this.GlobalTransform.basis, this.GlobalTransform.origin + (goalDirection * speed * delta));
+		Vector3 newLocation = this.GlobalTransform.Origin + (goalDirection * (float) (speed * delta));
+		this.GlobalTransform = new Transform3D(this.GlobalTransform.Basis, newLocation);
 	}
 
 }

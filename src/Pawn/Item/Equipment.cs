@@ -3,13 +3,13 @@ using System;
 using Serilog;
 using Pawn.Controller;
 namespace Pawn.Item {
-	public class Equipment : IItem
+	public partial class Equipment : IItem
 	{
 		public double Damage {get; set;} = 0;
 		public double Defense {get; set;} = 0;
-		public Spatial Mesh {get;}
+		public Node3D Mesh {get;}
 		public EquipmentType EquipmentType{get; set;}
-		public Equipment(Spatial mesh, EquipmentType equipmentType) {
+		public Equipment(Node3D mesh, EquipmentType equipmentType) {
 			Mesh = mesh;
 			EquipmentType = equipmentType;
 		}
