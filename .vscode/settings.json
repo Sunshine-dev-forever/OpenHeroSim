@@ -7,5 +7,4 @@
 
 	// When opening a file, `editor.tabSize` and `editor.insertSpaces` will be detected based on the file contents.
 	"editor.detectIndentation": false,
-	"godot_tools.editor_path": "c:\\Users\\andrew\\Documents\\Godot\\Godot_v4.0.2-stable_mono_win64\\Godot_v4.0.2-stable_mono_win64.exe"
 }
