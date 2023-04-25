@@ -3,21 +3,21 @@ using System;
 using Serilog;
 using System.Diagnostics;
 
-namespace Pawn.Controller {
-	public partial class MovementController
+namespace Pawn {
+	public partial class PawnMovement
 	{
 		private NavigationAgent3D navigationAgent;
 		private RayCast3D downwardRayCast;
 		private RigidBody3D rigidBody;
 		//TODO: need better name. Point a a lower part of the animation controller? 
-		private VisualController visualController;
+		private PawnVisuals visualController;
 
 		private Vector3 originalLocationOfTarget = Vector3.Zero;
 
 		//the Navigation Server can take some time to start up
 		private bool isNavigationServerReady;
 
-		public MovementController(RigidBody3D _rigidBody, VisualController _visualController, NavigationAgent3D _navigationAgent, RayCast3D _downwardRayCast) {
+		public PawnMovement(RigidBody3D _rigidBody, PawnVisuals _visualController, NavigationAgent3D _navigationAgent, RayCast3D _downwardRayCast) {
 			rigidBody = _rigidBody;
 			visualController = _visualController;
 			navigationAgent = _navigationAgent;

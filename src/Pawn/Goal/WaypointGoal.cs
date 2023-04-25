@@ -4,10 +4,10 @@ using Serilog;
 using System.Collections.Generic;
 using Pawn.Tasks;
 using Pawn.Action;
-using Pawn.Controller;
-using Pawn.Item;
+using Pawn;
+using Item;
 using Pawn.Targeting;
-using Pawn.Controller.Components;
+using Pawn.Components;
 using Godot;
 namespace Pawn.Goal {
 	public partial class WaypointGoal : IPawnGoal

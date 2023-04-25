@@ -1,7 +1,8 @@
 using System.Collections.Generic;
-using Pawn.Controller;
+using Pawn;
+using Interactable;
 
-namespace Pawn.Controller.Components {
+namespace Pawn.Components {
 	public struct SensesStruct {
 		public SensesStruct() {
 			nearbyPawns = new List<PawnController>();

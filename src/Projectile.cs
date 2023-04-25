@@ -9,7 +9,7 @@ using Serilog;
 using KdTree;
 using KdTree.Math;
 using System.Linq;
-using Pawn.Controller;
+using Pawn;
 using Pawn.Targeting;
 
 //the projectile class is just a bit of eye candy and does not ahve the ability to do anything... yet

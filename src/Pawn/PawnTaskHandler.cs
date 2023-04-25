@@ -3,22 +3,22 @@ using Serilog;
 using System.Collections.Generic;
 using Pawn.Tasks;
 using Pawn.Action;
-using Pawn.Controller;
+using Pawn;
 using Pawn.Action.Ability;
 using System.Linq;
 using Godot;
 
 namespace Pawn {
-	public partial class TaskExecutor
+	public partial class PawnTaskHandler
 	{
 
 		private IAction? actionInExecution;
-		private MovementController movementController;
-		private VisualController visualController;
+		private PawnMovement movementController;
+		private PawnVisuals visualController;
 		private PawnInformation pawnInformation;
 		private PawnInventory pawnInventory;
 
-		public TaskExecutor(MovementController _movementController, VisualController _visualController, PawnInformation _pawnInformation,
+		public PawnTaskHandler(PawnMovement _movementController, PawnVisuals _visualController, PawnInformation _pawnInformation,
 					PawnInventory _pawnInventory) {
 			movementController = _movementController;
 			visualController = _visualController;

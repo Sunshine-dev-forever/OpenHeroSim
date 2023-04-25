@@ -2,10 +2,11 @@ using System.Collections.Generic;
 using System.Threading;
 using System;
 using Serilog;
-using Pawn.Controller;
-using Pawn.Item;
+using Pawn;
+using Item;
 using Godot;
 using Pawn.Targeting;
+using Interactable;
 
 namespace Pawn.Action.Ability {
 	public partial class ThrowAbility : IAbility {

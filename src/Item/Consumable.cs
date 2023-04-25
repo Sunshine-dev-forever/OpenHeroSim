@@ -1,8 +1,8 @@
 using Godot;
 using System;
 using Serilog;
-using Pawn.Controller;
-namespace Pawn.Item {
+using Pawn;
+namespace Item {
 	public partial class Consumable : IItem
 	{
 		public double Healing {get;}

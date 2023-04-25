@@ -4,13 +4,14 @@ using System;
 using Serilog;
 using Pawn.Tasks;
 using System.Collections.Generic;
-using Pawn.Item;
+using Item;
 using Util;
 using UI;
-using Pawn.Controller.Components;
+using Pawn.Components;
+using Interactable;
 
 //HAVE TO CALL Setup() before this node will function!!!
-namespace Pawn.Controller
+namespace Pawn
 {
 	public partial class PawnController : Node, IInteractable
 	{
@@ -24,20 +25,20 @@ namespace Pawn.Controller
 		public PawnInformation PawnInformation {get;}
 		public PawnInventory PawnInventory {get;}
 
-		public PawnBrainController PawnBrain {get;}
+		public PawnBrain PawnBrain {get;}
 		private SensesStruct sensesStruct;
 		private ITask currentTask = new InvalidTask();
 
 		//ALL OF THE BELOW VARIABLES ARE CREATED IN Setup() or _Ready
-		private SensesController sensesController = null!;
+		private PawnSenses sensesController = null!;
 		private HealthBar3D healthBar = null!;
-		public TaskExecutor ActionController {get; private set;} = null!;
-		public VisualController VisualController {get; private set;} = null!;
+		public PawnTaskHandler ActionController {get; private set;} = null!;
+		public PawnVisuals PawnVisuals {get; private set;} = null!;
 		private CollisionShape3D collisionShape = null!;
 		private RayCast3D downwardRayCast = null!;
 		private NavigationAgent3D navigationAgent = null!;
 		private RigidBody3D rigidBody = null!;
-		public MovementController MovementController {get; private set;} = null!;
+		public PawnMovement PawnMovement {get; private set;} = null!;
 
 		private KdTreeController KdTreeController = null!;
 		
@@ -51,7 +52,7 @@ namespace Pawn.Controller
 		//When created by instancing a scene, the default constructor is called.
 		public PawnController() {
 			sensesStruct = new SensesStruct();
-			PawnBrain = new PawnBrainController();
+			PawnBrain = new PawnBrain();
 			PawnInventory = new PawnInventory();
 			PawnInformation = new PawnInformation();
 		}
@@ -60,17 +61,17 @@ namespace Pawn.Controller
 		{
 			//so paths are *ONLY* reference here so I think I will just leave it hard coded
 			healthBar = GetNode<HealthBar3D>("RigidBody3D/HealthBar");
-			VisualController = GetNode<VisualController>("RigidBody3D/VisualController");
+			PawnVisuals = GetNode<PawnVisuals>("RigidBody3D/PawnVisuals");
 			collisionShape = GetNode<CollisionShape3D>("RigidBody3D/CollisionShape3D");
 			downwardRayCast = GetNode<RayCast3D>("RigidBody3D/DownwardRayCast");
 			navigationAgent = GetNode<NavigationAgent3D>("RigidBody3D/NavigationAgent3D");
 			rigidBody = GetNode<RigidBody3D>("RigidBody3D");
 
-			MovementController = new MovementController(rigidBody,
-														VisualController,
+			PawnMovement = new PawnMovement(rigidBody,
+														PawnVisuals,
 														navigationAgent,
 														downwardRayCast);
-			ActionController = new TaskExecutor(MovementController, VisualController, PawnInformation, PawnInventory);
+			ActionController = new PawnTaskHandler(PawnMovement, PawnVisuals, PawnInformation, PawnInventory);
 		}
 
 		//Setup HAS to be called for a pawn to work
@@ -82,8 +83,8 @@ namespace Pawn.Controller
 		public void Setup(KdTreeController kdTreeController)
 		{
 			KdTreeController = kdTreeController;
-			sensesController = new SensesController(kdTreeController, this);
-			VisualController.ForceVisualUpdate(PawnInventory);
+			sensesController = new PawnSenses(kdTreeController, this);
+			PawnVisuals.ForceVisualUpdate(PawnInventory);
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -118,7 +119,7 @@ namespace Pawn.Controller
 		public void StartDying() {
 			//I need to start playing the death animation
 			startedDeath = DateTime.Now;
-			VisualController.SetAnimation(AnimationName.Death);
+			PawnVisuals.SetAnimation(AnimationName.Death);
 			//TODO: cannot figure out how to 'turn off' the rigid body
 			//This basically 'turns off' the rigid body
 			//rigidBody.CollisionLayer = 0;

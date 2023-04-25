@@ -5,7 +5,7 @@ using Serilog;
 using Pawn.Action;
 using Pawn.Tasks;
 using Pawn;
-using Pawn.Controller;
+using Pawn;
 
 namespace UI {
 	public partial class DebugUI : Node3D

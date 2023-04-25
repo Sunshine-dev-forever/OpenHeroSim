@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using Godot;
 using Pawn.Tasks;
 using Serilog;
-using Pawn.Item;
+using Item;
 using Util;
 
 //Handles all animations and particle effects.. etc
-namespace Pawn.Controller
+namespace Pawn
 {
-	public partial class VisualController : Node3D
+	public partial class PawnVisuals : Node3D
 	{
 		AnimationPlayer? animationPlayer = null;
 		Node3D riggedCharacterRootNode;
@@ -27,7 +27,7 @@ namespace Pawn.Controller
 		Vector3 helmetRotation = new Vector3();
 		IItem? currentHeldItem;
 
-		public VisualController() {
+		public PawnVisuals() {
 			riggedCharacterRootNode = new Node3D();
 		}
 		public override void _Ready(){}

@@ -6,7 +6,8 @@ using Serilog;
 using KdTree;
 using KdTree.Math;
 using System.Linq;
-using Pawn.Controller;
+using Pawn;
+using Interactable;
 
 public partial class KdTreeController : Node
 {

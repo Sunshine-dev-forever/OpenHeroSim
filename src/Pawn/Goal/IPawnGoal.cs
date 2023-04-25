@@ -2,8 +2,8 @@ using System;
 using Serilog;
 using System.Collections.Generic;
 using Pawn.Tasks;
-using Pawn.Controller;
-using Pawn.Controller.Components;
+using Pawn;
+using Pawn.Components;
 namespace Pawn.Goal {
 	public interface IPawnGoal
 	{

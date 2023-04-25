@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Godot;
 using Pawn.Action;
+using Interactable;
 
 namespace Pawn.Targeting {
 	public partial class InteractableTargeting : ITargeting {

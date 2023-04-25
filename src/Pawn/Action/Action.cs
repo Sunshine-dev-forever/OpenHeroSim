@@ -1,9 +1,9 @@
 using System.Collections.Generic;
-using Pawn.Controller;
+using Pawn;
 using Godot;
 using System;
 using Serilog;
-using Pawn.Item;
+using Item;
 
 namespace Pawn.Action {
 	public partial class Action : IAction
@@ -49,7 +49,7 @@ namespace Pawn.Action {
 				Log.Error(System.Environment.StackTrace);
 			}
 			executable();
-			ownerPawnController.VisualController.SetAnimation(AnimationToPlay, loopAnimation);
+			ownerPawnController.PawnVisuals.SetAnimation(AnimationToPlay, loopAnimation);
 			isCurrentlyRunning = true;
 			timeStarted = DateTime.Now;
 		}
@@ -67,7 +67,7 @@ namespace Pawn.Action {
 			if(loopAnimation) {
 				return timeRunningMilliseconds > animationPlayLengthMilliseconds;
 			} else {
-				return timeRunningMilliseconds > ownerPawnController.VisualController.getAnimationLengthMilliseconds(AnimationToPlay);
+				return timeRunningMilliseconds > ownerPawnController.PawnVisuals.getAnimationLengthMilliseconds(AnimationToPlay);
 			}
 		}
 	}

@@ -1,9 +1,10 @@
 using System.Collections.Generic;
-using Pawn.Controller.Components;
+using Pawn.Components;
+using Interactable;
 
-namespace Pawn.Controller
+namespace Pawn
 {
-	public partial class SensesController
+	public partial class PawnSenses
 	{
 		private const int MAX_PAWNS_TO_SEE = 20;
 		private const int VISION_RANGE = 10;
@@ -11,7 +12,7 @@ namespace Pawn.Controller
 
 		private PawnController pawnController;
 
-		public SensesController(KdTreeController _kdTreeController, PawnController _pawnController)
+		public PawnSenses(KdTreeController _kdTreeController, PawnController _pawnController)
 		{
 			kdTreeController = _kdTreeController;
 			pawnController = _pawnController;

@@ -2,8 +2,8 @@ using System.Collections.Generic;
 using Godot;
 using System;
 using Serilog;
-using Pawn.Controller;
-using Pawn.Item;
+using Pawn;
+using Item;
 namespace Pawn {
 	public partial class PawnInventory
 	{

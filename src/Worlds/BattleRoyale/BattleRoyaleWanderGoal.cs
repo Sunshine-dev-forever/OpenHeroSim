@@ -3,12 +3,12 @@ using Serilog;
 using System.Collections.Generic;
 using Pawn.Tasks;
 using Pawn.Action;
-using Pawn.Controller;
+using Pawn;
 using Worlds.BattleRoyale;
 using Pawn.Targeting;
 using Godot;
 using Pawn.Goal;
-using Pawn.Controller.Components;
+using Pawn.Components;
 
 namespace Worlds.BattleRoyale {
 	public partial class BattleRoyaleWanderGoal : IPawnGoal

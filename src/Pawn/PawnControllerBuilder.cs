@@ -6,10 +6,12 @@ using Pawn.Tasks;
 using Pawn.Action;
 using Pawn.Goal;
 using Godot;
-using Pawn.Controller;
-using Pawn.Item;
+using Pawn;
+using Item;
 using Pawn.Action.Ability;
 using Util;
+using Interactable;
+
 namespace Pawn
 {
 	//What exactally do I want to be able to setup?
@@ -43,7 +45,7 @@ namespace Pawn
 			kdTreeController = _kdTreeController;
 			kdTreeController.AddInteractable(pawn);
 
-			pawn.MovementController.SetNavigation(navigation);
+			pawn.PawnMovement.SetNavigation(navigation);
 		}
 		public static PawnControllerBuilder Start(Node parent, KdTreeController _kdTreeController, NavigationRegion3D navigation) {
 			return new PawnControllerBuilder(parent, _kdTreeController, navigation);
@@ -66,7 +68,7 @@ namespace Pawn
 		}
 
 		public PawnController Finish() {
-			pawn.VisualController.SetPawnRig(pawnRigResourceFile);
+			pawn.PawnVisuals.SetPawnRig(pawnRigResourceFile);
 			pawn.Setup(kdTreeController);
 			return pawn;
 		}

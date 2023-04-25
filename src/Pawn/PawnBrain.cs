@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using Pawn.Tasks;
 using Pawn.Action;
 using Pawn.Goal;
-using Pawn.Controller.Components;
+using Pawn.Components;
 
-namespace Pawn.Controller
+namespace Pawn
 {
-	public partial class PawnBrainController
+	public partial class PawnBrain
 	{
 		private List<IPawnGoal> goals = new List<IPawnGoal>();
 

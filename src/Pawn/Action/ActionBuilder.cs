@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Collections.Generic;
 using Godot;
-using Pawn.Controller;
+using Pawn;
 using Pawn.Action.Ability;
-using Pawn.Item;
+using Item;
 
 namespace Pawn.Action {
 	public partial class ActionBuilder {

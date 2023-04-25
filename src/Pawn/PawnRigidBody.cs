@@ -1,7 +1,7 @@
 using Godot;
 using System;
 using Serilog;
-using Pawn.Controller;
+using Pawn;
 namespace Pawn {
 	public partial class PawnRigidBody : RigidBody3D
 	{

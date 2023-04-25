@@ -1,8 +1,8 @@
 using Godot;
 using System;
 using Serilog;
-using Pawn.Controller;
-namespace Pawn.Item {
+using Pawn;
+namespace Item {
 	public partial class Equipment : IItem
 	{
 		public double Damage {get; set;} = 0;

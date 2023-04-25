@@ -1,8 +1,8 @@
 using System;
 using Godot;
 using System.Collections.Generic;
-using Pawn.Controller;
-using Pawn.Item;
+using Pawn;
+using Item;
 
 namespace Pawn.Action {
 	public interface IAction {
