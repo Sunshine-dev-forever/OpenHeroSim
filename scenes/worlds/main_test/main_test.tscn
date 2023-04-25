@@ -26,7 +26,7 @@ rough = true
 size = Vector3(500, 1, 500)
 
 [sub_resource type="BoxShape3D" id="8"]
-size = Vector3(1, 1, 0.958171)
+size = Vector3(6.8, 1, 0.958)
 
 [sub_resource type="BoxMesh" id="9"]
 
@@ -103,12 +103,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.457302, 0)
 shape = SubResource("BoxShape3D_ykgjm")
 
 [node name="RoadBlock1" type="StaticBody3D" parent="NavigationRegion3D"]
-transform = Transform3D(-0.0869127, 0, 0.999922, 0, 1, 0, -6.93503, 0, -0.0125312, -9.82837, 0.264285, -11.7934)
+transform = Transform3D(-0.0125315, 0, 0.999922, 0, 1, 0, -0.999922, 0, -0.0125315, -9.82837, 0.264285, -11.7934)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/RoadBlock1"]
 shape = SubResource("8")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/RoadBlock1"]
+transform = Transform3D(6.8, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("9")
 
 [node name="RoadBlock2" type="StaticBody3D" parent="NavigationRegion3D"]
