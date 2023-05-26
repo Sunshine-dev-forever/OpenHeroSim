@@ -32,7 +32,7 @@ namespace Pawn
 		//ALL OF THE BELOW VARIABLES ARE CREATED IN Setup() or _Ready
 		private PawnSenses sensesController = null!;
 		private HealthBar3D healthBar = null!;
-		public PawnTaskHandler ActionController {get; private set;} = null!;
+		public PawnTaskHandler PawnTaskHandler {get; private set;} = null!;
 		public PawnVisuals PawnVisuals {get; private set;} = null!;
 		private CollisionShape3D collisionShape = null!;
 		private RayCast3D downwardRayCast = null!;
@@ -71,7 +71,7 @@ namespace Pawn
 														PawnVisuals,
 														navigationAgent,
 														downwardRayCast);
-			ActionController = new PawnTaskHandler(PawnMovement, PawnVisuals, PawnInformation, PawnInventory);
+			PawnTaskHandler = new PawnTaskHandler(PawnMovement, PawnVisuals, PawnInformation, PawnInventory);
 		}
 
 		//Setup HAS to be called for a pawn to work
@@ -105,7 +105,7 @@ namespace Pawn
 				//Placed in physics process since Handle task may call some functions
 				//in movement controller which **I Think** means this function has to be placed in 
 				//_PhysicsProcess
-				ActionController.HandleTask(currentTask, PawnInventory);
+				PawnTaskHandler.HandleTask(currentTask, this);
 			}
 		}
 

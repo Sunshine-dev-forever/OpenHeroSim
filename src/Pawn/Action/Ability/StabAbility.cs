@@ -4,9 +4,9 @@ using System;
 using Serilog;
 using Pawn;
 using Item;
+using Interactable;
 namespace Pawn.Action.Ability {
 	public partial class StabAbility : IAbility {
-		
 		private PawnController? ownerPawnController;
 		private PawnController? otherPawnController;
 		public IItem? HeldItem {get; set;}
@@ -20,7 +20,7 @@ namespace Pawn.Action.Ability {
 		public IAbility Duplicate(PawnController _ownerPawnController, PawnController _otherPawnController) {
 			return new StabAbility(_ownerPawnController, _otherPawnController);
 		}
-		public Boolean CanBeUsed(PawnController _ownerPawnController, PawnController _otherPawnController){
+		public Boolean CanBeUsed(PawnController _ownerPawnController){
 			//Stab abilty should pretty much always be valid to use
 			return true;
 		}
@@ -29,10 +29,8 @@ namespace Pawn.Action.Ability {
 		public int CooldownMilliseconds {get {return STAB_ACTION_COOLDOWN;} }
 		public string Name {get {return this.GetType().Name;}}
 		public float MaxRange {get {return STAB_ACTION_MAX_RANGE;}}
-		private ActionTags[] tags = {ActionTags.COMBAT};
-		public List<ActionTags> Tags {get {return new List<ActionTags>(tags);}}
 		public AnimationName AnimationToPlay {get {return AnimationName.Stab;}}
-		public void execute() {
+		public void Execute() {
 			//TODO: Stab should provide its own multipliers
 			if(ownerPawnController == null || otherPawnController == null) {
 				throw new NullReferenceException();
@@ -44,6 +42,10 @@ namespace Pawn.Action.Ability {
 		//A sign that this is now how I should be defining abilites
 		public bool IsFinished() {
 			throw new NotImplementedException();
+		}
+
+		public void Setup(IInteractable? target, IItem heldItem) {
+			return;
 		}
 
 	}

@@ -35,12 +35,9 @@ namespace Pawn.Goal {
 			if(pawnToAttack == null) {
 				return new InvalidTask();
 			}
-			List<ActionTags> requestedTags = new List<ActionTags>();
-			requestedTags.Add(ActionTags.COMBAT);
-			List<IAbility> validAbilities = ownerPawnController.PawnInformation.GetAllAbilitiesWithTags(requestedTags, ownerPawnController, pawnToAttack);
+			List<IAbility> validAbilities = ownerPawnController.PawnInformation.GetAllUsableAbilities(ownerPawnController, pawnToAttack);
 			//no matter what we are targeting the other pawn
 			ITargeting targeting = new InteractableTargeting(pawnToAttack);
-			//The only valid action in combat is stabbing
 			if (validAbilities.Count == 0)
 			{
 				//returning an invalid action here could cause the brain to move on to the next goal
@@ -55,12 +52,12 @@ namespace Pawn.Goal {
 				//TODO: pawnController.Weapon.Mesh should default to a spatial node. even if Weapon is null
 				waitAction.HeldItem = ownerPawnController.PawnInventory.GetWornEquipment(EquipmentType.HELD);
 				return new Task(targeting, waitAction);
-			} else {
-				
+			} else {	
 				//We take first valid ability
-				IAbility ability = validAbilities[0].Duplicate(ownerPawnController, pawnToAttack);
-				IAction action = ActionBuilder.Start(ability, ownerPawnController).Finish();
-				return new Task(targeting, action);
+				IAbility ability = validAbilities[0];
+				IItem? heldItem = ownerPawnController.PawnInventory.GetWornEquipment(EquipmentType.HELD);
+				ability.Setup(pawnToAttack, heldItem);
+				return new Task(targeting, ability);
 			}
 		}
 	}

@@ -99,8 +99,17 @@ namespace Pawn
 			return this;
 		}
 
-		public PawnControllerBuilder AddAbility(IAbility ability) {
-			pawn.PawnInformation.AddAbility(ability);
+		public PawnControllerBuilder AddAbility(string abilityName) {
+			switch (abilityName) {
+				case AbilityDefinitions.STAB_ABILITY:
+					pawn.PawnInformation.AddAbility(AbilityDefinitions.CreateStabAbility(pawn));
+				break;
+				case AbilityDefinitions.THROW_ABILITY:
+					pawn.PawnInformation.AddAbility(AbilityDefinitions.CreateThrowAbility(pawn));
+				break;
+				default:
+					throw new Exception("abilty name not recognized");
+			}
 			return this;
 		}
 	}

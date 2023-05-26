@@ -26,17 +26,7 @@ namespace Pawn {
 			pawnInventory = _pawnInventory;
 		}
 
-		public void ExecuteActionFromTask(ITask task) {
-			//TODO: what if I create an action that happens to have an identical name as an ability?
-			if(pawnInformation.HasAbility(task.Action.Name)) {
-				//TODO: I cannot convert the action back into an ability so I must reference the old ability
-				pawnInformation.UpdateAbilityLastUsed(task.Action.Name, DateTime.Now);
-			}
-			actionInExecution = task.Action;
-			actionInExecution.execute();
-		}
-
-		public void HandleTask(ITask task, PawnInventory pawnInventory) {
+		public void HandleTask(ITask task, PawnController ownerPawnController) {
 			if(!task.IsValid) {
 				//early exit on invalid task
 				return;
@@ -64,7 +54,9 @@ namespace Pawn {
 			if(movementController.HasFinishedMovement(task.Action.MaxRange)) {
 				movementController.Stop();
 				
-				ExecuteActionFromTask(task);
+				actionInExecution = task.Action;
+				actionInExecution.Execute();
+				
 				task.TaskState = TaskState.USING_ACTION;
 				visualController.UpdateHeldItem(task.Action.HeldItem, pawnInventory);
 			} else {

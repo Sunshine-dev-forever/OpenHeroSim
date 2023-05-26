@@ -3,17 +3,15 @@ using Godot;
 using System.Collections.Generic;
 using Pawn;
 using Item;
+using Interactable;
 
 namespace Pawn.Action {
 	public interface IAction {
-		int CooldownMilliseconds {get; }
-		List<ActionTags> Tags {get;}
 		string Name {get;}
 		float MaxRange {get;}
-		void execute();
+		void Execute();
 		public IItem? HeldItem {get; set;}
 		public bool IsFinished();
+		public AnimationName AnimationToPlay {get;}
 	}
-
-	public enum ActionTags {COMBAT}
 }

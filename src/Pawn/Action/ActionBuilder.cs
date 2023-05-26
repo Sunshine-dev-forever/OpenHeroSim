@@ -10,31 +10,22 @@ namespace Pawn.Action {
 	public partial class ActionBuilder {
 		private Action action;
 
-		private ActionBuilder(PawnController pawnController, System.Action executable) {
-			action = new Action(pawnController, executable);
+		private ActionBuilder(PawnController ownerPawnController, System.Action executable) {
+			action = new Action(ownerPawnController, executable);
 		}
-		public static ActionBuilder Start(PawnController pawnController, System.Action executable) {
-			return new ActionBuilder(pawnController, executable);
-		}
-
-		public static ActionBuilder Start(IAbility ability, PawnController pawnController) {
-			ActionBuilder actionBuilder = new ActionBuilder(pawnController, ability.execute);
-			return actionBuilder.Animation(ability.AnimationToPlay)
-					.AddTags(ability.Tags)
-					.MaxRange(ability.MaxRange)
-					.Name(ability.Name)
-					.HeldItem(ability.HeldItem);
+		public static ActionBuilder Start(PawnController ownerPawnController, System.Action executable) {
+			return new ActionBuilder(ownerPawnController, executable);
 		}
 
-		public ActionBuilder AddTag(ActionTags actionTag) {
-			action.Tags.Add(actionTag);
-			return this;
-		}
-
-		public ActionBuilder AddTags(IEnumerable<ActionTags> tags) {
-			action.Tags.AddRange(tags);
-			return this;
-		}
+		//CRNT: this method will no longer be needed
+		// public static ActionBuilder Start(IAbility ability, PawnController pawnController) {
+		// 	ActionBuilder actionBuilder = new ActionBuilder(pawnController, ability.execute);
+		// 	return actionBuilder.Animation(ability.AnimationToPlay)
+		// 			.AddTags(ability.Tags)
+		// 			.MaxRange(ability.MaxRange)
+		// 			.Name(ability.Name)
+		// 			.HeldItem(ability.HeldItem);
+		// }
 
 		public ActionBuilder MaxRange(float range) {
 			action.MaxRange = range;

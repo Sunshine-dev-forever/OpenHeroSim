@@ -3,7 +3,7 @@ using Godot;
 using Serilog;
 namespace Util {
 	public static class CustomResourceLoader {
-		private static string DEFAULT_MESH_FILE_PATH = "res://scenes/visual_sphere.tscn";
+
 
 		//This function has a default, wooohooo!
 		public static Node3D LoadMesh(string filePath) {
@@ -19,11 +19,11 @@ namespace Util {
 		}
 
 		private static Node3D GetDefaultMesh() {
-			PackedScene? packedScene = GD.Load<PackedScene>(DEFAULT_MESH_FILE_PATH);
+			PackedScene? packedScene = GD.Load<PackedScene>(ResourcePaths.DEFAULT_MESH_FILE_PATH);
 			if(packedScene != null) {
 				return (Node3D) packedScene.Instantiate();
 			} else {
-				Log.Error(typeof(CustomResourceLoader) + ": Default mesh failed to load! Default mesh path: " + DEFAULT_MESH_FILE_PATH);
+				Log.Error(typeof(CustomResourceLoader) + ": Default mesh failed to load! Default mesh path: " + ResourcePaths.DEFAULT_MESH_FILE_PATH);
 				return new Node3D();
 			}
 		}

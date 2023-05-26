@@ -5,7 +5,6 @@ using Serilog;
 using Pawn.Action;
 using System.Threading.Tasks;
 using Pawn;
-using Pawn;
 using Pawn.Goal;
 using Item;
 using Pawn.Action.Ability;
@@ -27,7 +26,7 @@ namespace Worlds.MainTest
 		
 		public override void _Input(InputEvent input) {
 			if(input.IsActionPressed("mouse_left_click")) {
-				//CreateThrowableTester();
+				CreateThrowableTester();
 			} else if(input.IsActionPressed("ui_left")) {
 				//CreateTestProjectile();
 				NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
@@ -46,7 +45,7 @@ namespace Worlds.MainTest
 			TimeSinceLastPawnCreation += delta;
 			if(TimeSinceLastPawnCreation > 5) {
 				TimeSinceLastPawnCreation = 0;
-				//lastPawnSpawned = CreatePawn();
+				lastPawnSpawned = CreatePawn();
 			}
 			
 		}
@@ -60,8 +59,8 @@ namespace Worlds.MainTest
 								.AddGoal(new DefendSelfGoal())
 								.AddGoal(new LootGoal())
 								.AddGoal(new WanderGoal())
-								.AddAbility(new ThrowAbility())
-								.AddAbility(new StabAbility())
+								.AddAbility(AbilityDefinitions.THROW_ABILITY)
+								.AddAbility(AbilityDefinitions.STAB_ABILITY)
 								.WearEquipment(GetRandomWeapon())
 								.WearEquipment(GetHelmet())
 								.AddItem(CreateThrowable())
@@ -94,11 +93,10 @@ namespace Worlds.MainTest
 								.AddGoal(new DefendSelfGoal())
 								.AddGoal(new LootGoal())
 								.AddGoal(new WanderGoal())
-								.AddAbility(new StabAbility())
 								.WearEquipment(GetRandomWeapon())
-								.WearEquipment(GetHelmet())
+								.AddAbility(AbilityDefinitions.STAB_ABILITY)
 								.Location(location)
-								.Finish();		
+								.Finish();
 		}
 
 		private PawnController CreatePawnInCenter(){
@@ -109,17 +107,16 @@ namespace Worlds.MainTest
 			return PawnControllerBuilder.Start(this, kdTreeController, navigation)
 								.AddGoal(new HealGoal())
 								.AddGoal(new DefendSelfGoal())
+								.AddAbility(AbilityDefinitions.STAB_ABILITY)
 								.AddGoal(new LootGoal())
 								.AddGoal(new WanderGoal())
-								.AddAbility(new StabAbility())
 								.WearEquipment(GetRandomWeapon())
 								.WearEquipment(GetHelmet())
 								.Location(location)
-								.Finish();		
+								.Finish();
 		}
 
 		private Equipment GetHelmet() {
-			//"res://scenes/world_objects/box_helm.tscn"
 			Node3D boxHelm = CustomResourceLoader.LoadMesh(ResourcePaths.BOX_HELM);
 			Equipment equipment = new Equipment(boxHelm, EquipmentType.HEAD);
 			equipment.Defense = 5;

@@ -5,7 +5,6 @@ using Serilog;
 using Pawn.Action;
 using System.Threading.Tasks;
 using Pawn;
-using Pawn;
 using Pawn.Goal;
 using Item;
 using Pawn.Action.Ability;
@@ -54,7 +53,6 @@ namespace Worlds.TowerDefense {
 			
 			return PawnControllerBuilder.Start(this, kdTreeController, navigation)
 								.AddGoal(new WaypointGoal(waypoints))
-								.AddAbility(new StabAbility())
 								.Location(location)
 								.Finish();		
 		}
@@ -71,7 +69,7 @@ namespace Worlds.TowerDefense {
 			foreach (Node3D location in TowerSpawns) {
 				PawnControllerBuilder.Start(this, kdTreeController, navigation)
 								.AddGoal(new DefendSelfGoal())
-								.AddAbility(new ThrowAbility())
+								.AddAbility(AbilityDefinitions.THROW_ABILITY)
 								.Faction("Towers")
 								.AddItem(CreateThrowable())
 								.Location(location.GlobalTransform.Origin)

@@ -5,7 +5,6 @@ using Serilog;
 using Pawn.Action;
 using System.Threading.Tasks;
 using Pawn;
-using Pawn;
 using Pawn.Goal;
 using Item;
 using Pawn.Action.Ability;
@@ -75,9 +74,9 @@ namespace Worlds.BattleRoyale {
 								.AddGoal(new DefendSelfGoal())
 								.AddGoal(new LootGoal())
 								.AddGoal(new BattleRoyaleWanderGoal())
-								.AddAbility(new StabAbility())
+								.AddAbility(AbilityDefinitions.STAB_ABILITY)
 								.Location(location)
-								.Finish();		
+								.Finish();
 		}
 
 		private void UpdateBarriers() {

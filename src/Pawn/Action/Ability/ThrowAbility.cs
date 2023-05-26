@@ -45,10 +45,8 @@ namespace Pawn.Action.Ability {
 		public int CooldownMilliseconds {get {return THROW_ACTION_COOLDOWN;} }
 		public string Name {get {return this.GetType().Name;}}
 		public float MaxRange {get {return THROW_ACTION_MAX_RANGE;}}
-		private ActionTags[] tags = {ActionTags.COMBAT};
-		public List<ActionTags> Tags {get {return new List<ActionTags>(tags);}}
 		public AnimationName AnimationToPlay {get {return AnimationName.Interact;}}
-		public void execute() {
+		public void Execute() {
 			//TODO: throwing should provide its own multipliers
 			if(ownerPawnController == null || otherPawnController == null) {
 				throw new NullReferenceException();
@@ -68,7 +66,7 @@ namespace Pawn.Action.Ability {
 			CreateProjectile(mesh, ownerPawnController, otherPawnController);
 		}
 
-		public Boolean CanBeUsed(PawnController ownerPawnController, PawnController otherPawnController) {
+		public Boolean CanBeUsed(PawnController ownerPawnController) {
 			foreach (IItem item in ownerPawnController.PawnInventory.GetAllItemsInBag()) {
 				if(item is Throwable) {
 					return true;
@@ -90,6 +88,10 @@ namespace Pawn.Action.Ability {
 		//Basically some interface fuckery is going on here
 		public bool IsFinished() {
 			throw new NotImplementedException();
+		}
+
+		public void Setup(IInteractable? target, IItem heldItem) {
+			return;
 		}
 
 	}
