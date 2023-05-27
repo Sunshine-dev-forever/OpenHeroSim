@@ -14,10 +14,10 @@ public partial class KdTreeController : Node
 	private KdTree<float, IInteractable> kdTree = new KdTree<float, IInteractable>(3, new FloatMath());
 	private List<IInteractable> allInteractables = new List<IInteractable>();
 
-    public override void _Ready()
-    {
+	public override void _Ready()
+	{
 		//Log.Information("KD tree started!");
-    }
+	}
 
 	public override void _Process(double delta)
 	{
@@ -25,34 +25,39 @@ public partial class KdTreeController : Node
 		//I should be able to multithread this
 		KdTree<float, IInteractable> newTree = new KdTree<float, IInteractable>(3, new FloatMath());
 		//Start from the end since we will be removing items
-		for (int i = allInteractables.Count - 1; i >= 0; i-- ) {
+		for (int i = allInteractables.Count - 1; i >= 0; i--)
+		{
 			IInteractable interactable = allInteractables[i];
 			//prune invalid instances
-			if(interactable == null || !interactable.IsInstanceValid()) {
+			if (interactable == null || !interactable.IsInstanceValid())
+			{
 				allInteractables.RemoveAt(i);
 				continue;
 			}
 			//add valid instances to new tree
 			Vector3 location = interactable.GlobalTransform.Origin;
-			newTree.Add(new[] {location.X, location.Y, location.Z}, interactable );
+			newTree.Add(new[] { location.X, location.Y, location.Z }, interactable);
 		}
 		//replace old tree with new tree
 		kdTree = newTree;
 	}
 
-	public void AddInteractable(IInteractable interactable) {
+	public void AddInteractable(IInteractable interactable)
+	{
 		allInteractables.Add(interactable);
 	}
 
 	//count is the max number of neightbors to pull, keep low for better preformance I guess?
-	public List<IInteractable> GetNearestInteractables(Vector3 location, int count) {
-		IEnumerable<KdTreeNode<float, IInteractable>> nearestNodes = 
-			kdTree.GetNearestNeighbours(new[] {location.X, location.Y, location.Z}, count);
-		return nearestNodes.Select( (kdTreeNode) => (kdTreeNode.Value)).ToList();
+	public List<IInteractable> GetNearestInteractables(Vector3 location, int count)
+	{
+		IEnumerable<KdTreeNode<float, IInteractable>> nearestNodes =
+			kdTree.GetNearestNeighbours(new[] { location.X, location.Y, location.Z }, count);
+		return nearestNodes.Select((kdTreeNode) => (kdTreeNode.Value)).ToList();
 	}
 
 	//count is the max number of neightbors to pull, keep low for better preformance I guess?
-	public List<IInteractable> GetNearestInteractableToInteractable(IInteractable interactable, int count) {
+	public List<IInteractable> GetNearestInteractableToInteractable(IInteractable interactable, int count)
+	{
 		Vector3 location = interactable.GlobalTransform.Origin;
 		List<IInteractable> rtn = GetNearestInteractables(location, count);
 		//This probablly wont throw an exception
