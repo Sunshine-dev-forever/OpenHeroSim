@@ -1,24 +1,20 @@
 
-
-//not sure where to put this class
 using Godot;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Serilog;
-using KdTree;
-using KdTree.Math;
 using System.Linq;
 using Pawn;
 using Pawn.Targeting;
 
-//the projectile class is just a bit of eye candy and does not ahve the ability to do anything... yet
+//not sure where to put this class in the file structure
+//The projectile class is just eye candy for now
 public partial class Projectile : Node3D
 {
-	private Node3D mesh;
-	private ITargeting target;
-	private float speed;
-	private static float GOAL_DISTANCE = 2;
+	private readonly Node3D mesh;
+	private readonly ITargeting target;
+	private readonly float speed;
+	private const float GOAL_DISTANCE = 2;
 	public Projectile(Node3D _mesh, ITargeting _target, float _speed) {
 		mesh = _mesh;
 		target = _target;
