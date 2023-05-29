@@ -1,10 +1,7 @@
 using System.Collections.Generic;
 using Godot;
-using Serilog;
-
 
 namespace Util {
-	//one day this will all be defined in JSON... one day
 	public static class DebugOrb {
 		private static Dictionary<int, Node3D> orbs = new Dictionary<int, Node3D>();
 		public static void PlaceDebugOrb(Vector3 globalLocation, int id, Node anyNodeInSceneTree) {

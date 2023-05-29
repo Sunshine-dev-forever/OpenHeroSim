@@ -31,14 +31,17 @@ public partial class Projectile : Node3D
 			//Queuefree should remove all children
 			this.QueueFree();
 		}
-
+		//get next location and look at it
 		Vector3 targetLocation = target.GetTargetPosition();
 		this.LookAt(targetLocation, Vector3.Up);
 		Vector3 locationDiff = targetLocation - this.GlobalTransform.Origin;
+
+		//if we are within goal distance, delete self
 		if (locationDiff.Length() < GOAL_DISTANCE)
 		{
 			this.QueueFree();
 		}
+		//move to new location
 		Vector3 goalDirection = locationDiff.Normalized();
 		Vector3 newLocation = this.GlobalTransform.Origin + (goalDirection * (float)(speed * delta));
 		this.GlobalTransform = new Transform3D(this.GlobalTransform.Basis, newLocation);

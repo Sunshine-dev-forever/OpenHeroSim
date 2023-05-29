@@ -1,7 +1,9 @@
 
 using Godot;
 namespace Util {
+	//a collection of fucntions that help with interacting with the godot scene tree
 	public static class SceneTreeUtil {
+		//removes all children from the given node
 		public static void RemoveAllChildren(Node root) {
 			foreach(Node node in root.GetChildren()) {
 				root.RemoveChild(node);
@@ -15,9 +17,5 @@ namespace Util {
 				node.GetParent().RemoveChild(node);
 			}
 		}
-
-		// public static void PrintAllChildren(){
-			//TODO
-		// }
 	}
 }

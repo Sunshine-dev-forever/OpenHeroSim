@@ -1,30 +1,23 @@
-using System.Reflection.Emit;
 using System;
-using Serilog;
-using System.Collections.Generic;
-using Pawn.Tasks;
-using Pawn.Action;
 using Pawn.Goal;
 using Godot;
-using Pawn;
 using Item;
 using Pawn.Action.Ability;
 using Util;
-using Interactable;
 
 namespace Pawn
 {
-	//What exactally do I want to be able to setup?
-	//I want to change brain-modules
-	//I want to change stats (pawn informaiton class that does not exist yet)
-
+	//builder class for a pawn
 	public class PawnControllerBuilder
 	{
 		KdTreeController kdTreeController;
+		//this is the pawn that is under construction
 		PawnController pawn;
 
 		private static string PAWN_RIG_RESOURCE_FILE_DEFAULT = ResourcePaths.PAWN_MODEL;
 		private string pawnRigResourceFile = PAWN_RIG_RESOURCE_FILE_DEFAULT;
+
+		//creates a pawn with no AI
 		public static PawnController CreateTrainingDummy(Vector3 location, 
 														Node parent, 
 														KdTreeController _kdTreeController, 

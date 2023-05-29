@@ -14,17 +14,14 @@ public partial class KdTreeController : Node
 	private KdTree<float, IInteractable> kdTree = new KdTree<float, IInteractable>(3, new FloatMath());
 	private List<IInteractable> allInteractables = new List<IInteractable>();
 
-	public override void _Ready()
-	{
-		//Log.Information("KD tree started!");
-	}
-
 	public override void _Process(double delta)
 	{
-		//casually rebuild the entire tree
-		//I should be able to multithread this
+		//this rebuilds the kd-tree every single frame
+		//in the future this would be optimized to only rebuild the tree every nth frame
+		//alternatively, I could program this process function to operate on its own thread
 		KdTree<float, IInteractable> newTree = new KdTree<float, IInteractable>(3, new FloatMath());
-		//Start from the end since we will be removing items
+		
+		//Start from the end of the list since we will be removing items
 		for (int i = allInteractables.Count - 1; i >= 0; i--)
 		{
 			IInteractable interactable = allInteractables[i];
@@ -42,6 +39,8 @@ public partial class KdTreeController : Node
 		kdTree = newTree;
 	}
 
+	//adds an interactable to the list of interatables
+	//NOTE: this does not add anything to the KDtree directly
 	public void AddInteractable(IInteractable interactable)
 	{
 		allInteractables.Add(interactable);
@@ -60,7 +59,6 @@ public partial class KdTreeController : Node
 	{
 		Vector3 location = interactable.GlobalTransform.Origin;
 		List<IInteractable> rtn = GetNearestInteractables(location, count);
-		//This probablly wont throw an exception
 		rtn.Remove(interactable);
 		return rtn;
 	}

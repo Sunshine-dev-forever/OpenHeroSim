@@ -1,22 +1,19 @@
-using System.Globalization;
 using Godot;
 using System;
-using Serilog;
 using Pawn.Tasks;
-using System.Collections.Generic;
-using Item;
 using Util;
 using UI;
 using Pawn.Components;
 using Interactable;
 
-//HAVE TO CALL Setup() before this node will function!!!
+
 namespace Pawn
 {
+	//HAVE TO CALL Setup() before this class will function!!!
+	//TODO: this should have an interface!!!!
 	public partial class PawnController : Node, IInteractable
 	{
 		private static int TIME_TO_WAIT_AFTER_DEATH = 2;
-		//TODO: This might be bad design, time will tell
 		public Transform3D GlobalTransform
 		{
 			get { return rigidBody.GlobalTransform; }
@@ -29,7 +26,7 @@ namespace Pawn
 		private SensesStruct sensesStruct;
 		private ITask currentTask = new InvalidTask();
 
-		//ALL OF THE BELOW VARIABLES ARE CREATED IN Setup() or _Ready
+		//ALL OF THE BELOW VARIABLES ARE CREATED IN Setup() or _Ready()
 		private PawnSenses sensesController = null!;
 		private HealthBar3D healthBar = null!;
 		public PawnTaskHandler PawnTaskHandler {get; private set;} = null!;
@@ -39,15 +36,12 @@ namespace Pawn
 		private NavigationAgent3D navigationAgent = null!;
 		private RigidBody3D rigidBody = null!;
 		public PawnMovement PawnMovement {get; private set;} = null!;
-
 		private KdTreeController KdTreeController = null!;
-		
+		//end variables which are created in Setup() or _Ready()
+
 		//if death has been started, then this pawn is in the process of Dying
 		public bool IsDying {get { return startedDeath != DateTime.MaxValue;}}
 		private DateTime startedDeath = DateTime.MaxValue;
-
-		//TODO: implement something like the below:
-		//private List<IPawnTrait> pawnTraits;
 
 		//When created by instancing a scene, the default constructor is called.
 		public PawnController() {
@@ -59,7 +53,7 @@ namespace Pawn
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
-			//so paths are *ONLY* reference here so I think I will just leave it hard coded
+			//so paths are *ONLY* referenced here so I think I will just leave it hard coded
 			healthBar = GetNode<HealthBar3D>("RigidBody3D/HealthBar");
 			PawnVisuals = GetNode<PawnVisuals>("RigidBody3D/PawnVisuals");
 			collisionShape = GetNode<CollisionShape3D>("RigidBody3D/CollisionShape3D");
@@ -115,25 +109,22 @@ namespace Pawn
 				Die();
 			}
 		}
-		//This function begins the death process
+
 		public void StartDying() {
-			//I need to start playing the death animation
 			startedDeath = DateTime.Now;
 			PawnVisuals.SetAnimation(AnimationName.Death);
 			//TODO: cannot figure out how to 'turn off' the rigid body
-			//This basically 'turns off' the rigid body
-			//rigidBody.CollisionLayer = 0;
-			//uint MASK_JUST_FLOOR = 1;
-			//rigidBody.CollisionMask = MASK_JUST_FLOOR;
-			//rigidBody.Sleeping = true;
+			//	such that the pawn does not collide with other pawns but still collides
+			//	with the floor
 		}
 
 		//Gets the total damage that this pawn is able to produce.
-		//TODO: needs to be replaced with actual pawn stats
 		public double GetDamage() {
 			return PawnInformation.BaseDamage + PawnInventory.GetTotalEquiptmentDamage();
 		}
 
+		//makes the pawn take damage
+		//damage below 0 is ignored
 		public void TakeDamage(double damage)
 		{
 			double taken_damage = damage - PawnInventory.GetTotalEquiptmentDefense();
@@ -150,7 +141,12 @@ namespace Pawn
 			healthBar.SetHealthPercent(PawnInformation.Health / PawnInformation.MaxHealth);
 		}
 
+		//makes the pawn heal
+		//healing below 0 is ignored
 		public void TakeHealing(double amount) {
+			if(amount < 0) {
+				return;
+			}
 			PawnInformation.Health = PawnInformation.Health + amount;
 			if(PawnInformation.Health > PawnInformation.MaxHealth) {
 				PawnInformation.Health = PawnInformation.MaxHealth;
@@ -176,17 +172,6 @@ namespace Pawn
 			this.GetParent().AddChild(itemContainer);
 			itemContainer.GlobalTransform = new Transform3D(itemContainer.GlobalTransform.Basis, this.GlobalTransform.Origin);
 			KdTreeController.AddInteractable(itemContainer);
-		}
-
-		public void Adhoc()
-		{
-		}
-
-		//only used by UI elements 
-		//NEVER MUTATE THE TASK!!!
-		public ITask GetTask()
-		{
-			return currentTask;
 		}
 
 		public bool IsInstanceValid() {

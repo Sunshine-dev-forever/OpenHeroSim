@@ -1,19 +1,16 @@
-using System;
-using Serilog;
 using System.Collections.Generic;
 using Pawn.Tasks;
-using Pawn.Action;
 using Pawn.Goal;
 using Pawn.Components;
 
 namespace Pawn
 {
+	//the pawn brain creates tasks for the rest of the pawn to execute.
+	//The pawn brain has a list of goals which it iterates through to generate a task
+	//goals earlier in the goal list have a higher priority and take precedent over the later goals
 	public class PawnBrain
 	{
 		private List<IPawnGoal> goals = new List<IPawnGoal>();
-
-		//TODO: implement a combat goal list (combat goals would be like heal, save ally, kill, etc)
-		//private List<IPawnGoal> combatGoalList = new List<IPawnGoal>();
 
 		public void AddGoal(IPawnGoal goal) {
 			goals.Add(goal);
@@ -40,7 +37,7 @@ namespace Pawn
 			for (int i = 0; i < goals.Count; i++)
 			{
 				if(i >= currentTask.Priority) {
-					//Only want tasks will a Priority that could be higher
+					//Only want tasks with a Priority that could be higher
 					break;
 				}
 				IPawnGoal pawnGoal = goals[i];
@@ -69,12 +66,6 @@ namespace Pawn
 			//TODO: should return a "wait for 100 milliseconds task" so that hte pawncontroller does not constantly 
 			//ask for a new task
 			return new InvalidTask();
-		}
-
-		private bool isHostilePawnsInVision(SensesStruct sensesStruct)
-		{
-			//TODO: for right now, if any pawns are nearby they are hostile
-			return sensesStruct.nearbyPawns.Count > 0;
 		}
 	}
 }

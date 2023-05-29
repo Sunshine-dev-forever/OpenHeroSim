@@ -2,10 +2,12 @@
 using Godot;
 using Serilog;
 namespace Util {
+	//a wrapper for the Godot resource loaders
+	//mainly just adds load defaults and error handling
 	public static class CustomResourceLoader {
 
-
-		//This function has a default, wooohooo!
+		//attempts to load a mesh
+		//if it fails, will return the default mesh
 		public static Node3D LoadMesh(string filePath) {
 			PackedScene? packedScene = GD.Load<PackedScene>(filePath);
 

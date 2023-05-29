@@ -1,6 +1,7 @@
 using Godot;
 
 namespace UI {
+	//simple class that sets the fill percent of a health bar
 	public partial class HealthBar3D : Sprite3D {
 		private ProgressBar? bar;
 		public override void _Ready(){
