@@ -7,7 +7,7 @@ using Item;
 using Interactable;
 
 namespace Pawn.Action {
-	public partial class Action : IAction
+	public class Action : IAction
 	{
 		private static int NO_COOLDOWN = 0;
 		private static float DEFAULT_RANGE = 2;

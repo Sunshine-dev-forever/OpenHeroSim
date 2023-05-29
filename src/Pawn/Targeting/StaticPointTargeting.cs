@@ -4,7 +4,7 @@ using Godot;
 using Pawn.Action;
 
 namespace Pawn.Targeting {
-	public partial class StaticPointTargeting : ITargeting {
+	public class StaticPointTargeting : ITargeting {
 		private Vector3 Point {get;}
 		private Predicate<Vector3> PointTester{get;}
 		public StaticPointTargeting(Vector3 _point) {

@@ -3,7 +3,7 @@ using System;
 using Serilog;
 using Pawn;
 namespace Item {
-	public partial class Throwable : IItem
+	public class Throwable : IItem
 	{
 		public double Damage {get; set;} = 40;
 		//Count starts at 4

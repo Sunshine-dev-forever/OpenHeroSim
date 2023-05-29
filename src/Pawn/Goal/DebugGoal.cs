@@ -8,7 +8,7 @@ using Pawn.Targeting;
 using Pawn.Components;
 
 namespace Pawn.Goal {
-	public partial class DebugGoal : IPawnGoal
+	public class DebugGoal : IPawnGoal
 	{
 		public ITask GetTask(PawnController pawnController, SensesStruct sensesStruct) {
 			int waitTimeMilliseconds = 10000;

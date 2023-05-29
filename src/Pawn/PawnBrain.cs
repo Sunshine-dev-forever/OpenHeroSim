@@ -8,7 +8,7 @@ using Pawn.Components;
 
 namespace Pawn
 {
-	public partial class PawnBrain
+	public class PawnBrain
 	{
 		private List<IPawnGoal> goals = new List<IPawnGoal>();
 

@@ -2,7 +2,7 @@
 
 using System;
 namespace Worlds.BattleRoyale {
-	public partial class FogController {
+	public class FogController {
 		//Fog Controller just has the magically know the sidelength is 500
 		//its ok for testing
 		private static int SIDE_LENGTH = 500;

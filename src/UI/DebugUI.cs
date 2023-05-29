@@ -5,7 +5,6 @@ using Serilog;
 using Pawn.Action;
 using Pawn.Tasks;
 using Pawn;
-using Pawn;
 
 namespace UI {
 	public partial class DebugUI : Node3D
@@ -31,6 +30,10 @@ namespace UI {
 		}
 
 		private void CastRayFromCamera(InputEventMouseButton input) {
+			//TODO: raycasting got reworked so this function needs to be redone.
+			//selecting a interactable should be done by finding intersection point with the base plate
+			//and then grabbing the nearest interactable to that
+			
 			//just a query should be fine to call outside of physics_process
 			PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
 			Vector3 from = camera.ProjectRayOrigin(input.Position);
@@ -42,16 +45,16 @@ namespace UI {
 				//we hit nothing
 				return;
 			}
-			if(result["collider"] is PawnRigidBody) {
-				PawnController pawnController = ((PawnRigidBody) result["collider"]).GetPawnController();
-				ITask task = pawnController.GetTask();
-				if(pawnController.IsDying) {
-					pawnTaskStatusValue.Text = "Dying";
-				} else {
-					pawnTaskStatusValue.Text = "Alive";
-				}
-				pawnNameValue.Text = pawnController.PawnInformation.Name;
-			}
+			// if(result["collider"] is PawnRigidBody) {
+			// 	PawnController pawnController = ((PawnRigidBody) result["collider"]).GetPawnController();
+			// 	ITask task = pawnController.GetTask();
+			// 	if(pawnController.IsDying) {
+			// 		pawnTaskStatusValue.Text = "Dying";
+			// 	} else {
+			// 		pawnTaskStatusValue.Text = "Alive";
+			// 	}
+			// 	pawnNameValue.Text = pawnController.PawnInformation.Name;
+			// } 
 
 		}
 

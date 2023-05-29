@@ -4,7 +4,7 @@ using Interactable;
 
 namespace Pawn
 {
-	public partial class PawnSenses
+	public class PawnSenses
 	{
 		private const int MAX_PAWNS_TO_SEE = 20;
 		private const int VISION_RANGE = 10;

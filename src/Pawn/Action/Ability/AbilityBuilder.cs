@@ -9,7 +9,7 @@ using System;
 using Interactable;
 
 namespace Pawn.Action.Ability {
-	public partial class AbilityBuilder {
+	public class AbilityBuilder {
 		private Ability ability;
 		public AbilityBuilder(PawnController ownerPawnController, System.Action<IInteractable?> executable, Predicate<PawnController> canBeUsedPredicate)
     	{

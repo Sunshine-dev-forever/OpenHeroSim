@@ -10,7 +10,7 @@ using Pawn.Targeting;
 using Pawn.Components;
 using Godot;
 namespace Pawn.Goal {
-	public partial class WaypointGoal : IPawnGoal
+	public class WaypointGoal : IPawnGoal
 	{
 		private List<Node3D> waypoints;
 		private int waypointIndex = 0;

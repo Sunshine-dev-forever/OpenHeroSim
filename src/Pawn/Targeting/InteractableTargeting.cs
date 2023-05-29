@@ -6,7 +6,7 @@ using Pawn.Action;
 using Interactable;
 
 namespace Pawn.Targeting {
-	public partial class InteractableTargeting : ITargeting {
+	public class InteractableTargeting : ITargeting {
 		private Vector3 offset;
 		private IInteractable Interactable {get;}
 		public InteractableTargeting(IInteractable interactable) {

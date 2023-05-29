@@ -4,7 +4,7 @@ using Serilog;
 using System.Diagnostics;
 
 namespace Pawn {
-	public partial class PawnMovement
+	public class PawnMovement
 	{
 		private NavigationAgent3D navigationAgent;
 		private RayCast3D downwardRayCast;

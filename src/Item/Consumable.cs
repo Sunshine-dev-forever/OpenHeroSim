@@ -3,7 +3,7 @@ using System;
 using Serilog;
 using Pawn;
 namespace Item {
-	public partial class Consumable : IItem
+	public class Consumable : IItem
 	{
 		public double Healing {get;}
 		public Node3D Mesh {get;}

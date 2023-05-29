@@ -3,7 +3,7 @@ using System;
 using Serilog;
 using Pawn;
 namespace Item {
-	public partial class Equipment : IItem
+	public class Equipment : IItem
 	{
 		public double Damage {get; set;} = 0;
 		public double Defense {get; set;} = 0;

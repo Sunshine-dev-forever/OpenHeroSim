@@ -9,7 +9,7 @@ using System.Linq;
 using Godot;
 
 namespace Pawn {
-	public partial class PawnTaskHandler
+	public class PawnTaskHandler
 	{
 
 		private IAction? actionInExecution;

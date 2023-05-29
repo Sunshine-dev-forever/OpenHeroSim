@@ -11,7 +11,7 @@ using Pawn.Components;
 using Interactable;
 
 namespace Pawn.Goal {
-	public partial class LootGoal : IPawnGoal
+	public class LootGoal : IPawnGoal
 	{
 		public ITask GetTask(PawnController pawnController, SensesStruct sensesStruct) {
 			ItemContainer? nearbyLoot = GetFirstNonemptyContainer(sensesStruct.nearbyContainers);

@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Pawn {
 
-	public partial class PawnInformation
+	public class PawnInformation
 	{
 		private List<IAbility> abilities = new List<IAbility>();
 

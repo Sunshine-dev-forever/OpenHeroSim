@@ -7,7 +7,7 @@ using Item;
 using Interactable;
 
 namespace Pawn.Action.Ability {
-	public partial class Ability : IAbility
+	public class Ability : IAbility
 	{
 		private static int DEFAULT_COOLDOWN_MILLISECONDS = 2000;
 		private static float DEFAULT_RANGE = 2;
@@ -74,7 +74,7 @@ namespace Pawn.Action.Ability {
 			return ret;
 		}
 
-		public void Setup(IInteractable? _target, IItem _heldItem) {
+		public void Setup(IInteractable? _target, IItem? _heldItem) {
 			target = _target;
 			HeldItem = _heldItem;
 		}

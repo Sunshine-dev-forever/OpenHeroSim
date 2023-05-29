@@ -9,7 +9,7 @@ using Item;
 using Pawn.Targeting;
 using Pawn.Components;
 namespace Pawn.Goal {
-	public partial class HealGoal : IPawnGoal
+	public class HealGoal : IPawnGoal
 	{
 		public ITask GetTask(PawnController pawnController, SensesStruct sensesStruct) {
 			IItem? currentItem = null;

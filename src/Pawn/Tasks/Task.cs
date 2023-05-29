@@ -4,7 +4,7 @@ using Pawn.Action;
 using Pawn.Targeting;
 
 namespace Pawn.Tasks {
-	public partial class Task : ITask {
+	public class Task : ITask {
 		ITargeting targeting;
 		public Task(ITargeting _targeting, IAction action) {
 			targeting = _targeting;

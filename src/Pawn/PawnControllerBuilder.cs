@@ -18,7 +18,7 @@ namespace Pawn
 	//I want to change brain-modules
 	//I want to change stats (pawn informaiton class that does not exist yet)
 
-	public partial class PawnControllerBuilder
+	public class PawnControllerBuilder
 	{
 		KdTreeController kdTreeController;
 		PawnController pawn;
