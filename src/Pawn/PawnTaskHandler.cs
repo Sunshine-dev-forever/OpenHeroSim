@@ -48,10 +48,12 @@ namespace Pawn {
 		}
 
 		private void MoveToTaskLocation(ITask task) {
-			//I have to call Process movement first
+			//I have to call Process movement first so movement controller can update the final location
 			//TODO: refactor so I dont call process movement first (movementController has to update the final location)
 			movementController.ProcessMovement(task.GetTargetPosition(), pawnInformation.Speed);
+			
 			if(movementController.HasFinishedMovement(task.Action.MaxRange)) {
+				//if movement is finished then we start the action
 				movementController.Stop();
 				
 				actionInExecution = task.Action;
@@ -60,7 +62,7 @@ namespace Pawn {
 				task.TaskState = TaskState.USING_ACTION;
 				visualController.UpdateHeldItem(task.Action.HeldItem, pawnInventory);
 			} else {
-				//we also need to change animations
+				//otherwise we are just walking
 				visualController.SetAnimation(AnimationName.Walking, true);
 			}
 		}

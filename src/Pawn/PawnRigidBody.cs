@@ -5,9 +5,7 @@ using Pawn;
 namespace Pawn {
 	public partial class PawnRigidBody : RigidBody3D
 	{
-		//This is the default values of where the PawnController Should be
-		[Export]
-		private NodePath PawnControllerPath = (NodePath) "..";
+		[Export] private NodePath PawnControllerPath = (NodePath) "..";
 		public override void _Ready()
 		{
 			if(PawnControllerPath == null || PawnControllerPath == "") {

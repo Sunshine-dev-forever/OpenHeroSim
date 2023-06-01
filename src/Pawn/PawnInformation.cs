@@ -29,7 +29,6 @@ namespace Pawn {
 		}
 
 		public const String NO_FACTION = "none";
-		//TODO: any way to get around using strings for factions?
 		public string Faction {get; set;} = NO_FACTION;
 		public string Name {get; set;} = "Testy McTesterson";
 		public double BaseDamage {get; set;} = 10;

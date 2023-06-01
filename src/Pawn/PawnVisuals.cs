@@ -5,26 +5,28 @@ using Serilog;
 using Item;
 using Util;
 
-//Handles all animations and particle effects.. etc
+//Handles all animations and particle effects for the pawn
+//TOOD: this class is very ugly but I am not sure how to refactor it
 namespace Pawn
 {
 	public partial class PawnVisuals : Node3D
 	{
 		AnimationPlayer? animationPlayer = null;
+		//below is all the variables needed for putting meshes in the right places
 		Node3D riggedCharacterRootNode;
-
-		//TODO: All of the below should be in thier own class
 		BoneAttachment3D? heldItemBoneAttachment = null;
-		BoneAttachment3D? scabbardBoneAttachment = null;
-		Node3D? helmetParent = null;
-		Vector3 scabbardRotation = new Vector3();
-		Vector3 scabbardOrigin = new Vector3();
 		Vector3 heldItemRotation = new Vector3();
 		Vector3 heldItemOrigin = new Vector3();
 
-		//Taking a guess for where to put the helmet
+		BoneAttachment3D? scabbardBoneAttachment = null;
+		Vector3 scabbardRotation = new Vector3();
+		Vector3 scabbardOrigin = new Vector3();
+		//the pawn rig that I created does not have a helment bone attatchment
+		//thus, I am just guessing where the helmet should go
+		Node3D? helmetParent = null;
 		Vector3 helmetOrigin = new Vector3(0,4,0);
 		Vector3 helmetRotation = new Vector3();
+
 		IItem? currentHeldItem;
 
 		public PawnVisuals() {
@@ -52,8 +54,7 @@ namespace Pawn
 			//now we add the new item to our hand
 			heldItemBoneAttachment.AddChild(currentHeldItem.Mesh);
 			currentHeldItem.Mesh.Rotation = heldItemRotation;
-			//TODO: changed this while upgrading from godot 3 to 4.
-			//originally referenced "Transform3D" I am going to assume that is local
+
 			currentHeldItem.Mesh.Transform = new Transform3D(currentHeldItem.Mesh.Transform.Basis, heldItemOrigin);
 		}
 

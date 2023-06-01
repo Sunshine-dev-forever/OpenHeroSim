@@ -103,14 +103,14 @@ namespace Pawn
 			}
 		}
 
-		public void HandleDying() {
+		private void HandleDying() {
 			if( (DateTime.Now - startedDeath).TotalSeconds > TIME_TO_WAIT_AFTER_DEATH) {
 				//Corpse has gone cold for 5 seconds, we finally pass
 				Die();
 			}
 		}
 
-		public void StartDying() {
+		private void StartDying() {
 			startedDeath = DateTime.Now;
 			PawnVisuals.SetAnimation(AnimationName.Death);
 			//TODO: cannot figure out how to 'turn off' the rigid body

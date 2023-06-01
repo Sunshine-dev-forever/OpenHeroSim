@@ -9,17 +9,16 @@ namespace Pawn {
 		private NavigationAgent3D navigationAgent;
 		private RayCast3D downwardRayCast;
 		private RigidBody3D rigidBody;
-		//TODO: need better name. Point a a lower part of the animation controller? 
-		private PawnVisuals visualController;
+		private PawnVisuals pawnVisuals;
 
 		private Vector3 originalLocationOfTarget = Vector3.Zero;
 
-		//the Navigation Server can take some time to start up
+
 		private bool isNavigationServerReady;
 
-		public PawnMovement(RigidBody3D _rigidBody, PawnVisuals _visualController, NavigationAgent3D _navigationAgent, RayCast3D _downwardRayCast) {
+		public PawnMovement(RigidBody3D _rigidBody, PawnVisuals _pawnVisuals, NavigationAgent3D _navigationAgent, RayCast3D _downwardRayCast) {
 			rigidBody = _rigidBody;
-			visualController = _visualController;
+			pawnVisuals = _pawnVisuals;
 			navigationAgent = _navigationAgent;
 			downwardRayCast = _downwardRayCast;
 		}
@@ -27,6 +26,7 @@ namespace Pawn {
 		//ProcessMovement should be called in the _PhysicsProcess function
 		public void ProcessMovement(Vector3 targetLocation, float speed)
 		{
+			//the Navigation Server can take some time to start up
 			if(!isNavigationServerReady){
 				UpdateIsNavigationServerReady();
 				return;
@@ -50,7 +50,7 @@ namespace Pawn {
 			Vector3 locationDiff = nextLocation - currentLocation;
 			//Look in the direction of travel
 			float newYRotation = (float) (Math.Atan2(locationDiff.X , locationDiff.Z));
-			visualController.setPawnRotation(newYRotation);
+			pawnVisuals.setPawnRotation(newYRotation);
 			
 			Vector3 velocity = (nextLocation - currentLocation).Slide(floorNormal).Normalized() * speed;
 			rigidBody.LinearVelocity = velocity;
@@ -78,7 +78,6 @@ namespace Pawn {
 			}
 		}
 
-		//TODO: from refactor, not sure if I am 
 		public void SetNavigation(NavigationRegion3D navigation){
 			navigationAgent.SetNavigationMap(NavigationServer3D.RegionGetMap(navigation.GetRegionRid()));
 		}
