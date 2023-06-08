@@ -27,7 +27,7 @@ namespace Pawn.Goal {
 			foreach (IPawnController pawn in nearbyLivingPawns) {
 				string otherFaction = pawn.PawnInformation.Faction;
 				string ownerFaction = ownerPawnController.PawnInformation.Faction;
-				if(ownerFaction.Equals(PawnInformation.NO_FACTION) || (!ownerFaction.Equals(otherFaction)) ){
+				if(ownerFaction.Equals(IPawnInformation.NO_FACTION) || (!ownerFaction.Equals(otherFaction)) ){
 					pawnToAttack = pawn;
 					break;
 				}

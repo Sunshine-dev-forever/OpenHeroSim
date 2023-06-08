@@ -15,11 +15,11 @@ namespace Pawn {
 		private IAction? actionInExecution;
 		private PawnMovement movementController;
 		private PawnVisuals visualController;
-		private PawnInformation pawnInformation;
-		private PawnInventory pawnInventory;
+		private IPawnInformation pawnInformation;
+		private IPawnInventory pawnInventory;
 
-		public PawnTaskHandler(PawnMovement _movementController, PawnVisuals _visualController, PawnInformation _pawnInformation,
-					PawnInventory _pawnInventory) {
+		public PawnTaskHandler(PawnMovement _movementController, PawnVisuals _visualController, IPawnInformation _pawnInformation,
+					IPawnInventory _pawnInventory) {
 			movementController = _movementController;
 			visualController = _visualController;
 			pawnInformation = _pawnInformation;

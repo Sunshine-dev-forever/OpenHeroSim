@@ -18,8 +18,8 @@ namespace Pawn
 			get { return rigidBody.GlobalTransform; }
 			set { rigidBody.GlobalTransform = value; }
 		}
-		public PawnInformation PawnInformation {get;}
-		public PawnInventory PawnInventory {get;}
+		public IPawnInformation PawnInformation {get;}
+		public IPawnInventory PawnInventory {get;}
 
 		public PawnBrain PawnBrain {get;}
 		private SensesStruct sensesStruct;

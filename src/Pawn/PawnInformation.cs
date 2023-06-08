@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Pawn {
 
-	public class PawnInformation
+	public class PawnInformation : IPawnInformation
 	{
 		private List<IAbility> abilities = new List<IAbility>();
 
@@ -27,9 +27,7 @@ namespace Pawn {
 		public bool HasAbility(string abilityName) {
 			return abilities.Any<IAbility>( (ability) => ability.Name == abilityName);
 		}
-
-		public const String NO_FACTION = "none";
-		public string Faction {get; set;} = NO_FACTION;
+		public string Faction {get; set;} = IPawnInformation.NO_FACTION;
 		public string Name {get; set;} = "Testy McTesterson";
 		public double BaseDamage {get; set;} = 10;
 		public double Health {get; set;} = 100;

@@ -35,7 +35,7 @@ namespace Pawn
 		public override void _Ready(){}
 
 		//TODO: task executor will call this 
-		public void UpdateHeldItem(IItem? item, PawnInventory pawnInventory) {
+		public void UpdateHeldItem(IItem? item, IPawnInventory pawnInventory) {
 			//just assume it is a different Item every single time
 			ClearHeldItem();
 			currentHeldItem = item;
@@ -58,7 +58,7 @@ namespace Pawn
 			currentHeldItem.Mesh.Transform = new Transform3D(currentHeldItem.Mesh.Transform.Basis, heldItemOrigin);
 		}
 
-		public void ForceVisualUpdate(PawnInventory pawnInventory) {
+		public void ForceVisualUpdate(IPawnInventory pawnInventory) {
 			PutWeaponInScabbard(pawnInventory.GetWornEquipment(EquipmentType.HELD));
 			PutOnHelmet(pawnInventory.GetWornEquipment(EquipmentType.HEAD));
 		}

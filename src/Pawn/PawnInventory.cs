@@ -5,7 +5,7 @@ using Serilog;
 using Pawn;
 using Item;
 namespace Pawn {
-	public class PawnInventory
+	public class PawnInventory : IPawnInventory
 	{
 		//for now all pawns can only carry 5 items
 		private static int INVENTORY_SPACE = 5;

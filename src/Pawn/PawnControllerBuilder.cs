@@ -30,8 +30,9 @@ namespace Pawn
 		}
 
 		public PawnControllerBuilder(Node parent, KdTreeController _kdTreeController, NavigationRegion3D navigation){
-			//TODO: my custom resource loader should support return types other than spatial...
-			//But then how do I create defaults?
+			//TODO: There should be some default here in case this fails to load
+			//Using the custom resource loader here is complicated because the Pawn_Scene contains much more information than just a mesh
+			//Thus I cannot create a reasonable pawn_scene to default to, and so the CustomResourceLoader has no utility
 			pawn = ResourceLoader.Load<PackedScene>(ResourcePaths.PAWN_SCENE).Instantiate<PawnController>();
 			parent.AddChild(pawn);
 

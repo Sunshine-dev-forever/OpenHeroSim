@@ -6,10 +6,8 @@ namespace Pawn
 {
     public interface IPawnController : IInteractable
     {
-        PawnInformation PawnInformation { get; }
-        PawnInventory PawnInventory { get; }
-        PawnBrain PawnBrain { get; }
-        PawnMovement PawnMovement { get; }
+        IPawnInformation PawnInformation { get; }
+        IPawnInventory PawnInventory { get; }
 		PawnVisuals PawnVisuals {get; }
 		//Returns true if the pawn has taken fatal damage at some point and is now handling death-related tasks,
 		//Otherwise returns false
