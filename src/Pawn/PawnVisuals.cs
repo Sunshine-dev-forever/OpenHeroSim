@@ -23,7 +23,7 @@ namespace Pawn
 		Vector3 scabbardOrigin = new Vector3();
 		//the pawn rig that I created does not have a helment bone attatchment
 		//thus, I am just guessing where the helmet should go
-		Node3D? helmetParent = null;
+		Node3D? helmetBoneAttachment = null;
 		Vector3 helmetOrigin = new Vector3(0,4,0);
 		Vector3 helmetRotation = new Vector3();
 
@@ -64,15 +64,15 @@ namespace Pawn
 		}
 
 		private void PutOnHelmet(Equipment? helmet) {
-			if(helmetParent == null) {
+			if(helmetBoneAttachment == null) {
 				return;
 			}
-			SceneTreeUtil.RemoveAllChildren(helmetParent);
+			SceneTreeUtil.RemoveAllChildren(helmetBoneAttachment);
 			if(helmet == null) {
 				return;
 			}
 			SceneTreeUtil.OrphanChild(helmet.Mesh);
-			helmetParent.AddChild(helmet.Mesh);
+			helmetBoneAttachment.AddChild(helmet.Mesh);
 			helmet.Mesh.Rotation = helmetRotation;
 			helmet.Mesh.Transform = new Transform3D(helmet.Mesh.Transform.Basis, helmetOrigin);
 		}
@@ -119,14 +119,13 @@ namespace Pawn
 			return animationPlayer.GetAnimation(animationName.ToString()).Length * MILLISECONDS_IN_SECOND;
 		}
 
-		//TODO: this should take in a LoopModeEnum
-		public void SetAnimation(AnimationName animationName, bool looping = false) {
+		public void SetAnimation(AnimationName animationName, Animation.LoopModeEnum loopMode = Animation.LoopModeEnum.None) {
 			if(animationPlayer == null) {
 				return;
 			}
-			if(looping) {
-				animationPlayer.GetAnimation(animationName.ToString()).LoopMode = Animation.LoopModeEnum.Linear;
-			}
+			
+			animationPlayer.GetAnimation(animationName.ToString()).LoopMode = loopMode;
+			
 			animationPlayer.Play(animationName.ToString());
 		}
 
@@ -193,8 +192,8 @@ namespace Pawn
 
 		private void SetupHelmet(Node3D pawnMeshRoot) {
 			//TODO: making the helmet a child of the whole Char_model for now (Char_Model should have no other children)
-			helmetParent = pawnMeshRoot.GetNodeOrNull<Node3D>("Character/Skeleton3D/Char_Model");
-			if(helmetParent == null) {
+			helmetBoneAttachment = pawnMeshRoot.GetNodeOrNull<Node3D>("Character/Skeleton3D/Char_Model");
+			if(helmetBoneAttachment == null) {
 				return;
 			}
 			//there should be no children no matter what

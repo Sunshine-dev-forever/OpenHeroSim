@@ -11,7 +11,7 @@ namespace Pawn.Action {
 	{
 		private static int NO_COOLDOWN = 0;
 		private static float DEFAULT_RANGE = 2;
-		private static bool DEFAULT_LOOPING = false;
+		private static Animation.LoopModeEnum DEFAULT_LOOPING = Animation.LoopModeEnum.None;
 		private IPawnController ownerPawnController;
 		public Action(IPawnController _ownerPawnController, System.Action _executable) {
 			ownerPawnController = _ownerPawnController;
@@ -23,9 +23,9 @@ namespace Pawn.Action {
 		//sets looping to true
 		public void SetAnimationPlayLength(int milliseconds) {
 			animationPlayLengthMilliseconds = milliseconds;
-			loopAnimation = true;
+			loopMode = Animation.LoopModeEnum.Linear;
 		}
-		public  bool loopAnimation {get; private set;} = DEFAULT_LOOPING;
+		public  Animation.LoopModeEnum loopMode {get; private set;} = DEFAULT_LOOPING;
 
 		public int CooldownMilliseconds {get; set;} = NO_COOLDOWN;
 
@@ -42,7 +42,7 @@ namespace Pawn.Action {
 				Log.Error(System.Environment.StackTrace);
 			}
 			executable();
-			ownerPawnController.PawnVisuals.SetAnimation(AnimationToPlay, loopAnimation);
+			ownerPawnController.PawnVisuals.SetAnimation(AnimationToPlay, loopMode);
 			isCurrentlyRunning = true;
 			timeStarted = DateTime.Now;
 		}
@@ -54,9 +54,12 @@ namespace Pawn.Action {
 			}
 			//only gets milliseconds between 0 and 1000
 			double timeRunningMilliseconds = (DateTime.Now - timeStarted).TotalMilliseconds;
-			if(loopAnimation) {
+			if(loopMode != Animation.LoopModeEnum.None) {
+				// there is some kind of looping going on, so we use the local animationPlayLengthMilliseconds, which can be longer than the original
+				// animation length.
 				return timeRunningMilliseconds > animationPlayLengthMilliseconds;
 			} else {
+				//there is no looping, so we can just use the original animation length
 				return timeRunningMilliseconds > ownerPawnController.PawnVisuals.getAnimationLengthMilliseconds(AnimationToPlay);
 			}
 		}

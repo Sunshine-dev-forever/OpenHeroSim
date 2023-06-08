@@ -11,14 +11,14 @@ namespace Pawn.Action.Ability {
 	{
 		private static int DEFAULT_COOLDOWN_MILLISECONDS = 2000;
 		private static float DEFAULT_RANGE = 2;
-		private static bool DEFAULT_LOOPING = false;
+		private static Animation.LoopModeEnum DEFAULT_LOOPING = Animation.LoopModeEnum.None;
 		public System.Action<IInteractable?> abilityExecutable {get; set;}
 		public Predicate<IPawnController> canBeUsedPredicate {get; set;}
 		private IInteractable? target;
 		//animation play length milliseconds is only used if looping is set to true
 		private int animationPlayLengthMilliseconds = -1;
 		public AnimationName AnimationToPlay {get; set;} = AnimationName.Interact;
-		public  bool loopAnimation {get; private set;} = DEFAULT_LOOPING;
+		public  Animation.LoopModeEnum loopMode {get; private set;} = DEFAULT_LOOPING;
 		private IPawnController ownerPawnController;
 		public int CooldownMilliseconds {get; set;} = DEFAULT_COOLDOWN_MILLISECONDS;
 		public string Name {get; set;} = "Generic ability";
@@ -33,10 +33,10 @@ namespace Pawn.Action.Ability {
 			abilityExecutable = _executable;
 			canBeUsedPredicate = _canBeUsedPredicate;
 		}
-		//sets looping to true
+		//I only set a animation play length for looping animations, so this sets looping to be true
 		public void SetAnimationPlayLength(int milliseconds) {
 			animationPlayLengthMilliseconds = milliseconds;
-			loopAnimation = true;
+			loopMode = Animation.LoopModeEnum.Linear;
 		}
 
 		public void Execute() {
@@ -46,7 +46,7 @@ namespace Pawn.Action.Ability {
 			}
 			lastTimeAbilityUsed = DateTime.Now;
 			abilityExecutable(target);
-			ownerPawnController.PawnVisuals.SetAnimation(AnimationToPlay, loopAnimation);
+			ownerPawnController.PawnVisuals.SetAnimation(AnimationToPlay, loopMode);
 			isCurrentlyRunning = true;
 			timeStarted = DateTime.Now;
 		}
@@ -56,9 +56,12 @@ namespace Pawn.Action.Ability {
 			}
 			double timeRunningMilliseconds = (DateTime.Now - timeStarted).TotalMilliseconds;
 			bool isFinished;
-			if(loopAnimation) {
-				 isFinished = timeRunningMilliseconds > animationPlayLengthMilliseconds;
+			if(loopMode != Animation.LoopModeEnum.None) {
+				// there is some kind of looping going on, so we use the local animationPlayLengthMilliseconds, which can be longer than the original
+				// animation length.
+				isFinished = timeRunningMilliseconds > animationPlayLengthMilliseconds;
 			} else {
+				//there is no looping, so we can just use the original animation length
 				isFinished =  timeRunningMilliseconds > ownerPawnController.PawnVisuals.getAnimationLengthMilliseconds(AnimationToPlay);
 			}
 			if(isFinished) {
