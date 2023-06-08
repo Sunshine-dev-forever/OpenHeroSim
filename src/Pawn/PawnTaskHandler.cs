@@ -26,7 +26,7 @@ namespace Pawn {
 			pawnInventory = _pawnInventory;
 		}
 
-		public void HandleTask(ITask task, PawnController ownerPawnController) {
+		public void HandleTask(ITask task, IPawnController ownerPawnController) {
 			if(!task.IsValid) {
 				//early exit on invalid task
 				return;

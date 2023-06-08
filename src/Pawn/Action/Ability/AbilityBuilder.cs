@@ -11,11 +11,11 @@ using Interactable;
 namespace Pawn.Action.Ability {
 	public class AbilityBuilder {
 		private Ability ability;
-		public AbilityBuilder(PawnController ownerPawnController, System.Action<IInteractable?> executable, Predicate<PawnController> canBeUsedPredicate)
+		public AbilityBuilder(IPawnController ownerPawnController, System.Action<IInteractable?> executable, Predicate<IPawnController> canBeUsedPredicate)
     	{
         	ability = new Ability(ownerPawnController, executable, canBeUsedPredicate);
     	}
-		public static AbilityBuilder Start(PawnController pawnController, System.Action<IInteractable?> executable, Predicate<PawnController> canBeUsedPredicate) {
+		public static AbilityBuilder Start(IPawnController pawnController, System.Action<IInteractable?> executable, Predicate<IPawnController> canBeUsedPredicate) {
 			return new AbilityBuilder(pawnController, executable, canBeUsedPredicate);
 		}
 

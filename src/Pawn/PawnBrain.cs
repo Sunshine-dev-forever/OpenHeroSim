@@ -18,7 +18,7 @@ namespace Pawn
 		
 		//TODO: I would prefer to not take in pawnController here
 		//But I need to because tasks need a refernce to the pawnController
-		public ITask updateCurrentTask(ITask currentTask, SensesStruct sensesStruct, PawnController pawnController)
+		public ITask updateCurrentTask(ITask currentTask, SensesStruct sensesStruct, IPawnController pawnController)
 		{
 			if (currentTask.TaskState == TaskState.COMPLETED || !currentTask.IsValid)
 			{
@@ -32,7 +32,7 @@ namespace Pawn
 			}
 		}
 
-		private ITask GetHigherPriorityTaskOrCurrentTask(ITask currentTask, SensesStruct sensesStruct, PawnController pawnController) {
+		private ITask GetHigherPriorityTaskOrCurrentTask(ITask currentTask, SensesStruct sensesStruct, IPawnController pawnController) {
 			//Lower index means HigherPriority
 			for (int i = 0; i < goals.Count; i++)
 			{
@@ -51,7 +51,7 @@ namespace Pawn
 			return currentTask;
 		}
 
-		private ITask GetNextTask(PawnController pawnController, SensesStruct sensesStruct)
+		private ITask GetNextTask(IPawnController pawnController, SensesStruct sensesStruct)
 		{
 			for (int i = 0; i < goals.Count; i++)
 			{

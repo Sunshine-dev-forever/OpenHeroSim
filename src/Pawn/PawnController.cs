@@ -10,8 +10,7 @@ using Interactable;
 namespace Pawn
 {
 	//HAVE TO CALL Setup() before this class will function!!!
-	//TODO: this should have an interface!!!!
-	public partial class PawnController : Node, IInteractable
+	public partial class PawnController : Node, IPawnController
 	{
 		private static int TIME_TO_WAIT_AFTER_DEATH = 2;
 		public Transform3D GlobalTransform
@@ -73,7 +72,7 @@ namespace Pawn
 		//then _Ready is called
 		//Then Setup has to be called
 		//Setup basically fills in for an actual constructor since I cannot seem to call a real constructor with args
-		//for the PackedScene.Instance function
+		//    with the the PackedScene.Instance function
 		public void Setup(KdTreeController kdTreeController)
 		{
 			KdTreeController = kdTreeController;
@@ -159,7 +158,7 @@ namespace Pawn
 			CreateGraveStone();
 			//free all memory
 			//PawnInventory really should not have a reference to anything, since the gravestone should contain
-			//all of this pawns items, but whatever
+			//   all of this pawns items, but whatever
 			PawnInventory.QueueFree();
 			this.QueueFree();
 		}
@@ -176,6 +175,10 @@ namespace Pawn
 
 		public bool IsInstanceValid() {
 			return IsInstanceValid(this);
+		}
+
+		public Node GetRootNode() {
+			return this;
 		}
 	}
 }

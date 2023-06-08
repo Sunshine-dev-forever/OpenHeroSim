@@ -16,7 +16,7 @@ namespace Worlds.BattleRoyale {
 	{
 		private static int NUMBER_OF_PAWNS_TO_SPAWN = 100;
 		private static int NUMBER_OF_CHESTS_TO_SPAWN = 50;
-		private List<PawnController> pawns = new List<PawnController>();
+		private List<IPawnController> pawns = new List<IPawnController>();
 
 		private KdTreeController kdTreeController = null!; 
 		public override void _Ready()
@@ -48,8 +48,8 @@ namespace Worlds.BattleRoyale {
 		public override void _Process(double delta){
 			//iterate through all pawns, deal damage those that are outside the bounds
 			for(int i = pawns.Count - 1; i >= 0; i--) {
-				PawnController pawn = pawns[i];
-				if(!IsInstanceValid(pawn)) {
+				IPawnController pawn = pawns[i];
+				if(!IsInstanceValid(pawn.GetRootNode())) {
 					pawns.RemoveAt(i);
 					break;
 				}
@@ -67,7 +67,7 @@ namespace Worlds.BattleRoyale {
 			return new Vector3(x, HEIGHT_DEFAULT, z);
 		}
 
-		private PawnController CreatePawn(Vector3 location){
+		private IPawnController CreatePawn(Vector3 location){
 			NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 			return PawnControllerBuilder.Start(this, kdTreeController, navigation)
 								.AddGoal(new HealGoal())

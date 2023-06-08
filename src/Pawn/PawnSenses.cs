@@ -10,9 +10,9 @@ namespace Pawn
 		private const int VISION_RANGE = 10;
 		private KdTreeController kdTreeController;
 
-		private PawnController pawnController;
+		private IPawnController pawnController;
 
-		public PawnSenses(KdTreeController _kdTreeController, PawnController _pawnController)
+		public PawnSenses(KdTreeController _kdTreeController, IPawnController _pawnController)
 		{
 			kdTreeController = _kdTreeController;
 			pawnController = _pawnController;
@@ -29,8 +29,8 @@ namespace Pawn
 								});
 			//TODO: should be able to use .select instead of ConvertAll in the future
 			sensesStruct.nearbyPawns = visableInteractables
-										.FindAll( (interactable) => {return interactable is PawnController;})
-										.ConvertAll<PawnController>( (interactable) => {return (PawnController) interactable;});
+										.FindAll( (interactable) => {return interactable is IPawnController;})
+										.ConvertAll<IPawnController>( (interactable) => {return (IPawnController) interactable;});
 			//will also be able to find all object containers this way
 			sensesStruct.nearbyContainers = visableInteractables
 										.FindAll( (interactable) => {return interactable is ItemContainer;})

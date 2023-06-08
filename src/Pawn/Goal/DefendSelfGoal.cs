@@ -14,17 +14,17 @@ namespace Pawn.Goal {
 	public class DefendSelfGoal : IPawnGoal
 	{
 		//TODO: break this up into smaller functions
-		public ITask GetTask(PawnController ownerPawnController, SensesStruct sensesStruct) {
-			Func<PawnController, bool> pawnIsAliveAndValid = (pawnController) => { 
+		public ITask GetTask(IPawnController ownerPawnController, SensesStruct sensesStruct) {
+			Func<IPawnController, bool> pawnIsAliveAndValid = (pawnController) => { 
 				return pawnController != null && pawnController.IsInstanceValid() && !pawnController.IsDying;
 			};
-			List<PawnController> nearbyLivingPawns = sensesStruct.nearbyPawns.AsEnumerable().Where(pawnIsAliveAndValid).ToList();
+			List<IPawnController> nearbyLivingPawns = sensesStruct.nearbyPawns.AsEnumerable().Where(pawnIsAliveAndValid).ToList();
 			if(nearbyLivingPawns.Count == 0) {
 				return new InvalidTask();
 			}
-			PawnController? pawnToAttack = null;
+			IPawnController? pawnToAttack = null;
 			//need to get the nearest pawn on the right faction
-			foreach (PawnController pawn in nearbyLivingPawns) {
+			foreach (IPawnController pawn in nearbyLivingPawns) {
 				string otherFaction = pawn.PawnInformation.Faction;
 				string ownerFaction = ownerPawnController.PawnInformation.Faction;
 				if(ownerFaction.Equals(PawnInformation.NO_FACTION) || (!ownerFaction.Equals(otherFaction)) ){

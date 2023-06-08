@@ -15,7 +15,7 @@ namespace Worlds.BattleRoyale {
 	{
 		public BattleRoyaleWanderGoal() {}
 
-		public ITask GetTask(PawnController pawnController, SensesStruct sensesStruct) {
+		public ITask GetTask(IPawnController pawnController, SensesStruct sensesStruct) {
 			int sideLength = (int) (FogController.GetFogController().GetFogPosition() * 2);
 			Random random = new Random();
 			float x = (float) ((random.NextDouble() * sideLength) - (sideLength/2));

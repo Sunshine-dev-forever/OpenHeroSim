@@ -16,14 +16,14 @@ namespace Pawn.Action.Ability {
 		public const string STAB_ABILITY = "Stab ability";
 		public const string THROW_ABILITY = "Throw ability";
 
-		public static IAbility CreateStabAbility(PawnController ownerPawnController) {
-			Predicate<PawnController> canBeUsed = (PawnController) => {return true;};
+		public static IAbility CreateStabAbility(IPawnController ownerPawnController) {
+			Predicate<IPawnController> canBeUsed = (PawnController) => {return true;};
 
 			System.Action<IInteractable?> abilityExecutable = (target) => {
 				if(target == null) {
 					throw new NullReferenceException("target was null");
 				}
-				PawnController otherPawnController = (PawnController) target;
+				IPawnController otherPawnController = (IPawnController) target;
 				otherPawnController.TakeDamage(ownerPawnController.GetDamage());
 			};
 
@@ -36,9 +36,9 @@ namespace Pawn.Action.Ability {
 			return ability;
 		}
 
-		public static IAbility CreateThrowAbility(PawnController ownerPawnController) {
+		public static IAbility CreateThrowAbility(IPawnController ownerPawnController) {
 			//We need to have something to throw to use this ability
-			Predicate<PawnController> canBeUsed = (PawnController) => {
+			Predicate<IPawnController> canBeUsed = (PawnController) => {
 				foreach (IItem item in ownerPawnController.PawnInventory.GetAllItemsInBag()) {
 					if(item is Throwable) {
 						if( ((Throwable) item).Count <= 0) {
@@ -55,7 +55,7 @@ namespace Pawn.Action.Ability {
 				if(target == null) {
 					throw new NullReferenceException("target was null");
 				}
-				PawnController otherPawnController = (PawnController) target;
+				IPawnController otherPawnController = (IPawnController) target;
 				Throwable? itemToThrow = null;
 				foreach (IItem item in ownerPawnController.PawnInventory.GetAllItemsInBag()) {
 					if(item is Throwable) {
@@ -97,12 +97,12 @@ namespace Pawn.Action.Ability {
 			return ability;
 		}
 
-		private static void CreateProjectile(Node3D mesh, PawnController ownerPawnController, PawnController otherPawnController) {
+		private static void CreateProjectile(Node3D mesh, IPawnController ownerPawnController, IPawnController otherPawnController) {
 			//just needs to be one unit up, based off height of the pawn
 			Vector3 offset = new Vector3(0,1,0);
 			ITargeting target = new InteractableTargeting(otherPawnController, offset);
 			Projectile projectile = new Projectile(mesh, target, DEFAULT_PROJECTILE_SPEED );
-			ownerPawnController.GetParent().AddChild(projectile);
+			ownerPawnController.GetRootNode().AddChild(projectile);
 			projectile.GlobalTransform = new Transform3D(projectile.GlobalTransform.Basis, ownerPawnController.GlobalTransform.Origin + offset);
 		}
 	}

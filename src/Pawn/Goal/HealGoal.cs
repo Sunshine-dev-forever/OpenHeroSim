@@ -11,7 +11,7 @@ using Pawn.Components;
 namespace Pawn.Goal {
 	public class HealGoal : IPawnGoal
 	{
-		public ITask GetTask(PawnController pawnController, SensesStruct sensesStruct) {
+		public ITask GetTask(IPawnController pawnController, SensesStruct sensesStruct) {
 			IItem? currentItem = null;
 			foreach( IItem item in pawnController.PawnInventory.GetAllItemsInBag()) {
 				if(item is Consumable) {

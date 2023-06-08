@@ -20,7 +20,7 @@ namespace Pawn.Goal {
 			waypoints = _waypoints;
 		}
 
-		public ITask GetTask(PawnController pawnController, SensesStruct sensesStruct) {
+		public ITask GetTask(IPawnController pawnController, SensesStruct sensesStruct) {
 			if(waypointIndex == waypoints.Count) {
 				//we have finished all the waypoints yay!
 				return new InvalidTask();

@@ -12,8 +12,8 @@ namespace Pawn.Action {
 		private static int NO_COOLDOWN = 0;
 		private static float DEFAULT_RANGE = 2;
 		private static bool DEFAULT_LOOPING = false;
-		private PawnController ownerPawnController;
-		public Action(PawnController _ownerPawnController, System.Action _executable) {
+		private IPawnController ownerPawnController;
+		public Action(IPawnController _ownerPawnController, System.Action _executable) {
 			ownerPawnController = _ownerPawnController;
 			executable = _executable;
 		}

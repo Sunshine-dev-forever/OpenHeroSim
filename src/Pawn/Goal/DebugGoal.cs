@@ -10,7 +10,7 @@ using Pawn.Components;
 namespace Pawn.Goal {
 	public class DebugGoal : IPawnGoal
 	{
-		public ITask GetTask(PawnController pawnController, SensesStruct sensesStruct) {
+		public ITask GetTask(IPawnController pawnController, SensesStruct sensesStruct) {
 			int waitTimeMilliseconds = 10000;
 			IAction waitAction = ActionBuilder.Start(pawnController, () => {})
 										.Animation(AnimationName.Idle)

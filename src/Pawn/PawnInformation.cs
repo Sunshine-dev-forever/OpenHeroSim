@@ -19,7 +19,7 @@ namespace Pawn {
 			abilities.Add(ability);
 		}
 
-		public List<IAbility> GetAllUsableAbilities(PawnController ownerPawnController, PawnController otherPawnController) {
+		public List<IAbility> GetAllUsableAbilities(IPawnController ownerPawnController, IPawnController otherPawnController) {
 			//filter out abilities that can not be used in current envirionmental context or are on cool down
 			return abilities.Where<IAbility>( (ability) => (ability.CanBeUsed(ownerPawnController))).ToList();;
 		}

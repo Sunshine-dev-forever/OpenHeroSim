@@ -13,7 +13,7 @@ using Interactable;
 namespace Pawn.Goal {
 	public class LootGoal : IPawnGoal
 	{
-		public ITask GetTask(PawnController pawnController, SensesStruct sensesStruct) {
+		public ITask GetTask(IPawnController pawnController, SensesStruct sensesStruct) {
 			ItemContainer? nearbyLoot = GetFirstNonemptyContainer(sensesStruct.nearbyContainers);
 			if(nearbyLoot == null) {
 				return new InvalidTask();
@@ -31,7 +31,7 @@ namespace Pawn.Goal {
 			return new Task(targeting, action);
 		}
 
-		private void processItem(IItem item, PawnController pawnController, ItemContainer container) {
+		private void processItem(IItem item, IPawnController pawnController, ItemContainer container) {
 			container.Items.Remove(item);
 			if(item is Equipment) {
 				Equipment newWeapon = (Equipment) item;

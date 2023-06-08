@@ -5,11 +5,11 @@ using Interactable;
 namespace Pawn.Components {
 	public struct SensesStruct {
 		public SensesStruct() {
-			nearbyPawns = new List<PawnController>();
+			nearbyPawns = new List<IPawnController>();
 			nearbyContainers = new List<ItemContainer>();
 		}
 
 		public List<ItemContainer> nearbyContainers;
-		public List<PawnController> nearbyPawns;
+		public List<IPawnController> nearbyPawns;
 	}
 }

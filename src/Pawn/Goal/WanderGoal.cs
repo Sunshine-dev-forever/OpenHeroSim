@@ -19,7 +19,7 @@ namespace Pawn.Goal {
 			sideLength = _sideLength;
 		}
 
-		public ITask GetTask(PawnController pawnController, SensesStruct sensesStruct) {
+		public ITask GetTask(IPawnController pawnController, SensesStruct sensesStruct) {
 			Random random = new Random();
 			float x = (float) ((random.NextDouble() * sideLength) - (sideLength/2));
 			float z = (float) ((random.NextDouble() * sideLength) - (sideLength/2));

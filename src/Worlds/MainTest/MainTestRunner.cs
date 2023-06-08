@@ -39,7 +39,7 @@ namespace Worlds.MainTest
 		}
 		private double TimeSinceLastPawnCreation = 4;
 		//lazy, bad coding
-		private PawnController lastPawnSpawned = null!;
+		private IPawnController lastPawnSpawned = null!;
 		public override void _Process(double delta)
 		{
 			TimeSinceLastPawnCreation += delta;
@@ -50,7 +50,7 @@ namespace Worlds.MainTest
 			
 		}
 
-		public PawnController CreateThrowableTester() {
+		public IPawnController CreateThrowableTester() {
 			NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 			
 			Vector3 location = new Vector3(0,5,0);
@@ -83,7 +83,7 @@ namespace Worlds.MainTest
 			projectile.GlobalTransform = new Transform3D(projectile.GlobalTransform.Basis, new Vector3(0,5,0));
 		}
 
-		private PawnController CreatePawn(){
+		private IPawnController CreatePawn(){
 			NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 			
 			Vector3 location = GenerateRandomVector();
@@ -99,7 +99,7 @@ namespace Worlds.MainTest
 								.Finish();
 		}
 
-		private PawnController CreatePawnInCenter(){
+		private IPawnController CreatePawnInCenter(){
 			NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 			
 			Vector3 location = new Vector3(0,5,0);
@@ -149,11 +149,8 @@ namespace Worlds.MainTest
 				return CreateRustedDagger();
 			}
 		}
-		private void Adhoc2(){
 
-		}
-
-		private PawnController CreateHealingPotionTester() {
+		private IPawnController CreateHealingPotionTester() {
 			NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 			return PawnControllerBuilder.Start(this, kdTreeController, navigation)
 								.AddGoal(new HealGoal())

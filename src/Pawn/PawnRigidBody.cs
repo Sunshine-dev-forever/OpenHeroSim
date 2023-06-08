@@ -3,6 +3,7 @@ using System;
 using Serilog;
 using Pawn;
 namespace Pawn {
+	//I might be able to get around having to use this class by referencing the KD-tree directly
 	public partial class PawnRigidBody : RigidBody3D
 	{
 		[Export] private NodePath PawnControllerPath = (NodePath) "..";
@@ -13,8 +14,8 @@ namespace Pawn {
 			}
 		}
 
-		public PawnController GetPawnController() {
-			return this.GetNode<PawnController>(PawnControllerPath);
+		public IPawnController GetPawnController() {
+			return this.GetNode<IPawnController>(PawnControllerPath);
 		}
 	}
 }

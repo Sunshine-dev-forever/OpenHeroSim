@@ -15,7 +15,7 @@ using System.Linq;
 namespace Worlds.TowerDefense {
 	public partial class TowerDefenseRunner : Node
 	{
-		private List<PawnController> pawns = new List<PawnController>();
+		private List<IPawnController> pawns = new List<IPawnController>();
 		private KdTreeController kdTreeController = null!; 
 		public override void _Ready()
 		{
@@ -41,7 +41,7 @@ namespace Worlds.TowerDefense {
 
 		}
 
-		private PawnController CreatePawn(){
+		private IPawnController CreatePawn(){
 			NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 			
 			Vector3 location = this.GetNode<Node3D>("Spawn").GlobalTransform.Origin;

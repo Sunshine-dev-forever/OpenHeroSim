@@ -9,7 +9,7 @@ using Item;
 namespace Pawn.Action.Ability {
 	public interface IAbility : IAction {
 		//List<AbilityTags> Tags {get;}
-		public Boolean CanBeUsed(PawnController ownerPawnController);
+		public Boolean CanBeUsed(IPawnController ownerPawnController);
 		int CooldownMilliseconds {get; }
 		void Setup(IInteractable? target, IItem? heldItem);
 	}

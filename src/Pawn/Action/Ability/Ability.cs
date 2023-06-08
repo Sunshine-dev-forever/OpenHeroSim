@@ -13,13 +13,13 @@ namespace Pawn.Action.Ability {
 		private static float DEFAULT_RANGE = 2;
 		private static bool DEFAULT_LOOPING = false;
 		public System.Action<IInteractable?> abilityExecutable {get; set;}
-		public Predicate<PawnController> canBeUsedPredicate {get; set;}
+		public Predicate<IPawnController> canBeUsedPredicate {get; set;}
 		private IInteractable? target;
 		//animation play length milliseconds is only used if looping is set to true
 		private int animationPlayLengthMilliseconds = -1;
 		public AnimationName AnimationToPlay {get; set;} = AnimationName.Interact;
 		public  bool loopAnimation {get; private set;} = DEFAULT_LOOPING;
-		private PawnController ownerPawnController;
+		private IPawnController ownerPawnController;
 		public int CooldownMilliseconds {get; set;} = DEFAULT_COOLDOWN_MILLISECONDS;
 		public string Name {get; set;} = "Generic ability";
 		public float MaxRange {get; set;} = DEFAULT_RANGE;
@@ -28,7 +28,7 @@ namespace Pawn.Action.Ability {
 		private DateTime timeStarted = DateTime.MinValue;
 		private DateTime lastTimeAbilityUsed = DateTime.MinValue;
 
-		public Ability(PawnController _ownerPawnController, System.Action<IInteractable?> _executable, Predicate<PawnController> _canBeUsedPredicate) {
+		public Ability(IPawnController _ownerPawnController, System.Action<IInteractable?> _executable, Predicate<IPawnController> _canBeUsedPredicate) {
 			ownerPawnController = _ownerPawnController;
 			abilityExecutable = _executable;
 			canBeUsedPredicate = _canBeUsedPredicate;
@@ -67,7 +67,7 @@ namespace Pawn.Action.Ability {
 			return isFinished;
 		}
 
-		public bool CanBeUsed(PawnController ownerPawnController)
+		public bool CanBeUsed(IPawnController ownerPawnController)
 		{
 			bool offCoolDown = (DateTime.Now - lastTimeAbilityUsed).TotalMilliseconds > CooldownMilliseconds;
 			bool ret = offCoolDown && canBeUsedPredicate(ownerPawnController);
