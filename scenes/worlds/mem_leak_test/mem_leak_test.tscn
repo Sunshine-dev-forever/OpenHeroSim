@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://bmmfsiw0cfw0r"]
+
+[ext_resource type="Script" path="res://src/Worlds/MemLeakTest/MemLeakTestRunner.cs" id="1_6gios"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_pq4n0"]
+font_size = 40
+
+[node name="mem_leak_test" type="Node2D"]
+script = ExtResource("1_6gios")
+
+[node name="Panel" type="Panel" parent="."]
+modulate = Color(0, 0, 0, 1)
+offset_left = 178.0
+offset_top = 67.0
+offset_right = 1031.0
+offset_bottom = 565.0
+
+[node name="Label" type="Label" parent="."]
+offset_left = 549.0
+offset_top = 285.0
+offset_right = 667.0
+offset_bottom = 350.0
+text = "Ready
+"
+label_settings = SubResource("LabelSettings_pq4n0")
