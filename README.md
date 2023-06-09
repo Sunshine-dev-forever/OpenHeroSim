@@ -2,6 +2,19 @@
 # MEDIEVAL HERO SIM (WORKING TITLE)
 Medieval Hero Sim is currenlty am attempt to create an open source game similar to Majesty on the Godot Engine.
 
+<p align="center">
+    <img src="./img/img1.png" alt="A bunch of pawns in flat plane">
+</p>
+<p align="center">
+    <img src="./img/img2.png" alt="A bunch of pawns in flat plane">
+</p>
+<p align="center">
+    <img src="./img/img3.png" alt="A bunch of pawns in flat plane">
+</p>
+<p align="center">
+    <img src="./img/img4.png" alt="A bunch of pawns in flat plane">
+</p>
+
 ### Community
 Right now it is just me (Sunshine-Dev), but one day I hope there will be an awesome community!
 Here is a link to the discord: https://discord.gg/RcvAtQj268
