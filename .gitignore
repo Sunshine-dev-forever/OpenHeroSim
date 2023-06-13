@@ -5,6 +5,7 @@
 .import/
 export.cfg
 export_presets.cfg
+*.import
 
 # Assets won't play nice with Git
 assets/

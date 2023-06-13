@@ -32,7 +32,6 @@ namespace Pawn
 		public PawnVisuals() {
 			riggedCharacterRootNode = new Node3D();
 		}
-		public override void _Ready(){}
 
 		//TODO: task executor will call this 
 		public void UpdateHeldItem(IItem? item, IPawnInventory pawnInventory) {
