@@ -1,0 +1,113 @@
+[gd_scene load_steps=8 format=3 uid="uid://lfpo6r466vvx"]
+
+[ext_resource type="Theme" uid="uid://dey8ugl0tyo58" path="res://scenes/menus/main/main_theme.tres" id="1_myvda"]
+[ext_resource type="Script" path="res://src/Menus/Main/world_selector.gd" id="2_372qa"]
+[ext_resource type="PackedScene" uid="uid://fmn86ai2rkkq" path="res://scenes/worlds/main_test/main_test.tscn" id="3_1vmah"]
+[ext_resource type="PackedScene" uid="uid://beyv6wj27txbh" path="res://scenes/worlds/battle_royale/battle_royale.tscn" id="4_akop1"]
+[ext_resource type="FontFile" uid="uid://djgncid6vmj12" path="res://scenes/fonts/kirifont/KiriFont.ttf" id="4_q82c7"]
+[ext_resource type="Texture2D" uid="uid://bbma0xldp1lwd" path="res://img/Godot_icon.png" id="5_mn7lf"]
+[ext_resource type="PackedScene" uid="uid://dbvc108f0gqeg" path="res://scenes/worlds/tower_defense/tower_defense.tscn" id="5_wruh2"]
+
+[node name="WorldSelector" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_myvda")
+script = ExtResource("2_372qa")
+main_scene = ExtResource("3_1vmah")
+battle_royale = ExtResource("4_akop1")
+tower_defense = ExtResource("5_wruh2")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.75
+offset_left = 50.0
+offset_top = 50.0
+offset_right = -50.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_myvda")
+color = Color(0, 0, 0, 1)
+
+[node name="Title" type="Label" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_left = 100.0
+offset_top = 50.0
+offset_right = -100.0
+offset_bottom = 100.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("4_q82c7")
+theme_override_font_sizes/font_size = 50
+text = "Pick your World"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.7
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = 216.0
+offset_bottom = -10.0
+theme = ExtResource("1_myvda")
+
+[node name="MainTest" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_myvda")
+text = "MainTest"
+
+[node name="BattleRoyale" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_myvda")
+text = "Battle Royale"
+
+[node name="TowerDefense" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme = ExtResource("1_myvda")
+text = "Tower Defense
+"
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -447.0
+offset_top = -453.0
+offset_right = -32.0
+offset_bottom = -65.0
+grow_horizontal = 0
+grow_vertical = 0
+rotation = 0.163784
+texture = ExtResource("5_mn7lf")
+expand_mode = 1
+
+[node name="Back" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -86.0
+offset_top = 20.0
+offset_right = -17.0
+offset_bottom = 62.0
+grow_horizontal = 0
+theme = ExtResource("1_myvda")
+text = "Back
+"
+
+[connection signal="button_down" from="VBoxContainer/MainTest" to="." method="_on_main_test_button_down"]
+[connection signal="button_down" from="VBoxContainer/BattleRoyale" to="." method="_on_battle_royale_button_down"]
+[connection signal="button_down" from="VBoxContainer/TowerDefense" to="." method="_on_tower_defense_button_down"]
+[connection signal="button_down" from="Back" to="." method="_on_back_button_down"]

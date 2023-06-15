@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="battle_sim_mono_v0"
-run/main_scene="res://scenes/worlds/main_test/main_test.tscn"
+run/main_scene="res://scenes/menus/main/main_menu.tscn"
 config/features=PackedStringArray("4.0", "C#")
 
 [autoload]
