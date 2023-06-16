@@ -77,7 +77,6 @@ namespace Pawn
 		{
 			KdTreeController = kdTreeController;
 			sensesController = new PawnSenses(kdTreeController, this);
-			PawnVisuals.ForceVisualUpdate(PawnInventory);
 		}
 
 		// Called every frame. 'delta' is the elapsed time since the previous frame.

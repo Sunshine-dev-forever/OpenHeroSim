@@ -9,21 +9,18 @@ namespace Item {
 		public double Damage {get; set;} = 0;
 		public double Defense {get; set;} = 0;
 		
-		public Node3D Mesh {get;}
 		//determines which 'slot' an equipments occupies
 		//for example a pawn can only equipt 1 head-piece at a tume
 		public EquipmentType EquipmentType{get; set;}
 
 		public string Name {get; private set;} = "equipment";
 
-		public Equipment(Node3D mesh, EquipmentType equipmentType, string name) {
+		public Equipment(EquipmentType equipmentType, string name) {
 			Name = name;
-			Mesh = mesh;
 			EquipmentType = equipmentType;
 		}
-		public void QueueFree() {
-			Mesh.QueueFree();
-		}
+
+		public void QueueFree() {}
 	}
 
 	public enum EquipmentType {

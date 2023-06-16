@@ -62,7 +62,7 @@ namespace Pawn
 		}
 
 		public PawnController Finish() {
-			pawn.PawnVisuals.SetPawnRig(pawnRigResourceFile);
+			pawn.PawnVisuals.Setup(pawnRigResourceFile);
 			pawn.Setup(kdTreeController);
 			return pawn;
 		}

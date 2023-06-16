@@ -32,8 +32,6 @@ namespace Pawn.Action {
 		public string Name {get; set;} = "Generic Action";
 
 		public float MaxRange {get; set;} = DEFAULT_RANGE;
-
-		public IItem? HeldItem {get; set;} = null;
 		private bool isCurrentlyRunning = false;
 		private DateTime timeStarted = DateTime.MinValue;
 		public void Execute() {

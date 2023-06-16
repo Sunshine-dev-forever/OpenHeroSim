@@ -10,7 +10,6 @@ namespace Pawn.Action {
 		string Name {get;}
 		float MaxRange {get;}
 		void Execute();
-		public IItem? HeldItem {get; set;}
 		public bool IsFinished();
 		public AnimationName AnimationToPlay {get;}
 	}

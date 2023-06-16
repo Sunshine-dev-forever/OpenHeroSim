@@ -60,7 +60,6 @@ namespace Pawn {
 				actionInExecution.Execute();
 				
 				task.TaskState = TaskState.USING_ACTION;
-				visualController.UpdateHeldItem(task.Action.HeldItem, pawnInventory);
 			} else {
 				//otherwise we are just walking
 				visualController.SetAnimation(AnimationName.Walking, Animation.LoopModeEnum.Linear);

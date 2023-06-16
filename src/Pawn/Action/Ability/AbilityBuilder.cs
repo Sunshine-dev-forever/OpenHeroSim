@@ -35,11 +35,6 @@ namespace Pawn.Action.Ability {
 			return this;
 		}
 
-		public AbilityBuilder HeldItem(IItem? item) {
-			ability.HeldItem = item;
-			return this;
-		}
-
 		public IAbility Finish() {
 			return ability;
 		}

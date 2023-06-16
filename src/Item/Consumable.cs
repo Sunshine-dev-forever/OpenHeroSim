@@ -9,16 +9,11 @@ namespace Item {
 	public class Consumable : IItem
 	{
 		public double Healing {get;}
-		public Node3D Mesh {get;}
 		public string Name {get; private set;} = "Consumable";
-		public Consumable(double _Healing, Node3D mesh, string name) {
+		public Consumable(double _Healing, string name) {
 			Name = name;
 			Healing = _Healing;
-			Mesh = mesh;
 		}
-
-		public void QueueFree(){
-			Mesh.QueueFree();
-		}
+		public void QueueFree() {}
 	}
 }

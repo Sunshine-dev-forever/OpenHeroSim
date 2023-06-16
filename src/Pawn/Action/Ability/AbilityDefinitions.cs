@@ -76,16 +76,18 @@ namespace Pawn.Action.Ability {
 				//remove 1 ammo
 				itemToThrow.Count -= 1;
 				//remove item if it is out of ammo
-				//TODO: does this cause memory leaks?
+				bool deleteMeshWhenDone = false;
 				if(itemToThrow.Count == 0) {
+					//TODO: this causes the thrown item mesh to be memleaked
 					ownerPawnController.PawnInventory.RemoveItem(itemToThrow);
+					deleteMeshWhenDone = true;
 				}
 				
-				Node3D mesh = (Node3D) itemToThrow.Mesh.Duplicate();
+				Node3D mesh = (Node3D) itemToThrow.Mesh;
 
 				otherPawnController.TakeDamage(damage);
 				//also make a new projectile with the mesh in question
-				CreateProjectile(mesh, ownerPawnController, otherPawnController);
+				CreateProjectile(mesh, ownerPawnController, otherPawnController, deleteMeshWhenDone);
 			};
 
 			IAbility ability = AbilityBuilder.Start(ownerPawnController, abilityExecutable, canBeUsed)
@@ -97,11 +99,11 @@ namespace Pawn.Action.Ability {
 			return ability;
 		}
 
-		private static void CreateProjectile(Node3D mesh, IPawnController ownerPawnController, IPawnController otherPawnController) {
+		private static void CreateProjectile(Node3D mesh, IPawnController ownerPawnController, IPawnController otherPawnController, bool deleteMeshWhenDone) {
 			//just needs to be one unit up, based off height of the pawn
 			Vector3 offset = new Vector3(0,1,0);
 			ITargeting target = new InteractableTargeting(otherPawnController, offset);
-			Projectile projectile = new Projectile(mesh, target, DEFAULT_PROJECTILE_SPEED );
+			Projectile projectile = new Projectile(mesh, target, DEFAULT_PROJECTILE_SPEED, deleteMeshWhenDone );
 			ownerPawnController.GetRootNode().AddChild(projectile);
 			projectile.GlobalTransform = new Transform3D(projectile.GlobalTransform.Basis, ownerPawnController.GlobalTransform.Origin + offset);
 		}

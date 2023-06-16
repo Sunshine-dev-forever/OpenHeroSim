@@ -78,7 +78,7 @@ namespace Worlds.MainTest
 			//I add an offset so the spear target's the pawns chest and not the pawn's feet
 			Vector3 offset = new Vector3(0,1,0);
 			ITargeting target = new InteractableTargeting(lastPawnSpawned, offset);
-			Projectile projectile = new Projectile(spear, target, 50 );
+			Projectile projectile = new Projectile(spear, target, 50, true );
 			this.AddChild(projectile);
 			projectile.GlobalTransform = new Transform3D(projectile.GlobalTransform.Basis, new Vector3(0,5,0));
 		}
@@ -117,8 +117,7 @@ namespace Worlds.MainTest
 		}
 
 		private Equipment GetHelmet() {
-			Node3D boxHelm = CustomResourceLoader.LoadMesh(ResourcePaths.BOX_HELM);
-			Equipment equipment = new Equipment(boxHelm, EquipmentType.HEAD, "box helm");
+			Equipment equipment = new Equipment(EquipmentType.HEAD, "box helm");
 			equipment.Defense = 5;
 			return equipment;
 		}
@@ -175,35 +174,30 @@ namespace Worlds.MainTest
 		}
 
 		private Equipment CreateIronSword() {
-			Node3D ironSword = CustomResourceLoader.LoadMesh(ResourcePaths.IRON_SWORD);
-			Equipment equipment = new Equipment(ironSword, EquipmentType.HELD, "iron sword");
+			Equipment equipment = new Equipment(EquipmentType.HELD, "iron sword");
 			equipment.Damage = 5;
 			return equipment;
 		}
 
 		private Equipment CreateRustedDagger() {
-			Node3D rustedDagger = CustomResourceLoader.LoadMesh(ResourcePaths.RUSTED_DAGGER);;
-			Equipment equipment = new Equipment(rustedDagger, EquipmentType.HELD, "rusted dagger");
+			Equipment equipment = new Equipment(EquipmentType.HELD, "rusted dagger");
 			equipment.Damage = 3;
 			return equipment;
 		}
 
 		private Equipment CreateLightSaber() {
-			Node3D lightSaber = CustomResourceLoader.LoadMesh(ResourcePaths.LIGHTSABER);
-			Equipment equipment = new Equipment(lightSaber, EquipmentType.HELD, "light saber");
+			Equipment equipment = new Equipment(EquipmentType.HELD, "light saber");
 			equipment.Damage = 10;
 			return equipment;
 		}
 		private Equipment CreateSpearMelee() {
-			Node3D spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
-			Equipment equipment = new Equipment(spear, EquipmentType.HELD, "melee djerd");
+			Equipment equipment = new Equipment(EquipmentType.HELD, "melee djerd");
 			equipment.Damage = 40;
 			return equipment;
 		}
 
 		private Consumable CreateHealingPotion() {
-			Node3D healthPotion = CustomResourceLoader.LoadMesh(ResourcePaths.HEALTH_POTION);
-			return new Consumable(40, healthPotion, "Health Potion");
+			return new Consumable(40, "Health Potion");
 		}
 	}
 }

@@ -39,10 +39,10 @@ namespace Interactable {
 			return IsInstanceValid(this);
 		}
 		public new void QueueFree() {
-			base.QueueFree();
 			foreach(IItem item in Items) {
 				item.QueueFree();
 			}
+			base.QueueFree();
 		}
 	}
 }

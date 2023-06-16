@@ -49,14 +49,11 @@ namespace Pawn.Goal {
 										.Animation(AnimationName.Idle)
 										.AnimationPlayLength(waitTimeMilliseconds)
 										.Finish();
-				//TODO: pawnController.Weapon.Mesh should default to a spatial node. even if Weapon is null
-				waitAction.HeldItem = ownerPawnController.PawnInventory.GetWornEquipment(EquipmentType.HELD);
 				return new Task(targeting, waitAction);
 			} else {	
 				//We take first valid ability
 				IAbility ability = validAbilities[0];
-				IItem? heldItem = ownerPawnController.PawnInventory.GetWornEquipment(EquipmentType.HELD);
-				ability.Setup(pawnToAttack, heldItem);
+				ability.Setup(pawnToAttack);
 				return new Task(targeting, ability);
 			}
 		}

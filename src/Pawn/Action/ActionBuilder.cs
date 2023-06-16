@@ -33,11 +33,6 @@ namespace Pawn.Action {
 			return this;
 		}
 
-		public ActionBuilder HeldItem(IItem? item) {
-			action.HeldItem = item;
-			return this;
-		}
-
 		public IAction Finish() {
 			return action;
 		}

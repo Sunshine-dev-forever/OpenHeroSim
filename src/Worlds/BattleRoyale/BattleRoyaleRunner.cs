@@ -131,29 +131,25 @@ namespace Worlds.BattleRoyale {
 		}
 
 		private Equipment CreateIronSword() {
-		Node3D ironSword = CustomResourceLoader.LoadMesh(ResourcePaths.IRON_SWORD);
-		Equipment equipment = new Equipment(ironSword, EquipmentType.HELD, "iron sword");
+		Equipment equipment = new Equipment(EquipmentType.HELD, "iron sword");
 		equipment.Damage = 7;
 		return equipment;
 	}
 
-	private Equipment CreateRustedDagger() {
-		Node3D rustedDagger = CustomResourceLoader.LoadMesh(ResourcePaths.RUSTED_DAGGER);
-		Equipment equipment = new Equipment(rustedDagger, EquipmentType.HELD, "rusty dagger");
-		equipment.Damage = 3;
-		return equipment;
-	}
+		private Equipment CreateRustedDagger() {
+			Equipment equipment = new Equipment(EquipmentType.HELD, "rusty dagger");
+			equipment.Damage = 3;
+			return equipment;
+		}
 
-	private Equipment CreateLightSaber() {
-		Node3D lightSaber = CustomResourceLoader.LoadMesh(ResourcePaths.LIGHTSABER);
-		Equipment equipment = new Equipment(lightSaber, EquipmentType.HELD, "lightsaber");
-		equipment.Damage = 15;
-		return equipment;
-	}
+		private Equipment CreateLightSaber() {
+			Equipment equipment = new Equipment(EquipmentType.HELD, "lightsaber");
+			equipment.Damage = 15;
+			return equipment;
+		}
 
-	private Consumable CreateHealingPotion() {
-		Node3D healthPotion = CustomResourceLoader.LoadMesh(ResourcePaths.HEALTH_POTION);
-		return new Consumable(40, healthPotion, "Health potion");
-	}
+		private Consumable CreateHealingPotion() {
+			return new Consumable(40, "Health potion");
+		}
 	}
 }

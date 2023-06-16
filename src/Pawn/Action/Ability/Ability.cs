@@ -23,7 +23,6 @@ namespace Pawn.Action.Ability {
 		public int CooldownMilliseconds {get; set;} = DEFAULT_COOLDOWN_MILLISECONDS;
 		public string Name {get; set;} = "Generic ability";
 		public float MaxRange {get; set;} = DEFAULT_RANGE;
-		public IItem? HeldItem {get; set;} = null;
 		private bool isCurrentlyRunning = false;
 		private DateTime timeStarted = DateTime.MinValue;
 		private DateTime lastTimeAbilityUsed = DateTime.MinValue;
@@ -77,9 +76,8 @@ namespace Pawn.Action.Ability {
 			return ret;
 		}
 
-		public void Setup(IInteractable? _target, IItem? _heldItem) {
+		public void Setup(IInteractable? _target) {
 			target = _target;
-			HeldItem = _heldItem;
 		}
 
 	}

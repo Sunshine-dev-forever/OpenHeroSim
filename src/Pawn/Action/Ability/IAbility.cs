@@ -11,7 +11,7 @@ namespace Pawn.Action.Ability {
 		//List<AbilityTags> Tags {get;}
 		public Boolean CanBeUsed(IPawnController ownerPawnController);
 		int CooldownMilliseconds {get; }
-		void Setup(IInteractable? target, IItem? heldItem);
+		void Setup(IInteractable? target);
 	}
 	//Tags are not needed right now but I am sure I will need them in the near future
 	//public enum AbilityTags {NONE}
