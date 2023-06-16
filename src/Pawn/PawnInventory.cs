@@ -24,6 +24,10 @@ namespace Pawn {
 			return rtn;
 		}
 
+		public List<IItem> GetAllEquippedItems() {
+			return new List<IItem>(wornGear.Values);
+		}
+
 		public List<IItem> GetAllItemsInBag() {
 			return new List<IItem>(bag);
 		}

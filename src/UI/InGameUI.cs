@@ -106,13 +106,19 @@ namespace UI {
 
 			vBoxContainer.AddChild(new HSeparator() );
 
-			Label itemsLabel = new Label();
-			itemsLabel.Text = "Items: \n";
-			foreach (IItem item in target.PawnInventory.GetAllItems()) {
-				itemsLabel.Text += item.Name + "\n";
+			Label equippedItemsLabel = new Label();
+			equippedItemsLabel.Text = "Equipped Items: \n";
+			foreach (IItem item in target.PawnInventory.GetAllEquippedItems()) {
+				equippedItemsLabel.Text += item.Name + "\n";
 			}
-
-			vBoxContainer.AddChild(itemsLabel);
+			vBoxContainer.AddChild(equippedItemsLabel);
+			vBoxContainer.AddChild(new HSeparator() );
+			Label bagItemsLabel = new Label();
+			bagItemsLabel.Text = "Bagged Items: \n";
+			foreach (IItem item in target.PawnInventory.GetAllItemsInBag()) {
+				bagItemsLabel.Text += item.Name + "\n";
+			}
+			vBoxContainer.AddChild(bagItemsLabel);
 
 		}
 	}

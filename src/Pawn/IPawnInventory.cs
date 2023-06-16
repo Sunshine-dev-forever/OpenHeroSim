@@ -8,6 +8,7 @@ namespace Pawn
 		//Returns all items in the pawn's inventory, including equipment
         List<IItem> GetAllItems();
         List<IItem> GetAllItemsInBag();
+		List<IItem> GetAllEquippedItems();
         bool AddItem(IItem item);
         bool RemoveItem(IItem item);
         List<IItem> EmptyAllItems();
