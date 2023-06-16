@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://btv4rmdlaem27"]
+
+[ext_resource type="Theme" uid="uid://dey8ugl0tyo58" path="res://scenes/menus/main/main_theme.tres" id="1_lwh27"]
+
+[node name="GUI" type="Panel"]
+anchors_preset = -1
+anchor_left = 0.8
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -268.0
+offset_bottom = 267.376
+grow_horizontal = 0
+grow_vertical = 2
+theme = ExtResource("1_lwh27")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0

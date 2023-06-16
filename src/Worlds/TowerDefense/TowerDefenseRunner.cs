@@ -79,7 +79,7 @@ namespace Worlds.TowerDefense {
 
 		public Throwable CreateThrowable() {
 			Node3D spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
-			return new Throwable(spear, 60);
+			return new Throwable(spear, 60, "who cares?");
 		}
 
 	}

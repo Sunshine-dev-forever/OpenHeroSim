@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://src/Worlds/TowerDefense/TowerDefenseRunner.cs" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/visual_sphere.tscn" id="2"]
-[ext_resource type="PackedScene" uid="uid://btv4rmdlaem27" path="res://scenes/gui/debug_gui.tscn" id="3"]
-[ext_resource type="Script" path="res://src/UI/DebugUI.cs" id="4"]
+[ext_resource type="PackedScene" uid="uid://btv4rmdlaem27" path="res://scenes/gui/in_game_UI.tscn" id="3"]
+[ext_resource type="Script" path="res://src/UI/InGameUI.cs" id="4"]
 [ext_resource type="PlaneMesh" uid="uid://sk1pvvyu4jlr" path="res://scenes/worlds/main_test/ground.tres" id="5"]
 [ext_resource type="Script" path="res://src/UI/FPSDebugUI.gd" id="6"]
 [ext_resource type="Script" path="res://src/UI/FreeCamera.gd" id="7"]

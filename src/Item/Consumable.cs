@@ -10,7 +10,9 @@ namespace Item {
 	{
 		public double Healing {get;}
 		public Node3D Mesh {get;}
-		public Consumable(double _Healing, Node3D mesh) {
+		public string Name {get; private set;} = "Consumable";
+		public Consumable(double _Healing, Node3D mesh, string name) {
+			Name = name;
 			Healing = _Healing;
 			Mesh = mesh;
 		}

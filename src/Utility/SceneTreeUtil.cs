@@ -10,6 +10,13 @@ namespace Util {
 			}
 		}
 
+		public static void RemoveAndFreeAllChildren(Node root) {
+			foreach(Node node in root.GetChildren()) {
+				root.RemoveChild(node);
+				node.QueueFree();
+			}
+		}
+
 		//Removes a child from its parent without affecting the parent
 		//If the parent does not exist this will not throw an error
 		public static void OrphanChild(Node node) {

@@ -1,8 +1,8 @@
 [gd_scene load_steps=17 format=3 uid="uid://fmn86ai2rkkq"]
 
 [ext_resource type="Script" path="res://src/Worlds/MainTest/MainTestRunner.cs" id="2"]
-[ext_resource type="PackedScene" uid="uid://btv4rmdlaem27" path="res://scenes/gui/debug_gui.tscn" id="3"]
-[ext_resource type="Script" path="res://src/UI/DebugUI.cs" id="4"]
+[ext_resource type="Script" path="res://src/UI/InGameUI.cs" id="2_kx50u"]
+[ext_resource type="PackedScene" uid="uid://btv4rmdlaem27" path="res://scenes/gui/in_game_UI.tscn" id="3"]
 [ext_resource type="PlaneMesh" uid="uid://sk1pvvyu4jlr" path="res://scenes/worlds/main_test/ground.tres" id="5"]
 [ext_resource type="Script" path="res://src/UI/FPSDebugUI.gd" id="6"]
 [ext_resource type="Script" path="res://src/UI/FreeCamera.gd" id="7"]
@@ -55,9 +55,6 @@ shadow_enabled = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.3125, 6.14257, 16.0126)
 mesh = SubResource("4")
 
-[node name="Test" type="Node3D" parent="."]
-script = ExtResource("2")
-
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = 8.0
 offset_top = 7.0
@@ -77,7 +74,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "100"
 
 [node name="DebugUI" type="Node3D" parent="."]
-script = ExtResource("4")
+script = ExtResource("2_kx50u")
 
 [node name="Camera3D" type="Camera3D" parent="DebugUI"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2747, 7.04908, 29.5765)
@@ -85,11 +82,13 @@ script = ExtResource("7")
 
 [node name="GUI" parent="DebugUI" instance=ExtResource("3")]
 
+[node name="Runner" type="Node3D" parent="DebugUI"]
+script = ExtResource("2")
+
 [node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
 navigation_mesh = SubResource("1")
 
 [node name="Floor" type="StaticBody3D" parent="NavigationRegion3D"]
-collision_mask = 0
 physics_material_override = SubResource("10")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Floor"]

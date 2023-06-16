@@ -17,7 +17,6 @@ namespace Pawn {
 			wornGear = new Dictionary<EquipmentType, Equipment>();
 		}
 
-		//Returns all items in the pawn's inventory, including equiptment
 		public List<IItem> GetAllItems() {
 			List<IItem> rtn = new List<IItem>();
 			rtn.AddRange(bag);
@@ -47,7 +46,7 @@ namespace Pawn {
 			if(bag.Contains(item)) {
 				return bag.Remove(item);
 			} else if (item is Equipment) {
-				//Then we will remove equipt gear
+				//Then we will remove equipped gear
 				Equipment equipment = (Equipment) item;
 				if(wornGear.ContainsValue(equipment)){
 					return wornGear.Remove(equipment.EquipmentType);

@@ -10,7 +10,9 @@ namespace Item {
 		//the number of times this throwable can be used before it is out of ammo
 		public int Count = 4;
 		public Node3D Mesh {get;}
-		public Throwable(Node3D mesh, double _damage) {
+		public string Name {get; private set;} = "Throwable";
+		public Throwable(Node3D mesh, double _damage, string name ) {
+			Name = name;
 			Mesh = mesh;
 			Damage = _damage;
 		}

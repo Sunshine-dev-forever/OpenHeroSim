@@ -8,5 +8,6 @@ namespace Item {
 	public interface IItem {
 		public Node3D Mesh {get;}
 		public void QueueFree();
+		public string Name {get;}
 	}
 }

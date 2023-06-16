@@ -54,7 +54,7 @@ namespace Pawn.Goal {
 
 		private ItemContainer? GetFirstNonemptyContainer(List<ItemContainer> nearbyContainers) {
 			foreach( ItemContainer itemContainer in nearbyContainers) {
-				if(itemContainer.Items.Count > 1) {
+				if(itemContainer.Items.Count >= 1) {
 					return itemContainer;
 				}
 			}

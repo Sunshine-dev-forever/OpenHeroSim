@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://src/Worlds/BattleRoyale/BattleRoyaleRunner.cs" id="1"]
 [ext_resource type="Script" path="res://src/UI/FreeCamera.gd" id="2"]
-[ext_resource type="PackedScene" uid="uid://btv4rmdlaem27" path="res://scenes/gui/debug_gui.tscn" id="3"]
-[ext_resource type="Script" path="res://src/UI/DebugUI.cs" id="4"]
+[ext_resource type="PackedScene" uid="uid://btv4rmdlaem27" path="res://scenes/gui/in_game_UI.tscn" id="3"]
+[ext_resource type="Script" path="res://src/UI/InGameUI.cs" id="4"]
 [ext_resource type="PlaneMesh" uid="uid://sk1pvvyu4jlr" path="res://scenes/worlds/main_test/ground.tres" id="5"]
 [ext_resource type="Script" path="res://src/UI/FPSDebugUI.gd" id="6"]
 
@@ -46,25 +46,6 @@ sky = SubResource("Sky_ptslx")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.527519, 0.849543, 0, -0.849543, 0.527519, 0, 28.7393, 16.7495)
 
-[node name="BattleRoyalRunner" type="Node3D" parent="."]
-script = ExtResource("1")
-
-[node name="NegZ" type="MeshInstance3D" parent="BattleRoyalRunner"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -256.286)
-mesh = SubResource("11")
-
-[node name="PosZ" type="MeshInstance3D" parent="BattleRoyalRunner"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 251.936)
-mesh = SubResource("11")
-
-[node name="PosX" type="MeshInstance3D" parent="BattleRoyalRunner"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 254.67, 0, 0)
-mesh = SubResource("11")
-
-[node name="NegX" type="MeshInstance3D" parent="BattleRoyalRunner"]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -253.35, 0, 0)
-mesh = SubResource("11")
-
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = 8.0
 offset_top = 7.0
@@ -83,15 +64,34 @@ scale = Vector2(3, 3)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "100"
 
-[node name="DebugUI" type="Node3D" parent="."]
+[node name="InGameUI" type="Node3D" parent="."]
 script = ExtResource("4")
 
-[node name="Camera3D" type="Camera3D" parent="DebugUI"]
+[node name="Camera3D" type="Camera3D" parent="InGameUI"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2747, 7.04908, 29.5765)
 far = 1000.0
 script = ExtResource("2")
 
-[node name="GUI" parent="DebugUI" instance=ExtResource("3")]
+[node name="GUI" parent="InGameUI" instance=ExtResource("3")]
+
+[node name="Runner" type="Node3D" parent="InGameUI"]
+script = ExtResource("1")
+
+[node name="NegZ" type="MeshInstance3D" parent="InGameUI/Runner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -256.286)
+mesh = SubResource("11")
+
+[node name="PosZ" type="MeshInstance3D" parent="InGameUI/Runner"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 251.936)
+mesh = SubResource("11")
+
+[node name="PosX" type="MeshInstance3D" parent="InGameUI/Runner"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 254.67, 0, 0)
+mesh = SubResource("11")
+
+[node name="NegX" type="MeshInstance3D" parent="InGameUI/Runner"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -253.35, 0, 0)
+mesh = SubResource("11")
 
 [node name="Decorations2" type="Node3D" parent="."]
 

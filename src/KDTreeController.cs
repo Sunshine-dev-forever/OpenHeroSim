@@ -58,7 +58,7 @@ public partial class KdTreeController : Node
 	public List<IInteractable> GetNearestInteractableToInteractable(IInteractable interactable, int count)
 	{
 		Vector3 location = interactable.GlobalTransform.Origin;
-		List<IInteractable> rtn = GetNearestInteractables(location, count);
+		List<IInteractable> rtn = GetNearestInteractables(location, count + 1);
 		rtn.Remove(interactable);
 		return rtn;
 	}

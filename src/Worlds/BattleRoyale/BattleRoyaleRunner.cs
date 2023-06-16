@@ -12,17 +12,17 @@ using Util;
 using Interactable;
 
 namespace Worlds.BattleRoyale {
-	public partial class BattleRoyaleRunner : Node
+	public partial class BattleRoyaleRunner : Node, IRunner
 	{
 		private static int NUMBER_OF_PAWNS_TO_SPAWN = 100;
 		private static int NUMBER_OF_CHESTS_TO_SPAWN = 50;
 		private List<IPawnController> pawns = new List<IPawnController>();
 
-		private KdTreeController kdTreeController = null!; 
+		public KdTreeController KdTreeController {get; private set;} = null!; 
 		public override void _Ready()
 		{
-			kdTreeController = new KdTreeController();
-			this.AddChild(kdTreeController);
+			KdTreeController = new KdTreeController();
+			this.AddChild(KdTreeController);
 		}
 		
 		public override void _Input(InputEvent input) {
@@ -69,7 +69,7 @@ namespace Worlds.BattleRoyale {
 
 		private IPawnController CreatePawn(Vector3 location){
 			NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
-			return PawnControllerBuilder.Start(this, kdTreeController, navigation)
+			return PawnControllerBuilder.Start(this, KdTreeController, navigation)
 								.AddGoal(new HealGoal())
 								.AddGoal(new DefendSelfGoal())
 								.AddGoal(new LootGoal())
@@ -127,33 +127,33 @@ namespace Worlds.BattleRoyale {
 			ItemContainer itemContainer = new ItemContainer(items, TreasureChestMesh);
 			this.AddChild(itemContainer);
 			itemContainer.GlobalTransform = new Transform3D(itemContainer.GlobalTransform.Basis, location);
-			kdTreeController.AddInteractable(itemContainer);
+			KdTreeController.AddInteractable(itemContainer);
 		}
 
 		private Equipment CreateIronSword() {
 		Node3D ironSword = CustomResourceLoader.LoadMesh(ResourcePaths.IRON_SWORD);
-		Equipment equipment = new Equipment(ironSword, EquipmentType.HELD);
+		Equipment equipment = new Equipment(ironSword, EquipmentType.HELD, "iron sword");
 		equipment.Damage = 7;
 		return equipment;
 	}
 
 	private Equipment CreateRustedDagger() {
 		Node3D rustedDagger = CustomResourceLoader.LoadMesh(ResourcePaths.RUSTED_DAGGER);
-		Equipment equipment = new Equipment(rustedDagger, EquipmentType.HELD);
+		Equipment equipment = new Equipment(rustedDagger, EquipmentType.HELD, "rusty dagger");
 		equipment.Damage = 3;
 		return equipment;
 	}
 
 	private Equipment CreateLightSaber() {
 		Node3D lightSaber = CustomResourceLoader.LoadMesh(ResourcePaths.LIGHTSABER);
-		Equipment equipment = new Equipment(lightSaber, EquipmentType.HELD);
+		Equipment equipment = new Equipment(lightSaber, EquipmentType.HELD, "lightsaber");
 		equipment.Damage = 15;
 		return equipment;
 	}
 
 	private Consumable CreateHealingPotion() {
 		Node3D healthPotion = CustomResourceLoader.LoadMesh(ResourcePaths.HEALTH_POTION);
-		return new Consumable(40, healthPotion);
+		return new Consumable(40, healthPotion, "Health potion");
 	}
 	}
 }
