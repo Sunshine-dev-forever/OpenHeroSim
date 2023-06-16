@@ -1,19 +1,19 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://mfle0hynp4ka"]
 
-[sub_resource type="StandardMaterial3D" id=1]
-albedo_color = Color( 0.572549, 0.235294, 0.235294, 1 )
+[sub_resource type="StandardMaterial3D" id="1"]
+albedo_color = Color(0.572549, 0.235294, 0.235294, 1)
 
-[sub_resource type="CylinderMesh" id=2]
-material = SubResource( 1 )
+[sub_resource type="CylinderMesh" id="2"]
+material = SubResource("1")
 top_radius = 0.05
 bottom_radius = 0.05
 height = 3.0
 
-[sub_resource type="StandardMaterial3D" id=3]
-albedo_color = Color( 0.635294, 0.470588, 0.470588, 1 )
+[sub_resource type="StandardMaterial3D" id="3"]
+albedo_color = Color(0.635294, 0.470588, 0.470588, 1)
 
-[sub_resource type="CylinderMesh" id=4]
-material = SubResource( 3 )
+[sub_resource type="CylinderMesh" id="4"]
+material = SubResource("3")
 top_radius = 0.001
 bottom_radius = 0.045
 height = 0.6
@@ -21,9 +21,9 @@ height = 0.6
 [node name="Node3D" type="Node3D"]
 
 [node name="shaft" type="MeshInstance3D" parent="."]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5833, 0 )
-mesh = SubResource( 2 )
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5833, 0)
+mesh = SubResource("2")
 
 [node name="point" type="MeshInstance3D" parent="."]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.38337, 0 )
-mesh = SubResource( 4 )
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.38337, 0)
+mesh = SubResource("4")

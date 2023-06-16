@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://lfpo6r466vvx"]
+[gd_scene load_steps=7 format=3 uid="uid://lfpo6r466vvx"]
 
 [ext_resource type="Theme" uid="uid://dey8ugl0tyo58" path="res://scenes/menus/main/main_theme.tres" id="1_myvda"]
 [ext_resource type="Script" path="res://src/Menus/Main/world_selector.gd" id="2_372qa"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://beyv6wj27txbh" path="res://scenes/worlds/battle_royale/battle_royale.tscn" id="4_akop1"]
 [ext_resource type="FontFile" uid="uid://djgncid6vmj12" path="res://scenes/fonts/kirifont/KiriFont.ttf" id="4_q82c7"]
 [ext_resource type="Texture2D" uid="uid://bbma0xldp1lwd" path="res://img/Godot_icon.png" id="5_mn7lf"]
-[ext_resource type="PackedScene" uid="uid://dbvc108f0gqeg" path="res://scenes/worlds/tower_defense/tower_defense.tscn" id="5_wruh2"]
 
 [node name="WorldSelector" type="Panel"]
 anchors_preset = 15
@@ -18,7 +17,6 @@ theme = ExtResource("1_myvda")
 script = ExtResource("2_372qa")
 main_scene = ExtResource("3_1vmah")
 battle_royale = ExtResource("4_akop1")
-tower_defense = ExtResource("5_wruh2")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
@@ -73,7 +71,8 @@ text = "Battle Royale"
 layout_mode = 2
 size_flags_vertical = 3
 theme = ExtResource("1_myvda")
-text = "Tower Defense
+text = "Does nothing right now
+
 "
 
 [node name="TextureRect" type="TextureRect" parent="."]
