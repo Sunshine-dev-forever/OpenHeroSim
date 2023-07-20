@@ -11,6 +11,7 @@ namespace Pawn
 {
 	public partial class PawnVisuals : Node3D
 	{
+		private const AnimationName DEFAULT_ANIMATION = AnimationName.Interact;
 		private AnimationPlayer? animationPlayer = null;
 		private Node3D riggedCharacterRootNode = null!;
 		public float getAnimationLengthMilliseconds(AnimationName animationName) {
@@ -29,10 +30,16 @@ namespace Pawn
 			if(animationPlayer == null) {
 				return;
 			}
+			//TODO: something about the few lines below might not work right
+			if(animationPlayer.HasAnimation(animationName.ToString())) {
+				animationPlayer.GetAnimation(animationName.ToString()).LoopMode = loopMode;
+				animationPlayer.Play(animationName.ToString());
+			} else {
+				animationPlayer.GetAnimation(DEFAULT_ANIMATION.ToString()).LoopMode = loopMode;
+				animationPlayer.Play(DEFAULT_ANIMATION.ToString());
+			}
 			
-			animationPlayer.GetAnimation(animationName.ToString()).LoopMode = loopMode;
-			
-			animationPlayer.Play(animationName.ToString());
+
 		}
 
 		public void setPawnRotation(float yRotation) {
@@ -60,6 +67,7 @@ namespace Pawn
 		Idle,
 		Interact,
 		Walking,
-		Stab
+		Stab,
+		Shoot
 	}
 }
