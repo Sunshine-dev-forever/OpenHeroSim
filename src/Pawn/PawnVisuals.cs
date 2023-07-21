@@ -18,8 +18,7 @@ namespace Pawn
 			if(animationPlayer == null || animationPlayer.GetAnimation(GetAnimationNameOrDefault(animationName)) == null) {
 				//so basically anything with a missing animation gets to instantly use all of its abilities
 				//TODO: is there a better solution than this?
-				//1 millisecond should not break anything, 0 might
-				return 1;
+				return 0;
 			}
 			//TODO: find some constants library that defines this
 			int MILLISECONDS_IN_SECOND = 1000;

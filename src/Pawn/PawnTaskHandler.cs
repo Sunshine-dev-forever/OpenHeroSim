@@ -17,7 +17,6 @@ namespace Pawn {
 		private PawnVisuals visualController;
 		private IPawnInformation pawnInformation;
 		private IPawnInventory pawnInventory;
-
 		public PawnTaskHandler(PawnMovement _movementController, PawnVisuals _visualController, IPawnInformation _pawnInformation,
 					IPawnInventory _pawnInventory) {
 			movementController = _movementController;
@@ -36,8 +35,8 @@ namespace Pawn {
 					MoveToTaskLocation(task);
 				break;
 
-				case TaskState.USING_ACTION: 
-					if(IsActionCompleted()) {
+				case TaskState.PROCESSING_ACTION:
+					if(ProcessAction()) {
 						task.TaskState = TaskState.COMPLETED;
 					}
 				break;
@@ -57,20 +56,22 @@ namespace Pawn {
 				movementController.Stop();
 				
 				actionInExecution = task.Action;
-				actionInExecution.Execute();
+				actionInExecution.Start();
 				
-				task.TaskState = TaskState.USING_ACTION;
+				task.TaskState = TaskState.PROCESSING_ACTION;
 			} else {
 				//otherwise we are just walking
 				visualController.SetAnimation(AnimationName.Walking, Animation.LoopModeEnum.Linear);
 			}
 		}
 
-		public bool IsActionCompleted() {
+		//returns true if action is completed, otherwise false
+		public bool ProcessAction() {
 			//defaults to true if action is null
 			if(actionInExecution == null) {
 				return true;
 			}
+			actionInExecution.Process();
 			return actionInExecution.IsFinished();
 		}
 	}

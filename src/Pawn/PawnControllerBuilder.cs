@@ -14,7 +14,7 @@ namespace Pawn
 		//this is the pawn that is under construction
 		PawnController pawn;
 
-		private static string PAWN_RIG_RESOURCE_FILE_DEFAULT = ResourcePaths.ROGUE_MODEL;
+		private static string PAWN_RIG_RESOURCE_FILE_DEFAULT = ResourcePaths.WARRIOR_MODEL;
 		private string pawnRigResourceFile = PAWN_RIG_RESOURCE_FILE_DEFAULT;
 
 		//creates a pawn with no AI

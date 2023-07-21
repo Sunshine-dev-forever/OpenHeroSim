@@ -17,5 +17,5 @@ namespace Pawn.Tasks {
 		
 	}
 	//The status that the task is in
-	public enum TaskState { MOVING_TO, USING_ACTION, COMPLETED}
+	public enum TaskState { MOVING_TO, PROCESSING_ACTION, COMPLETED}
 }

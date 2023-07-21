@@ -20,8 +20,9 @@ namespace Pawn.Action.Ability {
 			Predicate<IPawnController> canBeUsed = (PawnController) => {return true;};
 
 			System.Action<IInteractable?> abilityExecutable = (target) => {
-				if(target == null) {
-					throw new NullReferenceException("target was null");
+				if(target == null || !target.IsInstanceValid()) {
+					//Target is no longer valid for some reason
+					return;
 				}
 				IPawnController otherPawnController = (IPawnController) target;
 				otherPawnController.TakeDamage(ownerPawnController.GetDamage());
@@ -52,8 +53,9 @@ namespace Pawn.Action.Ability {
 			};
 
 			System.Action<IInteractable?> abilityExecutable = (target) => {
-				if(target == null) {
-					throw new NullReferenceException("target was null");
+				if(target == null || !target.IsInstanceValid()) {
+					//Target is no longer valid for some reason
+					return;
 				}
 				IPawnController otherPawnController = (IPawnController) target;
 				Throwable? itemToThrow = null;
@@ -75,10 +77,8 @@ namespace Pawn.Action.Ability {
 				double damage = ownerPawnController.PawnInformation.BaseDamage + itemToThrow.Damage;
 				//remove 1 ammo
 				itemToThrow.Count -= 1;
-				//remove item if it is out of ammo
 				bool deleteMeshWhenDone = false;
 				if(itemToThrow.Count == 0) {
-					//TODO: this causes the thrown item mesh to be memleaked
 					ownerPawnController.PawnInventory.RemoveItem(itemToThrow);
 					deleteMeshWhenDone = true;
 				}
