@@ -52,6 +52,7 @@ namespace Pawn.Action {
 			}
 			//only gets milliseconds between 0 and 1000
 			double timeRunningMilliseconds = (DateTime.Now - timeStarted).TotalMilliseconds;
+			//todo: refactor this to the positive side (check for both looping possabilites)
 			if(loopMode != Animation.LoopModeEnum.None) {
 				// there is some kind of looping going on, so we use the local animationPlayLengthMilliseconds, which can be longer than the original
 				// animation length.

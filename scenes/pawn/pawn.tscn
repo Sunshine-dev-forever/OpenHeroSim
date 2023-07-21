@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=9 format=3 uid="uid://duy3orjbopngh"]
 
 [ext_resource type="PackedScene" uid="uid://c662kyccaj4ij" path="res://scenes/gui/health_bar_3d.tscn" id="1"]
 [ext_resource type="Script" path="res://src/Pawn/PawnRigidBody.cs" id="3"]
 [ext_resource type="Script" path="res://src/Pawn/PawnController.cs" id="4"]
 [ext_resource type="Script" path="res://src/Pawn/PawnVisuals.cs" id="5"]
-
 
 [sub_resource type="PhysicsMaterial" id="5"]
 friction = 0.0
@@ -37,7 +36,6 @@ transparency = 0.5
 texture = SubResource("7")
 
 [node name="PawnVisuals" type="Node3D" parent="RigidBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.15, 0)
 script = ExtResource("5")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]

@@ -15,7 +15,7 @@ namespace Pawn
 		private AnimationPlayer? animationPlayer = null;
 		private Node3D riggedCharacterRootNode = null!;
 		public float getAnimationLengthMilliseconds(AnimationName animationName) {
-			if(animationPlayer == null || animationPlayer.GetAnimation(animationName.ToString()) == null) {
+			if(animationPlayer == null || animationPlayer.GetAnimation(GetAnimationNameOrDefault(animationName)) == null) {
 				//so basically anything with a missing animation gets to instantly use all of its abilities
 				//TODO: is there a better solution than this?
 				//1 millisecond should not break anything, 0 might
@@ -23,23 +23,33 @@ namespace Pawn
 			}
 			//TODO: find some constants library that defines this
 			int MILLISECONDS_IN_SECOND = 1000;
-			return animationPlayer.GetAnimation(animationName.ToString()).Length * MILLISECONDS_IN_SECOND;
+			return animationPlayer.GetAnimation(GetAnimationNameOrDefault(animationName)).Length * MILLISECONDS_IN_SECOND;
 		}
 
 		public void SetAnimation(AnimationName animationName, Animation.LoopModeEnum loopMode = Animation.LoopModeEnum.None) {
 			if(animationPlayer == null) {
 				return;
 			}
-			//TODO: something about the few lines below might not work right
-			if(animationPlayer.HasAnimation(animationName.ToString())) {
-				animationPlayer.GetAnimation(animationName.ToString()).LoopMode = loopMode;
-				animationPlayer.Play(animationName.ToString());
-			} else {
-				animationPlayer.GetAnimation(DEFAULT_ANIMATION.ToString()).LoopMode = loopMode;
-				animationPlayer.Play(DEFAULT_ANIMATION.ToString());
-			}
-			
+			animationPlayer.GetAnimation(GetAnimationNameOrDefault(animationName)).LoopMode = loopMode;
+			animationPlayer.Play(GetAnimationNameOrDefault(animationName));
+		}
 
+		//returns the animation name converted to a string, or the default animation name if the current rig does not support 
+		//the requested animation
+		//TODO: if the current animation player is null or also does not support the default animatoin, throw an error
+		private string GetAnimationNameOrDefault(AnimationName animationName) {
+			
+			//if animation player is null that is a major issue, but this function will just return the default
+			if(animationPlayer == null) {
+				return DEFAULT_ANIMATION.ToString();
+			}
+
+			if(animationPlayer.HasAnimation(animationName.ToString())) {
+				return animationName.ToString();
+			}
+			else {
+				return DEFAULT_ANIMATION.ToString();
+			}
 		}
 
 		public void setPawnRotation(float yRotation) {
