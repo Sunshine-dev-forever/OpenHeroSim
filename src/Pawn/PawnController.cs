@@ -5,14 +5,14 @@ using Util;
 using UI;
 using Pawn.Components;
 using Interactable;
-
+using Serilog;
 
 namespace Pawn
 {
 	//HAVE TO CALL Setup() before this class will function!!!
 	public partial class PawnController : Node, IPawnController
 	{
-		private static int TIME_TO_WAIT_AFTER_DEATH = 2;
+		private static int TIME_TO_WAIT_AFTER_DEATH = 4;
 		public Transform3D GlobalTransform
 		{
 			get { return rigidBody.GlobalTransform; }
@@ -41,6 +41,7 @@ namespace Pawn
 		//if death has been started, then this pawn is in the process of Dying
 		public bool IsDying {get { return startedDeath != DateTime.MaxValue;}}
 		private DateTime startedDeath = DateTime.MaxValue;
+		private ItemContainer? gravestone;
 
 		//When created by instancing a scene, the default constructor is called.
 		public PawnController() {
@@ -103,14 +104,18 @@ namespace Pawn
 
 		private void HandleDying() {
 			if( (DateTime.Now - startedDeath).TotalSeconds > TIME_TO_WAIT_AFTER_DEATH) {
-				//Corpse has gone cold for 5 seconds, we finally pass
-				Die();
+				//Corpse has gone cold for TIME_WAIT_AFTER_DEATH seconds, we finally pass
+				if(gravestone != null && gravestone.IsInstanceValid()) {
+					gravestone.Visible = true;
+				}
+				FreeSelf();
 			}
 		}
 
 		private void StartDying() {
 			startedDeath = DateTime.Now;
 			PawnVisuals.SetAnimation(AnimationName.Death);
+			CreateGravestone();
 			//TODO: cannot figure out how to 'turn off' the rigid body
 			//	such that the pawn does not collide with other pawns but still collides
 			//	with the floor
@@ -152,9 +157,8 @@ namespace Pawn
 			healthBar.SetHealthPercent(PawnInformation.Health / PawnInformation.MaxHealth);
 		}
 
-		private void Die()
+		private void FreeSelf()
 		{
-			CreateGraveStone();
 			//free all memory
 			//PawnInventory really should not have a reference to anything, since the gravestone should contain
 			//   all of this pawns items, but whatever
@@ -162,14 +166,16 @@ namespace Pawn
 			this.QueueFree();
 		}
 
-		private void CreateGraveStone() {
+		private void CreateGravestone() {
 			Node3D TreasureChestMesh = CustomResourceLoader.LoadMesh(ResourcePaths.GRAVESTONE);
-			ItemContainer itemContainer = new ItemContainer(PawnInventory.EmptyAllItems(), TreasureChestMesh);
+			gravestone = new ItemContainer(PawnInventory.EmptyAllItems(), TreasureChestMesh);
 			//Add newly created object to this objects current parent
-			//This might be an issue somehow... but probably now
-			this.GetParent().AddChild(itemContainer);
-			itemContainer.GlobalTransform = new Transform3D(itemContainer.GlobalTransform.Basis, this.GlobalTransform.Origin);
-			KdTreeController.AddInteractable(itemContainer);
+			//This might be an issue somehow... but probably not now
+			this.GetParent().AddChild(gravestone);
+			gravestone.GlobalTransform = new Transform3D(gravestone.GlobalTransform.Basis, this.GlobalTransform.Origin);
+			KdTreeController.AddInteractable(gravestone);
+			//make the gravestone invisible so it looks like other pawns are looting the body
+			gravestone.Visible = false;
 		}
 
 		public bool IsInstanceValid() {
