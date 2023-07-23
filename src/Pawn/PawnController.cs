@@ -114,7 +114,7 @@ namespace Pawn
 
 		private void StartDying() {
 			startedDeath = DateTime.Now;
-			PawnVisuals.SetAnimation(AnimationName.Death);
+			PawnVisuals.SetAnimation(AnimationName.Die);
 			CreateGravestone();
 			//TODO: cannot figure out how to 'turn off' the rigid body
 			//	such that the pawn does not collide with other pawns but still collides

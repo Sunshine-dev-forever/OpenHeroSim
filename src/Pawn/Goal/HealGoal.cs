@@ -37,7 +37,7 @@ namespace Pawn.Goal {
 			};
 			//we know it is only health potions
 			IAction action = ActionBuilder.Start(pawnController, executable)
-										.Animation(AnimationName.Drink)
+										.Animation(AnimationName.Consume)
 										.Finish();
 			ITargeting targeting = new InteractableTargeting(pawnController);
 			return new Task(targeting, action);

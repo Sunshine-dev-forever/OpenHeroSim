@@ -29,7 +29,7 @@ namespace Pawn.Action.Ability {
 			};
 
 			IAbility ability = AbilityBuilder.Start(ownerPawnController, abilityExecutable, canBeUsed)
-											.Animation(AnimationName.Stab)
+											.Animation(AnimationName.MeleeAttack)
 											.MaxRange(2)
 											.CooldownMilliseconds(2000)
 											.Name(STAB_ABILITY)

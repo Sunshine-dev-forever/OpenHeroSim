@@ -61,7 +61,7 @@ namespace Pawn {
 				task.TaskState = TaskState.PROCESSING_ACTION;
 			} else {
 				//otherwise we are just walking
-				visualController.SetAnimation(AnimationName.Walking, Animation.LoopModeEnum.Linear);
+				visualController.SetAnimation(AnimationName.Walk, Animation.LoopModeEnum.Linear);
 			}
 		}
 

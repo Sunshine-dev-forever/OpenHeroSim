@@ -71,12 +71,12 @@ namespace Pawn
 	}
 
 	public enum AnimationName {
-		Death,
-		Drink,
+		Die,
+		Consume,
 		Idle,
 		Interact,
-		Walking,
-		Stab,
-		Shoot
+		Walk,
+		MeleeAttack,
+		RangedAttack
 	}
 }
