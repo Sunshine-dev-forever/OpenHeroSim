@@ -63,9 +63,7 @@ namespace Pawn
 		}
 
 		public PawnController Finish() {
-			Random random = new Random();
-			List<string> list = new List<string>{ ResourcePaths.WARRIOR_MODEL,ResourcePaths.ROGUE_MODEL,ResourcePaths.GOBLIN_MODEL};
-			pawn.PawnVisuals.Setup(list[random.Next(list.Count)]);
+			pawn.PawnVisuals.Setup(pawnRigResourceFile);
 			pawn.Setup(kdTreeController);
 			return pawn;
 		}
