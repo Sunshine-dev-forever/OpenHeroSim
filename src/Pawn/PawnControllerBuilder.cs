@@ -4,6 +4,7 @@ using Godot;
 using Item;
 using Pawn.Action.Ability;
 using Util;
+using System.Collections.Generic;
 
 namespace Pawn
 {
@@ -62,7 +63,9 @@ namespace Pawn
 		}
 
 		public PawnController Finish() {
-			pawn.PawnVisuals.Setup(pawnRigResourceFile);
+			Random random = new Random();
+			List<string> list = new List<string>{ ResourcePaths.WARRIOR_MODEL,ResourcePaths.ROGUE_MODEL,ResourcePaths.GOBLIN_MODEL};
+			pawn.PawnVisuals.Setup(list[random.Next(list.Count)]);
 			pawn.Setup(kdTreeController);
 			return pawn;
 		}
