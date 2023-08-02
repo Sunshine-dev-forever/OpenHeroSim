@@ -12,35 +12,33 @@ using Item;
 
 namespace UI {
 	//this will get reworked!
-	public partial class InGameUI : Node3D
+	public partial class InGameUI : Control
 	{
 		//setup in ready
 		private Camera3D camera = null!;
-		private int RAY_LENGTH = 10000;
-
+		private const int RAY_LENGTH = 10000;
 		private const uint STATIC_OBJECTS_MASK = 1;
-
 		KdTreeController KdTreeController = null!;
-
-		Control gui = null!;
 
 		public override void _Ready()
 		{
-			camera = GetNode<Camera3D>("Camera3D");	
-			IRunner runner = (IRunner) GetNode<Node>("Runner");
-			KdTreeController = runner.KdTreeController;
-			gui = GetNode<Control>("GUI");
+		}
+
+		public void Setup(Camera3D _camera, KdTreeController _KdTreeController){
+			camera =  _camera;
+			KdTreeController = _KdTreeController;
 		}
 		
 		public override void _Input(InputEvent input) {
 			if(input.IsActionPressed("mouse_left_click") && input is InputEventMouseButton) {
 				CastRayFromCamera((InputEventMouseButton) input);
 			}
+			
 		}
 
 		private void CastRayFromCamera(InputEventMouseButton input) {
 			//just a query should be fine to call outside of physics_process
-			PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
+			PhysicsDirectSpaceState3D spaceState = camera.GetWorld3D().DirectSpaceState;
 			Vector3 from = camera.ProjectRayOrigin(input.Position);
 			Vector3 to = from + camera.ProjectRayNormal(input.Position) * RAY_LENGTH;
 			//collistionMask of 1 should be only static objects with hitboxes
@@ -51,7 +49,7 @@ namespace UI {
 
 			if(result.Count == 0) {
 				//we hit nothing
-				gui.Visible = false;
+				this.Visible = false;
 				return;
 			} else {
 				//we hit something
@@ -63,12 +61,12 @@ namespace UI {
 				if(interactables.Count > 1) {
 					Log.Error("InGameUI.cs: somehow got more than 1 interactable");
 				} else if(interactables.Count == 0) {
-					gui.Visible = false;
+					this.Visible = false;
 					return;
 				}
 
-				gui.Visible = true;
-				VBoxContainer vBoxContainer = gui.GetNode<VBoxContainer>("VBoxContainer");
+				this.Visible = true;
+				VBoxContainer vBoxContainer = this.GetNode<VBoxContainer>("VBoxContainer");
 				SceneTreeUtil.RemoveAndFreeAllChildren(vBoxContainer);
 
 				IInteractable target = interactables[0];
@@ -82,7 +80,7 @@ namespace UI {
 		}
 
 		private void AddItemContainerInformation(ItemContainer target) {
-			VBoxContainer vBoxContainer = gui.GetNode<VBoxContainer>("VBoxContainer");
+			VBoxContainer vBoxContainer = this.GetNode<VBoxContainer>("VBoxContainer");
 			Label titleLabel = new Label();
 			titleLabel.Text = "Item Container";
 			vBoxContainer.AddChild(titleLabel);
@@ -99,7 +97,7 @@ namespace UI {
 		}
 
 		private void AddPawnInformation(IPawnController target) {
-			VBoxContainer vBoxContainer = gui.GetNode<VBoxContainer>("VBoxContainer");
+			VBoxContainer vBoxContainer = this.GetNode<VBoxContainer>("VBoxContainer");
 			Label titleLabel = new Label();
 			titleLabel.Text = "IPawnController";
 			vBoxContainer.AddChild(titleLabel);

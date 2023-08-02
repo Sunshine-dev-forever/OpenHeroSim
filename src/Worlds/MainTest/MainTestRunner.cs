@@ -14,24 +14,25 @@ using Interactable;
 
 namespace Worlds.MainTest 
 {
-	public partial class MainTestRunner : Node, IRunner
+	public partial class MainTestRunner : IRunner
 	{
 
-		public KdTreeController KdTreeController {get; private set;} = null!;
-		public override void _Ready()
+		private KdTreeController kdTreeController;
+		//MainTestRunner will make children out of nodeStorage
+		private Node nodeStorage;
+		public MainTestRunner(KdTreeController _kdTreeController, Node _nodeStorage)
 		{
-			KdTreeController = new KdTreeController();
-			this.AddChild(KdTreeController);
+			kdTreeController = _kdTreeController;
+			nodeStorage = _nodeStorage;
 		}
 		
-		public override void _Input(InputEvent input) {
-
+		public void Input(InputEvent input) {
 			if(input.IsActionPressed("ui_left")) {
 				//CreateTestProjectile();
-				NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
+				NavigationRegion3D navigation = nodeStorage.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 			
 				Vector3 location = new Vector3(4,0,4);
-				PawnControllerBuilder.CreateTrainingDummy(location, this, KdTreeController, navigation);
+				PawnControllerBuilder.CreateTrainingDummy(location, nodeStorage, kdTreeController, navigation);
 			} else if (input.IsActionPressed("ui_right")) {
 				CreatePawnInCenter();
 			}
@@ -40,21 +41,20 @@ namespace Worlds.MainTest
 		//lazy, bad coding
 		private IPawnController lastPawnSpawned = null!;
 
-		public override void _Process(double delta)
+		public void Process(double delta)
 		{
 			TimeSinceLastPawnCreation += delta;
 			if(TimeSinceLastPawnCreation > 5) {
 				TimeSinceLastPawnCreation = 0;
 				lastPawnSpawned = CreatePawn();
 			}
-			
 		}
 
 		public IPawnController CreateThrowableTester() {
-			NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
+			NavigationRegion3D navigation = nodeStorage.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 			
 			Vector3 location = new Vector3(0,5,0);
-			return PawnControllerBuilder.Start(this, KdTreeController, navigation)
+			return PawnControllerBuilder.Start(nodeStorage, kdTreeController, navigation)
 								.AddGoal(new HealGoal())
 								.AddGoal(new DefendSelfGoal())
 								.AddGoal(new LootGoal())
@@ -79,16 +79,16 @@ namespace Worlds.MainTest
 			Vector3 offset = new Vector3(0,1,0);
 			ITargeting target = new InteractableTargeting(lastPawnSpawned, offset);
 			Projectile projectile = new Projectile(spear, target, 50, true );
-			this.AddChild(projectile);
+			nodeStorage.AddChild(projectile);
 			projectile.GlobalTransform = new Transform3D(projectile.GlobalTransform.Basis, new Vector3(0,5,0));
 		}
 
 		private IPawnController CreatePawn(){
-			NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
+			NavigationRegion3D navigation = nodeStorage.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 			
 			Vector3 location = GenerateRandomVector();
 			
-			return PawnControllerBuilder.Start(this, KdTreeController, navigation)
+			return PawnControllerBuilder.Start(nodeStorage, kdTreeController, navigation)
 								.AddGoal(new HealGoal())
 								.AddGoal(new DefendSelfGoal())
 								.AddGoal(new LootGoal())
@@ -100,11 +100,11 @@ namespace Worlds.MainTest
 		}
 
 		private IPawnController CreatePawnInCenter(){
-			NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
+			NavigationRegion3D navigation = nodeStorage.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 			
 			Vector3 location = new Vector3(0,5,0);
 			
-			return PawnControllerBuilder.Start(this, KdTreeController, navigation)
+			return PawnControllerBuilder.Start(nodeStorage, kdTreeController, navigation)
 								.AddGoal(new HealGoal())
 								.AddGoal(new DefendSelfGoal())
 								.AddAbility(AbilityDefinitions.STAB_ABILITY)
@@ -150,8 +150,8 @@ namespace Worlds.MainTest
 		}
 
 		private IPawnController CreateHealingPotionTester() {
-			NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
-			return PawnControllerBuilder.Start(this, KdTreeController, navigation)
+			NavigationRegion3D navigation = nodeStorage.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
+			return PawnControllerBuilder.Start(nodeStorage, kdTreeController, navigation)
 								.AddGoal(new HealGoal())
 								.AddGoal(new WanderGoal())
 								.Location(new Vector3(0,5,0))
@@ -168,9 +168,9 @@ namespace Worlds.MainTest
 			items.Add(CreateHealingPotion());
 			items.Add(CreateIronSword());
 			ItemContainer itemContainer = new ItemContainer(items, TreasureChestMesh);
-			this.AddChild(itemContainer);
+			nodeStorage.AddChild(itemContainer);
 			itemContainer.GlobalTransform = new Transform3D(itemContainer.GlobalTransform.Basis, new Vector3(0,1,0));
-			KdTreeController.AddInteractable(itemContainer);
+			kdTreeController.AddInteractable(itemContainer);
 		}
 
 		private Equipment CreateIronSword() {

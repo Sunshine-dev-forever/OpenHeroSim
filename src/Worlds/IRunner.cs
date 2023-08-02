@@ -16,6 +16,7 @@ namespace Worlds
 {
 	public interface IRunner
 	{
-		public KdTreeController KdTreeController {get;}
+		void Process(double delta);
+		void Input(InputEvent input);
 	}
 }

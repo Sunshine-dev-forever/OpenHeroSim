@@ -12,20 +12,22 @@ using Util;
 using Interactable;
 
 namespace Worlds.BattleRoyale {
-	public partial class BattleRoyaleRunner : Node, IRunner
+	public partial class BattleRoyaleRunner : IRunner
 	{
 		private static int NUMBER_OF_PAWNS_TO_SPAWN = 100;
 		private static int NUMBER_OF_CHESTS_TO_SPAWN = 50;
 		private List<IPawnController> pawns = new List<IPawnController>();
-
-		public KdTreeController KdTreeController {get; private set;} = null!; 
-		public override void _Ready()
+		
+		private KdTreeController kdTreeController;
+		//MainTestRunner will make children out of nodeStorage
+		private Node nodeStorage;
+		public BattleRoyaleRunner(KdTreeController _kdTreeController, Node _nodeStorage)
 		{
-			KdTreeController = new KdTreeController();
-			this.AddChild(KdTreeController);
+			kdTreeController = _kdTreeController;
+			nodeStorage = _nodeStorage;
 		}
 		
-		public override void _Input(InputEvent input) {
+		public void Input(InputEvent input) {
 			if(input.IsActionPressed("mouse_left_click")) {
 				//Do nothing... for now
 			} else if(input.IsActionPressed("ui_left")) {
@@ -45,11 +47,11 @@ namespace Worlds.BattleRoyale {
 			}
 		}
 
-		public override void _Process(double delta){
+		public void Process(double delta){
 			//iterate through all pawns, deal damage those that are outside the bounds
 			for(int i = pawns.Count - 1; i >= 0; i--) {
 				IPawnController pawn = pawns[i];
-				if(!IsInstanceValid(pawn.GetRootNode())) {
+				if(!Node.IsInstanceValid(pawn.GetRootNode())) {
 					pawns.RemoveAt(i);
 					break;
 				}
@@ -68,8 +70,8 @@ namespace Worlds.BattleRoyale {
 		}
 
 		private IPawnController CreatePawn(Vector3 location){
-			NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
-			return PawnControllerBuilder.Start(this, KdTreeController, navigation)
+			NavigationRegion3D navigation = nodeStorage.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
+			return PawnControllerBuilder.Start(nodeStorage, kdTreeController, navigation)
 								.AddGoal(new HealGoal())
 								.AddGoal(new DefendSelfGoal())
 								.AddGoal(new LootGoal())
@@ -80,10 +82,13 @@ namespace Worlds.BattleRoyale {
 		}
 
 		private void UpdateBarriers() {
-			Node3D NegX = GetNode<Node3D>("NegX");
-			Node3D NegZ = GetNode<Node3D>("NegZ");
-			Node3D PosX = GetNode<Node3D>("PosX");
-			Node3D PosZ = GetNode<Node3D>("PosZ");
+			//TODO: a runner that needs to interact with the scene..... annoying
+			//for now I can just insure that the blocks are direct children of the passed node storage
+			//but that is not optimal
+			Node3D NegX = nodeStorage.GetNode<Node3D>("NegX");
+			Node3D NegZ = nodeStorage.GetNode<Node3D>("NegZ");
+			Node3D PosX = nodeStorage.GetNode<Node3D>("PosX");
+			Node3D PosZ = nodeStorage.GetNode<Node3D>("PosZ");
 			float newDist = (float) FogController.GetFogController().GetFogPosition();
 			SetOrigin(NegX, new Vector3(-newDist, 0,0));
 			SetOrigin(NegZ, new Vector3(0,0,-newDist));
@@ -125,9 +130,9 @@ namespace Worlds.BattleRoyale {
 			}
 			//items.Add(CreateIronSword());
 			ItemContainer itemContainer = new ItemContainer(items, TreasureChestMesh);
-			this.AddChild(itemContainer);
+			nodeStorage.AddChild(itemContainer);
 			itemContainer.GlobalTransform = new Transform3D(itemContainer.GlobalTransform.Basis, location);
-			KdTreeController.AddInteractable(itemContainer);
+			kdTreeController.AddInteractable(itemContainer);
 		}
 
 		private Equipment CreateIronSword() {
