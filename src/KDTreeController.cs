@@ -9,12 +9,12 @@ using System.Linq;
 using Pawn;
 using Interactable;
 
-public partial class KdTreeController : Node
+public partial class KdTreeController
 {
 	private KdTree<float, IInteractable> kdTree = new KdTree<float, IInteractable>(3, new FloatMath());
 	private List<IInteractable> allInteractables = new List<IInteractable>();
 
-	public override void _Process(double delta)
+	public void Process(double delta)
 	{
 		//this rebuilds the kd-tree every single frame
 		//in the future this would be optimized to only rebuild the tree every nth frame

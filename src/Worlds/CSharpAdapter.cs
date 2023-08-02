@@ -25,7 +25,6 @@ namespace Worlds {
 		{
 			kdTreeController = new KdTreeController();
 			//TODO: KDTree should not be a node, we can call Process on it from this class in all cases
-			this.AddChild(kdTreeController);
 			//not sure what to Export here to decide what Runner to load, but whatever
 			//Right now just always create the mainTestRunner
 			if(runnerType == RunnerType.MainTestRunner) {
@@ -43,6 +42,7 @@ namespace Worlds {
 		public override void _Process(double delta)
 		{
 			runner.Process(delta);
+			kdTreeController.Process(delta);
 			//call process on KDTree and all runners
 		}
 
