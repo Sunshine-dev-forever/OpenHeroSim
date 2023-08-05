@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://8xw0c51bg3p0"]
+
+[node name="default_ui" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 499.0
+offset_top = 19.0
+offset_right = 627.0
+offset_bottom = 136.0
+
+[node name="Label" type="Label" parent="Panel"]
+layout_mode = 1
+offset_left = 14.0
+offset_top = 17.0
+offset_right = 123.0
+offset_bottom = 95.0
+text = "ERROR
+Failed to Load
+UI"

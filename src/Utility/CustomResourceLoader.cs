@@ -20,14 +20,37 @@ namespace Util {
 			}
 		}
 
+		public static Control LoadUI(string filePath) {
+			PackedScene? packedScene = GD.Load<PackedScene>(filePath);
+
+			if(packedScene != null) {
+				//loading went through fine, go next
+				return (Control) packedScene.Instantiate();
+			} else {
+				Log.Error(typeof(CustomResourceLoader) + ": Failed to load UI at " + filePath);
+				return GetDefaultUI();
+			}
+		}
+
 		private static Node3D GetDefaultMesh() {
-			PackedScene? packedScene = GD.Load<PackedScene>(ResourcePaths.DEFAULT_MESH_FILE_PATH);
+			PackedScene? packedScene = GD.Load<PackedScene>(ResourcePaths.DEFAULT_MESH);
 			if(packedScene != null) {
 				return (Node3D) packedScene.Instantiate();
 			} else {
-				Log.Error(typeof(CustomResourceLoader) + ": Default mesh failed to load! Default mesh path: " + ResourcePaths.DEFAULT_MESH_FILE_PATH);
+				Log.Error(typeof(CustomResourceLoader) + ": Default mesh failed to load! Default mesh path: " + ResourcePaths.DEFAULT_MESH);
 				return new Node3D();
 			}
 		}
+
+		private static Control GetDefaultUI() {
+			PackedScene? packedScene = GD.Load<PackedScene>(ResourcePaths.DEFAULT_MESH);
+			if(packedScene != null) {
+				return (Control) packedScene.Instantiate();
+			} else {
+				Log.Error(typeof(CustomResourceLoader) + ": Default mesh failed to load! Default mesh path: " + ResourcePaths.DEFAULT_MESH);
+				return new Control();
+			}
+		}
+
 	}
 }

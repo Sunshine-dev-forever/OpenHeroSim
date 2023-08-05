@@ -11,7 +11,7 @@ namespace Util {
 				orb = orbs[id];
 			} else {
 				Node parent = anyNodeInSceneTree.GetNode<Node>("/root/Node3D");
-				orb = CustomResourceLoader.LoadMesh(ResourcePaths.DEFAULT_MESH_FILE_PATH);
+				orb = CustomResourceLoader.LoadMesh(ResourcePaths.DEFAULT_MESH);
 				parent.AddChild(orb);
 				orbs.Add(id, orb);
 			}

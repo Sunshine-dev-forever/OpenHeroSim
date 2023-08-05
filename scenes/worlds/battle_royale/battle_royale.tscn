@@ -1,10 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://beyv6wj27txbh"]
+[gd_scene load_steps=13 format=3 uid="uid://beyv6wj27txbh"]
 
 [ext_resource type="Script" path="res://src/UI/FreeCamera.gd" id="2"]
 [ext_resource type="Script" path="res://src/Worlds/CSharpAdapter.cs" id="2_qmskq"]
-[ext_resource type="PackedScene" uid="uid://btv4rmdlaem27" path="res://scenes/gui/in_game_UI.tscn" id="3"]
 [ext_resource type="PlaneMesh" uid="uid://sk1pvvyu4jlr" path="res://scenes/worlds/main_test/ground.tres" id="5"]
-[ext_resource type="Script" path="res://src/UI/FPSDebugUI.gd" id="6"]
 
 [sub_resource type="BoxMesh" id="11"]
 size = Vector3(500, 2, 2)
@@ -45,34 +43,16 @@ sky = SubResource("Sky_ptslx")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.527519, 0.849543, 0, -0.849543, 0.527519, 0, 28.7393, 16.7495)
 
-[node name="ColorRect" type="ColorRect" parent="."]
-offset_left = 8.0
-offset_top = 7.0
-offset_right = 151.0
-offset_bottom = 72.0
-color = Color(0.0901961, 0.803922, 0.286275, 1)
-script = ExtResource("6")
-
-[node name="FPSCounter" type="Label" parent="ColorRect"]
-layout_mode = 0
-offset_left = 35.0
-offset_top = 14.0
-offset_right = 60.0
-offset_bottom = 28.0
-scale = Vector2(3, 3)
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "100"
-
 [node name="InGameUI" type="Node3D" parent="."]
 script = ExtResource("2_qmskq")
 runnerType = 1
+CreateFPSCounterUI = true
+CreateElementSelecterUI = true
 
 [node name="Camera3D" type="Camera3D" parent="InGameUI"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2747, 7.04908, 29.5765)
 far = 1000.0
 script = ExtResource("2")
-
-[node name="GUI" parent="InGameUI" instance=ExtResource("3")]
 
 [node name="NegZ" type="MeshInstance3D" parent="InGameUI"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -256.286)

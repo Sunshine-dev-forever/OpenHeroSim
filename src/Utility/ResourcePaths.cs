@@ -21,6 +21,9 @@ namespace Util {
 		public const string GRAVESTONE = "res://scenes/world_objects/gravestone.tscn";
 		//A kind of throwing spear used in the middle east. It is really cool!
 		public const string DJERID = "res://scenes/weapons/djerid.tscn";
-		public const string DEFAULT_MESH_FILE_PATH = "res://scenes/visual_sphere.tscn";
+		public const string DEFAULT_MESH = "res://scenes/visual_sphere.tscn";
+		public const string FPS_COUNTER_UI = "res://scenes/gui/fps_counter.tscn";
+		public const string IN_GAME_UI = "res://scenes/gui/in_game_UI.tscn";
+		public const string DEFAULT_UI = "res://scenes/gui/default_ui.tscn";
 	}
 }

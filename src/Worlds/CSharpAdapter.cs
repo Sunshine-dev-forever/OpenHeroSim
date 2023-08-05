@@ -18,9 +18,12 @@ namespace Worlds {
 	{
 		[Export]
 		private RunnerType runnerType;
+		[Export]
+		private bool CreateFPSCounterUI;
+		[Export]
+		private bool CreateElementSelecterUI;
 		private KdTreeController kdTreeController = null!;
 		private IRunner runner = null!;
-		InGameUI inGameUI = null!;
 		public override void _Ready()
 		{
 			kdTreeController = new KdTreeController();
@@ -33,10 +36,16 @@ namespace Worlds {
 				//TODO: update Battle Royale Runner
 				runner = new BattleRoyaleRunner(kdTreeController, this);
 			}
-			
-			inGameUI = this.GetNode<InGameUI>("GUI");
 			Camera3D camera = this.GetNode<Camera3D>("Camera3D");
-			inGameUI.Setup(camera, kdTreeController);
+
+			if(CreateFPSCounterUI){
+				this.AddChild(CustomResourceLoader.LoadUI(ResourcePaths.FPS_COUNTER_UI));
+			}
+			if(CreateElementSelecterUI){
+				InGameUI inGameUI = (InGameUI) CustomResourceLoader.LoadUI(ResourcePaths.IN_GAME_UI);
+				this.AddChild(inGameUI);
+				inGameUI.Setup(camera, kdTreeController);
+			}
 		}
 
 		public override void _Process(double delta)

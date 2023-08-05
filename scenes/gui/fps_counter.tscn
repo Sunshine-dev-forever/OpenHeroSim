@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://be6b3us1uxwh6"]
+
+[ext_resource type="Script" path="res://src/UI/FPSDebugUI.gd" id="1_yjbm1"]
+
+[node name="ColorRect" type="ColorRect"]
+offset_left = 8.0
+offset_top = 7.0
+offset_right = 151.0
+offset_bottom = 72.0
+color = Color(0.0901961, 0.803922, 0.286275, 1)
+script = ExtResource("1_yjbm1")
+
+[node name="FPSCounter" type="Label" parent="."]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 14.0
+offset_right = 60.0
+offset_bottom = 28.0
+scale = Vector2(3, 3)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "100"
