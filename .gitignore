@@ -7,9 +7,6 @@ export.cfg
 export_presets.cfg
 *.import
 
-# Assets won't play nice with Git
-assets/
-
 # Imported translations (automatically generated from CSV files)
 *.translation
 
