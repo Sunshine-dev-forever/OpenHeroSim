@@ -9,7 +9,7 @@ using System.Linq;
 using Pawn;
 using Interactable;
 
-public partial class KdTreeController
+public class KdTreeController
 {
 	private KdTree<float, IInteractable> kdTree = new KdTree<float, IInteractable>(3, new FloatMath());
 	private List<IInteractable> allInteractables = new List<IInteractable>();

@@ -14,7 +14,7 @@ using Interactable;
 
 namespace Worlds.MainTest 
 {
-	public partial class MainTestRunner : IRunner
+	public class MainTestRunner : IRunner
 	{
 
 		private KdTreeController kdTreeController;

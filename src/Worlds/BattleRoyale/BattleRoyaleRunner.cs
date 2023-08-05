@@ -12,7 +12,7 @@ using Util;
 using Interactable;
 
 namespace Worlds.BattleRoyale {
-	public partial class BattleRoyaleRunner : IRunner
+	public class BattleRoyaleRunner : IRunner
 	{
 		private static int NUMBER_OF_PAWNS_TO_SPAWN = 100;
 		private static int NUMBER_OF_CHESTS_TO_SPAWN = 50;
