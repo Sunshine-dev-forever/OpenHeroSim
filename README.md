@@ -21,10 +21,10 @@ Here is a link to the discord: https://discord.gg/RcvAtQj268
 
 
 ### running
-The project currently runs on Godot 4.0.3
+The project currently runs on Godot 4.1.1
 
 To run the project:
-	download Godot C# version 4.0.3
+	download Godot C# version 4.1.1
 	download .NET SDK version 6 or greater
 
 That should be all required to run it
