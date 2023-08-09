@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "battle_sim_mono_v0", "battle_sim_mono_v0.csproj", "{956A84C9-8108-4DF8-B931-826DA6534E98}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MedievalHeroSim", "MedievalHeroSim.csproj", "{956A84C9-8108-4DF8-B931-826DA6534E98}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
