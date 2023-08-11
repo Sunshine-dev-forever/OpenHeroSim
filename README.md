@@ -27,7 +27,12 @@ To run the project:
 	download Godot C# version 4.1.1
 	download .NET SDK version 6 or greater
 
-That should be all required to run it
+That should be all required to run it. 
+For the actual running of the project:
+1. Open GodotC# 4.1.1
+2. click 'import'
+3. navigate to this repository's project.godot file. (located in MedievalHeroSim/Game/project.godot)
+4. select the newly imported project and click 'run'
 
 For editing:
 install VScode
