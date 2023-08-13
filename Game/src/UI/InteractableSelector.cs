@@ -24,7 +24,6 @@ namespace UI {
 				Vector2 localMousePosition = GetLocalMousePosition();
 				//TODO: resize area should be a different color, but I dont care about that now
 				if(0 < localMousePosition.X && localMousePosition.X < 20) {
-					GD.Print("I am now resizing!");
 					isResizing = true;
 					lastMouseposition = localMousePosition;
 				}

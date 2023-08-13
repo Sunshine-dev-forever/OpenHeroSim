@@ -1,32 +1,15 @@
 [gd_scene load_steps=2 format=3 uid="uid://dyoq2hu1dhfxj"]
 
-[ext_resource type="Script" path="res://src/UI/InteractableSelector.cs" id="1_0yjpj"]
+[ext_resource type="PackedScene" uid="uid://dw5qhcah7juy" path="res://scenes/gui/interactable_selector.tscn" id="1_dvdav"]
 
 [node name="Control" type="Control"]
 self_modulate = Color(0.4, 1, 0.835294, 1)
 layout_mode = 3
-anchor_left = 1.0
-anchor_top = 0.1
-anchor_right = 1.0
-anchor_bottom = 0.9
-offset_left = -200.0
-grow_horizontal = 0
-grow_vertical = 2
-script = ExtResource("1_0yjpj")
-
-[node name="HSplitContainer" type="HSplitContainer" parent="."]
-layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-split_offset = 100
 
-[node name="Panel" type="Panel" parent="HSplitContainer"]
-self_modulate = Color(0.403922, 0.811765, 0.486275, 1)
-layout_mode = 2
-
-[node name="Panel2" type="Panel" parent="HSplitContainer"]
-modulate = Color(0.678431, 0.12549, 0.298039, 1)
-layout_mode = 2
+[node name="Control" parent="." instance=ExtResource("1_dvdav")]
+layout_mode = 1

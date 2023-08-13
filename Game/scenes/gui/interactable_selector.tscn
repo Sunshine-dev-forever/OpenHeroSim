@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://dw5qhcah7juy"]
+
+[ext_resource type="Script" path="res://src/UI/InteractableSelector.cs" id="1_lieu0"]
+
+[node name="Control" type="Control"]
+editor_description = "This is needed so that this scene is expand to fit the place it is put in when it is a child in other scenes. The root of a GUI scene seems to need a parent with anchors preset = full Rect or the scene will behave strangely when added to another scene."
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Interactable Selector" type="HSplitContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.7
+anchor_top = 0.1
+anchor_right = 1.0
+anchor_bottom = 0.9
+grow_horizontal = 0
+grow_vertical = 2
+split_offset = 100
+script = ExtResource("1_lieu0")
+
+[node name="Panel" type="Panel" parent="Interactable Selector"]
+self_modulate = Color(0.403922, 0.811765, 0.486275, 1)
+layout_mode = 2
+
+[node name="Panel2" type="Panel" parent="Interactable Selector"]
+modulate = Color(0.678431, 0.12549, 0.298039, 1)
+layout_mode = 2
