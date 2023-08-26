@@ -1,6 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://dyoq2hu1dhfxj"]
 
-[ext_resource type="PackedScene" uid="uid://dw5qhcah7juy" path="res://scenes/gui/interactable_selector.tscn" id="1_dvdav"]
+[ext_resource type="PackedScene" uid="uid://dw5qhcah7juy" path="res://scenes/gui/debug_inspector/debug_inspector.tscn" id="1_dvdav"]
+
 
 [node name="Control" type="Control"]
 self_modulate = Color(0.4, 1, 0.835294, 1)

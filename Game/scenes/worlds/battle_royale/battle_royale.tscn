@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://beyv6wj27txbh"]
 
-[ext_resource type="Script" path="res://src/UI/FreeCamera.gd" id="2"]
+[ext_resource type="Script" path="res://src/GUI/FreeCamera.gd" id="2"]
 [ext_resource type="Script" path="res://src/Worlds/CSharpAdapter.cs" id="2_qmskq"]
 [ext_resource type="PlaneMesh" uid="uid://sk1pvvyu4jlr" path="res://scenes/worlds/main_test/ground.tres" id="5"]
 

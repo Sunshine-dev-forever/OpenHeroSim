@@ -13,7 +13,7 @@
 		"program": "${env:GODOT}",
 		"args": [],
 		//"args": ["--verbose"],
-		"cwd": "${workspaceFolder}",
+		"cwd": "${workspaceFolder}/Game",
 		"stopAtEntry": false,
 	  }
 	]

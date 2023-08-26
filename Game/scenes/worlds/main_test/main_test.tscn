@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://src/Worlds/CSharpAdapter.cs" id="2_s2j2m"]
 [ext_resource type="PlaneMesh" uid="uid://sk1pvvyu4jlr" path="res://scenes/worlds/main_test/ground.tres" id="5"]
-[ext_resource type="Script" path="res://src/UI/FreeCamera.gd" id="7"]
+[ext_resource type="Script" path="res://src/GUI/FreeCamera.gd" id="7"]
 
 [sub_resource type="BoxMesh" id="4"]
 
