@@ -18,12 +18,19 @@ namespace UI
 	{
 		private Control resizeableWindow = null!;
 		private TreeController treeController = null!;
+		private InspectorDetailsController InspectorDetailsController = null!;
 
 		public override void _Ready()
 		{
 			resizeableWindow = GetNode<Control>("ResizeableWindow");
 			treeController = resizeableWindow.GetNode<TreeController>("TreeController");
-			treeController.ItemSelected += (string input) => { GD.Print("recieved string: " + input); };
+			treeController.ItemSelected += HandleItemSelected;
+			InspectorDetailsController = resizeableWindow.GetNode<InspectorDetailsController>("InspectorDetailsController");
+		}
+
+		private void HandleItemSelected(string input)
+		{
+			InspectorDetailsController.AddDisplay(input);
 		}
 	}
 }
