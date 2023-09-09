@@ -48,4 +48,4 @@ target_position = Vector3(0, -0.25, 0)
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="RigidBody3D"]
 target_desired_distance = 0.5
-agent_height_offset = 1.5
+path_height_offset = 1.5
