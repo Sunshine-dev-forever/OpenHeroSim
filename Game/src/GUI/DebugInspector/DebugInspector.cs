@@ -11,8 +11,9 @@ using Worlds;
 using Interactable;
 using Util;
 using Item;
+using UI.DebugInspector.Components;
 
-namespace UI
+namespace UI.DebugInspector
 {
 	public partial class DebugInspector : Control
 	{
@@ -26,11 +27,23 @@ namespace UI
 			treeController = resizeableWindow.GetNode<TreeController>("TreeController");
 			treeController.ItemSelected += HandleItemSelected;
 			InspectorDetailsController = resizeableWindow.GetNode<InspectorDetailsController>("InspectorDetailsController");
+
+
 		}
 
-		private void HandleItemSelected(string input)
+		private void HandleItemSelected(List<string> input)
 		{
+			InspectorDetailsController.ResetDetails();
 			InspectorDetailsController.AddDisplay(input);
+		}
+
+		public override void _Input(InputEvent input)
+		{
+			//Todo: have string constants for action names
+			if (input.IsAction("ui_right"))
+			{
+				treeController.CreateNewTree(TestDisplayable.GenerateTest());
+			}
 		}
 	}
 }

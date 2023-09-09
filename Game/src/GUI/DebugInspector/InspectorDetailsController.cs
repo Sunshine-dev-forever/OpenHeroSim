@@ -1,8 +1,11 @@
 using Godot;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Util;
 
-namespace UI
+namespace UI.DebugInspector
 {
 	public partial class InspectorDetailsController : Panel
 	{
@@ -27,6 +30,15 @@ namespace UI
 			Label label = detailListItem.GetNode<Label>("Label");
 			label.Text = input;
 			ItemDetailsContainer.AddChild(detailListItem);
+		}
+
+		public void AddDisplay(IEnumerable<string> input)
+		{
+			IEnumerator<string> enumerator = input.GetEnumerator();
+			while (enumerator.MoveNext())
+			{
+				AddDisplay(enumerator.Current);
+			}
 		}
 
 		public void ResetDetails()

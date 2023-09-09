@@ -12,7 +12,7 @@ using Interactable;
 using Util;
 using Item;
 
-namespace UI
+namespace UI.DebugInspector
 {
 	public partial class ResizeableWindow : Control
 	{
