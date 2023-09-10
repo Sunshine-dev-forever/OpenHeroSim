@@ -10,9 +10,10 @@ using Worlds.BattleRoyale;
 using Interactable;
 using Util;
 using Item;
-using UI;
+using GUI;
 
-namespace Worlds {
+namespace Worlds
+{
 	//this will get reworked!
 	public partial class CSharpAdapter : Node3D
 	{
@@ -30,19 +31,24 @@ namespace Worlds {
 			//TODO: KDTree should not be a node, we can call Process on it from this class in all cases
 			//not sure what to Export here to decide what Runner to load, but whatever
 			//Right now just always create the mainTestRunner
-			if(runnerType == RunnerType.MainTestRunner) {
+			if (runnerType == RunnerType.MainTestRunner)
+			{
 				runner = new MainTestRunner(kdTreeController, this);
-			} else {
+			}
+			else
+			{
 				//TODO: update Battle Royale Runner
 				runner = new BattleRoyaleRunner(kdTreeController, this);
 			}
 			Camera3D camera = this.GetNode<Camera3D>("Camera3D");
 
-			if(CreateFPSCounterUI){
+			if (CreateFPSCounterUI)
+			{
 				this.AddChild(CustomResourceLoader.LoadUI(ResourcePaths.FPS_COUNTER_UI));
 			}
-			if(CreateElementSelecterUI){
-				InGameUI inGameUI = (InGameUI) CustomResourceLoader.LoadUI(ResourcePaths.IN_GAME_UI);
+			if (CreateElementSelecterUI)
+			{
+				InGameUI inGameUI = (InGameUI)CustomResourceLoader.LoadUI(ResourcePaths.IN_GAME_UI);
 				this.AddChild(inGameUI);
 				inGameUI.Setup(camera, kdTreeController);
 			}
@@ -63,7 +69,8 @@ namespace Worlds {
 
 	}
 
-	public enum RunnerType {
+	public enum RunnerType
+	{
 		MainTestRunner,
 		BattleRoyaleRunner
 	}

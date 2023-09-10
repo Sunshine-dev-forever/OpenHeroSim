@@ -1,11 +1,11 @@
 using Godot;
 using System;
 using Microsoft.CodeAnalysis;
-using UI.DebugInspector.Display;
+using GUI.DebugInspector.Display;
 using Util;
 using System.Collections.Generic;
 
-namespace UI.DebugInspector
+namespace GUI.DebugInspector
 {
 	public delegate void ItemSelected(List<string> details);
 

@@ -11,9 +11,9 @@ using Worlds;
 using Interactable;
 using Util;
 using Item;
-using UI.DebugInspector.Display;
+using GUI.DebugInspector.Display;
 
-namespace UI.DebugInspector
+namespace GUI.DebugInspector
 {
 	public partial class DebugInspector : Control
 	{

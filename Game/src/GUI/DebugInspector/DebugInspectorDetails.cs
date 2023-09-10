@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Util;
 
-namespace UI.DebugInspector
+namespace GUI.DebugInspector
 {
 	public partial class DebugInspectorDetails : Panel
 	{

@@ -12,7 +12,7 @@ using Interactable;
 using Util;
 using Item;
 
-namespace UI.DebugInspector.Display
+namespace GUI.DebugInspector.Display
 {
 	public interface IDisplayable
 	{

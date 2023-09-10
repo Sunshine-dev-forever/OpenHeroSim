@@ -10,7 +10,8 @@ using Interactable;
 using Util;
 using Item;
 
-namespace UI {
+namespace GUI
+{
 	//this will get reworked!
 	public partial class InGameUI : Control
 	{
@@ -24,19 +25,23 @@ namespace UI {
 		{
 		}
 
-		public void Setup(Camera3D _camera, KdTreeController _KdTreeController){
-			camera =  _camera;
+		public void Setup(Camera3D _camera, KdTreeController _KdTreeController)
+		{
+			camera = _camera;
 			KdTreeController = _KdTreeController;
 		}
-		
-		public override void _Input(InputEvent input) {
-			if(input.IsActionPressed("mouse_left_click") && input is InputEventMouseButton) {
-				CastRayFromCamera((InputEventMouseButton) input);
+
+		public override void _Input(InputEvent input)
+		{
+			if (input.IsActionPressed("mouse_left_click") && input is InputEventMouseButton)
+			{
+				CastRayFromCamera((InputEventMouseButton)input);
 			}
-			
+
 		}
 
-		private void CastRayFromCamera(InputEventMouseButton input) {
+		private void CastRayFromCamera(InputEventMouseButton input)
+		{
 			//just a query should be fine to call outside of physics_process
 			PhysicsDirectSpaceState3D spaceState = camera.GetWorld3D().DirectSpaceState;
 			Vector3 from = camera.ProjectRayOrigin(input.Position);
@@ -47,20 +52,26 @@ namespace UI {
 
 			Godot.Collections.Dictionary result = spaceState.IntersectRay(rayArgs);
 
-			if(result.Count == 0) {
+			if (result.Count == 0)
+			{
 				//we hit nothing
 				this.Visible = false;
 				return;
-			} else {
+			}
+			else
+			{
 				//we hit something
 				//since our collisionmask is STATIC_OBJECTS_MASK, it had to be a static object of some kind
 				//we just need the position
-				Vector3 intersectionPosition = (Vector3) result["position"];
-				List<IInteractable> interactables =  KdTreeController.GetNearestInteractables(intersectionPosition, 1);
+				Vector3 intersectionPosition = (Vector3)result["position"];
+				List<IInteractable> interactables = KdTreeController.GetNearestInteractables(intersectionPosition, 1);
 
-				if(interactables.Count > 1) {
+				if (interactables.Count > 1)
+				{
 					Log.Error("InGameUI.cs: somehow got more than 1 interactable");
-				} else if(interactables.Count == 0) {
+				}
+				else if (interactables.Count == 0)
+				{
 					this.Visible = false;
 					return;
 				}
@@ -71,49 +82,57 @@ namespace UI {
 
 				IInteractable target = interactables[0];
 
-				if(target is IPawnController) {
-					AddPawnInformation( (IPawnController) target);
-				} else if(target is ItemContainer) {
-					AddItemContainerInformation((ItemContainer) target);
+				if (target is IPawnController)
+				{
+					AddPawnInformation((IPawnController)target);
+				}
+				else if (target is ItemContainer)
+				{
+					AddItemContainerInformation((ItemContainer)target);
 				}
 			}
 		}
 
-		private void AddItemContainerInformation(ItemContainer target) {
+		private void AddItemContainerInformation(ItemContainer target)
+		{
 			VBoxContainer vBoxContainer = this.GetNode<VBoxContainer>("VBoxContainer");
 			Label titleLabel = new Label();
 			titleLabel.Text = "Item Container";
 			vBoxContainer.AddChild(titleLabel);
 
-			vBoxContainer.AddChild(new HSeparator() );
+			vBoxContainer.AddChild(new HSeparator());
 
 			Label itemsLabel = new Label();
 			itemsLabel.Text = "Items: \n";
-			foreach (IItem item in target.Items) {
+			foreach (IItem item in target.Items)
+			{
 				itemsLabel.Text += item.Name + "\n";
 			}
 
 			vBoxContainer.AddChild(itemsLabel);
 		}
 
-		private void AddPawnInformation(IPawnController target) {
+		private void AddPawnInformation(IPawnController target)
+		{
 			VBoxContainer vBoxContainer = this.GetNode<VBoxContainer>("VBoxContainer");
 			Label titleLabel = new Label();
 			titleLabel.Text = "IPawnController";
 			vBoxContainer.AddChild(titleLabel);
 
-			vBoxContainer.AddChild(new HSeparator() );
+			vBoxContainer.AddChild(new HSeparator());
 
 			Label equippedItemsLabel = new Label();
 			equippedItemsLabel.Text = "Equipped Items: \n";
-			foreach (IItem item in target.PawnInventory.GetAllEquippedItems()) {
+			foreach (IItem item in target.PawnInventory.GetAllEquippedItems())
+			{
 				equippedItemsLabel.Text += item.Name + "\n";
 			}
 			vBoxContainer.AddChild(equippedItemsLabel);
-			vBoxContainer.AddChild(new HSeparator() );
+			vBoxContainer.AddChild(new HSeparator());
 			Label bagItemsLabel = new Label();
 			bagItemsLabel.Text = "Bagged Items: \n";
-			foreach (IItem item in target.PawnInventory.GetAllItemsInBag()) {
+			foreach (IItem item in target.PawnInventory.GetAllItemsInBag())
+			{
 				bagItemsLabel.Text += item.Name + "\n";
 			}
 			vBoxContainer.AddChild(bagItemsLabel);
