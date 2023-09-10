@@ -12,12 +12,10 @@ using Interactable;
 using Util;
 using Item;
 
-namespace UI.DebugInspector.Components
+namespace UI.DebugInspector.Display
 {
-	public interface IDisplay
+	public interface IDisplayable
 	{
-		public List<IDisplay> GetChildDisplays();
-		public List<string> GetDetails();
-		public string Name { get; }
+		public IDisplay Display { get; }
 	}
 }

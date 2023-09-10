@@ -7,7 +7,7 @@ using Util;
 
 namespace UI.DebugInspector
 {
-	public partial class InspectorDetailsController : Panel
+	public partial class DebugInspectorDetails : Panel
 	{
 		private const string DETAIL_LIST_ITEM_PATH = "res://scenes/gui/debug_inspector/detail_list_item.tscn";
 		private VBoxContainer ItemDetailsContainer = null!;
@@ -22,7 +22,7 @@ namespace UI.DebugInspector
 		{
 		}
 
-		public void AddDisplay(string input)
+		public void AddDetail(string input)
 		{
 			if (String.IsNullOrWhiteSpace(input)) { return; }
 
@@ -37,7 +37,7 @@ namespace UI.DebugInspector
 			IEnumerator<string> enumerator = input.GetEnumerator();
 			while (enumerator.MoveNext())
 			{
-				AddDisplay(enumerator.Current);
+				AddDetail(enumerator.Current);
 			}
 		}
 

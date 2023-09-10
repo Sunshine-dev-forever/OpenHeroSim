@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://dwmfi63prkf2j"]
 
-[ext_resource type="Script" path="res://src/GUI/DebugInspector/TreeController.cs" id="1_ycfn2"]
+[ext_resource type="Script" path="res://src/GUI/DebugInspector/DebugInspectorTree.cs" id="1_ycfn2"]
 
-[node name="TreeController" type="Control"]
+[node name="DebugInspectorTree" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://dw5qhcah7juy"]
 
 [ext_resource type="Script" path="res://src/GUI/DebugInspector/DebugInspector.cs" id="1_dis3y"]
-[ext_resource type="Script" path="res://src/GUI/DebugInspector/ResizeableWindow.cs" id="2_euhrl"]
-[ext_resource type="PackedScene" uid="uid://dwmfi63prkf2j" path="res://scenes/gui/debug_inspector/tree_controller.tscn" id="3_20i2j"]
-[ext_resource type="PackedScene" uid="uid://c3xym5g4jhhh6" path="res://scenes/gui/debug_inspector/inspector_details_controller.tscn" id="4_5aevg"]
+[ext_resource type="Script" path="res://src/GUI/ResizeableWindow.cs" id="2_euhrl"]
+[ext_resource type="PackedScene" uid="uid://dwmfi63prkf2j" path="res://scenes/gui/debug_inspector/debug_inspector_tree.tscn" id="3_20i2j"]
+[ext_resource type="PackedScene" uid="uid://c3xym5g4jhhh6" path="res://scenes/gui/debug_inspector/debug_inspector_details.tscn" id="4_5aevg"]
 
 [node name="DebugInspector" type="Control"]
 editor_description = "This is needed so that this scene is expand to fit the place it is put in when it is a child in other scenes. The root of a GUI scene seems to need a parent with anchors preset = full Rect or the scene will behave strangely when added to another scene."
@@ -27,8 +27,8 @@ grow_vertical = 2
 split_offset = 100
 script = ExtResource("2_euhrl")
 
-[node name="TreeController" parent="ResizeableWindow" instance=ExtResource("3_20i2j")]
+[node name="DebugInspectorTree" parent="ResizeableWindow" instance=ExtResource("3_20i2j")]
 layout_mode = 2
 
-[node name="InspectorDetailsController" parent="ResizeableWindow" instance=ExtResource("4_5aevg")]
+[node name="DebugInspectorDetails" parent="ResizeableWindow" instance=ExtResource("4_5aevg")]
 layout_mode = 2

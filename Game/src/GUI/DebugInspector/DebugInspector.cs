@@ -11,30 +11,30 @@ using Worlds;
 using Interactable;
 using Util;
 using Item;
-using UI.DebugInspector.Components;
+using UI.DebugInspector.Display;
 
 namespace UI.DebugInspector
 {
 	public partial class DebugInspector : Control
 	{
 		private Control resizeableWindow = null!;
-		private TreeController treeController = null!;
-		private InspectorDetailsController InspectorDetailsController = null!;
+		private DebugInspectorTree debugInspectorTree = null!;
+		private DebugInspectorDetails debugInspectorDetails = null!;
 
 		public override void _Ready()
 		{
 			resizeableWindow = GetNode<Control>("ResizeableWindow");
-			treeController = resizeableWindow.GetNode<TreeController>("TreeController");
-			treeController.ItemSelected += HandleItemSelected;
-			InspectorDetailsController = resizeableWindow.GetNode<InspectorDetailsController>("InspectorDetailsController");
+			debugInspectorTree = resizeableWindow.GetNode<DebugInspectorTree>("DebugInspectorTree");
+			debugInspectorTree.ItemSelected += HandleItemSelected;
+			debugInspectorDetails = resizeableWindow.GetNode<DebugInspectorDetails>("DebugInspectorDetails");
 
 
 		}
 
 		private void HandleItemSelected(List<string> input)
 		{
-			InspectorDetailsController.ResetDetails();
-			InspectorDetailsController.AddDisplay(input);
+			debugInspectorDetails.ResetDetails();
+			debugInspectorDetails.AddDisplay(input);
 		}
 
 		public override void _Input(InputEvent input)
@@ -42,7 +42,7 @@ namespace UI.DebugInspector
 			//Todo: have string constants for action names
 			if (input.IsAction("ui_right"))
 			{
-				treeController.CreateNewTree(TestDisplayable.GenerateTest());
+				debugInspectorTree.CreateNewTree(Display.Display.GenerateTest());
 			}
 		}
 	}

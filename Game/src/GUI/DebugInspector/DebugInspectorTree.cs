@@ -1,7 +1,7 @@
 using Godot;
 using System;
 using Microsoft.CodeAnalysis;
-using UI.DebugInspector.Components;
+using UI.DebugInspector.Display;
 using Util;
 using System.Collections.Generic;
 
@@ -9,15 +9,15 @@ namespace UI.DebugInspector
 {
 	public delegate void ItemSelected(List<string> details);
 
-	public partial class TreeController : Control
+	public partial class DebugInspectorTree : Control
 	{
 		public event ItemSelected? ItemSelected;
 		public Tree Tree { get; private set; } = null!;
 		// Called when the node enters the scene tree for the first time.
 		public override void _Ready()
 		{
+			Tree = GetNode<Tree>("Tree");
 			Tree.CellSelected += HandleCellSelected;
-
 		}
 
 		private void HandleCellSelected()
@@ -35,6 +35,8 @@ namespace UI.DebugInspector
 			TreeItem root = Tree.CreateItem();
 
 			ConvertDisplayToTreeItem(root, display);
+
+			Tree.SetSelected(root, 0);
 
 		}
 
