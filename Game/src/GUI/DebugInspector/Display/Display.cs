@@ -53,11 +53,11 @@ namespace GUI.DebugInspector.Display
 			return root;
 		}
 
-		private void AddChildDisplay(IDisplay displayable)
+		public void AddChildDisplay(IDisplay displayable)
 		{
 			children.Add(displayable);
 		}
-		private void AddDetail(string detail)
+		public void AddDetail(string detail)
 		{
 			details.Add(detail);
 		}

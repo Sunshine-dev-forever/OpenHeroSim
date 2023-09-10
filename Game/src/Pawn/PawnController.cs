@@ -6,6 +6,7 @@ using GUI;
 using Pawn.Components;
 using Interactable;
 using Serilog;
+using GUI.DebugInspector.Display;
 
 namespace Pawn
 {
@@ -40,6 +41,9 @@ namespace Pawn
 
 		//if death has been started, then this pawn is in the process of Dying
 		public bool IsDying { get { return startedDeath != DateTime.MaxValue; } }
+
+		public IDisplay Display => ConstructDisplay();
+
 		private DateTime startedDeath = DateTime.MaxValue;
 		private ItemContainer? gravestone;
 
@@ -201,6 +205,13 @@ namespace Pawn
 		public Node GetRootNode()
 		{
 			return this;
+		}
+
+		private IDisplay ConstructDisplay()
+		{
+			//TODO: Item containers should have proper ID generation.... one day
+			Display root = new Display(PawnInformation.Name + " TEMPORARY!!");
+			return root;
 		}
 	}
 }

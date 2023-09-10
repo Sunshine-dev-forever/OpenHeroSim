@@ -55,7 +55,7 @@ mesh = SubResource("4")
 [node name="CSharpAdapter" type="Node3D" parent="."]
 script = ExtResource("2_s2j2m")
 CreateFPSCounterUI = true
-CreateElementSelecterUI = true
+CreateDebugInspector = true
 
 [node name="Camera3D" type="Camera3D" parent="CSharpAdapter"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2747, 7.04908, 29.5765)

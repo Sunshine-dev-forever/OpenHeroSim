@@ -11,6 +11,7 @@ using Interactable;
 using Util;
 using Item;
 using GUI;
+using GUI.DebugInspector;
 
 namespace Worlds
 {
@@ -22,7 +23,7 @@ namespace Worlds
 		[Export]
 		private bool CreateFPSCounterUI;
 		[Export]
-		private bool CreateElementSelecterUI;
+		private bool CreateDebugInspector;
 		private KdTreeController kdTreeController = null!;
 		private IRunner runner = null!;
 		public override void _Ready()
@@ -46,11 +47,12 @@ namespace Worlds
 			{
 				this.AddChild(CustomResourceLoader.LoadUI(ResourcePaths.FPS_COUNTER_UI));
 			}
-			if (CreateElementSelecterUI)
+			if (CreateDebugInspector)
 			{
-				InGameUI inGameUI = (InGameUI)CustomResourceLoader.LoadUI(ResourcePaths.IN_GAME_UI);
-				this.AddChild(inGameUI);
-				inGameUI.Setup(camera, kdTreeController);
+				//Right now the UI element handles raycasting, which is a little ew. I would rather the C# adapter handle raycasting and pass that onto the UI elements
+				DebugInspector DebugInspector = (DebugInspector)CustomResourceLoader.LoadUI(ResourcePaths.DEBUG_INSPECTOR_UI);
+				this.AddChild(DebugInspector);
+				DebugInspector.Setup(camera, kdTreeController);
 			}
 		}
 

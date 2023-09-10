@@ -23,7 +23,6 @@ namespace GUI.DebugInspector
 		private void HandleCellSelected()
 		{
 			TreeItem selection = Tree.GetSelected();
-			GD.Print("You selected" + selection.GetText(0) + "\n");
 			GodotWrapper<List<string>> wrapper = (GodotWrapper<List<string>>)selection.GetMetadata(0);
 			ItemSelected?.Invoke(wrapper.value);
 		}
