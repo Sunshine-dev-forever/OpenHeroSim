@@ -7,6 +7,8 @@ using Pawn.Components;
 using Interactable;
 using Serilog;
 using GUI.DebugInspector.Display;
+using Pawn.Action.Ability;
+using Item;
 
 namespace Pawn
 {
@@ -209,8 +211,36 @@ namespace Pawn
 
 		private IDisplay ConstructDisplay()
 		{
-			//TODO: Item containers should have proper ID generation.... one day
-			Display root = new Display(PawnInformation.Name + " TEMPORARY!!");
+
+			Display root = new Display(PawnInformation.Name);
+			root.AddDetail("Faction: " + PawnInformation.Faction);
+			root.AddDetail("Base Attack: " + PawnInformation.BaseDamage);
+			root.AddDetail("Max Health: " + PawnInformation.MaxHealth);
+			root.AddDetail("Current Health: " + PawnInformation.Health);
+			root.AddDetail("Speed: " + PawnInformation.Speed);
+
+			Display childAbilities = new Display("Abilities");
+			foreach (IAbility ability in PawnInformation.GetAllAbilites())
+			{
+				childAbilities.AddDetail("Ability: " + ability.Name);
+			}
+			root.AddChildDisplay(childAbilities);
+
+			Display childEquipment = new Display("Equiptment");
+			foreach (IItem item in PawnInventory.GetAllEquippedItems())
+			{
+				childEquipment.AddChildDisplay(item.Display);
+			}
+			root.AddChildDisplay(childEquipment);
+
+			Display childBaggedItems = new Display("bagged Items");
+			foreach (IItem item in PawnInventory.GetAllItemsInBag())
+			{
+				childBaggedItems.AddChildDisplay(item.Display);
+			}
+			childBaggedItems.AddDetail("number of bagged items: " + PawnInventory.GetAllItemsInBag().Count);
+			root.AddChildDisplay(childBaggedItems);
+
 			return root;
 		}
 	}
