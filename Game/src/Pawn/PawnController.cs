@@ -241,6 +241,8 @@ namespace Pawn
 			childBaggedItems.AddDetail("number of bagged items: " + PawnInventory.GetAllItemsInBag().Count);
 			root.AddChildDisplay(childBaggedItems);
 
+			root.AddChildDisplay(currentTask.Display);
+
 			return root;
 		}
 	}
