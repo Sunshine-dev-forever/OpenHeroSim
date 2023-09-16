@@ -15,6 +15,7 @@ using GUI.DebugInspector.Display;
 
 namespace GUI.DebugInspector
 {
+	s
 	public partial class DebugInspector : Control
 	{
 		private Control resizeableWindow = null!;
@@ -63,10 +64,6 @@ namespace GUI.DebugInspector
 			InputEventMouseButton inputLocal = (InputEventMouseButton)resizeableWindow.MakeInputLocal(input);
 			//the size of this control node is the entire screen, the resizeable window has the size we are looking for
 			Rect2 uiSize = new Rect2(Vector2.Zero, resizeableWindow.Size);
-			GD.Print("----------------------------------------------");
-			GD.Print("Local click position: " + inputLocal.Position);
-			GD.Print("Size of window " + resizeableWindow.Size);
-			GD.Print("----------------------------------------------");
 			return uiSize.HasPoint(inputLocal.Position);
 		}
 
