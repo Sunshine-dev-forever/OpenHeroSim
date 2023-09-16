@@ -4,8 +4,8 @@ using System;
 namespace Pawn.Targeting;
 public class StaticPointTargeting : ITargeting
 {
-    private Vector3 Point { get; }
-    private Predicate<Vector3> PointTester { get; }
+    Vector3 Point { get; }
+    Predicate<Vector3> PointTester { get; }
     public StaticPointTargeting(Vector3 _point)
     {
         Point = _point;

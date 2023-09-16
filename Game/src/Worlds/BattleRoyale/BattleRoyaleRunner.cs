@@ -12,13 +12,13 @@ using Util;
 namespace Worlds.BattleRoyale;
 public class BattleRoyaleRunner : IRunner
 {
-    private static readonly int NUMBER_OF_PAWNS_TO_SPAWN = 100;
-    private static readonly int NUMBER_OF_CHESTS_TO_SPAWN = 50;
-    private readonly List<IPawnController> pawns = new();
+    static readonly int NUMBER_OF_PAWNS_TO_SPAWN = 100;
+    static readonly int NUMBER_OF_CHESTS_TO_SPAWN = 50;
+    readonly List<IPawnController> pawns = new();
 
-    private readonly KdTreeController kdTreeController;
+    readonly KdTreeController kdTreeController;
     //MainTestRunner will make children out of nodeStorage
-    private readonly Node nodeStorage;
+    readonly Node nodeStorage;
     public BattleRoyaleRunner(KdTreeController _kdTreeController, Node _nodeStorage)
     {
         kdTreeController = _kdTreeController;
@@ -74,7 +74,7 @@ public class BattleRoyaleRunner : IRunner
     }
 
 
-    private Vector3 GetRandomLocationInArena()
+    Vector3 GetRandomLocationInArena()
     {
         Random rand = new();
         int x = rand.Next(-249, 249);
@@ -83,7 +83,7 @@ public class BattleRoyaleRunner : IRunner
         return new Vector3(x, HEIGHT_DEFAULT, z);
     }
 
-    private IPawnController CreatePawn(Vector3 location)
+    IPawnController CreatePawn(Vector3 location)
     {
         NavigationRegion3D navigation = nodeStorage.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
         return PawnControllerBuilder.Start(nodeStorage, kdTreeController, navigation)
@@ -96,7 +96,7 @@ public class BattleRoyaleRunner : IRunner
                             .Finish();
     }
 
-    private void UpdateBarriers()
+    void UpdateBarriers()
     {
         //TODO: a runner that needs to interact with the scene..... annoying
         //for now I can just insure that the blocks are direct children of the passed node storage
@@ -112,12 +112,12 @@ public class BattleRoyaleRunner : IRunner
         SetOrigin(PosZ, new Vector3(0, 0, newDist));
     }
 
-    private void SetOrigin(Node3D spatial, Vector3 origin)
+    void SetOrigin(Node3D spatial, Vector3 origin)
     {
         spatial.GlobalTransform = new Transform3D(spatial.GlobalTransform.Basis, origin);
     }
 
-    private Equipment? GetRandomWeapon()
+    Equipment? GetRandomWeapon()
     {
         Random rand = new();
         int rng = rand.Next(0, 100);
@@ -137,7 +137,7 @@ public class BattleRoyaleRunner : IRunner
         return CreateLightSaber();
     }
 
-    private void CreateItemChest(Vector3 location)
+    void CreateItemChest(Vector3 location)
     {
         //gonna override the height here
         //TODO: not sure if this is mutable
@@ -158,28 +158,28 @@ public class BattleRoyaleRunner : IRunner
         kdTreeController.AddInteractable(itemContainer);
     }
 
-    private Equipment CreateIronSword()
+    Equipment CreateIronSword()
     {
         Equipment equipment = new(EquipmentType.HELD, "iron sword");
         equipment.Damage = 7;
         return equipment;
     }
 
-    private Equipment CreateRustedDagger()
+    Equipment CreateRustedDagger()
     {
         Equipment equipment = new(EquipmentType.HELD, "rusty dagger");
         equipment.Damage = 3;
         return equipment;
     }
 
-    private Equipment CreateLightSaber()
+    Equipment CreateLightSaber()
     {
         Equipment equipment = new(EquipmentType.HELD, "lightsaber");
         equipment.Damage = 15;
         return equipment;
     }
 
-    private Consumable CreateHealingPotion()
+    Consumable CreateHealingPotion()
     {
         return new Consumable(40, "Health potion");
     }

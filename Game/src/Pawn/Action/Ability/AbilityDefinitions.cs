@@ -8,7 +8,7 @@ using System;
 namespace Pawn.Action.Ability;
 public static class AbilityDefinitions
 {
-    private static readonly float DEFAULT_PROJECTILE_SPEED = 50;
+    static readonly float DEFAULT_PROJECTILE_SPEED = 50;
 
     public const string STAB_ABILITY = "Stab ability";
     public const string THROW_ABILITY = "Throw ability";
@@ -115,7 +115,7 @@ public static class AbilityDefinitions
         return ability;
     }
 
-    private static void CreateProjectile(Node3D mesh, IPawnController ownerPawnController, IPawnController otherPawnController, bool deleteMeshWhenDone)
+    static void CreateProjectile(Node3D mesh, IPawnController ownerPawnController, IPawnController otherPawnController, bool deleteMeshWhenDone)
     {
         //just needs to be one unit up, based off height of the pawn
         Vector3 offset = new(0,1,0);

@@ -10,7 +10,7 @@ namespace Pawn;
 //goals earlier in the goal list have a higher priority and take precedent over the later goals
 public class PawnBrain
 {
-    private readonly List<IPawnGoal> goals = new();
+    readonly List<IPawnGoal> goals = new();
 
     public void AddGoal(IPawnGoal goal)
     {
@@ -33,7 +33,7 @@ public class PawnBrain
         }
     }
 
-    private ITask GetHigherPriorityTaskOrCurrentTask(ITask currentTask, SensesStruct sensesStruct, IPawnController pawnController)
+    ITask GetHigherPriorityTaskOrCurrentTask(ITask currentTask, SensesStruct sensesStruct, IPawnController pawnController)
     {
         //Lower index means HigherPriority
         for (int i = 0; i < goals.Count; i++)
@@ -54,7 +54,7 @@ public class PawnBrain
         return currentTask;
     }
 
-    private ITask GetNextTask(IPawnController pawnController, SensesStruct sensesStruct)
+    ITask GetNextTask(IPawnController pawnController, SensesStruct sensesStruct)
     {
         for (int i = 0; i < goals.Count; i++)
         {

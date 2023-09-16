@@ -5,12 +5,12 @@ namespace GUI.DebugInspector.Display;
 public class Display : IDisplay
 {
 
-    private readonly List<IDisplay> children = new();
-    private readonly List<string> details = new();
+    readonly List<IDisplay> children = new();
+    readonly List<string> details = new();
 
     public string Name { get; set; }
 
-    private Display()
+    Display()
     {
         Name = "";
     }

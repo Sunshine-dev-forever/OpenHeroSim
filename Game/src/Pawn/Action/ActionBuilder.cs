@@ -1,9 +1,9 @@
 namespace Pawn.Action;
 public class ActionBuilder
 {
-    private readonly Action action;
+    readonly Action action;
 
-    private ActionBuilder(IPawnController ownerPawnController, System.Action executable)
+    ActionBuilder(IPawnController ownerPawnController, System.Action executable)
     {
         action = new Action(ownerPawnController, executable);
     }

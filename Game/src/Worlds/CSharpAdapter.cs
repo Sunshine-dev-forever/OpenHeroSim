@@ -10,13 +10,13 @@ namespace Worlds;
 public partial class CSharpAdapter : Node3D
 {
     [Export]
-    private RunnerType runnerType;
+    RunnerType runnerType;
     [Export]
-    private bool CreateFPSCounterUI;
+    bool CreateFPSCounterUI;
     [Export]
-    private bool CreateDebugInspector;
-    private KdTreeController kdTreeController = null!;
-    private IRunner runner = null!;
+    bool CreateDebugInspector;
+    KdTreeController kdTreeController = null!;
+    IRunner runner = null!;
     public override void _Ready()
     {
         kdTreeController = new KdTreeController();

@@ -12,9 +12,9 @@ namespace GUI;
 public partial class InGameUI : Control
 {
     //setup in ready
-    private Camera3D camera = null!;
-    private const int RAY_LENGTH = 10000;
-    private const uint STATIC_OBJECTS_MASK = 1;
+    Camera3D camera = null!;
+    const int RAY_LENGTH = 10000;
+    const uint STATIC_OBJECTS_MASK = 1;
     KdTreeController KdTreeController = null!;
 
     public override void _Ready()
@@ -36,7 +36,7 @@ public partial class InGameUI : Control
 
     }
 
-    private void CastRayFromCamera(InputEventMouseButton input)
+    void CastRayFromCamera(InputEventMouseButton input)
     {
         //just a query should be fine to call outside of physics_process
         PhysicsDirectSpaceState3D spaceState = camera.GetWorld3D().DirectSpaceState;
@@ -89,7 +89,7 @@ public partial class InGameUI : Control
         }
     }
 
-    private void AddItemContainerInformation(ItemContainer target)
+    void AddItemContainerInformation(ItemContainer target)
     {
         VBoxContainer vBoxContainer = this.GetNode<VBoxContainer>("VBoxContainer");
         Label titleLabel = new();
@@ -108,7 +108,7 @@ public partial class InGameUI : Control
         vBoxContainer.AddChild(itemsLabel);
     }
 
-    private void AddPawnInformation(IPawnController target)
+    void AddPawnInformation(IPawnController target)
     {
         VBoxContainer vBoxContainer = this.GetNode<VBoxContainer>("VBoxContainer");
         Label titleLabel = new();

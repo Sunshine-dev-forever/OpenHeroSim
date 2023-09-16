@@ -4,15 +4,15 @@ using System;
 namespace Pawn;
 public class PawnMovement
 {
-    private readonly NavigationAgent3D navigationAgent;
-    private readonly RayCast3D downwardRayCast;
-    private readonly RigidBody3D rigidBody;
-    private readonly PawnVisuals pawnVisuals;
+    readonly NavigationAgent3D navigationAgent;
+    readonly RayCast3D downwardRayCast;
+    readonly RigidBody3D rigidBody;
+    readonly PawnVisuals pawnVisuals;
 
-    private Vector3 originalLocationOfTarget = Vector3.Zero;
+    Vector3 originalLocationOfTarget = Vector3.Zero;
 
 
-    private bool isNavigationServerReady;
+    bool isNavigationServerReady;
 
     public PawnMovement(RigidBody3D _rigidBody, PawnVisuals _pawnVisuals, NavigationAgent3D _navigationAgent, RayCast3D _downwardRayCast)
     {
@@ -94,7 +94,7 @@ public class PawnMovement
     }
 
     //TODO: in godot 4 there may be a better way to do this
-    private void UpdateIsNavigationServerReady()
+    void UpdateIsNavigationServerReady()
     {
         Rid mapRid = NavigationServer3D.AgentGetMap(navigationAgent.GetRid());
         //an ID of 0 should always be an invalid ID
@@ -114,7 +114,7 @@ public class PawnMovement
     //assumes x is horizontal axis, y is vertical axis
     //gives bearing relative to the horizontal negative axis
     //such that quadrant 2 has the lowest bearings
-    private double GetBearingTo(Vector2 point)
+    double GetBearingTo(Vector2 point)
     {
         //Dont question it, it works :)
         return Math.PI - Math.Atan2(point.Y, point.X);

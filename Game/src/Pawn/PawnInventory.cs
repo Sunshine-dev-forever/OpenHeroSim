@@ -4,10 +4,10 @@ namespace Pawn;
 public class PawnInventory : IPawnInventory
 {
     //for now all pawns can only carry 5 items
-    private static readonly int INVENTORY_SPACE = 5;
+    static readonly int INVENTORY_SPACE = 5;
     //Held items should be seperate, but that is a later issue
-    private Dictionary<EquipmentType, Equipment> wornGear;
-    private List<IItem> bag;
+    Dictionary<EquipmentType, Equipment> wornGear;
+    List<IItem> bag;
     public PawnInventory()
     {
         bag = new List<IItem>();

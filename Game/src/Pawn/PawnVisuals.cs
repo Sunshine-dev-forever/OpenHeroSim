@@ -7,9 +7,9 @@ namespace Pawn;
 
 public partial class PawnVisuals : Node3D
 {
-    private const AnimationName DEFAULT_ANIMATION = AnimationName.Interact;
-    private AnimationPlayer? animationPlayer = null;
-    private Node3D riggedCharacterRootNode = null!;
+    const AnimationName DEFAULT_ANIMATION = AnimationName.Interact;
+    AnimationPlayer? animationPlayer = null;
+    Node3D riggedCharacterRootNode = null!;
     public float getAnimationLengthMilliseconds(AnimationName animationName)
     {
         if (animationPlayer == null || animationPlayer.GetAnimation(GetAnimationNameOrDefault(animationName)) == null)
@@ -36,7 +36,7 @@ public partial class PawnVisuals : Node3D
     //returns the animation name converted to a string, or the default animation name if the current rig does not support 
     //the requested animation
     //TODO: if the current animation player is null or also does not support the default animatoin, throw an error
-    private string GetAnimationNameOrDefault(AnimationName animationName)
+    string GetAnimationNameOrDefault(AnimationName animationName)
     {
 
         //if animation player is null that is a major issue, but this function will just return the default

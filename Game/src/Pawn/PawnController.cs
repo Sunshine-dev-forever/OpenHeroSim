@@ -14,7 +14,7 @@ namespace Pawn;
 //HAVE TO CALL Setup() before this class will function!!!
 public partial class PawnController : Node, IPawnController
 {
-    private static int TIME_TO_WAIT_AFTER_DEATH = 4;
+    static int TIME_TO_WAIT_AFTER_DEATH = 4;
     public Transform3D GlobalTransform
     {
         get { return rigidBody.GlobalTransform; }
@@ -24,20 +24,20 @@ public partial class PawnController : Node, IPawnController
     public IPawnInventory PawnInventory { get; }
 
     public PawnBrain PawnBrain { get; }
-    private SensesStruct sensesStruct;
-    private ITask currentTask = new InvalidTask();
+    SensesStruct sensesStruct;
+    ITask currentTask = new InvalidTask();
 
     //ALL OF THE BELOW VARIABLES ARE CREATED IN Setup() or _Ready()
-    private PawnSenses sensesController = null!;
-    private HealthBar3D healthBar = null!;
-    public PawnTaskHandler PawnTaskHandler { get; private set; } = null!;
-    public PawnVisuals PawnVisuals { get; private set; } = null!;
-    private CollisionShape3D collisionShape = null!;
-    private RayCast3D downwardRayCast = null!;
-    private NavigationAgent3D navigationAgent = null!;
-    private RigidBody3D rigidBody = null!;
-    public PawnMovement PawnMovement { get; private set; } = null!;
-    private KdTreeController KdTreeController = null!;
+    PawnSenses sensesController = null!;
+    HealthBar3D healthBar = null!;
+    public PawnTaskHandler PawnTaskHandler { get; set; } = null!;
+    public PawnVisuals PawnVisuals { get; set; } = null!;
+    CollisionShape3D collisionShape = null!;
+    RayCast3D downwardRayCast = null!;
+    NavigationAgent3D navigationAgent = null!;
+    RigidBody3D rigidBody = null!;
+    public PawnMovement PawnMovement { get; set; } = null!;
+    KdTreeController KdTreeController = null!;
     //end variables which are created in Setup() or _Ready()
 
     //if death has been started, then this pawn is in the process of Dying
@@ -45,8 +45,8 @@ public partial class PawnController : Node, IPawnController
 
     public IDisplay Display => ConstructDisplay();
 
-    private DateTime startedDeath = DateTime.MaxValue;
-    private ItemContainer? gravestone;
+    DateTime startedDeath = DateTime.MaxValue;
+    ItemContainer? gravestone;
 
     //When created by instancing a scene, the default constructor is called.
     public PawnController()
@@ -112,7 +112,7 @@ public partial class PawnController : Node, IPawnController
         }
     }
 
-    private void HandleDying()
+    void HandleDying()
     {
         if ((DateTime.Now - startedDeath).TotalSeconds > TIME_TO_WAIT_AFTER_DEATH)
         {
@@ -125,7 +125,7 @@ public partial class PawnController : Node, IPawnController
         }
     }
 
-    private void StartDying()
+    void StartDying()
     {
         startedDeath = DateTime.Now;
         PawnVisuals.SetAnimation(AnimationName.Die);
@@ -176,7 +176,7 @@ public partial class PawnController : Node, IPawnController
         healthBar.SetHealthPercent(PawnInformation.Health / PawnInformation.MaxHealth);
     }
 
-    private void FreeSelf()
+    void FreeSelf()
     {
         //free all memory
         //PawnInventory really should not have a reference to anything, since the gravestone should contain
@@ -185,7 +185,7 @@ public partial class PawnController : Node, IPawnController
         this.QueueFree();
     }
 
-    private void CreateGravestone()
+    void CreateGravestone()
     {
         Node3D TreasureChestMesh = CustomResourceLoader.LoadMesh(ResourcePaths.GRAVESTONE);
         gravestone = new ItemContainer(PawnInventory.EmptyAllItems(), TreasureChestMesh);
@@ -208,7 +208,7 @@ public partial class PawnController : Node, IPawnController
         return this;
     }
 
-    private IDisplay ConstructDisplay()
+    IDisplay ConstructDisplay()
     {
 
         Display root = new(PawnInformation.Name);

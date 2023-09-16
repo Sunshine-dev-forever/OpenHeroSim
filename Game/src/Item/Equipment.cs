@@ -12,7 +12,7 @@ public class Equipment : IItem
     //for example a pawn can only equipt 1 head-piece at a tume
     public EquipmentType EquipmentType { get; set; }
 
-    public string Name { get; private set; } = "equipment";
+    public string Name { get; set; } = "equipment";
 
     public IDisplay Display => ConstructDisplay();
 
@@ -24,7 +24,7 @@ public class Equipment : IItem
 
     public void QueueFree() { }
 
-    private IDisplay ConstructDisplay()
+    IDisplay ConstructDisplay()
     {
         //TODO: Item containers should have proper ID generation.... one day
         Display root = new(Name);

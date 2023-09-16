@@ -7,13 +7,13 @@ namespace GUI.DebugInspector;
 
 public partial class DebugInspector : Control
 {
-    private Control resizeableWindow = null!;
-    private DebugInspectorTree debugInspectorTree = null!;
-    private DebugInspectorDetails debugInspectorDetails = null!;
-    private Camera3D camera;
-    private KdTreeController kdTreeController;
-    private const int RAY_LENGTH = 10000;
-    private const uint STATIC_OBJECTS_MASK = 1;
+    Control resizeableWindow = null!;
+    DebugInspectorTree debugInspectorTree = null!;
+    DebugInspectorDetails debugInspectorDetails = null!;
+    Camera3D camera;
+    KdTreeController kdTreeController;
+    const int RAY_LENGTH = 10000;
+    const uint STATIC_OBJECTS_MASK = 1;
 
     public override void _Ready()
     {
@@ -23,7 +23,7 @@ public partial class DebugInspector : Control
         debugInspectorDetails = resizeableWindow.GetNode<DebugInspectorDetails>("DebugInspectorDetails");
     }
 
-    private void HandleItemSelected(List<string> input)
+    void HandleItemSelected(List<string> input)
     {
         debugInspectorDetails.ResetDetails();
         debugInspectorDetails.AddDisplay(input);
@@ -48,7 +48,7 @@ public partial class DebugInspector : Control
 
     }
 
-    private bool ClickIsInsideThisUI(InputEventMouseButton input)
+    bool ClickIsInsideThisUI(InputEventMouseButton input)
     {
         InputEventMouseButton inputLocal = (InputEventMouseButton)resizeableWindow.MakeInputLocal(input);
         //the size of this control node is the entire screen, the resizeable window has the size we are looking for
@@ -56,7 +56,7 @@ public partial class DebugInspector : Control
         return uiSize.HasPoint(inputLocal.Position);
     }
 
-    private void CastRayFromCamera(InputEventMouseButton input)
+    void CastRayFromCamera(InputEventMouseButton input)
     {
         //just a query should be fine to call outside of physics_process
         PhysicsDirectSpaceState3D spaceState = camera.GetWorld3D().DirectSpaceState;

@@ -10,7 +10,7 @@ public delegate void ItemSelected(List<string> details);
 public partial class DebugInspectorTree : Control
 {
     public event ItemSelected? ItemSelected;
-    public Tree Tree { get; private set; } = null!;
+    public Tree Tree { get; set; } = null!;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -18,7 +18,7 @@ public partial class DebugInspectorTree : Control
         Tree.CellSelected += HandleCellSelected;
     }
 
-    private void HandleCellSelected()
+    void HandleCellSelected()
     {
         TreeItem selection = Tree.GetSelected();
         GodotWrapper<List<string>> wrapper = (GodotWrapper<List<string>>)selection.GetMetadata(0);
@@ -37,7 +37,7 @@ public partial class DebugInspectorTree : Control
 
     }
 
-    private void ConvertDisplayToTreeItem(TreeItem item, IDisplay display)
+    void ConvertDisplayToTreeItem(TreeItem item, IDisplay display)
     {
         item.SetText(0, display.Name);
         item.SetMetadata(0, new GodotWrapper<List<string>>(display.GetDetails()));

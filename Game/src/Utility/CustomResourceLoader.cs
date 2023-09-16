@@ -41,7 +41,7 @@ public static class CustomResourceLoader
         }
     }
 
-    private static Node3D GetDefaultMesh()
+    static Node3D GetDefaultMesh()
     {
         PackedScene? packedScene = GD.Load<PackedScene>(ResourcePaths.DEFAULT_MESH);
         if (packedScene != null)
@@ -55,7 +55,7 @@ public static class CustomResourceLoader
         }
     }
 
-    private static Control GetDefaultUI()
+    static Control GetDefaultUI()
     {
         PackedScene? packedScene = GD.Load<PackedScene>(ResourcePaths.DEFAULT_MESH);
         if (packedScene != null)

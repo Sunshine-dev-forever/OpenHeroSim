@@ -14,9 +14,9 @@ namespace Worlds.MainTest;
 public class MainTestRunner : IRunner
 {
 
-    private readonly KdTreeController kdTreeController;
+    readonly KdTreeController kdTreeController;
     //MainTestRunner will make children out of nodeStorage
-    private readonly Node nodeStorage;
+    readonly Node nodeStorage;
     public MainTestRunner(KdTreeController _kdTreeController, Node _nodeStorage)
     {
         kdTreeController = _kdTreeController;
@@ -38,9 +38,9 @@ public class MainTestRunner : IRunner
             CreatePawnInCenter();
         }
     }
-    private double TimeSinceLastPawnCreation = 4;
+    double TimeSinceLastPawnCreation = 4;
     //lazy, bad coding
-    private IPawnController lastPawnSpawned = null!;
+    IPawnController lastPawnSpawned = null!;
 
     public void Process(double delta)
     {
@@ -77,7 +77,7 @@ public class MainTestRunner : IRunner
         return new Throwable(spear, 60, "throwing djerd");
     }
 
-    private void CreateTestProjectile()
+    void CreateTestProjectile()
     {
         Node3D spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
         //I add an offset so the spear target's the pawns chest and not the pawn's feet
@@ -88,7 +88,7 @@ public class MainTestRunner : IRunner
         projectile.GlobalTransform = new Transform3D(projectile.GlobalTransform.Basis, new Vector3(0, 5, 0));
     }
 
-    private IPawnController CreatePawn()
+    IPawnController CreatePawn()
     {
         NavigationRegion3D navigation = nodeStorage.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 
@@ -105,7 +105,7 @@ public class MainTestRunner : IRunner
                             .Finish();
     }
 
-    private IPawnController CreatePawnInCenter()
+    IPawnController CreatePawnInCenter()
     {
         NavigationRegion3D navigation = nodeStorage.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 
@@ -123,14 +123,14 @@ public class MainTestRunner : IRunner
                             .Finish();
     }
 
-    private Equipment GetHelmet()
+    Equipment GetHelmet()
     {
         Equipment equipment = new(EquipmentType.HEAD, "box helm");
         equipment.Defense = 5;
         return equipment;
     }
 
-    private Vector3 GenerateRandomVector()
+    Vector3 GenerateRandomVector()
     {
         Random rand = new();
         int rng = rand.Next(0, 3);
@@ -153,7 +153,7 @@ public class MainTestRunner : IRunner
         return new Vector3();
     }
 
-    private Equipment GetRandomWeapon()
+    Equipment GetRandomWeapon()
     {
         Random rand = new();
         int rng = rand.Next(0, 3);
@@ -170,7 +170,7 @@ public class MainTestRunner : IRunner
         }
     }
 
-    private IPawnController CreateHealingPotionTester()
+    IPawnController CreateHealingPotionTester()
     {
         NavigationRegion3D navigation = nodeStorage.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
         return PawnControllerBuilder.Start(nodeStorage, kdTreeController, navigation)
@@ -183,7 +183,7 @@ public class MainTestRunner : IRunner
                             .Finish();
     }
 
-    private void CreateItemContainer()
+    void CreateItemContainer()
     {
         Node3D TreasureChestMesh = CustomResourceLoader.LoadMesh(ResourcePaths.TREASURE_CHEST);
         //The iron sword gets leaked when created like this
@@ -196,34 +196,34 @@ public class MainTestRunner : IRunner
         kdTreeController.AddInteractable(itemContainer);
     }
 
-    private Equipment CreateIronSword()
+    Equipment CreateIronSword()
     {
         Equipment equipment = new(EquipmentType.HELD, "iron sword");
         equipment.Damage = 5;
         return equipment;
     }
 
-    private Equipment CreateRustedDagger()
+    Equipment CreateRustedDagger()
     {
         Equipment equipment = new(EquipmentType.HELD, "rusted dagger");
         equipment.Damage = 3;
         return equipment;
     }
 
-    private Equipment CreateLightSaber()
+    Equipment CreateLightSaber()
     {
         Equipment equipment = new(EquipmentType.HELD, "light saber");
         equipment.Damage = 10;
         return equipment;
     }
-    private Equipment CreateSpearMelee()
+    Equipment CreateSpearMelee()
     {
         Equipment equipment = new(EquipmentType.HELD, "melee djerd");
         equipment.Damage = 2;
         return equipment;
     }
 
-    private Consumable CreateHealingPotion()
+    Consumable CreateHealingPotion()
     {
         return new Consumable(40, "Health Potion");
     }

@@ -4,8 +4,8 @@ using Interactable;
 namespace Pawn.Targeting;
 public class InteractableTargeting : ITargeting
 {
-    private Vector3 offset;
-    private IInteractable Interactable { get; }
+    Vector3 offset;
+    IInteractable Interactable { get; }
     public InteractableTargeting(IInteractable interactable)
     {
         Interactable = interactable;

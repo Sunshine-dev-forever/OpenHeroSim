@@ -6,11 +6,11 @@ namespace Pawn;
 
 public class PawnSenses
 {
-    private const int MAX_PAWNS_TO_SEE = 20;
-    private const int VISION_RANGE = 10;
-    private readonly KdTreeController kdTreeController;
+    const int MAX_PAWNS_TO_SEE = 20;
+    const int VISION_RANGE = 10;
+    readonly KdTreeController kdTreeController;
 
-    private readonly IPawnController pawnController;
+    readonly IPawnController pawnController;
 
     public PawnSenses(KdTreeController _kdTreeController, IPawnController _pawnController)
     {

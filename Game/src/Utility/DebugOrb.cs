@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Util;
 public static class DebugOrb
 {
-    private static readonly Dictionary<int, Node3D> orbs = new();
+    static readonly Dictionary<int, Node3D> orbs = new();
     public static void PlaceDebugOrb(Vector3 globalLocation, int id, Node anyNodeInSceneTree)
     {
         //if the orb has not been created yet then add it

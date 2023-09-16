@@ -8,7 +8,7 @@ namespace Pawn.Goal;
 public class WanderGoal : IPawnGoal
 {
     //center is always at (0,0)
-    private readonly int sideLength;
+    readonly int sideLength;
     public WanderGoal()
     {
         sideLength = 50;

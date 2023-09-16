@@ -9,25 +9,25 @@ namespace Pawn.Action.Ability;
 //examples of abilities would be: shoot fire ball!, super-uber-death stab. ETC
 public class Ability : IAbility
 {
-    private static readonly int DEFAULT_COOLDOWN_MILLISECONDS = 2000;
-    private static readonly float DEFAULT_RANGE = 2;
-    private static readonly Animation.LoopModeEnum DEFAULT_LOOPING = Animation.LoopModeEnum.None;
-    private bool hasAbilityExecutableBeenRun = false;
-    private System.Action<IInteractable?> abilityExecutable { get; set; }
-    private Predicate<IPawnController> canBeUsedPredicate { get; set; }
-    private IInteractable? target;
+    static readonly int DEFAULT_COOLDOWN_MILLISECONDS = 2000;
+    static readonly float DEFAULT_RANGE = 2;
+    static readonly Animation.LoopModeEnum DEFAULT_LOOPING = Animation.LoopModeEnum.None;
+    bool hasAbilityExecutableBeenRun = false;
+    System.Action<IInteractable?> abilityExecutable { get; set; }
+    Predicate<IPawnController> canBeUsedPredicate { get; set; }
+    IInteractable? target;
     public AnimationName AnimationToPlay { get; set; } = AnimationName.Interact;
-    public Animation.LoopModeEnum loopMode { get; private set; } = DEFAULT_LOOPING;
-    private readonly IPawnController ownerPawnController;
+    public Animation.LoopModeEnum loopMode { get; set; } = DEFAULT_LOOPING;
+    readonly IPawnController ownerPawnController;
     public int CooldownMilliseconds { get; set; } = DEFAULT_COOLDOWN_MILLISECONDS;
     public string Name { get; set; } = "Generic ability";
     public float MaxRange { get; set; } = DEFAULT_RANGE;
-    private bool isCurrentlyRunning = false;
-    private DateTime timeStarted = DateTime.MinValue;
-    private DateTime lastTimeAbilityUsed = DateTime.MinValue;
-    private double loopingAnimationPlayLength = -1;
+    bool isCurrentlyRunning = false;
+    DateTime timeStarted = DateTime.MinValue;
+    DateTime lastTimeAbilityUsed = DateTime.MinValue;
+    double loopingAnimationPlayLength = -1;
 
-    private double AnimationPlayLengthMilliseconds
+    double AnimationPlayLengthMilliseconds
     {
         get
         {
@@ -87,7 +87,7 @@ public class Ability : IAbility
         return isFinished;
     }
 
-    private void ResetAbility()
+    void ResetAbility()
     {
         isCurrentlyRunning = false;
         hasAbilityExecutableBeenRun = false;

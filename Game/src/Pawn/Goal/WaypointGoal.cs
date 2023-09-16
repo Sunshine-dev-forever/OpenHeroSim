@@ -8,9 +8,9 @@ namespace Pawn.Goal;
 
 public class WaypointGoal : IPawnGoal
 {
-    private readonly List<Node3D> waypoints;
-    private int waypointIndex = 0;
-    private readonly static int GOAL_DISTANCE = 3;
+    readonly List<Node3D> waypoints;
+    int waypointIndex = 0;
+    readonly static int GOAL_DISTANCE = 3;
 
     public WaypointGoal(List<Node3D> _waypoints)
     {

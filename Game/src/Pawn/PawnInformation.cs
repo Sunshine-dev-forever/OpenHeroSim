@@ -7,7 +7,7 @@ namespace Pawn;
 
 public class PawnInformation : IPawnInformation
 {
-    private readonly List<IAbility> abilities = new();
+    readonly List<IAbility> abilities = new();
 
     public void AddAbility(IAbility ability)
     {

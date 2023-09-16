@@ -7,7 +7,7 @@ namespace Item;
 public class Consumable : IItem
 {
     public double Healing { get; }
-    public string Name { get; private set; } = "Consumable";
+    public string Name { get; set; } = "Consumable";
 
     public IDisplay Display => ConstructDisplay();
 
@@ -18,7 +18,7 @@ public class Consumable : IItem
     }
     public void QueueFree() { }
 
-    private IDisplay ConstructDisplay()
+    IDisplay ConstructDisplay()
     {
         //TODO: Item containers should have proper ID generation.... one day
         Display root = new(Name);

@@ -8,23 +8,23 @@ namespace Pawn.Action;
 //examples of actions: buy something from a shopkeeper, consume food or drink. Talk to someone
 public class Action : IAction
 {
-    private static readonly int NO_COOLDOWN = 0;
-    private static readonly float DEFAULT_RANGE = 2;
-    private static readonly Animation.LoopModeEnum NO_LOOPING = Animation.LoopModeEnum.None;
-    private readonly IPawnController ownerPawnController;
-    private bool executableHasBeenRun = false;
-    public Animation.LoopModeEnum loopMode { get; private set; } = NO_LOOPING;
+    static readonly int NO_COOLDOWN = 0;
+    static readonly float DEFAULT_RANGE = 2;
+    static readonly Animation.LoopModeEnum NO_LOOPING = Animation.LoopModeEnum.None;
+    readonly IPawnController ownerPawnController;
+    bool executableHasBeenRun = false;
+    public Animation.LoopModeEnum loopMode { get; set; } = NO_LOOPING;
     public int CooldownMilliseconds { get; set; } = NO_COOLDOWN;
     public string Name { get; set; } = "Generic Action";
     public float MaxRange { get; set; } = DEFAULT_RANGE;
-    private bool isCurrentlyRunning = false;
-    private DateTime timeStarted = DateTime.MinValue;
+    bool isCurrentlyRunning = false;
+    DateTime timeStarted = DateTime.MinValue;
     //the function that makes the Action actually do something in the game world
     public System.Action executable { get; set; }
     public AnimationName AnimationToPlay { get; set; } = AnimationName.Interact;
-    private double loopingAnimationPlayLength = -1;
+    double loopingAnimationPlayLength = -1;
 
-    private double AnimationPlayLengthMilliseconds
+    double AnimationPlayLengthMilliseconds
     {
         get
         {

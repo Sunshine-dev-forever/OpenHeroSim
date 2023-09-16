@@ -5,7 +5,7 @@ namespace GUI;
 //simple class that sets the fill percent of a health bar
 public partial class HealthBar3D : Sprite3D
 {
-    private ProgressBar? bar;
+    ProgressBar? bar;
     public override void _Ready()
     {
         bar = GetNode<ProgressBar>("SubViewport/HealthBar2D");

@@ -6,11 +6,11 @@ namespace Pawn;
 public class PawnTaskHandler
 {
 
-    private IAction? actionInExecution;
-    private readonly PawnMovement movementController;
-    private readonly PawnVisuals visualController;
-    private readonly IPawnInformation pawnInformation;
-    private readonly IPawnInventory pawnInventory;
+    IAction? actionInExecution;
+    readonly PawnMovement movementController;
+    readonly PawnVisuals visualController;
+    readonly IPawnInformation pawnInformation;
+    readonly IPawnInventory pawnInventory;
     public PawnTaskHandler(PawnMovement _movementController, PawnVisuals _visualController, IPawnInformation _pawnInformation,
                 IPawnInventory _pawnInventory)
     {
@@ -45,7 +45,7 @@ public class PawnTaskHandler
         }
     }
 
-    private void MoveToTaskLocation(ITask task)
+    void MoveToTaskLocation(ITask task)
     {
         //I have to call Process movement first so movement controller can update the final location
         //TODO: refactor so I dont call process movement first (movementController has to update the final location)

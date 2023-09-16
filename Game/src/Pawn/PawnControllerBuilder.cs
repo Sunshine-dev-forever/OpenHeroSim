@@ -15,8 +15,8 @@ public class PawnControllerBuilder
     //this is the pawn that is under construction
     readonly PawnController pawn;
 
-    private static readonly string PAWN_RIG_RESOURCE_FILE_DEFAULT = ResourcePaths.WARRIOR_MODEL;
-    private string pawnRigResourceFile = PAWN_RIG_RESOURCE_FILE_DEFAULT;
+    static readonly string PAWN_RIG_RESOURCE_FILE_DEFAULT = ResourcePaths.WARRIOR_MODEL;
+    string pawnRigResourceFile = PAWN_RIG_RESOURCE_FILE_DEFAULT;
 
     //creates a pawn with no AI
     public static PawnController CreateTrainingDummy(Vector3 location,

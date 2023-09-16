@@ -33,7 +33,7 @@ public class LootGoal : IPawnGoal
         return new Task(targeting, action, "Looting a container");
     }
 
-    private void processItem(IItem item, IPawnController pawnController, ItemContainer container)
+    void processItem(IItem item, IPawnController pawnController, ItemContainer container)
     {
         container.Items.Remove(item);
         if (item is Equipment)
@@ -62,7 +62,7 @@ public class LootGoal : IPawnGoal
         }
     }
 
-    private ItemContainer? GetFirstNonemptyContainer(List<ItemContainer> nearbyContainers)
+    ItemContainer? GetFirstNonemptyContainer(List<ItemContainer> nearbyContainers)
     {
         foreach (ItemContainer itemContainer in nearbyContainers)
         {

@@ -7,8 +7,8 @@ using System.Linq;
 
 public class KdTreeController
 {
-    private KdTree<float, IInteractable> kdTree = new(3, new FloatMath());
-    private readonly List<IInteractable> allInteractables = new();
+    KdTree<float, IInteractable> kdTree = new(3, new FloatMath());
+    readonly List<IInteractable> allInteractables = new();
 
     public void Process(double delta)
     {

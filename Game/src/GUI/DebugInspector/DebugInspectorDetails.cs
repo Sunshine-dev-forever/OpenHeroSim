@@ -7,8 +7,8 @@ namespace GUI.DebugInspector;
 
 public partial class DebugInspectorDetails : Panel
 {
-    private const string DETAIL_LIST_ITEM_PATH = "res://scenes/gui/debug_inspector/detail_list_item.tscn";
-    private VBoxContainer ItemDetailsContainer = null!;
+    const string DETAIL_LIST_ITEM_PATH = "res://scenes/gui/debug_inspector/detail_list_item.tscn";
+    VBoxContainer ItemDetailsContainer = null!;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {

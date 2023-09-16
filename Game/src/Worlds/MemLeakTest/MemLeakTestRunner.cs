@@ -39,34 +39,34 @@ public partial class MemLeakTestRunner : Node
         }
     }
 
-    private void nullTest()
+    void nullTest()
     {
         //does not do anything
         //result: no memleaks reported
     }
 
-    private void CreateNodeLoseReference()
+    void CreateNodeLoseReference()
     {
         Node node = new();
         //result: ObjectDB instances leaked at exit
     }
 
     Node nodeReference = null!;
-    private void CreateNodeKeepReference()
+    void CreateNodeKeepReference()
     {
         Node node = new();
         nodeReference = node;
         //result: ObjectDB instances leaked at exit
     }
 
-    private void CreateNodeFreeNode()
+    void CreateNodeFreeNode()
     {
         Node node = new();
         node.QueueFree();
         //result: no leaks reported
     }
 
-    private void CreateNodeAddNodeAsChild()
+    void CreateNodeAddNodeAsChild()
     {
         Node node = new();
         this.AddChild(node);
@@ -74,21 +74,21 @@ public partial class MemLeakTestRunner : Node
     }
 
     //tests if the Deconstructor is called if a node is referenced only by the scene tree
-    private void FinalizerTest()
+    void FinalizerTest()
     {
         Node node = new TestNodeWrapper();
         this.AddChild(node);
         //result: no leaks reported, and the finalizer is not called
     }
 
-    private void FinalizerTestLoseReference()
+    void FinalizerTestLoseReference()
     {
         Node node = new TestNodeWrapper();
         //result: no leaks reported, and the !!!FINALIZER IS NOT CALLED!!!
         //TODO: how do I call the finalizer here?
     }
 
-    private void FinalizerTestNormalCSharpClass()
+    void FinalizerTestNormalCSharpClass()
     {
         PureCSharpClassTest test = new();
         //result: no leaks reported, and the finalizer is called

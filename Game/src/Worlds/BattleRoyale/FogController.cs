@@ -6,15 +6,15 @@ public class FogController
 {
     //Fog Controller just has the magically know the sidelength is 500
     //its ok for testing
-    private static readonly int SIDE_LENGTH = 500;
-    private static FogController? instance;
+    static readonly int SIDE_LENGTH = 500;
+    static FogController? instance;
 
     //The arena fight will last 3 minutes by default
-    private static readonly int TIME_TILL_ALL_FOG = 180;
+    static readonly int TIME_TILL_ALL_FOG = 180;
 
-    private DateTime timeFogStarted = DateTime.MinValue;
+    DateTime timeFogStarted = DateTime.MinValue;
 
-    private FogController() { }
+    FogController() { }
 
     public static FogController GetFogController()
     {

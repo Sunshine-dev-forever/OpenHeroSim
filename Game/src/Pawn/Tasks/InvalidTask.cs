@@ -6,7 +6,7 @@ namespace Pawn.Tasks;
 
 public class InvalidTask : ITask
 {
-    private Vector3 targetPoint;
+    Vector3 targetPoint;
 
     public InvalidTask()
     {

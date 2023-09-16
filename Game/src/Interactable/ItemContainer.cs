@@ -13,12 +13,12 @@ public partial class ItemContainer : Node3D, IInteractable
     public List<IItem> Items;
     //the container's mesh
     public Node3D Mesh;
-    private DateTime timeLastEmpty = DateTime.MaxValue;
-    private static readonly int TIME_TO_LIVE_WHEN_EMPTY_SECONDS = 5;
+    DateTime timeLastEmpty = DateTime.MaxValue;
+    static readonly int TIME_TO_LIVE_WHEN_EMPTY_SECONDS = 5;
 
     public IDisplay Display => ConstructDisplay();
 
-    private IDisplay ConstructDisplay()
+    IDisplay ConstructDisplay()
     {
         //TODO: Item containers should have proper ID generation.... one day
         Display root = new("Item Container");

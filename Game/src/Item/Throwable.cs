@@ -10,7 +10,7 @@ public class Throwable : IItem
     //the number of times this throwable can be used before it is out of ammo
     public int Count = 4;
     public Node3D Mesh { get; }
-    public string Name { get; private set; } = "Throwable";
+    public string Name { get; set; } = "Throwable";
     public IDisplay Display => ConstructDisplay();
 
     public Throwable(Node3D mesh, double _damage, string name)
@@ -24,7 +24,7 @@ public class Throwable : IItem
         Mesh.QueueFree();
     }
 
-    private IDisplay ConstructDisplay()
+    IDisplay ConstructDisplay()
     {
         //TODO: Item containers should have proper ID generation.... one day
         Display root = new(Name);

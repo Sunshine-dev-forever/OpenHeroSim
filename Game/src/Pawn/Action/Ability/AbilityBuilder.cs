@@ -4,7 +4,7 @@ using System;
 namespace Pawn.Action.Ability;
 public class AbilityBuilder
 {
-    private readonly Ability ability;
+    readonly Ability ability;
     public AbilityBuilder(IPawnController ownerPawnController, System.Action<IInteractable?> executable, Predicate<IPawnController> canBeUsedPredicate)
     {
         ability = new Ability(ownerPawnController, executable, canBeUsedPredicate);

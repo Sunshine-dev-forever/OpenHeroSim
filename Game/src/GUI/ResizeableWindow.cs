@@ -4,8 +4,8 @@ namespace GUI.DebugInspector;
 
 public partial class ResizeableWindow : Control
 {
-    private bool isResizing = false;
-    private Vector2 lastMouseposition = Vector2.Zero;
+    bool isResizing = false;
+    Vector2 lastMouseposition = Vector2.Zero;
     public override void _Input(InputEvent input)
     {
         //Todo: have string constants for action names

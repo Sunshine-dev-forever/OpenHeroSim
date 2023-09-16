@@ -48,7 +48,7 @@ public class Task : ITask
 
     public IDisplay Display => ConstructDisplay();
 
-    private IDisplay ConstructDisplay()
+    IDisplay ConstructDisplay()
     {
         Display display = new("Task");
         display.AddDetail("Task: " + Description);

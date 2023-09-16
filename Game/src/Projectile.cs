@@ -6,10 +6,10 @@ using Pawn.Targeting;
 //The projectile class is just eye candy for now
 public partial class Projectile : Node3D
 {
-    private readonly Node3D mesh;
-    private readonly ITargeting target;
-    private readonly float speed;
-    private const float GOAL_DISTANCE = 2;
+    readonly Node3D mesh;
+    readonly ITargeting target;
+    readonly float speed;
+    const float GOAL_DISTANCE = 2;
     bool deleteMeshWhenDone;
     public Projectile(Node3D _mesh, ITargeting _target, float _speed, bool _deleteMeshWhenDone)
     {
