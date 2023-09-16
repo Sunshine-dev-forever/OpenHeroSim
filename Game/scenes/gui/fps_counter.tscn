@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://be6b3us1uxwh6"]
 
-[ext_resource type="Script" path="res://src/UI/FPSDebugUI.gd" id="1_yjbm1"]
+[ext_resource type="Script" path="res://src/GUI/FPSDebugUI.gd" id="1_yjbm1"]
 
 [node name="ColorRect" type="ColorRect"]
 offset_left = 8.0

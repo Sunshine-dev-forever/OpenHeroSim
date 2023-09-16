@@ -1,9 +1,11 @@
 
 using Godot;
 using Serilog;
-namespace Util {
+namespace Util
+{
 	//one day this will all be defined in JSON... one day
-	public static class ResourcePaths {
+	public static class ResourcePaths
+	{
 		public const string IRON_SWORD = "res://scenes/weapons/iron_sword.tscn";
 		public const string LIGHTSABER = "res://scenes/weapons/light_saber.tscn";
 		public const string RUSTED_DAGGER = "res://scenes/weapons/rusted_dagger.tscn";
@@ -25,5 +27,6 @@ namespace Util {
 		public const string FPS_COUNTER_UI = "res://scenes/gui/fps_counter.tscn";
 		public const string IN_GAME_UI = "res://scenes/gui/in_game_UI.tscn";
 		public const string DEFAULT_UI = "res://scenes/gui/default_ui.tscn";
+		public const string DEBUG_INSPECTOR_UI = "res://scenes/gui/debug_inspector/debug_inspector.tscn";
 	}
 }

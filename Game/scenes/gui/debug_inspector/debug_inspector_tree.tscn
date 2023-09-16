@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwmfi63prkf2j"]
+
+[ext_resource type="Script" path="res://src/GUI/DebugInspector/DebugInspectorTree.cs" id="1_ycfn2"]
+
+[node name="DebugInspectorTree" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ycfn2")
+
+[node name="Tree" type="Tree" parent="."]
+self_modulate = Color(0.152941, 1, 1, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

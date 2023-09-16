@@ -2,10 +2,13 @@ using Godot;
 using System;
 using Pawn.Tasks;
 using Util;
-using UI;
+using GUI;
 using Pawn.Components;
 using Interactable;
 using Serilog;
+using GUI.DebugInspector.Display;
+using Pawn.Action.Ability;
+using Item;
 
 namespace Pawn
 {
@@ -18,33 +21,37 @@ namespace Pawn
 			get { return rigidBody.GlobalTransform; }
 			set { rigidBody.GlobalTransform = value; }
 		}
-		public IPawnInformation PawnInformation {get;}
-		public IPawnInventory PawnInventory {get;}
+		public IPawnInformation PawnInformation { get; }
+		public IPawnInventory PawnInventory { get; }
 
-		public PawnBrain PawnBrain {get;}
+		public PawnBrain PawnBrain { get; }
 		private SensesStruct sensesStruct;
 		private ITask currentTask = new InvalidTask();
 
 		//ALL OF THE BELOW VARIABLES ARE CREATED IN Setup() or _Ready()
 		private PawnSenses sensesController = null!;
 		private HealthBar3D healthBar = null!;
-		public PawnTaskHandler PawnTaskHandler {get; private set;} = null!;
-		public PawnVisuals PawnVisuals {get; private set;} = null!;
+		public PawnTaskHandler PawnTaskHandler { get; private set; } = null!;
+		public PawnVisuals PawnVisuals { get; private set; } = null!;
 		private CollisionShape3D collisionShape = null!;
 		private RayCast3D downwardRayCast = null!;
 		private NavigationAgent3D navigationAgent = null!;
 		private RigidBody3D rigidBody = null!;
-		public PawnMovement PawnMovement {get; private set;} = null!;
+		public PawnMovement PawnMovement { get; private set; } = null!;
 		private KdTreeController KdTreeController = null!;
 		//end variables which are created in Setup() or _Ready()
 
 		//if death has been started, then this pawn is in the process of Dying
-		public bool IsDying {get { return startedDeath != DateTime.MaxValue;}}
+		public bool IsDying { get { return startedDeath != DateTime.MaxValue; } }
+
+		public IDisplay Display => ConstructDisplay();
+
 		private DateTime startedDeath = DateTime.MaxValue;
 		private ItemContainer? gravestone;
 
 		//When created by instancing a scene, the default constructor is called.
-		public PawnController() {
+		public PawnController()
+		{
 			sensesStruct = new SensesStruct();
 			PawnBrain = new PawnBrain();
 			PawnInventory = new PawnInventory();
@@ -83,9 +90,12 @@ namespace Pawn
 		// Called every frame. 'delta' is the elapsed time since the previous frame.
 		public override void _Process(double delta)
 		{
-			if(IsDying) {
+			if (IsDying)
+			{
 				HandleDying();
-			} else {
+			}
+			else
+			{
 				//only living pawns get to think
 				sensesStruct = sensesController.UpdatePawnSenses(sensesStruct);
 				currentTask = PawnBrain.updateCurrentTask(currentTask, sensesStruct, this);
@@ -94,7 +104,8 @@ namespace Pawn
 
 		public override void _PhysicsProcess(double delta)
 		{
-			if(!IsDying) {
+			if (!IsDying)
+			{
 				//Placed in physics process since Handle task may call some functions
 				//in movement controller which **I Think** means this function has to be placed in 
 				//_PhysicsProcess
@@ -102,17 +113,21 @@ namespace Pawn
 			}
 		}
 
-		private void HandleDying() {
-			if( (DateTime.Now - startedDeath).TotalSeconds > TIME_TO_WAIT_AFTER_DEATH) {
+		private void HandleDying()
+		{
+			if ((DateTime.Now - startedDeath).TotalSeconds > TIME_TO_WAIT_AFTER_DEATH)
+			{
 				//Corpse has gone cold for TIME_WAIT_AFTER_DEATH seconds, we finally pass
-				if(gravestone != null && gravestone.IsInstanceValid()) {
+				if (gravestone != null && gravestone.IsInstanceValid())
+				{
 					gravestone.Visible = true;
 				}
 				FreeSelf();
 			}
 		}
 
-		private void StartDying() {
+		private void StartDying()
+		{
 			startedDeath = DateTime.Now;
 			PawnVisuals.SetAnimation(AnimationName.Die);
 			CreateGravestone();
@@ -122,7 +137,8 @@ namespace Pawn
 		}
 
 		//Gets the total damage that this pawn is able to produce.
-		public double GetDamage() {
+		public double GetDamage()
+		{
 			return PawnInformation.BaseDamage + PawnInventory.GetTotalEquiptmentDamage();
 		}
 
@@ -131,7 +147,8 @@ namespace Pawn
 		public void TakeDamage(double damage)
 		{
 			double taken_damage = damage - PawnInventory.GetTotalEquiptmentDefense();
-			if(taken_damage < 0) {
+			if (taken_damage < 0)
+			{
 				return;
 			}
 			PawnInformation.Health = PawnInformation.Health - taken_damage;
@@ -146,12 +163,15 @@ namespace Pawn
 
 		//makes the pawn heal
 		//healing below 0 is ignored
-		public void TakeHealing(double amount) {
-			if(amount < 0) {
+		public void TakeHealing(double amount)
+		{
+			if (amount < 0)
+			{
 				return;
 			}
 			PawnInformation.Health = PawnInformation.Health + amount;
-			if(PawnInformation.Health > PawnInformation.MaxHealth) {
+			if (PawnInformation.Health > PawnInformation.MaxHealth)
+			{
 				PawnInformation.Health = PawnInformation.MaxHealth;
 			}
 			healthBar.SetHealthPercent(PawnInformation.Health / PawnInformation.MaxHealth);
@@ -166,7 +186,8 @@ namespace Pawn
 			this.QueueFree();
 		}
 
-		private void CreateGravestone() {
+		private void CreateGravestone()
+		{
 			Node3D TreasureChestMesh = CustomResourceLoader.LoadMesh(ResourcePaths.GRAVESTONE);
 			gravestone = new ItemContainer(PawnInventory.EmptyAllItems(), TreasureChestMesh);
 			//Add newly created object to this objects current parent
@@ -178,12 +199,51 @@ namespace Pawn
 			gravestone.Visible = false;
 		}
 
-		public bool IsInstanceValid() {
+		public bool IsInstanceValid()
+		{
 			return IsInstanceValid(this);
 		}
 
-		public Node GetRootNode() {
+		public Node GetRootNode()
+		{
 			return this;
+		}
+
+		private IDisplay ConstructDisplay()
+		{
+
+			Display root = new Display(PawnInformation.Name);
+			root.AddDetail("Faction: " + PawnInformation.Faction);
+			root.AddDetail("Base Attack: " + PawnInformation.BaseDamage);
+			root.AddDetail("Max Health: " + PawnInformation.MaxHealth);
+			root.AddDetail("Current Health: " + PawnInformation.Health);
+			root.AddDetail("Speed: " + PawnInformation.Speed);
+
+			Display childAbilities = new Display("Abilities");
+			foreach (IAbility ability in PawnInformation.GetAllAbilites())
+			{
+				childAbilities.AddDetail("Ability: " + ability.Name);
+			}
+			root.AddChildDisplay(childAbilities);
+
+			Display childEquipment = new Display("Equiptment");
+			foreach (IItem item in PawnInventory.GetAllEquippedItems())
+			{
+				childEquipment.AddChildDisplay(item.Display);
+			}
+			root.AddChildDisplay(childEquipment);
+
+			Display childBaggedItems = new Display("bagged Items");
+			foreach (IItem item in PawnInventory.GetAllItemsInBag())
+			{
+				childBaggedItems.AddChildDisplay(item.Display);
+			}
+			childBaggedItems.AddDetail("number of bagged items: " + PawnInventory.GetAllItemsInBag().Count);
+			root.AddChildDisplay(childBaggedItems);
+
+			root.AddChildDisplay(currentTask.Display);
+
+			return root;
 		}
 	}
 }
