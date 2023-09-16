@@ -15,7 +15,6 @@ using GUI.DebugInspector.Display;
 
 namespace GUI.DebugInspector
 {
-	s
 	public partial class DebugInspector : Control
 	{
 		private Control resizeableWindow = null!;
