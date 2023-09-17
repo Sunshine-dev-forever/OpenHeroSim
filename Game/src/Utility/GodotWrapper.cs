@@ -1,12 +1,11 @@
 using Godot;
-namespace Util
+namespace Util;
+
+public partial class GodotWrapper<T> : GodotObject
 {
-	public partial class GodotWrapper<T> : GodotObject
-	{
-		public T value;
-		public GodotWrapper(T _value)
-		{
-			value = _value;
-		}
-	}
+    public T value;
+    public GodotWrapper(T _value)
+    {
+        value = _value;
+    }
 }

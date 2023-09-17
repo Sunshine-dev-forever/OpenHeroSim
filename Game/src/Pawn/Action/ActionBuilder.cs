@@ -1,46 +1,45 @@
+namespace Pawn.Action;
+public class ActionBuilder
+{
+    readonly Action action;
 
-using System.Collections.ObjectModel;
-using System.Collections.Generic;
-using Godot;
-using Pawn;
-using Pawn.Action.Ability;
-using Item;
+    ActionBuilder(IPawnController ownerPawnController, System.Action executable)
+    {
+        action = new Action(ownerPawnController, executable);
+    }
+    public static ActionBuilder Start(IPawnController ownerPawnController, System.Action executable)
+    {
+        return new ActionBuilder(ownerPawnController, executable);
+    }
 
-namespace Pawn.Action {
-	public class ActionBuilder {
-		private Action action;
+    public ActionBuilder MaxRange(float range)
+    {
+        action.MaxRange = range;
+        return this;
+    }
 
-		private ActionBuilder(IPawnController ownerPawnController, System.Action executable) {
-			action = new Action(ownerPawnController, executable);
-		}
-		public static ActionBuilder Start(IPawnController ownerPawnController, System.Action executable) {
-			return new ActionBuilder(ownerPawnController, executable);
-		}
+    public ActionBuilder Animation(AnimationName animationName)
+    {
+        action.AnimationToPlay = animationName;
+        return this;
+    }
 
-		public ActionBuilder MaxRange(float range) {
-			action.MaxRange = range;
-			return this;
-		}
+    //Sets looping to be true
+    public ActionBuilder AnimationPlayLength(int milliseconds)
+    {
+        action.SetAnimationPlayLength(milliseconds);
+        return this;
+    }
 
-		public ActionBuilder Animation(AnimationName animationName) {
-			action.AnimationToPlay = animationName;
-			return this;
-		}
+    public IAction Finish()
+    {
+        return action;
+    }
 
-		//Sets looping to be true
-		public ActionBuilder AnimationPlayLength(int milliseconds) {
-			action.SetAnimationPlayLength(milliseconds);
-			return this;
-		}
+    public ActionBuilder Name(string name)
+    {
+        action.Name = name;
+        return this;
+    }
 
-		public IAction Finish() {
-			return action;
-		}
-
-		public ActionBuilder Name(string name) {
-			action.Name = name;
-			return this;
-		}
-		
-	}
 }
