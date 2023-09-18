@@ -8,6 +8,7 @@ using Pawn.Targeting;
 using System;
 using System.Collections.Generic;
 using Util;
+using System.Linq;
 
 namespace Worlds.MainTest;
 
@@ -60,10 +61,12 @@ public class MainTestRunner : IRunner
 
         Vector3 location = new(0, 5, 0);
         return PawnControllerBuilder.Start(nodeStorage, kdTreeController, navigation)
-                            .AddGoal(new HealGoal())
-                            .AddGoal(new DefendSelfGoal())
-                            .AddGoal(new LootGoal())
-                            .AddGoal(new WanderGoal())
+                            .SetGoals(new List<IPawnGoal> {
+                                                            new HealGoal(),
+                                                            new DefendSelfGoal(),
+                                                            new LootGoal(),
+                                                            new WanderGoal()
+                                                            })
                             .AddAbility(AbilityDefinitions.THROW_ABILITY)
                             .AddAbility(AbilityDefinitions.STAB_ABILITY)
                             .WearEquipment(GetRandomWeapon())
@@ -97,10 +100,12 @@ public class MainTestRunner : IRunner
         Vector3 location = GenerateRandomVector();
 
         return PawnControllerBuilder.Start(nodeStorage, kdTreeController, navigation)
-                            .AddGoal(new HealGoal())
-                            .AddGoal(new DefendSelfGoal())
-                            .AddGoal(new LootGoal())
-                            .AddGoal(new WanderGoal())
+                            .SetGoals(new List<IPawnGoal> {
+                                                            new HealGoal(),
+                                                            new DefendSelfGoal(),
+                                                            new LootGoal(),
+                                                            new WanderGoal()
+                                                            })
                             .WearEquipment(GetRandomWeapon())
                             .AddAbility(AbilityDefinitions.STAB_ABILITY)
                             .Location(location)
@@ -114,11 +119,13 @@ public class MainTestRunner : IRunner
         Vector3 location = new(0, 5, 0);
 
         return PawnControllerBuilder.Start(nodeStorage, kdTreeController, navigation)
-                            .AddGoal(new HealGoal())
-                            .AddGoal(new DefendSelfGoal())
+                            .SetGoals(new List<IPawnGoal> {
+                                                            new HealGoal(),
+                                                            new DefendSelfGoal(),
+                                                            new LootGoal(),
+                                                            new WanderGoal()
+                                                            })
                             .AddAbility(AbilityDefinitions.STAB_ABILITY)
-                            .AddGoal(new LootGoal())
-                            .AddGoal(new WanderGoal())
                             .WearEquipment(GetRandomWeapon())
                             .WearEquipment(GetHelmet())
                             .Location(location)
@@ -169,19 +176,6 @@ public class MainTestRunner : IRunner
             2 => CreateIronSword(),
             _ => CreateRustedDagger(),
         };
-    }
-
-    IPawnController CreateHealingPotionTester()
-    {
-        NavigationRegion3D navigation = nodeStorage.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
-        return PawnControllerBuilder.Start(nodeStorage, kdTreeController, navigation)
-                            .AddGoal(new HealGoal())
-                            .AddGoal(new WanderGoal())
-                            .Location(new Vector3(0, 5, 0))
-                            .WearEquipment(CreateLightSaber())
-                            .AddItem(CreateHealingPotion()).AddItem(CreateHealingPotion())
-                            .DealDamage(50)
-                            .Finish();
     }
 
     void CreateItemContainer()

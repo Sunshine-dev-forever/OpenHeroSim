@@ -3,6 +3,8 @@ using Item;
 using Pawn.Action.Ability;
 using Pawn.Goal;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using Util;
 
 namespace Pawn;
@@ -25,7 +27,7 @@ public class PawnControllerBuilder
     {
         return PawnControllerBuilder.Start(parent, _kdTreeController, navigation)
                                     .Location(location)
-                                    .AddGoal(new DebugGoal())
+                                    .SetGoals(new List<IPawnGoal> { new DebugGoal() })
                                     .SetName("Training Dummy")
                                     .Finish();
     }
@@ -54,12 +56,13 @@ public class PawnControllerBuilder
         return this;
     }
 
-    //Appends to the list of goals, so most important goals should be added first
-    //THE ORDER YOU ADD GOALS IN MATTERS, this function should be refactored to take in a list so
-    //Pawn controller builder can be 100% declaritive again.
-    public PawnControllerBuilder AddGoal(IPawnGoal goal)
+    //Goal order in the list matters, the first goals will be higher priority
+    public PawnControllerBuilder SetGoals(IList<IPawnGoal> goals)
     {
-        pawn.PawnBrain.AddGoal(goal);
+        foreach (IPawnGoal goal in goals)
+        {
+            pawn.PawnBrain.AddGoal(goal);
+        }
         return this;
     }
 

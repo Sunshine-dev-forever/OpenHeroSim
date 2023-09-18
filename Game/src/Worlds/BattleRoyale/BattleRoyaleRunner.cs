@@ -87,10 +87,12 @@ public class BattleRoyaleRunner : IRunner
     {
         NavigationRegion3D navigation = nodeStorage.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
         return PawnControllerBuilder.Start(nodeStorage, kdTreeController, navigation)
-                            .AddGoal(new HealGoal())
-                            .AddGoal(new DefendSelfGoal())
-                            .AddGoal(new LootGoal())
-                            .AddGoal(new BattleRoyaleWanderGoal())
+                            .SetGoals(new List<IPawnGoal> {
+                                                            new HealGoal(),
+                                                            new DefendSelfGoal(),
+                                                            new LootGoal(),
+                                                            new BattleRoyaleWanderGoal()
+                                                            })
                             .AddAbility(AbilityDefinitions.STAB_ABILITY)
                             .Location(location)
                             .Finish();
@@ -105,7 +107,7 @@ public class BattleRoyaleRunner : IRunner
         Node3D NegZ = nodeStorage.GetNode<Node3D>("NegZ");
         Node3D PosX = nodeStorage.GetNode<Node3D>("PosX");
         Node3D PosZ = nodeStorage.GetNode<Node3D>("PosZ");
-        float newDist = (float) FogController.GetFogController().GetFogPosition();
+        float newDist = (float)FogController.GetFogController().GetFogPosition();
         SetOrigin(NegX, new Vector3(-newDist, 0, 0));
         SetOrigin(NegZ, new Vector3(0, 0, -newDist));
         SetOrigin(PosX, new Vector3(newDist, 0, 0));
