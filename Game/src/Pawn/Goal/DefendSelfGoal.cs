@@ -3,7 +3,6 @@ using Pawn.Action.Ability;
 using Pawn.Components;
 using Pawn.Targeting;
 using Pawn.Tasks;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,15 +13,14 @@ public class DefendSelfGoal : IPawnGoal
     //TODO: break this up into smaller functions
     public ITask GetTask(IPawnController ownerPawnController, SensesStruct sensesStruct)
     {
-        Func<IPawnController, bool> pawnIsAliveAndValid = (pawnController) =>
-            {
-                return pawnController != null && pawnController.IsInstanceValid() && !pawnController.IsDying;
-            };
+        bool pawnIsAliveAndValid(IPawnController pawnController) => pawnController != null && pawnController.IsInstanceValid() && !pawnController.IsDying;
+
         List<IPawnController> nearbyLivingPawns = sensesStruct.nearbyPawns.AsEnumerable().Where(pawnIsAliveAndValid).ToList();
         if (nearbyLivingPawns.Count == 0)
         {
             return new InvalidTask();
         }
+
         IPawnController? pawnToAttack = null;
         //need to get the nearest pawn on the right faction
         foreach (IPawnController pawn in nearbyLivingPawns)
@@ -35,10 +33,12 @@ public class DefendSelfGoal : IPawnGoal
                 break;
             }
         }
+
         if (pawnToAttack == null)
         {
             return new InvalidTask();
         }
+
         List<IAbility> validAbilities = ownerPawnController.PawnInformation.GetAllUsableAbilities(ownerPawnController, pawnToAttack);
         //no matter what we are targeting the other pawn
         ITargeting targeting = new InteractableTargeting(pawnToAttack);
@@ -60,7 +60,7 @@ public class DefendSelfGoal : IPawnGoal
             //We take first valid ability
             IAbility ability = validAbilities[0];
             ability.Setup(pawnToAttack);
-            return new Task(targeting, ability, String.Format("Attacking the pawn {0} with the ability {1}", pawnToAttack.PawnInformation.Name, ability.Name));
+            return new Task(targeting, ability, string.Format("Attacking the pawn {0} with the ability {1}", pawnToAttack.PawnInformation.Name, ability.Name));
         }
     }
 }

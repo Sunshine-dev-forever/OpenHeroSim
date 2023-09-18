@@ -17,11 +17,13 @@ public class Action : IAction
     public int CooldownMilliseconds { get; set; } = NO_COOLDOWN;
     public string Name { get; set; } = "Generic Action";
     public float MaxRange { get; set; } = DEFAULT_RANGE;
+
     bool isCurrentlyRunning = false;
     DateTime timeStarted = DateTime.MinValue;
     //the function that makes the Action actually do something in the game world
     public System.Action executable { get; set; }
     public AnimationName AnimationToPlay { get; set; } = AnimationName.Interact;
+
     double loopingAnimationPlayLength = -1;
 
     double AnimationPlayLengthMilliseconds
@@ -59,6 +61,7 @@ public class Action : IAction
             Log.Error(System.Environment.StackTrace);
             throw new InvalidOperationException();
         }
+
         ownerPawnController.PawnVisuals.SetAnimation(AnimationToPlay, loopMode);
         isCurrentlyRunning = true;
         timeStarted = DateTime.Now;
@@ -69,10 +72,12 @@ public class Action : IAction
         {
             throw new InvalidOperationException();
         }
+
         if (!executableHasBeenRun)
         {
             return false;
         }
+
         double timeRunningMilliseconds = (DateTime.Now - timeStarted).TotalMilliseconds;
         return timeRunningMilliseconds > AnimationPlayLengthMilliseconds;
     }

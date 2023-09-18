@@ -45,7 +45,6 @@ public partial class DebugInspector : Control
                 CastRayFromCamera(mouseInput);
             }
         }
-
     }
 
     bool ClickIsInsideThisUI(InputEventMouseButton input)
@@ -61,7 +60,7 @@ public partial class DebugInspector : Control
         //just a query should be fine to call outside of physics_process
         PhysicsDirectSpaceState3D spaceState = camera.GetWorld3D().DirectSpaceState;
         Vector3 from = camera.ProjectRayOrigin(input.Position);
-        Vector3 to = from + camera.ProjectRayNormal(input.Position) * RAY_LENGTH;
+        Vector3 to = from + (camera.ProjectRayNormal(input.Position) * RAY_LENGTH);
         //collistionMask of 1 should be only static objects with hitboxes
         uint collisionMask = STATIC_OBJECTS_MASK;
         PhysicsRayQueryParameters3D rayArgs = PhysicsRayQueryParameters3D.Create(from, to, collisionMask);

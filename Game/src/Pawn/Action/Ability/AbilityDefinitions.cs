@@ -3,7 +3,6 @@ using Interactable;
 using Item;
 using Pawn.Targeting;
 using Serilog;
-using System;
 
 namespace Pawn.Action.Ability;
 public static class AbilityDefinitions
@@ -15,18 +14,19 @@ public static class AbilityDefinitions
 
     public static IAbility CreateStabAbility(IPawnController ownerPawnController)
     {
-        Predicate<IPawnController> canBeUsed = (PawnController) => {return true;};
+        bool canBeUsed(IPawnController PawnController) => true;
 
-        System.Action<IInteractable?> abilityExecutable = (target) =>
+        void abilityExecutable(IInteractable? target)
         {
-            if(target == null || !target.IsInstanceValid())
+            if (target == null || !target.IsInstanceValid())
             {
                 //Target is no longer valid for some reason
                 return;
             }
+
             IPawnController otherPawnController = (IPawnController) target;
             otherPawnController.TakeDamage(ownerPawnController.GetDamage());
-        };
+        }
 
         IAbility ability = AbilityBuilder.Start(ownerPawnController, abilityExecutable, canBeUsed)
                                             .Animation(AnimationName.MeleeAttack)
@@ -40,13 +40,13 @@ public static class AbilityDefinitions
     public static IAbility CreateThrowAbility(IPawnController ownerPawnController)
     {
         //We need to have something to throw to use this ability
-        Predicate<IPawnController> canBeUsed = (PawnController) =>
+        bool canBeUsed(IPawnController PawnController)
         {
             foreach (IItem item in ownerPawnController.PawnInventory.GetAllItemsInBag())
             {
-                if(item is Throwable)
+                if (item is Throwable)
                 {
-                    if( ((Throwable) item).Count <= 0)
+                    if (((Throwable)item).Count <= 0)
                     {
                         Log.Warning("There is a throwable with an ammo count of 0 in a pawn inventory");
                     }
@@ -56,34 +56,36 @@ public static class AbilityDefinitions
                     }
                 }
             }
-            return false;
-        };
 
-        System.Action<IInteractable?> abilityExecutable = (target) =>
+            return false;
+        }
+
+        void abilityExecutable(IInteractable? target)
         {
-            if(target == null || !target.IsInstanceValid())
+            if (target == null || !target.IsInstanceValid())
             {
                 //Target is no longer valid for some reason
                 return;
             }
+
             IPawnController otherPawnController = (IPawnController) target;
             Throwable? itemToThrow = null;
             foreach (IItem item in ownerPawnController.PawnInventory.GetAllItemsInBag())
             {
-                if(item is Throwable)
+                if (item is Throwable)
                 {
-                    if( ((Throwable) item).Count <= 0)
+                    if (((Throwable)item).Count <= 0)
                     {
                         Log.Warning("There is a throwable with an ammo count of 0 in a pawn inventory");
                     }
                     else
                     {
-                        itemToThrow = (Throwable) item;
+                        itemToThrow = (Throwable)item;
                     }
                 }
             }
 
-            if(itemToThrow == null)
+            if (itemToThrow == null)
             {
                 Log.Error("Throw ability has nothing to throw!");
                 return;
@@ -93,18 +95,18 @@ public static class AbilityDefinitions
             //remove 1 ammo
             itemToThrow.Count -= 1;
             bool deleteMeshWhenDone = false;
-            if(itemToThrow.Count == 0)
+            if (itemToThrow.Count == 0)
             {
                 ownerPawnController.PawnInventory.RemoveItem(itemToThrow);
                 deleteMeshWhenDone = true;
             }
 
-            Node3D mesh = (Node3D) itemToThrow.Mesh;
+            Node3D mesh =  itemToThrow.Mesh;
 
             otherPawnController.TakeDamage(damage);
             //also make a new projectile with the mesh in question
             CreateProjectile(mesh, ownerPawnController, otherPawnController, deleteMeshWhenDone);
-        };
+        }
 
         IAbility ability = AbilityBuilder.Start(ownerPawnController, abilityExecutable, canBeUsed)
                                             .Animation(AnimationName.Interact)

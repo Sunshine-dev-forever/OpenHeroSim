@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using System.Collections.Generic;
 using Util;
 
@@ -22,8 +21,10 @@ public partial class DebugInspectorDetails : Panel
 
     public void AddDetail(string input)
     {
-        if (String.IsNullOrWhiteSpace(input))
-        { return; }
+        if (string.IsNullOrWhiteSpace(input))
+        {
+            return;
+        }
 
         Control detailListItem = CustomResourceLoader.LoadUI(DETAIL_LIST_ITEM_PATH);
         Label label = detailListItem.GetNode<Label>("Label");

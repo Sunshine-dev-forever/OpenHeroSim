@@ -16,7 +16,6 @@ public interface ITask : IDisplayable
     //Priority is the game as the goal postion in the goal list. 
     //Goals earlier in the list will have a lower priority
     int Priority { get; set; }
-
 }
 //The status that the task is in
 public enum TaskState { MOVING_TO, PROCESSING_ACTION, COMPLETED }

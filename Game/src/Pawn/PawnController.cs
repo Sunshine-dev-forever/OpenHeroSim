@@ -14,16 +14,17 @@ namespace Pawn;
 //HAVE TO CALL Setup() before this class will function!!!
 public partial class PawnController : Node, IPawnController
 {
-    static int TIME_TO_WAIT_AFTER_DEATH = 4;
+    static readonly int TIME_TO_WAIT_AFTER_DEATH = 4;
     public Transform3D GlobalTransform
     {
-        get { return rigidBody.GlobalTransform; }
-        set { rigidBody.GlobalTransform = value; }
+        get => rigidBody.GlobalTransform;
+        set => rigidBody.GlobalTransform = value;
     }
     public IPawnInformation PawnInformation { get; }
     public IPawnInventory PawnInventory { get; }
 
     public PawnBrain PawnBrain { get; }
+
     SensesStruct sensesStruct;
     ITask currentTask = new InvalidTask();
 
@@ -32,16 +33,18 @@ public partial class PawnController : Node, IPawnController
     HealthBar3D healthBar = null!;
     public PawnTaskHandler PawnTaskHandler { get; set; } = null!;
     public PawnVisuals PawnVisuals { get; set; } = null!;
+
     CollisionShape3D collisionShape = null!;
     RayCast3D downwardRayCast = null!;
     NavigationAgent3D navigationAgent = null!;
     RigidBody3D rigidBody = null!;
     public PawnMovement PawnMovement { get; set; } = null!;
+
     KdTreeController KdTreeController = null!;
     //end variables which are created in Setup() or _Ready()
 
     //if death has been started, then this pawn is in the process of Dying
-    public bool IsDying { get { return startedDeath != DateTime.MaxValue; } }
+    public bool IsDying => startedDeath != DateTime.MaxValue;
 
     public IDisplay Display => ConstructDisplay();
 
@@ -121,6 +124,7 @@ public partial class PawnController : Node, IPawnController
             {
                 gravestone.Visible = true;
             }
+
             FreeSelf();
         }
     }
@@ -150,6 +154,7 @@ public partial class PawnController : Node, IPawnController
         {
             return;
         }
+
         PawnInformation.Health = PawnInformation.Health - taken_damage;
         if (PawnInformation.Health <= 0)
         {
@@ -157,6 +162,7 @@ public partial class PawnController : Node, IPawnController
             StartDying();
             return;
         }
+
         healthBar.SetHealthPercent(PawnInformation.Health / PawnInformation.MaxHealth);
     }
 
@@ -168,11 +174,13 @@ public partial class PawnController : Node, IPawnController
         {
             return;
         }
+
         PawnInformation.Health = PawnInformation.Health + amount;
         if (PawnInformation.Health > PawnInformation.MaxHealth)
         {
             PawnInformation.Health = PawnInformation.MaxHealth;
         }
+
         healthBar.SetHealthPercent(PawnInformation.Health / PawnInformation.MaxHealth);
     }
 
@@ -223,6 +231,7 @@ public partial class PawnController : Node, IPawnController
         {
             childAbilities.AddDetail("Ability: " + ability.Name);
         }
+
         root.AddChildDisplay(childAbilities);
 
         Display childEquipment = new("Equiptment");
@@ -230,6 +239,7 @@ public partial class PawnController : Node, IPawnController
         {
             childEquipment.AddChildDisplay(item.Display);
         }
+
         root.AddChildDisplay(childEquipment);
 
         Display childBaggedItems = new("bagged Items");
@@ -237,6 +247,7 @@ public partial class PawnController : Node, IPawnController
         {
             childBaggedItems.AddChildDisplay(item.Display);
         }
+
         childBaggedItems.AddDetail("number of bagged items: " + PawnInventory.GetAllItemsInBag().Count);
         root.AddChildDisplay(childBaggedItems);
 

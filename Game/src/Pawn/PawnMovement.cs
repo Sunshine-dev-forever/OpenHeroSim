@@ -8,10 +8,7 @@ public class PawnMovement
     readonly RayCast3D downwardRayCast;
     readonly RigidBody3D rigidBody;
     readonly PawnVisuals pawnVisuals;
-
     Vector3 originalLocationOfTarget = Vector3.Zero;
-
-
     bool isNavigationServerReady;
 
     public PawnMovement(RigidBody3D _rigidBody, PawnVisuals _pawnVisuals, NavigationAgent3D _navigationAgent, RayCast3D _downwardRayCast)
@@ -49,11 +46,12 @@ public class PawnMovement
             //if in air then let physics take over and just fall
             return;
         }
+
         Vector3 nextLocation = navigationAgent.GetNextPathPosition();
         Vector3 currentLocation = rigidBody.GlobalTransform.Origin;
         Vector3 locationDiff = nextLocation - currentLocation;
         //Look in the direction of travel
-        float newYRotation = (float) (Math.Atan2(locationDiff.X , locationDiff.Z));
+        float newYRotation = (float) Math.Atan2(locationDiff.X , locationDiff.Z);
         pawnVisuals.setPawnRotation(newYRotation);
 
         Vector3 velocity = (nextLocation - currentLocation).Slide(floorNormal).Normalized() * speed;
@@ -77,15 +75,8 @@ public class PawnMovement
     */
     public bool HasFinishedMovement(float targetDistance)
     {
-        if (navigationAgent.GetFinalPosition().DistanceTo(rigidBody.GlobalTransform.Origin)
-            < targetDistance)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return navigationAgent.GetFinalPosition().DistanceTo(rigidBody.GlobalTransform.Origin)
+            < targetDistance;
     }
 
     public void SetNavigation(NavigationRegion3D navigation)
@@ -100,14 +91,7 @@ public class PawnMovement
         //an ID of 0 should always be an invalid ID
         //I use the ID of 0 to check if the Navigation server has started up
         //This method might not be fullproof, so this is a possible source of bugs
-        if (mapRid.Id == 0)
-        {
-            isNavigationServerReady = false;
-        }
-        else
-        {
-            isNavigationServerReady = true;
-        }
+        isNavigationServerReady = mapRid.Id != 0;
     }
 
     //returns the bearing to the point given 
@@ -119,5 +103,4 @@ public class PawnMovement
         //Dont question it, it works :)
         return Math.PI - Math.Atan2(point.Y, point.X);
     }
-
 }

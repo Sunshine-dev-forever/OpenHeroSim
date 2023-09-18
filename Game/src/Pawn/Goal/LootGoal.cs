@@ -19,14 +19,14 @@ public class LootGoal : IPawnGoal
             return new InvalidTask();
         }
 
-        System.Action executable = () =>
+        void executable()
+        {
+            for (int i = nearbyLoot.Items.Count - 1; i >= 0; i--)
             {
-                for (int i = nearbyLoot.Items.Count - 1; i >= 0; i--)
-                {
-                    IItem item = nearbyLoot.Items[i];
-                    processItem(item, pawnController, nearbyLoot);
-                }
-            };
+                IItem item = nearbyLoot.Items[i];
+                processItem(item, pawnController, nearbyLoot);
+            }
+        }
 
         IAction action = ActionBuilder.Start(pawnController, executable).Animation(AnimationName.Interact).Finish();
         ITargeting targeting = new InteractableTargeting(nearbyLoot);
@@ -36,9 +36,8 @@ public class LootGoal : IPawnGoal
     void processItem(IItem item, IPawnController pawnController, ItemContainer container)
     {
         container.Items.Remove(item);
-        if (item is Equipment)
+        if (item is Equipment newWeapon)
         {
-            Equipment newWeapon = (Equipment)item;
             Equipment? currentWeapon = pawnController.PawnInventory.GetWornEquipment(EquipmentType.HELD);
             if (currentWeapon == null || (newWeapon.Damage > currentWeapon.Damage))
             {
@@ -71,6 +70,7 @@ public class LootGoal : IPawnGoal
                 return itemContainer;
             }
         }
+
         return null;
     }
 }

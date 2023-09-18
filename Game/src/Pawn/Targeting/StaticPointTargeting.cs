@@ -22,12 +22,6 @@ public class StaticPointTargeting : ITargeting
     {
         return Point;
     }
-    public bool IsValid
-    {
-        get
-        {
-            return PointTester(Point);
-        }
-    }
+    public bool IsValid => PointTester(Point);
 
 }

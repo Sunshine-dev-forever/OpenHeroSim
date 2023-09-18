@@ -4,7 +4,6 @@ using System.Linq;
 
 namespace Pawn;
 
-
 public class PawnInformation : IPawnInformation
 {
     readonly List<IAbility> abilities = new();
@@ -18,7 +17,7 @@ public class PawnInformation : IPawnInformation
     public List<IAbility> GetAllUsableAbilities(IPawnController ownerPawnController, IPawnController otherPawnController)
     {
         //filter out abilities that can not be used in current envirionmental context or are on cool down
-        return abilities.Where<IAbility>((ability) => (ability.CanBeUsed(ownerPawnController))).ToList();
+        return abilities.Where<IAbility>((ability) => ability.CanBeUsed(ownerPawnController)).ToList();
         ;
     }
 

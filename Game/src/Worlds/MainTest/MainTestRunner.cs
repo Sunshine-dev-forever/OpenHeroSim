@@ -13,8 +13,8 @@ namespace Worlds.MainTest;
 
 public class MainTestRunner : IRunner
 {
-
     readonly KdTreeController kdTreeController;
+
     //MainTestRunner will make children out of nodeStorage
     readonly Node nodeStorage;
     public MainTestRunner(KdTreeController _kdTreeController, Node _nodeStorage)
@@ -38,7 +38,9 @@ public class MainTestRunner : IRunner
             CreatePawnInCenter();
         }
     }
+
     double TimeSinceLastPawnCreation = 4;
+
     //lazy, bad coding
     IPawnController lastPawnSpawned = null!;
 
@@ -125,8 +127,10 @@ public class MainTestRunner : IRunner
 
     Equipment GetHelmet()
     {
-        Equipment equipment = new(EquipmentType.HEAD, "box helm");
-        equipment.Defense = 5;
+        Equipment equipment = new(EquipmentType.HEAD, "box helm")
+        {
+            Defense = 5
+        };
         return equipment;
     }
 
@@ -150,6 +154,7 @@ public class MainTestRunner : IRunner
         {
             return new Vector3(23, 5, -23);
         }
+
         return new Vector3();
     }
 
@@ -157,17 +162,13 @@ public class MainTestRunner : IRunner
     {
         Random rand = new();
         int rng = rand.Next(0, 3);
-        switch (rng)
+        return rng switch
         {
-            case 0:
-                return CreateSpearMelee();
-            case 1:
-                return CreateRustedDagger();
-            case 2:
-                return CreateIronSword();
-            default:
-                return CreateRustedDagger();
-        }
+            0 => CreateSpearMelee(),
+            1 => CreateRustedDagger(),
+            2 => CreateIronSword(),
+            _ => CreateRustedDagger(),
+        };
     }
 
     IPawnController CreateHealingPotionTester()
@@ -187,9 +188,11 @@ public class MainTestRunner : IRunner
     {
         Node3D TreasureChestMesh = CustomResourceLoader.LoadMesh(ResourcePaths.TREASURE_CHEST);
         //The iron sword gets leaked when created like this
-        List<IItem> items = new();
-        items.Add(CreateHealingPotion());
-        items.Add(CreateIronSword());
+        List<IItem> items = new()
+        {
+            CreateHealingPotion(),
+            CreateIronSword()
+        };
         ItemContainer itemContainer = new(items, TreasureChestMesh);
         nodeStorage.AddChild(itemContainer);
         itemContainer.GlobalTransform = new Transform3D(itemContainer.GlobalTransform.Basis, new Vector3(0, 1, 0));
@@ -198,28 +201,37 @@ public class MainTestRunner : IRunner
 
     Equipment CreateIronSword()
     {
-        Equipment equipment = new(EquipmentType.HELD, "iron sword");
-        equipment.Damage = 5;
+        Equipment equipment = new(EquipmentType.HELD, "iron sword")
+        {
+            Damage = 5
+        };
         return equipment;
     }
 
     Equipment CreateRustedDagger()
     {
-        Equipment equipment = new(EquipmentType.HELD, "rusted dagger");
-        equipment.Damage = 3;
+        Equipment equipment = new(EquipmentType.HELD, "rusted dagger")
+        {
+            Damage = 3
+        };
         return equipment;
     }
 
     Equipment CreateLightSaber()
     {
-        Equipment equipment = new(EquipmentType.HELD, "light saber");
-        equipment.Damage = 10;
+        Equipment equipment = new(EquipmentType.HELD, "light saber")
+        {
+            Damage = 10
+        };
         return equipment;
     }
+
     Equipment CreateSpearMelee()
     {
-        Equipment equipment = new(EquipmentType.HELD, "melee djerd");
-        equipment.Damage = 2;
+        Equipment equipment = new(EquipmentType.HELD, "melee djerd")
+        {
+            Damage = 2
+        };
         return equipment;
     }
 

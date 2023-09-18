@@ -5,6 +5,7 @@ public class PawnInventory : IPawnInventory
 {
     //for now all pawns can only carry 5 items
     static readonly int INVENTORY_SPACE = 5;
+
     //Held items should be seperate, but that is a later issue
     Dictionary<EquipmentType, Equipment> wornGear;
     List<IItem> bag;
@@ -56,10 +57,8 @@ public class PawnInventory : IPawnInventory
         {
             return bag.Remove(item);
         }
-        else if (item is Equipment)
+        else if (item is Equipment equipment) //Then we will remove equipped gear
         {
-            //Then we will remove equipped gear
-            Equipment equipment = (Equipment) item;
             if (wornGear.ContainsValue(equipment))
             {
                 return wornGear.Remove(equipment.EquipmentType);
@@ -82,14 +81,7 @@ public class PawnInventory : IPawnInventory
     //returns null if no equiptment of that type is worn
     public Equipment? GetWornEquipment(EquipmentType type)
     {
-        if (wornGear.ContainsKey(type))
-        {
-            return wornGear[type];
-        }
-        else
-        {
-            return null;
-        }
+        return wornGear.ContainsKey(type) ? wornGear[type] : null;
     }
 
     public void WearEquipment(Equipment equipment)
@@ -101,6 +93,7 @@ public class PawnInventory : IPawnInventory
             //store it for later
             bag.Add(oldEquipment);
         }
+
         wornGear[equipment.EquipmentType] = equipment;
     }
 
@@ -112,6 +105,7 @@ public class PawnInventory : IPawnInventory
         {
             total += equipment.Defense;
         }
+
         return total;
     }
 
@@ -122,6 +116,7 @@ public class PawnInventory : IPawnInventory
         {
             total += equipment.Damage;
         }
+
         return total;
     }
 
@@ -131,6 +126,7 @@ public class PawnInventory : IPawnInventory
         {
             equipment.QueueFree();
         }
+
         foreach (IItem item in bag)
         {
             item.QueueFree();

@@ -31,6 +31,7 @@ public partial class ItemContainer : Node3D, IInteractable
         {
             timeLastEmptyInfo += timeLastEmpty.ToString();
         }
+
         root.AddDetail(timeLastEmptyInfo);
         root.AddDetail("number of contained Items: " + Items.Count);
         root.AddDetail("Mesh name: " + Mesh.Name);
@@ -38,6 +39,7 @@ public partial class ItemContainer : Node3D, IInteractable
         {
             root.AddChildDisplay(item.Display);
         }
+
         return root;
     }
 
@@ -78,6 +80,7 @@ public partial class ItemContainer : Node3D, IInteractable
         {
             item.QueueFree();
         }
+
         base.QueueFree();
     }
 }

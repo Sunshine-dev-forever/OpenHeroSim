@@ -13,15 +13,19 @@ public class Ability : IAbility
     static readonly float DEFAULT_RANGE = 2;
     static readonly Animation.LoopModeEnum DEFAULT_LOOPING = Animation.LoopModeEnum.None;
     bool hasAbilityExecutableBeenRun = false;
+
     System.Action<IInteractable?> abilityExecutable { get; set; }
     Predicate<IPawnController> canBeUsedPredicate { get; set; }
+
     IInteractable? target;
     public AnimationName AnimationToPlay { get; set; } = AnimationName.Interact;
     public Animation.LoopModeEnum loopMode { get; set; } = DEFAULT_LOOPING;
+
     readonly IPawnController ownerPawnController;
     public int CooldownMilliseconds { get; set; } = DEFAULT_COOLDOWN_MILLISECONDS;
     public string Name { get; set; } = "Generic ability";
     public float MaxRange { get; set; } = DEFAULT_RANGE;
+
     bool isCurrentlyRunning = false;
     DateTime timeStarted = DateTime.MinValue;
     DateTime lastTimeAbilityUsed = DateTime.MinValue;
@@ -63,6 +67,7 @@ public class Ability : IAbility
             Log.Error("Attempted to start the same action twice");
             Log.Error(System.Environment.StackTrace);
         }
+
         lastTimeAbilityUsed = DateTime.Now;
         ownerPawnController.PawnVisuals.SetAnimation(AnimationToPlay, loopMode);
         isCurrentlyRunning = true;
@@ -74,16 +79,19 @@ public class Ability : IAbility
         {
             throw new InvalidOperationException();
         }
+
         if (!hasAbilityExecutableBeenRun)
         {
             return false;
         }
+
         double timeRunningMilliseconds = (DateTime.Now - timeStarted).TotalMilliseconds;
         bool isFinished = timeRunningMilliseconds > AnimationPlayLengthMilliseconds;
         if (isFinished)
         {
             ResetAbility();
         }
+
         return isFinished;
     }
 
@@ -111,6 +119,7 @@ public class Ability : IAbility
         {
             throw new InvalidOperationException();
         }
+
         const double ONE_HALF = 1.0/2.0;
         double timeRunningMilliseconds = (DateTime.Now - timeStarted).TotalMilliseconds;
         if (timeRunningMilliseconds > AnimationPlayLengthMilliseconds * ONE_HALF && !hasAbilityExecutableBeenRun)

@@ -1,6 +1,5 @@
 using Godot;
 using GUI.DebugInspector.Display;
-using System;
 
 namespace Interactable;
 
@@ -14,5 +13,5 @@ public interface IInteractable : IDisplayable
     public Transform3D GlobalTransform { get; set; }
     //if the object is queued to be free, this will return false
     // otherwise true
-    public Boolean IsInstanceValid();
+    public bool IsInstanceValid();
 }

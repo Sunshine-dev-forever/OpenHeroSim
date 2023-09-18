@@ -15,8 +15,8 @@ public class BattleRoyaleRunner : IRunner
     static readonly int NUMBER_OF_PAWNS_TO_SPAWN = 100;
     static readonly int NUMBER_OF_CHESTS_TO_SPAWN = 50;
     readonly List<IPawnController> pawns = new();
-
     readonly KdTreeController kdTreeController;
+
     //MainTestRunner will make children out of nodeStorage
     readonly Node nodeStorage;
     public BattleRoyaleRunner(KdTreeController _kdTreeController, Node _nodeStorage)
@@ -70,9 +70,9 @@ public class BattleRoyaleRunner : IRunner
             }
             //TODO: do damage to pawn if they are outside bounds
         }
+
         UpdateBarriers();
     }
-
 
     Vector3 GetRandomLocationInArena()
     {
@@ -126,15 +126,8 @@ public class BattleRoyaleRunner : IRunner
         {
             return null;
         }
-        if (rng > 15)
-        {
-            return CreateRustedDagger();
-        }
-        if (rng > 4)
-        {
-            return CreateIronSword();
-        }
-        return CreateLightSaber();
+
+        return rng > 15 ? CreateRustedDagger() : rng > 4 ? CreateIronSword() : CreateLightSaber();
     }
 
     void CreateItemChest(Vector3 location)
@@ -144,8 +137,10 @@ public class BattleRoyaleRunner : IRunner
         location.Y = 0.5f;
         Node3D TreasureChestMesh = CustomResourceLoader.LoadMesh(ResourcePaths.TREASURE_CHEST);
         //The iron sword gets leaked when created like this
-        List<IItem> items = new();
-        items.Add(CreateHealingPotion());
+        List<IItem> items = new()
+        {
+            CreateHealingPotion()
+        };
         Equipment? equipment = GetRandomWeapon();
         if (equipment != null)
         {
@@ -160,22 +155,28 @@ public class BattleRoyaleRunner : IRunner
 
     Equipment CreateIronSword()
     {
-        Equipment equipment = new(EquipmentType.HELD, "iron sword");
-        equipment.Damage = 7;
+        Equipment equipment = new(EquipmentType.HELD, "iron sword")
+        {
+            Damage = 7
+        };
         return equipment;
     }
 
     Equipment CreateRustedDagger()
     {
-        Equipment equipment = new(EquipmentType.HELD, "rusty dagger");
-        equipment.Damage = 3;
+        Equipment equipment = new(EquipmentType.HELD, "rusty dagger")
+        {
+            Damage = 3
+        };
         return equipment;
     }
 
     Equipment CreateLightSaber()
     {
-        Equipment equipment = new(EquipmentType.HELD, "lightsaber");
-        equipment.Damage = 15;
+        Equipment equipment = new(EquipmentType.HELD, "lightsaber")
+        {
+            Damage = 15
+        };
         return equipment;
     }
 

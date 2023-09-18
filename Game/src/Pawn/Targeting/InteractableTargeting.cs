@@ -5,6 +5,7 @@ namespace Pawn.Targeting;
 public class InteractableTargeting : ITargeting
 {
     Vector3 offset;
+
     IInteractable Interactable { get; }
     public InteractableTargeting(IInteractable interactable)
     {
@@ -19,11 +20,5 @@ public class InteractableTargeting : ITargeting
     {
         return Interactable.GlobalTransform.Origin + offset;
     }
-    public bool IsValid
-    {
-        get
-        {
-            return Interactable.IsInstanceValid();
-        }
-    }
+    public bool IsValid => Interactable.IsInstanceValid();
 }

@@ -9,7 +9,6 @@ public class PawnSenses
     const int MAX_PAWNS_TO_SEE = 20;
     const int VISION_RANGE = 10;
     readonly KdTreeController kdTreeController;
-
     readonly IPawnController pawnController;
 
     public PawnSenses(KdTreeController _kdTreeController, IPawnController _pawnController)

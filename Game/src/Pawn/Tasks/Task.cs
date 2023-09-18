@@ -32,13 +32,7 @@ public class Task : ITask
     }
     public IAction Action { get; }
     //Represents whether the task is valid or not
-    public bool IsValid
-    {
-        get
-        {
-            return targeting.IsValid;
-        }
-    }
+    public bool IsValid => targeting.IsValid;
     //The state that the task is in
     public TaskState TaskState { get; set; }
     //Tasks with Priority -1 will never get interruptted

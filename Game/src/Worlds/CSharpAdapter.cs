@@ -32,12 +32,14 @@ public partial class CSharpAdapter : Node3D
             //TODO: update Battle Royale Runner
             runner = new BattleRoyaleRunner(kdTreeController, this);
         }
+
         Camera3D camera = this.GetNode<Camera3D>("Camera3D");
 
         if (CreateFPSCounterUI)
         {
             this.AddChild(CustomResourceLoader.LoadUI(ResourcePaths.FPS_COUNTER_UI));
         }
+
         if (CreateDebugInspector)
         {
             //Right now the UI element handles raycasting, which is a little ew. I would rather the C# adapter handle raycasting and pass that onto the UI elements
@@ -59,7 +61,6 @@ public partial class CSharpAdapter : Node3D
         runner.Input(input);
         //not super sure how to handle input here, but whatever
     }
-
 }
 
 public enum RunnerType

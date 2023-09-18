@@ -47,6 +47,4 @@ public partial class DebugInspectorTree : Control
             ConvertDisplayToTreeItem(childItem, childDisplay);
         }
     }
-
-
 }
