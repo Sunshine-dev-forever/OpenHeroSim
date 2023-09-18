@@ -7,7 +7,7 @@ public partial class PawnRigidBody : RigidBody3D
     [Export] NodePath PawnControllerPath = (NodePath) "..";
     public override void _Ready()
     {
-        if (PawnControllerPath is null or (NodePath)"")
+        if (PawnControllerPath == null || PawnControllerPath == "")
         {
             Log.Error("YOU FORGOT TO SET PAWNCONTROLLER PATH IN PawnRigidBody.cs");
         }
