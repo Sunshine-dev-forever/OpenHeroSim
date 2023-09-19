@@ -2,7 +2,6 @@ using Godot;
 using Interactable;
 using Item;
 using Pawn;
-using Pawn.Action.Ability;
 using Pawn.Goal;
 using Serilog;
 using System;

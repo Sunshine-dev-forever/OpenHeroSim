@@ -4,7 +4,6 @@ using Pawn.Action;
 using Pawn.Components;
 using Pawn.Targeting;
 using Pawn.Tasks;
-using Serilog;
 using System.Collections.Generic;
 
 namespace Pawn.Goal;
