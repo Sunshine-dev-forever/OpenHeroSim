@@ -29,6 +29,7 @@ public partial class Projectile : Node3D
             {
                 this.RemoveChild(mesh);
             }
+
             this.QueueFree();
             return;
         }
@@ -44,6 +45,7 @@ public partial class Projectile : Node3D
             {
                 this.RemoveChild(mesh);
             }
+
             this.QueueFree();
             return;
         }
@@ -52,5 +54,4 @@ public partial class Projectile : Node3D
         Vector3 newLocation = this.GlobalTransform.Origin + (goalDirection * (float)(speed * delta));
         this.GlobalTransform = new Transform3D(this.GlobalTransform.Basis, newLocation);
     }
-
 }

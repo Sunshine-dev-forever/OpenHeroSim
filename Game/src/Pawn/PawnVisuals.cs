@@ -29,6 +29,7 @@ public partial class PawnVisuals : Node3D
         {
             return;
         }
+
         animationPlayer.GetAnimation(GetAnimationNameOrDefault(animationName)).LoopMode = loopMode;
         animationPlayer.Play(GetAnimationNameOrDefault(animationName));
     }
@@ -40,19 +41,9 @@ public partial class PawnVisuals : Node3D
     {
 
         //if animation player is null that is a major issue, but this function will just return the default
-        if (animationPlayer == null)
-        {
-            return DEFAULT_ANIMATION.ToString();
-        }
-
-        if (animationPlayer.HasAnimation(animationName.ToString()))
-        {
-            return animationName.ToString();
-        }
-        else
-        {
-            return DEFAULT_ANIMATION.ToString();
-        }
+        return animationPlayer == null
+            ? DEFAULT_ANIMATION.ToString()
+            : animationPlayer.HasAnimation(animationName.ToString()) ? animationName.ToString() : DEFAULT_ANIMATION.ToString();
     }
 
     public void setPawnRotation(float yRotation)
@@ -71,6 +62,7 @@ public partial class PawnVisuals : Node3D
         {
             node.QueueFree();
         }
+
         this.AddChild(pawnMesh);
         riggedCharacterRootNode = pawnMesh;
         animationPlayer = pawnMesh.GetNodeOrNull<AnimationPlayer>("AnimationPlayer");

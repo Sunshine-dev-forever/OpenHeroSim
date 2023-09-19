@@ -47,7 +47,7 @@ public class KdTreeController
     {
         IEnumerable<KdTreeNode<float, IInteractable>> nearestNodes =
             kdTree.GetNearestNeighbours(new[] { location.X, location.Y, location.Z }, count);
-        return nearestNodes.Select((kdTreeNode) => (kdTreeNode.Value)).ToList();
+        return nearestNodes.Select((kdTreeNode) => kdTreeNode.Value).ToList();
     }
 
     //count is the max number of neightbors to pull, keep low for better preformance I guess?

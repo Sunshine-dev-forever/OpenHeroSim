@@ -33,7 +33,6 @@ public partial class InGameUI : Control
         {
             CastRayFromCamera((InputEventMouseButton)input);
         }
-
     }
 
     void CastRayFromCamera(InputEventMouseButton input)
@@ -41,7 +40,7 @@ public partial class InGameUI : Control
         //just a query should be fine to call outside of physics_process
         PhysicsDirectSpaceState3D spaceState = camera.GetWorld3D().DirectSpaceState;
         Vector3 from = camera.ProjectRayOrigin(input.Position);
-        Vector3 to = from + camera.ProjectRayNormal(input.Position) * RAY_LENGTH;
+        Vector3 to = from + (camera.ProjectRayNormal(input.Position) * RAY_LENGTH);
         //collistionMask of 1 should be only static objects with hitboxes
         uint collisionMask = STATIC_OBJECTS_MASK;
         PhysicsRayQueryParameters3D rayArgs = PhysicsRayQueryParameters3D.Create(from, to, collisionMask);
@@ -92,14 +91,18 @@ public partial class InGameUI : Control
     void AddItemContainerInformation(ItemContainer target)
     {
         VBoxContainer vBoxContainer = this.GetNode<VBoxContainer>("VBoxContainer");
-        Label titleLabel = new();
-        titleLabel.Text = "Item Container";
+        Label titleLabel = new()
+        {
+            Text = "Item Container"
+        };
         vBoxContainer.AddChild(titleLabel);
 
         vBoxContainer.AddChild(new HSeparator());
 
-        Label itemsLabel = new();
-        itemsLabel.Text = "Items: \n";
+        Label itemsLabel = new()
+        {
+            Text = "Items: \n"
+        };
         foreach (IItem item in target.Items)
         {
             itemsLabel.Text += item.Name + "\n";
@@ -111,26 +114,34 @@ public partial class InGameUI : Control
     void AddPawnInformation(IPawnController target)
     {
         VBoxContainer vBoxContainer = this.GetNode<VBoxContainer>("VBoxContainer");
-        Label titleLabel = new();
-        titleLabel.Text = "IPawnController";
+        Label titleLabel = new()
+        {
+            Text = "IPawnController"
+        };
         vBoxContainer.AddChild(titleLabel);
 
         vBoxContainer.AddChild(new HSeparator());
 
-        Label equippedItemsLabel = new();
-        equippedItemsLabel.Text = "Equipped Items: \n";
+        Label equippedItemsLabel = new()
+        {
+            Text = "Equipped Items: \n"
+        };
         foreach (IItem item in target.PawnInventory.GetAllEquippedItems())
         {
             equippedItemsLabel.Text += item.Name + "\n";
         }
+
         vBoxContainer.AddChild(equippedItemsLabel);
         vBoxContainer.AddChild(new HSeparator());
-        Label bagItemsLabel = new();
-        bagItemsLabel.Text = "Bagged Items: \n";
+        Label bagItemsLabel = new()
+        {
+            Text = "Bagged Items: \n"
+        };
         foreach (IItem item in target.PawnInventory.GetAllItemsInBag())
         {
             bagItemsLabel.Text += item.Name + "\n";
         }
+
         vBoxContainer.AddChild(bagItemsLabel);
 
     }

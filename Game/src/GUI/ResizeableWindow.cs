@@ -13,7 +13,7 @@ public partial class ResizeableWindow : Control
         {
             Vector2 localMousePosition = GetLocalMousePosition();
             //TODO: resize area should be a different color, but I dont care about that now
-            if (0 < localMousePosition.X && localMousePosition.X < 20)
+            if (localMousePosition.X is > 0 and < 20)
             {
                 isResizing = true;
                 lastMouseposition = localMousePosition;
@@ -21,7 +21,7 @@ public partial class ResizeableWindow : Control
         }
         else if (Input.IsActionPressed("mouse_left_click") && isResizing)
         {
-            this.OffsetLeft = this.OffsetLeft - (lastMouseposition.X - GetLocalMousePosition().X);
+            this.OffsetLeft -= lastMouseposition.X - GetLocalMousePosition().X;
             lastMouseposition = GetLocalMousePosition();
         }
         else if (Input.IsActionJustReleased("mouse_left_click"))

@@ -14,7 +14,6 @@ public class PawnControllerBuilder
 
     //this is the pawn that is under construction
     readonly PawnController pawn;
-
     static readonly string PAWN_RIG_RESOURCE_FILE_DEFAULT = ResourcePaths.WARRIOR_MODEL;
     string pawnRigResourceFile = PAWN_RIG_RESOURCE_FILE_DEFAULT;
 
@@ -121,6 +120,7 @@ public class PawnControllerBuilder
             default:
                 throw new Exception("abilty name not recognized");
         }
+
         return this;
     }
 }

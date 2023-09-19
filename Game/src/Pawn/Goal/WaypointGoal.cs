@@ -10,7 +10,7 @@ public class WaypointGoal : IPawnGoal
 {
     readonly List<Node3D> waypoints;
     int waypointIndex = 0;
-    readonly static int GOAL_DISTANCE = 3;
+    static readonly int GOAL_DISTANCE = 3;
 
     public WaypointGoal(List<Node3D> _waypoints)
     {
@@ -24,6 +24,7 @@ public class WaypointGoal : IPawnGoal
             //we have finished all the waypoints yay!
             return new InvalidTask();
         }
+
         Node3D currentWaypoint = waypoints[waypointIndex];
         //we want to get as close as we can to the next waypoint
         //movement controller has its own distance check which ensure that the pawn can actually reach the position in question

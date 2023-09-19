@@ -4,7 +4,6 @@ namespace GUI.DebugInspector.Display;
 
 public class Display : IDisplay
 {
-
     readonly List<IDisplay> children = new();
     readonly List<string> details = new();
 

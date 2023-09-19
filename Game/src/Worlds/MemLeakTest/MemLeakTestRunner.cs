@@ -52,6 +52,7 @@ public partial class MemLeakTestRunner : Node
     }
 
     Node nodeReference = null!;
+
     void CreateNodeKeepReference()
     {
         Node node = new();

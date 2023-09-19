@@ -51,5 +51,4 @@ public class AbilityBuilder
         ability.CooldownMilliseconds = milliseconds;
         return this;
     }
-
 }

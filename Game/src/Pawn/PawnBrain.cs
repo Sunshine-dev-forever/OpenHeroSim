@@ -43,6 +43,7 @@ public class PawnBrain
                 //Only want tasks with a Priority that could be higher
                 break;
             }
+
             IPawnGoal pawnGoal = goals[i];
             ITask nextTask = pawnGoal.GetTask(pawnController, sensesStruct);
             nextTask.Priority = i;
@@ -51,6 +52,7 @@ public class PawnBrain
                 return nextTask;
             }
         }
+
         return currentTask;
     }
 

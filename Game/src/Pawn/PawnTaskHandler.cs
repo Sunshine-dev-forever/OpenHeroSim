@@ -5,7 +5,6 @@ using Pawn.Tasks;
 namespace Pawn;
 public class PawnTaskHandler
 {
-
     IAction? actionInExecution;
     readonly PawnMovement movementController;
     readonly PawnVisuals visualController;
@@ -27,6 +26,7 @@ public class PawnTaskHandler
             //early exit on invalid task
             return;
         }
+
         switch (task.TaskState)
         {
             case TaskState.MOVING_TO:
@@ -38,6 +38,7 @@ public class PawnTaskHandler
                 {
                     task.TaskState = TaskState.COMPLETED;
                 }
+
                 break;
 
             case TaskState.COMPLETED:
@@ -76,6 +77,7 @@ public class PawnTaskHandler
         {
             return true;
         }
+
         actionInExecution.Process();
         return actionInExecution.IsFinished();
     }

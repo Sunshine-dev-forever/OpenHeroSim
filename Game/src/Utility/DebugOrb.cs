@@ -20,6 +20,7 @@ public static class DebugOrb
             parent.AddChild(orb);
             orbs.Add(id, orb);
         }
+
         orb.GlobalPosition = globalLocation;
     }
 }

@@ -41,5 +41,4 @@ public class ActionBuilder
         action.Name = name;
         return this;
     }
-
 }

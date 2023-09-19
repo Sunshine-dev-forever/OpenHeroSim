@@ -24,6 +24,7 @@ public class HealGoal : IPawnGoal
             //if we have no consumables, then we early exit
             return new InvalidTask();
         }
+
         if (pawnController.PawnInformation.Health > 50)
         {
             //we are not hurt, no reason to use a potion
@@ -31,12 +32,12 @@ public class HealGoal : IPawnGoal
         }
 
         Consumable potion = (Consumable)currentItem;
-        System.Action executable = () =>
-            {
-                pawnController.PawnInventory.RemoveItem(potion);
-				//TODO: TakeDamage should be called 'change health'
-				pawnController.TakeHealing(potion.Healing);
-            };
+        void executable()
+        {
+            pawnController.PawnInventory.RemoveItem(potion);
+            //TODO: TakeDamage should be called 'change health'
+            pawnController.TakeHealing(potion.Healing);
+        }
         //we know it is only health potions
         IAction action = ActionBuilder.Start(pawnController, executable)
                                         .Animation(AnimationName.Consume)

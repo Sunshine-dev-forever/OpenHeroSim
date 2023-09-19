@@ -1,5 +1,4 @@
 
-
 using System;
 namespace Worlds.BattleRoyale;
 public class FogController
@@ -11,17 +10,13 @@ public class FogController
 
     //The arena fight will last 3 minutes by default
     static readonly int TIME_TILL_ALL_FOG = 180;
-
     DateTime timeFogStarted = DateTime.MinValue;
 
     FogController() { }
 
     public static FogController GetFogController()
     {
-        if (instance == null)
-        {
-            instance = new FogController();
-        }
+        instance ??= new FogController();
         return instance;
     }
 
@@ -43,12 +38,11 @@ public class FogController
         return (1 - (timeDiffSeconds / TIME_TILL_ALL_FOG)) * (SIDE_LENGTH / 2);
     }
 
-    public Boolean IsInbounds(Godot.Vector3 point)
+    public bool IsInbounds(Godot.Vector3 point)
     {
         double x = point.X;
         double z = point.Z;
         double fogPosition = GetFogPosition();
         return (Math.Abs(x) < fogPosition) && (Math.Abs(z) < fogPosition);
     }
-
 }

@@ -68,5 +68,4 @@ public static class CustomResourceLoader
             return new Control();
         }
     }
-
 }
