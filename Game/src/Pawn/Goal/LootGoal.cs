@@ -50,14 +50,15 @@ public class LootGoal : IPawnGoal
             bool wasAddSuccessfull = pawnController.PawnInventory.AddItem((Consumable)item);
             if (!wasAddSuccessfull)
             {
-                //I guess the bad is full
+                //I guess the bag is full
                 //we delete the item
                 item.QueueFree();
             }
         }
         else
         {
-            Log.Error("Loot goal mangaged to find something other than a weapon or consumable as an item");
+            //Some unknown item, destroy it so no one else can have it
+            item.QueueFree();
         }
     }
 
