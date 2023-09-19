@@ -9,7 +9,7 @@ public class StaticPointTargeting : ITargeting
     public StaticPointTargeting(Vector3 _point)
     {
         Point = _point;
-        //If no predicate is specified then the point is assumed to always be valid
+        // If no predicate is specified then the point is assumed to always be valid
         PointTester = (Vector3 point) => { return true; };
     }
 

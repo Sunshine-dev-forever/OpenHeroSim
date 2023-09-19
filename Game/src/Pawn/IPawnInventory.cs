@@ -5,7 +5,7 @@ namespace Pawn;
 
 public interface IPawnInventory
 {
-    //Returns all items in the pawn's inventory, including equipment
+    // Returns all items in the pawn's inventory, including equipment
     List<IItem> GetAllItems();
     List<IItem> GetAllItemsInBag();
     List<IItem> GetAllEquippedItems();

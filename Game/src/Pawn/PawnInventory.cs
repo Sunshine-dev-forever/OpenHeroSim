@@ -1,14 +1,17 @@
 using Item;
 using System.Collections.Generic;
+
 namespace Pawn;
+
 public class PawnInventory : IPawnInventory
 {
-    //for now all pawns can only carry 5 items
+    // for now all pawns can only carry 5 items
     static readonly int INVENTORY_SPACE = 5;
 
-    //Held items should be seperate, but that is a later issue
+    // Held items should be seperate, but that is a later issue
     Dictionary<EquipmentType, Equipment> wornGear;
     List<IItem> bag;
+
     public PawnInventory()
     {
         bag = new List<IItem>();
@@ -33,10 +36,10 @@ public class PawnInventory : IPawnInventory
         return new List<IItem>(bag);
     }
 
-    //returns true if the item was successfully added
+    // returns true if the item was successfully added
     public bool AddItem(IItem item)
     {
-        //if out of inventory space then fail
+        // if out of inventory space then fail
         if (bag.Count >= INVENTORY_SPACE)
         {
             return false;
@@ -48,28 +51,28 @@ public class PawnInventory : IPawnInventory
         }
     }
 
-    //Tries to remove items from the bag first
-    //Returns true if the item was successfully removed, otherwise false
+    // Tries to remove items from the bag first
+    // Returns true if the item was successfully removed, otherwise false
     public bool RemoveItem(IItem item)
     {
-        //Try to remove items from bag first
+        // Try to remove items from bag first
         if (bag.Contains(item))
         {
             return bag.Remove(item);
         }
-        else if (item is Equipment equipment) //Then we will remove equipped gear
+        else if (item is Equipment equipment) // Then we will remove equipped gear
         {
             if (wornGear.ContainsValue(equipment))
             {
                 return wornGear.Remove(equipment.EquipmentType);
             }
         }
-        //failed to remove anything
+        // failed to remove anything
         return false;
     }
 
-    //Returns all items in the pawn's inventory, including equiptment
-    //Removes the reference of all items from the pawns inventory
+    // Returns all items in the pawn's inventory, including equiptment
+    // Removes the reference of all items from the pawns inventory
     public List<IItem> EmptyAllItems()
     {
         List<IItem> rtn = GetAllItems();
@@ -78,7 +81,7 @@ public class PawnInventory : IPawnInventory
         return rtn;
     }
 
-    //returns null if no equiptment of that type is worn
+    // returns null if no equiptment of that type is worn
     public Equipment? GetWornEquipment(EquipmentType type)
     {
         return wornGear.ContainsKey(type) ? wornGear[type] : null;
@@ -86,21 +89,22 @@ public class PawnInventory : IPawnInventory
 
     public void WearEquipment(Equipment equipment)
     {
-        //if we already were wearing something
+        // if we already were wearing something
         if (wornGear.ContainsKey(equipment.EquipmentType))
         {
             Equipment oldEquipment = wornGear[equipment.EquipmentType];
-            //store it for later
+            // store it for later
             bag.Add(oldEquipment);
         }
 
         wornGear[equipment.EquipmentType] = equipment;
     }
 
-    //TODO: somehow combine GetTotalEquiptmentDefense and GetTotalEquiptmentDamage and GetTotal<whateverElse> into one function
+    // TODO: somehow combine GetTotalEquiptmentDefense and GetTotalEquiptmentDamage and GetTotal<whateverElse> into one function
     public double GetTotalEquiptmentDefense()
     {
         double total = 0;
+
         foreach (Equipment equipment in wornGear.Values)
         {
             total += equipment.Defense;
@@ -112,6 +116,7 @@ public class PawnInventory : IPawnInventory
     public double GetTotalEquiptmentDamage()
     {
         double total = 0;
+
         foreach (Equipment equipment in wornGear.Values)
         {
             total += equipment.Damage;

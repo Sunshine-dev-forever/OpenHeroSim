@@ -6,12 +6,12 @@ using System.Collections.Generic;
 
 namespace Interactable;
 
-//represents an item container in the world
+// represents an item container in the world
 public partial class ItemContainer : Node3D, IInteractable
 {
-    //list of items the container contains
+    // list of items the container contains
     public List<IItem> Items;
-    //the container's mesh
+    // the container's mesh
     public Node3D Mesh;
     DateTime timeLastEmpty = DateTime.MaxValue;
     static readonly int TIME_TO_LIVE_WHEN_EMPTY_SECONDS = 5;
@@ -20,9 +20,10 @@ public partial class ItemContainer : Node3D, IInteractable
 
     IDisplay ConstructDisplay()
     {
-        //TODO: Item containers should have proper ID generation.... one day
+        // TODO: Item containers should have proper ID generation.... one day
         Display root = new("Item Container");
         string timeLastEmptyInfo = "time last empty = ";
+
         if (timeLastEmpty == DateTime.MaxValue)
         {
             timeLastEmptyInfo += "never";
@@ -52,8 +53,8 @@ public partial class ItemContainer : Node3D, IInteractable
 
     public override void _Process(double delta)
     {
-        //only update TimeLastEmpty if the container is empty and
-        //the container used to be full (which is what TimeLastEmpty being DateTime.MaxValue means)
+        // only update TimeLastEmpty if the container is empty and
+        // the container used to be full (which is what TimeLastEmpty being DateTime.MaxValue means)
         if (Items.Count == 0 && timeLastEmpty == DateTime.MaxValue)
         {
             timeLastEmpty = DateTime.Now;
@@ -63,7 +64,7 @@ public partial class ItemContainer : Node3D, IInteractable
             timeLastEmpty = DateTime.MaxValue;
         }
 
-        //delete this object if it has been empty for more than TIME_TO_LIVE_WHEN_EMPTY_SECONDS
+        // delete this object if it has been empty for more than TIME_TO_LIVE_WHEN_EMPTY_SECONDS
         if ((DateTime.Now - timeLastEmpty).TotalSeconds > TIME_TO_LIVE_WHEN_EMPTY_SECONDS)
         {
             this.QueueFree();

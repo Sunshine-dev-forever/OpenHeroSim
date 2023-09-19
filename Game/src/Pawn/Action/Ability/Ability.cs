@@ -4,14 +4,16 @@ using Serilog;
 using System;
 
 namespace Pawn.Action.Ability;
-//abilities may be used more than once, and maintain data between uses
-//abilities have cooldowns
-//examples of abilities would be: shoot fire ball!, super-uber-death stab. ETC
+
+// abilities may be used more than once, and maintain data between uses
+// abilities have cooldowns
+// examples of abilities would be: shoot fire ball!, super-uber-death stab. ETC
 public class Ability : IAbility
 {
     static readonly int DEFAULT_COOLDOWN_MILLISECONDS = 2000;
     static readonly float DEFAULT_RANGE = 2;
     static readonly Animation.LoopModeEnum DEFAULT_LOOPING = Animation.LoopModeEnum.None;
+    
     bool hasAbilityExecutableBeenRun = false;
 
     System.Action<IInteractable?> abilityExecutable { get; set; }
@@ -27,9 +29,10 @@ public class Ability : IAbility
     public float MaxRange { get; set; } = DEFAULT_RANGE;
 
     bool isCurrentlyRunning = false;
+    double loopingAnimationPlayLength = -1;
+
     DateTime timeStarted = DateTime.MinValue;
     DateTime lastTimeAbilityUsed = DateTime.MinValue;
-    double loopingAnimationPlayLength = -1;
 
     double AnimationPlayLengthMilliseconds
     {
@@ -37,11 +40,12 @@ public class Ability : IAbility
         {
             if (loopMode == Animation.LoopModeEnum.None)
             {
-                return ownerPawnController.PawnVisuals.getAnimationLengthMilliseconds(AnimationToPlay);
+                return ownerPawnController.PawnVisuals
+                    .getAnimationLengthMilliseconds(AnimationToPlay);
             }
             else
             {
-                //we are looping, so looping animation play length must be set so some useful value
+                // we are looping, so looping animation play length must be set so some useful value
                 return loopingAnimationPlayLength;
             }
         }
@@ -53,7 +57,8 @@ public class Ability : IAbility
         abilityExecutable = _executable;
         canBeUsedPredicate = _canBeUsedPredicate;
     }
-    //I only set a animation play length for looping animations, so this sets looping to be true
+
+    // I only set a animation play length for looping animations, so this sets looping to be true
     public void SetAnimationPlayLength(int milliseconds)
     {
         loopingAnimationPlayLength = milliseconds;
@@ -118,6 +123,7 @@ public class Ability : IAbility
 
         const double ONE_HALF = 1.0 / 2.0;
         double timeRunningMilliseconds = (DateTime.Now - timeStarted).TotalMilliseconds;
+        
         if (timeRunningMilliseconds > AnimationPlayLengthMilliseconds * ONE_HALF && !hasAbilityExecutableBeenRun)
         {
             abilityExecutable(target);

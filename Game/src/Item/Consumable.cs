@@ -1,9 +1,10 @@
 using GUI.DebugInspector.Display;
+
 namespace Item;
 
-//Consumable is a single-use item that a pawn can use to heal itself
-//In the future Consumables will have many possible effects, 
-//but for now it is just healing
+// Consumable is a single-use item that a pawn can use to heal itself
+// In the future Consumables will have many possible effects, 
+// but for now it is just healing
 public class Consumable : IItem
 {
     public double Healing { get; }
@@ -20,7 +21,7 @@ public class Consumable : IItem
 
     IDisplay ConstructDisplay()
     {
-        //TODO: Item containers should have proper ID generation.... one day
+        // TODO: Item containers should have proper ID generation.... one day
         Display root = new(Name);
         root.AddDetail("Healing: " + Healing);
         return root;

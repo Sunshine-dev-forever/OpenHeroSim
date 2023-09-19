@@ -2,14 +2,16 @@ using Godot;
 using System;
 
 namespace Pawn;
+
 public class PawnMovement
 {
+    Vector3 originalLocationOfTarget = Vector3.Zero;
+    bool isNavigationServerReady;
+
     readonly NavigationAgent3D navigationAgent;
     readonly RayCast3D downwardRayCast;
     readonly RigidBody3D rigidBody;
     readonly PawnVisuals pawnVisuals;
-    Vector3 originalLocationOfTarget = Vector3.Zero;
-    bool isNavigationServerReady;
 
     public PawnMovement(RigidBody3D _rigidBody, PawnVisuals _pawnVisuals, NavigationAgent3D _navigationAgent, RayCast3D _downwardRayCast)
     {
@@ -19,17 +21,17 @@ public class PawnMovement
         downwardRayCast = _downwardRayCast;
     }
 
-    //ProcessMovement should be called in the _PhysicsProcess function
+    // ProcessMovement should be called in the _PhysicsProcess function
     public void ProcessMovement(Vector3 targetLocation, float speed)
     {
-        //the Navigation Server can take some time to start up
+        // the Navigation Server can take some time to start up
         if (!isNavigationServerReady)
         {
             UpdateIsNavigationServerReady();
             return;
         }
 
-        //TODO: dont update path for every minor change in position
+        // TODO: dont update path for every minor change in position
         if (targetLocation != originalLocationOfTarget)
         {
             navigationAgent.TargetPosition = targetLocation;
@@ -37,31 +39,36 @@ public class PawnMovement
         }
 
         Vector3 floorNormal;
+
         if (downwardRayCast.IsColliding())
         {
             floorNormal = downwardRayCast.GetCollisionNormal();
         }
         else
         {
-            //if in air then let physics take over and just fall
+            // if in air then let physics take over and just fall
             return;
         }
 
         Vector3 nextLocation = navigationAgent.GetNextPathPosition();
         Vector3 currentLocation = rigidBody.GlobalTransform.Origin;
         Vector3 locationDiff = nextLocation - currentLocation;
-        //Look in the direction of travel
+
+        // Look in the direction of travel
         float newYRotation = (float) Math.Atan2(locationDiff.X , locationDiff.Z);
         pawnVisuals.setPawnRotation(newYRotation);
 
-        Vector3 velocity = (nextLocation - currentLocation).Slide(floorNormal).Normalized() * speed;
+        Vector3 velocity = (nextLocation - currentLocation)
+            .Slide(floorNormal)
+            .Normalized() * speed;
+
         rigidBody.LinearVelocity = velocity;
     }
 
-    //Stops the pawn in place
+    // Stops the pawn in place
     public void Stop()
     {
-        //Cant stop if we are in the air
+        // Cant stop if we are in the air
         if (downwardRayCast.IsColliding())
         {
             rigidBody.LinearVelocity = Vector3.Zero;
@@ -75,32 +82,36 @@ public class PawnMovement
     */
     public bool HasFinishedMovement(float targetDistance)
     {
-        return navigationAgent.GetFinalPosition().DistanceTo(rigidBody.GlobalTransform.Origin)
-            < targetDistance;
+        return navigationAgent
+            .GetFinalPosition()
+            .DistanceTo(rigidBody.GlobalTransform.Origin) < targetDistance;
     }
 
     public void SetNavigation(NavigationRegion3D navigation)
     {
-        navigationAgent.SetNavigationMap(NavigationServer3D.RegionGetMap(navigation.GetRegionRid()));
+        navigationAgent
+            .SetNavigationMap(NavigationServer3D
+            .RegionGetMap(navigation.GetRegionRid()));
     }
 
-    //TODO: in godot 4 there may be a better way to do this
+    // TODO: in godot 4 there may be a better way to do this
     void UpdateIsNavigationServerReady()
     {
         Rid mapRid = NavigationServer3D.AgentGetMap(navigationAgent.GetRid());
-        //an ID of 0 should always be an invalid ID
-        //I use the ID of 0 to check if the Navigation server has started up
-        //This method might not be fullproof, so this is a possible source of bugs
+
+        // an ID of 0 should always be an invalid ID
+        // I use the ID of 0 to check if the Navigation server has started up
+        // This method might not be fullproof, so this is a possible source of bugs
         isNavigationServerReady = mapRid.Id != 0;
     }
 
-    //returns the bearing to the point given 
-    //assumes x is horizontal axis, y is vertical axis
-    //gives bearing relative to the horizontal negative axis
-    //such that quadrant 2 has the lowest bearings
+    // returns the bearing to the point given 
+    // assumes x is horizontal axis, y is vertical axis
+    // gives bearing relative to the horizontal negative axis
+    // such that quadrant 2 has the lowest bearings
     double GetBearingTo(Vector2 point)
     {
-        //Dont question it, it works :)
+        // Dont question it, it works :)
         return Math.PI - Math.Atan2(point.Y, point.X);
     }
 }

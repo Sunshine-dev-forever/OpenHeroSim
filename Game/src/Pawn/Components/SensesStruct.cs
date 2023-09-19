@@ -2,6 +2,7 @@ using Interactable;
 using System.Collections.Generic;
 
 namespace Pawn.Components;
+
 public struct SensesStruct
 {
     public SensesStruct()

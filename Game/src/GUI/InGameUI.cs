@@ -8,10 +8,10 @@ using Util;
 
 namespace GUI;
 
-//this will get reworked!
+// this will get reworked!
 public partial class InGameUI : Control
 {
-    //setup in ready
+    // setup in ready
     Camera3D camera = null!;
     const int RAY_LENGTH = 10000;
     const uint STATIC_OBJECTS_MASK = 1;
@@ -37,11 +37,12 @@ public partial class InGameUI : Control
 
     void CastRayFromCamera(InputEventMouseButton input)
     {
-        //just a query should be fine to call outside of physics_process
+        // just a query should be fine to call outside of physics_process
         PhysicsDirectSpaceState3D spaceState = camera.GetWorld3D().DirectSpaceState;
         Vector3 from = camera.ProjectRayOrigin(input.Position);
         Vector3 to = from + (camera.ProjectRayNormal(input.Position) * RAY_LENGTH);
-        //collistionMask of 1 should be only static objects with hitboxes
+        
+        // collistionMask of 1 should be only static objects with hitboxes
         uint collisionMask = STATIC_OBJECTS_MASK;
         PhysicsRayQueryParameters3D rayArgs = PhysicsRayQueryParameters3D.Create(from, to, collisionMask);
 
@@ -49,15 +50,15 @@ public partial class InGameUI : Control
 
         if (result.Count == 0)
         {
-            //we hit nothing
+            // we hit nothing
             this.Visible = false;
             return;
         }
         else
         {
-            //we hit something
-            //since our collisionmask is STATIC_OBJECTS_MASK, it had to be a static object of some kind
-            //we just need the position
+            // we hit something
+            // since our collisionmask is STATIC_OBJECTS_MASK, it had to be a static object of some kind
+            // we just need the position
             Vector3 intersectionPosition = (Vector3)result["position"];
             List<IInteractable> interactables = KdTreeController.GetNearestInteractables(intersectionPosition, 1);
 
@@ -91,6 +92,7 @@ public partial class InGameUI : Control
     void AddItemContainerInformation(ItemContainer target)
     {
         VBoxContainer vBoxContainer = this.GetNode<VBoxContainer>("VBoxContainer");
+        
         Label titleLabel = new()
         {
             Text = "Item Container"
@@ -114,6 +116,7 @@ public partial class InGameUI : Control
     void AddPawnInformation(IPawnController target)
     {
         VBoxContainer vBoxContainer = this.GetNode<VBoxContainer>("VBoxContainer");
+        
         Label titleLabel = new()
         {
             Text = "IPawnController"
@@ -126,6 +129,7 @@ public partial class InGameUI : Control
         {
             Text = "Equipped Items: \n"
         };
+        
         foreach (IItem item in target.PawnInventory.GetAllEquippedItems())
         {
             equippedItemsLabel.Text += item.Name + "\n";
@@ -133,10 +137,12 @@ public partial class InGameUI : Control
 
         vBoxContainer.AddChild(equippedItemsLabel);
         vBoxContainer.AddChild(new HSeparator());
+        
         Label bagItemsLabel = new()
         {
             Text = "Bagged Items: \n"
         };
+        
         foreach (IItem item in target.PawnInventory.GetAllItemsInBag())
         {
             bagItemsLabel.Text += item.Name + "\n";

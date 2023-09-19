@@ -3,6 +3,7 @@ using Pawn.Action;
 using Pawn.Tasks;
 
 namespace Pawn;
+
 public class PawnTaskHandler
 {
     IAction? actionInExecution;
@@ -10,8 +11,11 @@ public class PawnTaskHandler
     readonly PawnVisuals visualController;
     readonly IPawnInformation pawnInformation;
     readonly IPawnInventory pawnInventory;
-    public PawnTaskHandler(PawnMovement _movementController, PawnVisuals _visualController, IPawnInformation _pawnInformation,
-                IPawnInventory _pawnInventory)
+    public PawnTaskHandler(
+        PawnMovement _movementController, 
+        PawnVisuals _visualController, 
+        IPawnInformation _pawnInformation,
+        IPawnInventory _pawnInventory)
     {
         movementController = _movementController;
         visualController = _visualController;
@@ -23,7 +27,7 @@ public class PawnTaskHandler
     {
         if (!task.IsValid)
         {
-            //early exit on invalid task
+            // early exit on invalid task
             return;
         }
 
@@ -48,13 +52,15 @@ public class PawnTaskHandler
 
     void MoveToTaskLocation(ITask task)
     {
-        //I have to call Process movement first so movement controller can update the final location
-        //TODO: refactor so I dont call process movement first (movementController has to update the final location)
-        movementController.ProcessMovement(task.GetTargetPosition(), pawnInformation.Speed);
+        // I have to call Process movement first so movement controller can update the final location
+        // TODO: refactor so I dont call process movement first (movementController has to update the final location)
+        movementController.ProcessMovement(
+            task.GetTargetPosition(), 
+            pawnInformation.Speed);
 
         if (movementController.HasFinishedMovement(task.Action.MaxRange))
         {
-            //if movement is finished then we start the action
+            // if movement is finished then we start the action
             movementController.Stop();
 
             actionInExecution = task.Action;
@@ -64,15 +70,17 @@ public class PawnTaskHandler
         }
         else
         {
-            //otherwise we are just walking
-            visualController.SetAnimation(AnimationName.Walk, Animation.LoopModeEnum.Linear);
+            // otherwise we are just walking
+            visualController.SetAnimation(
+                AnimationName.Walk, 
+                Animation.LoopModeEnum.Linear);
         }
     }
 
-    //returns true if action is completed, otherwise false
+    // returns true if action is completed, otherwise false
     public bool ProcessAction()
     {
-        //defaults to true if action is null
+        // defaults to true if action is null
         if (actionInExecution == null)
         {
             return true;

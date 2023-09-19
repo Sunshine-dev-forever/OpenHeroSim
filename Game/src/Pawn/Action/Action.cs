@@ -3,15 +3,18 @@ using Serilog;
 using System;
 
 namespace Pawn.Action;
-//actions are one-off things a pawn can do. They are used once and thrown away
-//actions have no cooldown (they cant have one)
-//examples of actions: buy something from a shopkeeper, consume food or drink. Talk to someone
+
+// actions are one-off things a pawn can do. They are used once and thrown away
+// actions have no cooldown (they cant have one)
+// examples of actions: buy something from a shopkeeper, consume food or drink. Talk to someone
 public class Action : IAction
 {
     static readonly int NO_COOLDOWN = 0;
     static readonly float DEFAULT_RANGE = 2;
     static readonly Animation.LoopModeEnum NO_LOOPING = Animation.LoopModeEnum.None;
+    
     readonly IPawnController ownerPawnController;
+    
     bool executableHasBeenRun = false;
     public Animation.LoopModeEnum loopMode { get; set; } = NO_LOOPING;
     public int CooldownMilliseconds { get; set; } = NO_COOLDOWN;
@@ -20,7 +23,7 @@ public class Action : IAction
 
     bool isCurrentlyRunning = false;
     DateTime timeStarted = DateTime.MinValue;
-    //the function that makes the Action actually do something in the game world
+    // the function that makes the Action actually do something in the game world
     public System.Action executable { get; set; }
     public AnimationName AnimationToPlay { get; set; } = AnimationName.Interact;
 
@@ -32,21 +35,24 @@ public class Action : IAction
         {
             if (loopMode == Animation.LoopModeEnum.None)
             {
-                return ownerPawnController.PawnVisuals.getAnimationLengthMilliseconds(AnimationToPlay);
+                return ownerPawnController.PawnVisuals
+                    .getAnimationLengthMilliseconds(AnimationToPlay);
             }
             else
             {
-                //we are looping, so looping animation play length must be set so some useful value
+                // we are looping, so looping animation play length must be set so some useful value
                 return loopingAnimationPlayLength;
             }
         }
     }
+
     public Action(IPawnController _ownerPawnController, System.Action _executable)
     {
         ownerPawnController = _ownerPawnController;
         executable = _executable;
     }
-    //sets looping to true
+
+    // sets looping to true
     public void SetAnimationPlayLength(double milliseconds)
     {
         loopingAnimationPlayLength = milliseconds;
@@ -66,6 +72,7 @@ public class Action : IAction
         isCurrentlyRunning = true;
         timeStarted = DateTime.Now;
     }
+
     public bool IsFinished()
     {
         if (!isCurrentlyRunning)
@@ -78,7 +85,9 @@ public class Action : IAction
             return false;
         }
 
-        double timeRunningMilliseconds = (DateTime.Now - timeStarted).TotalMilliseconds;
+        double timeRunningMilliseconds = 
+            (DateTime.Now - timeStarted).TotalMilliseconds;
+
         return timeRunningMilliseconds > AnimationPlayLengthMilliseconds;
     }
 
@@ -88,10 +97,14 @@ public class Action : IAction
         {
             throw new InvalidOperationException();
         }
-        //only gets milliseconds between 0 and 1000
-        double timeRunningMilliseconds = (DateTime.Now - timeStarted).TotalMilliseconds;
+
+        // only gets milliseconds between 0 and 1000
+        double timeRunningMilliseconds = 
+            (DateTime.Now - timeStarted).TotalMilliseconds;
+
         const double ONE_HALF = 1.0/2.0;
-        //there is no looping, so we can just use the original animation length
+        
+        // there is no looping, so we can just use the original animation length
         if (timeRunningMilliseconds > (AnimationPlayLengthMilliseconds * ONE_HALF) && !executableHasBeenRun)
         {
             executable();

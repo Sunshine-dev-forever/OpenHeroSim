@@ -9,35 +9,43 @@ using Util;
 
 namespace Pawn;
 
-//builder class for a pawn
+// builder class for a pawn
 public class PawnControllerBuilder
 {
     readonly KdTreeController kdTreeController;
 
-    //this is the pawn that is under construction
+    // this is the pawn that is under construction
     readonly PawnController pawn;
     static readonly string PAWN_RIG_RESOURCE_FILE_DEFAULT = ResourcePaths.WARRIOR_MODEL;
     string pawnRigResourceFile = PAWN_RIG_RESOURCE_FILE_DEFAULT;
 
-    //creates a pawn with no AI
-    public static PawnController CreateTrainingDummy(Vector3 location,
-                                                    Node parent,
-                                                    KdTreeController _kdTreeController,
-                                                    NavigationRegion3D navigation)
+    // creates a pawn with no AI
+    public static PawnController CreateTrainingDummy(
+        Vector3 location,
+        Node parent,
+        KdTreeController _kdTreeController,
+        NavigationRegion3D navigation)
     {
-        return PawnControllerBuilder.Start(parent, _kdTreeController, navigation)
-                                    .Location(location)
-                                    .SetGoals(new List<IPawnGoal> { new DebugGoal() })
-                                    .SetName("Training Dummy")
-                                    .Finish();
+        return PawnControllerBuilder
+            .Start(parent, _kdTreeController, navigation)
+            .Location(location)
+            .SetGoals(new List<IPawnGoal> { new DebugGoal() })
+            .SetName("Training Dummy")
+            .Finish();
     }
 
-    public PawnControllerBuilder(Node parent, KdTreeController _kdTreeController, NavigationRegion3D navigation)
+    public PawnControllerBuilder(
+        Node parent, 
+        KdTreeController _kdTreeController, 
+        NavigationRegion3D navigation)
     {
-        //TODO: There should be some default here in case this fails to load
-        //Using the custom resource loader here is complicated because the Pawn_Scene contains much more information than just a mesh
-        //Thus I cannot create a reasonable pawn_scene to default to, and so the CustomResourceLoader has no utility
-        pawn = ResourceLoader.Load<PackedScene>(ResourcePaths.PAWN_SCENE).Instantiate<PawnController>();
+        // TODO: There should be some default here in case this fails to load
+        // Using the custom resource loader here is complicated because the Pawn_Scene contains much more information than just a mesh
+        // Thus I cannot create a reasonable pawn_scene to default to, and so the CustomResourceLoader has no utility
+        pawn = ResourceLoader
+            .Load<PackedScene>(ResourcePaths.PAWN_SCENE)
+            .Instantiate<PawnController>();
+
         parent.AddChild(pawn);
 
         kdTreeController = _kdTreeController;
@@ -45,7 +53,10 @@ public class PawnControllerBuilder
 
         pawn.PawnMovement.SetNavigation(navigation);
     }
-    public static PawnControllerBuilder Start(Node parent, KdTreeController _kdTreeController, NavigationRegion3D navigation)
+    public static PawnControllerBuilder Start(
+        Node parent, 
+        KdTreeController _kdTreeController, 
+        NavigationRegion3D navigation)
     {
         return new PawnControllerBuilder(parent, _kdTreeController, navigation);
     }
@@ -56,13 +67,14 @@ public class PawnControllerBuilder
         return this;
     }
 
-    //Goal order in the list matters, the first goals will be higher priority
+    // Goal order in the list matters, the first goals will be higher priority
     public PawnControllerBuilder SetGoals(IList<IPawnGoal> goals)
     {
         foreach (IPawnGoal goal in goals)
         {
             pawn.PawnBrain.AddGoal(goal);
         }
+
         return this;
     }
 
@@ -103,7 +115,7 @@ public class PawnControllerBuilder
         return this;
     }
 
-    //sets the resource file for the pawnMesh
+    // sets the resource file for the pawnMesh
     public PawnControllerBuilder SetPawnRig(string filename)
     {
         pawnRigResourceFile = filename;
@@ -133,10 +145,12 @@ public class PawnControllerBuilder
         switch (abilityName)
         {
             case AbilityDefinitions.STAB_ABILITY:
-                pawn.PawnInformation.AddAbility(AbilityDefinitions.CreateStabAbility(pawn));
+                pawn.PawnInformation
+                    .AddAbility(AbilityDefinitions.CreateStabAbility(pawn));
                 break;
             case AbilityDefinitions.THROW_ABILITY:
-                pawn.PawnInformation.AddAbility(AbilityDefinitions.CreateThrowAbility(pawn));
+                pawn.PawnInformation
+                    .AddAbility(AbilityDefinitions.CreateThrowAbility(pawn));
                 break;
             default:
                 throw new Exception("abilty name not recognized");

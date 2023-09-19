@@ -10,33 +10,42 @@ using System.Collections.Generic;
 using Util;
 
 namespace Worlds.BattleRoyale;
+
 public class BattleRoyaleRunner : IRunner
 {
     static readonly int NUMBER_OF_PAWNS_TO_SPAWN = 100;
     static readonly int NUMBER_OF_CHESTS_TO_SPAWN = 50;
+
     readonly List<IPawnController> pawns = new();
     readonly KdTreeController kdTreeController;
     readonly PawnGenerator pawnGenerator;
 
-    //MainTestRunner will make children out of nodeStorage
+    // MainTestRunner will make children out of nodeStorage
     readonly Node nodeStorage;
+
     public BattleRoyaleRunner(KdTreeController _kdTreeController, Node _nodeStorage)
     {
         kdTreeController = _kdTreeController;
         nodeStorage = _nodeStorage;
-        NavigationRegion3D navigationRegion3D = nodeStorage.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
-        pawnGenerator = new PawnGenerator(nodeStorage, kdTreeController, navigationRegion3D);
+
+        NavigationRegion3D navigationRegion3D = 
+            nodeStorage.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
+        
+        pawnGenerator = new PawnGenerator(
+            nodeStorage, 
+            kdTreeController, 
+            navigationRegion3D);
     }
 
     public void Input(InputEvent input)
     {
         if (input.IsActionPressed("mouse_left_click"))
         {
-            //Do nothing... for now
+            // Do nothing... for now
         }
         else if (input.IsActionPressed("ui_left"))
         {
-            //spawns pawns in random locations
+            // spawns pawns in random locations
             for (int x = 0; x < NUMBER_OF_PAWNS_TO_SPAWN; x++)
             {
                 pawns.Add(CreatePawn(GetRandomLocationInArena()));
@@ -56,13 +65,14 @@ public class BattleRoyaleRunner : IRunner
         }
         else if (input.IsActionPressed("ui_down"))
         {
-            Log.Information("distnace to set: " + FogController.GetFogController().GetFogPosition());
+            Log.Information("distnace to set: " + 
+                FogController.GetFogController().GetFogPosition());
         }
     }
 
     public void Process(double delta)
     {
-        //iterate through all pawns, deal damage those that are outside the bounds
+        // iterate through all pawns, deal damage those that are outside the bounds
         for (int i = pawns.Count - 1; i >= 0; i--)
         {
             IPawnController pawn = pawns[i];
@@ -71,7 +81,7 @@ public class BattleRoyaleRunner : IRunner
                 pawns.RemoveAt(i);
                 break;
             }
-            //TODO: do damage to pawn if they are outside bounds
+            // TODO: do damage to pawn if they are outside bounds
         }
 
         UpdateBarriers();
@@ -88,25 +98,28 @@ public class BattleRoyaleRunner : IRunner
 
     IPawnController CreatePawn(Vector3 location)
     {
-        List<IPawnGoal> pawnGoals = new List<IPawnGoal> {
-                                                        new HealGoal(),
-                                                        new DefendSelfGoal(),
-                                                        new LootGoal(),
-                                                        new BattleRoyaleWanderGoal()
-                                                        };
+        List<IPawnGoal> pawnGoals = new() {
+            new HealGoal(),
+            new DefendSelfGoal(),
+            new LootGoal(),
+            new BattleRoyaleWanderGoal()
+        };
+
         return pawnGenerator.RandomPawn(pawnGoals, location);
     }
 
     void UpdateBarriers()
     {
-        //TODO: a runner that needs to interact with the scene..... annoying
-        //for now I can just insure that the blocks are direct children of the passed node storage
-        //but that is not optimal
+        // TODO: a runner that needs to interact with the scene..... annoying
+        // for now I can just insure that the blocks are direct children of the passed node storage
+        // but that is not optimal
         Node3D NegX = nodeStorage.GetNode<Node3D>("NegX");
         Node3D NegZ = nodeStorage.GetNode<Node3D>("NegZ");
         Node3D PosX = nodeStorage.GetNode<Node3D>("PosX");
         Node3D PosZ = nodeStorage.GetNode<Node3D>("PosZ");
+
         float newDist = (float)FogController.GetFogController().GetFogPosition();
+
         SetOrigin(NegX, new Vector3(-newDist, 0, 0));
         SetOrigin(NegZ, new Vector3(0, 0, -newDist));
         SetOrigin(PosX, new Vector3(newDist, 0, 0));
@@ -115,7 +128,9 @@ public class BattleRoyaleRunner : IRunner
 
     void SetOrigin(Node3D spatial, Vector3 origin)
     {
-        spatial.GlobalTransform = new Transform3D(spatial.GlobalTransform.Basis, origin);
+        spatial.GlobalTransform = new Transform3D(
+            spatial.GlobalTransform.Basis, 
+            origin);
     }
 
     Equipment? GetRandomWeapon()
@@ -124,33 +139,40 @@ public class BattleRoyaleRunner : IRunner
         int rng = rand.Next(0, 100);
 
         if (rng > 40)
-        {
             return null;
-        }
 
-        return rng > 15 ? CreateRustedDagger() : rng > 4 ? CreateIronSword() : CreateLightSaber();
+        return rng > 15 ? 
+            CreateRustedDagger() : rng > 4 ? 
+            CreateIronSword() : CreateLightSaber();
     }
 
     void CreateItemChest(Vector3 location)
     {
-        //gonna override the height here
-        //TODO: not sure if this is mutable
+        // gonna override the height here
+        // TODO: not sure if this is mutable
         location.Y = 0.5f;
-        Node3D TreasureChestMesh = CustomResourceLoader.LoadMesh(ResourcePaths.TREASURE_CHEST);
-        //The iron sword gets leaked when created like this
+
+        Node3D TreasureChestMesh = 
+            CustomResourceLoader.LoadMesh(ResourcePaths.TREASURE_CHEST);
+
+        // The iron sword gets leaked when created like this
         List<IItem> items = new()
         {
             CreateHealingPotion()
         };
+
         Equipment? equipment = GetRandomWeapon();
+
         if (equipment != null)
-        {
             items.Add(equipment);
-        }
-        //items.Add(CreateIronSword());
+
+        // items.Add(CreateIronSword());
         ItemContainer itemContainer = new(items, TreasureChestMesh);
         nodeStorage.AddChild(itemContainer);
-        itemContainer.GlobalTransform = new Transform3D(itemContainer.GlobalTransform.Basis, location);
+
+        itemContainer.GlobalTransform = 
+            new Transform3D(itemContainer.GlobalTransform.Basis, location);
+
         kdTreeController.AddInteractable(itemContainer);
     }
 
@@ -160,6 +182,7 @@ public class BattleRoyaleRunner : IRunner
         {
             Damage = 7
         };
+
         return equipment;
     }
 
@@ -169,6 +192,7 @@ public class BattleRoyaleRunner : IRunner
         {
             Damage = 3
         };
+
         return equipment;
     }
 
@@ -178,6 +202,7 @@ public class BattleRoyaleRunner : IRunner
         {
             Damage = 15
         };
+
         return equipment;
     }
 
