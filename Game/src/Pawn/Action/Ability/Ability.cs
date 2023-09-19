@@ -64,7 +64,7 @@ public class Ability : IAbility
     {
         if (isCurrentlyRunning)
         {
-            Log.Error("Attempted to start the same action twice");
+            Log.Error("Attempted to start the same ability twice: " + Name);
             Log.Error(System.Environment.StackTrace);
         }
 
@@ -86,13 +86,8 @@ public class Ability : IAbility
         }
 
         double timeRunningMilliseconds = (DateTime.Now - timeStarted).TotalMilliseconds;
-        bool isFinished = timeRunningMilliseconds > AnimationPlayLengthMilliseconds;
-        if (isFinished)
-        {
-            ResetAbility();
-        }
 
-        return isFinished;
+        return timeRunningMilliseconds > AnimationPlayLengthMilliseconds;
     }
 
     void ResetAbility()
@@ -110,6 +105,7 @@ public class Ability : IAbility
 
     public void Setup(IInteractable? _target)
     {
+        ResetAbility();
         target = _target;
     }
 
@@ -120,7 +116,7 @@ public class Ability : IAbility
             throw new InvalidOperationException();
         }
 
-        const double ONE_HALF = 1.0/2.0;
+        const double ONE_HALF = 1.0 / 2.0;
         double timeRunningMilliseconds = (DateTime.Now - timeStarted).TotalMilliseconds;
         if (timeRunningMilliseconds > AnimationPlayLengthMilliseconds * ONE_HALF && !hasAbilityExecutableBeenRun)
         {

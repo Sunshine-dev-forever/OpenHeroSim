@@ -24,7 +24,7 @@ public static class AbilityDefinitions
                 return;
             }
 
-            IPawnController otherPawnController = (IPawnController) target;
+            IPawnController otherPawnController = (IPawnController)target;
             otherPawnController.TakeDamage(ownerPawnController.GetDamage());
         }
 
@@ -68,7 +68,7 @@ public static class AbilityDefinitions
                 return;
             }
 
-            IPawnController otherPawnController = (IPawnController) target;
+            IPawnController otherPawnController = (IPawnController)target;
             Throwable? itemToThrow = null;
             foreach (IItem item in ownerPawnController.PawnInventory.GetAllItemsInBag())
             {
@@ -101,7 +101,7 @@ public static class AbilityDefinitions
                 deleteMeshWhenDone = true;
             }
 
-            Node3D mesh =  itemToThrow.Mesh;
+            Node3D mesh = itemToThrow.Mesh;
 
             otherPawnController.TakeDamage(damage);
             //also make a new projectile with the mesh in question
@@ -109,7 +109,7 @@ public static class AbilityDefinitions
         }
 
         IAbility ability = AbilityBuilder.Start(ownerPawnController, abilityExecutable, canBeUsed)
-                                            .Animation(AnimationName.Interact)
+                                            .Animation(AnimationName.RangedAttack)
                                             .MaxRange(10)
                                             .CooldownMilliseconds(5000)
                                             .Name(THROW_ABILITY)
@@ -120,9 +120,9 @@ public static class AbilityDefinitions
     static void CreateProjectile(Node3D mesh, IPawnController ownerPawnController, IPawnController otherPawnController, bool deleteMeshWhenDone)
     {
         //just needs to be one unit up, based off height of the pawn
-        Vector3 offset = new(0,1,0);
+        Vector3 offset = new(0, 1, 0);
         ITargeting target = new InteractableTargeting(otherPawnController, offset);
-        Projectile projectile = new(mesh, target, DEFAULT_PROJECTILE_SPEED, deleteMeshWhenDone );
+        Projectile projectile = new(mesh, target, DEFAULT_PROJECTILE_SPEED, deleteMeshWhenDone);
         ownerPawnController.GetRootNode().AddChild(projectile);
         projectile.GlobalTransform = new Transform3D(projectile.GlobalTransform.Basis, ownerPawnController.GlobalTransform.Origin + offset);
     }
