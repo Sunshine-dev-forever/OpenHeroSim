@@ -110,6 +110,24 @@ public class PawnControllerBuilder
         return this;
     }
 
+    public PawnControllerBuilder SetMaxHealth(double maxHealth)
+    {
+        pawn.PawnInformation.MaxHealth = maxHealth;
+        return this;
+    }
+
+    public PawnControllerBuilder SetSpeed(float speed)
+    {
+        pawn.PawnInformation.Speed = speed;
+        return this;
+    }
+
+    public PawnControllerBuilder SetBaseDamage(double damage)
+    {
+        pawn.PawnInformation.BaseDamage = damage;
+        return this;
+    }
+
     public PawnControllerBuilder AddAbility(string abilityName)
     {
         switch (abilityName)

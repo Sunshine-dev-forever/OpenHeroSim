@@ -16,6 +16,7 @@ public class BattleRoyaleRunner : IRunner
     static readonly int NUMBER_OF_CHESTS_TO_SPAWN = 50;
     readonly List<IPawnController> pawns = new();
     readonly KdTreeController kdTreeController;
+    readonly PawnGenerator pawnGenerator;
 
     //MainTestRunner will make children out of nodeStorage
     readonly Node nodeStorage;
@@ -23,6 +24,8 @@ public class BattleRoyaleRunner : IRunner
     {
         kdTreeController = _kdTreeController;
         nodeStorage = _nodeStorage;
+        NavigationRegion3D navigationRegion3D = nodeStorage.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
+        pawnGenerator = new PawnGenerator(nodeStorage, kdTreeController, navigationRegion3D);
     }
 
     public void Input(InputEvent input)
@@ -85,17 +88,13 @@ public class BattleRoyaleRunner : IRunner
 
     IPawnController CreatePawn(Vector3 location)
     {
-        NavigationRegion3D navigation = nodeStorage.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
-        return PawnControllerBuilder.Start(nodeStorage, kdTreeController, navigation)
-                            .SetGoals(new List<IPawnGoal> {
-                                                            new HealGoal(),
-                                                            new DefendSelfGoal(),
-                                                            new LootGoal(),
-                                                            new BattleRoyaleWanderGoal()
-                                                            })
-                            .AddAbility(AbilityDefinitions.STAB_ABILITY)
-                            .Location(location)
-                            .Finish();
+        List<IPawnGoal> pawnGoals = new List<IPawnGoal> {
+                                                        new HealGoal(),
+                                                        new DefendSelfGoal(),
+                                                        new LootGoal(),
+                                                        new BattleRoyaleWanderGoal()
+                                                        };
+        return pawnGenerator.RandomPawn(pawnGoals, location);
     }
 
     void UpdateBarriers()
