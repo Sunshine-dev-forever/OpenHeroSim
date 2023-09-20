@@ -1,4 +1,5 @@
 using Godot;
+
 namespace Util;
 
 public partial class GodotWrapper<T> : GodotObject

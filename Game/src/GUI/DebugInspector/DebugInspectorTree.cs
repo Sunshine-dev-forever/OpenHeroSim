@@ -11,7 +11,7 @@ public partial class DebugInspectorTree : Control
 {
     public event ItemSelected? ItemSelected;
     public Tree Tree { get; set; } = null!;
-    // Called when the node enters the scene tree for the first time.
+    //  Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         Tree = GetNode<Tree>("Tree");
@@ -27,7 +27,7 @@ public partial class DebugInspectorTree : Control
 
     public void CreateNewTree(IDisplay display)
     {
-        //TODO: I can only hold this does not cause memory leaks
+        // TODO: I can only hold this does not cause memory leaks
         Tree.Clear();
         TreeItem root = Tree.CreateItem();
 

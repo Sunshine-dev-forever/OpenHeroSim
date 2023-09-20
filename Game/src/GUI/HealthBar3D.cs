@@ -2,7 +2,7 @@ using Godot;
 
 namespace GUI;
 
-//simple class that sets the fill percent of a health bar
+// simple class that sets the fill percent of a health bar
 public partial class HealthBar3D : Sprite3D
 {
     ProgressBar? bar;

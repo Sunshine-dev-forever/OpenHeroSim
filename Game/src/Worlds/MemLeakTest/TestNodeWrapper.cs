@@ -3,7 +3,7 @@ using Serilog;
 
 namespace Worlds.MemLeakTest;
 
-//A small class created for testing memory leaks in C#
+// A small class created for testing memory leaks in C#
 public partial class TestNodeWrapper : Node
 {
     public TestNodeWrapper()
@@ -18,7 +18,7 @@ public partial class TestNodeWrapper : Node
 
     ~TestNodeWrapper()
     {
-        //I have never seen this line of code printed :(
+        // I have never seen this line of code printed :(
         Log.Information("TestNodeWrapper finalizer called!");
     }
 }

@@ -9,8 +9,9 @@ public class AbilityBuilder
     {
         ability = new Ability(ownerPawnController, executable, canBeUsedPredicate);
     }
-    //todo: probably should just check cooldowns in the can be used predicate. What if I want abilites that decrease in cooldown under certain conditions?
-    //the canBeUsedPredicate should check all conditions other than the cooldown of the ability. the cooldown on the ability is already handled
+
+    // todo: probably should just check cooldowns in the can be used predicate. What if I want abilites that decrease in cooldown under certain conditions?
+    // the canBeUsedPredicate should check all conditions other than the cooldown of the ability. the cooldown on the ability is already handled
     public static AbilityBuilder Start(IPawnController pawnController, System.Action<IInteractable?> executable, Predicate<IPawnController> canBeUsedPredicate)
     {
         return new AbilityBuilder(pawnController, executable, canBeUsedPredicate);
@@ -28,7 +29,7 @@ public class AbilityBuilder
         return this;
     }
 
-    //Sets looping to be true
+    // Sets looping to be true
     public AbilityBuilder AnimationPlayLength(int milliseconds)
     {
         ability.SetAnimationPlayLength(milliseconds);

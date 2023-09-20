@@ -50,18 +50,18 @@ public partial class DebugInspector : Control
     bool ClickIsInsideThisUI(InputEventMouseButton input)
     {
         InputEventMouseButton inputLocal = (InputEventMouseButton)resizeableWindow.MakeInputLocal(input);
-        //the size of this control node is the entire screen, the resizeable window has the size we are looking for
+        // the size of this control node is the entire screen, the resizeable window has the size we are looking for
         Rect2 uiSize = new(Vector2.Zero, resizeableWindow.Size);
         return uiSize.HasPoint(inputLocal.Position);
     }
 
     void CastRayFromCamera(InputEventMouseButton input)
     {
-        //just a query should be fine to call outside of physics_process
+        // just a query should be fine to call outside of physics_process
         PhysicsDirectSpaceState3D spaceState = camera.GetWorld3D().DirectSpaceState;
         Vector3 from = camera.ProjectRayOrigin(input.Position);
         Vector3 to = from + (camera.ProjectRayNormal(input.Position) * RAY_LENGTH);
-        //collistionMask of 1 should be only static objects with hitboxes
+        // collistionMask of 1 should be only static objects with hitboxes
         uint collisionMask = STATIC_OBJECTS_MASK;
         PhysicsRayQueryParameters3D rayArgs = PhysicsRayQueryParameters3D.Create(from, to, collisionMask);
 
@@ -69,15 +69,15 @@ public partial class DebugInspector : Control
 
         if (result.Count == 0)
         {
-            //we hit nothing
+            // we hit nothing
             this.Visible = false;
             return;
         }
         else
         {
-            //we hit something
-            //since our collisionmask is STATIC_OBJECTS_MASK, it had to be a static object of some kind
-            //we just need the position
+            // we hit something
+            // since our collisionmask is STATIC_OBJECTS_MASK, it had to be a static object of some kind
+            // we just need the position
             Vector3 intersectionPosition = (Vector3)result["position"];
             List<IInteractable> interactables = kdTreeController.GetNearestInteractables(intersectionPosition, 1);
 

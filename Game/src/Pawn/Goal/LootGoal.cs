@@ -4,7 +4,6 @@ using Pawn.Action;
 using Pawn.Components;
 using Pawn.Targeting;
 using Pawn.Tasks;
-using Serilog;
 using System.Collections.Generic;
 
 namespace Pawn.Goal;
@@ -14,6 +13,7 @@ public class LootGoal : IPawnGoal
     public ITask GetTask(IPawnController pawnController, SensesStruct sensesStruct)
     {
         ItemContainer? nearbyLoot = GetFirstNonemptyContainer(sensesStruct.nearbyContainers);
+        
         if (nearbyLoot == null)
         {
             return new InvalidTask();
@@ -28,7 +28,11 @@ public class LootGoal : IPawnGoal
             }
         }
 
-        IAction action = ActionBuilder.Start(pawnController, executable).Animation(AnimationName.Interact).Finish();
+        IAction action = ActionBuilder
+            .Start(pawnController, executable)
+            .Animation(AnimationName.Interact)
+            .Finish();
+
         ITargeting targeting = new InteractableTargeting(nearbyLoot);
         return new Task(targeting, action, "Looting a container");
     }
@@ -36,28 +40,33 @@ public class LootGoal : IPawnGoal
     void processItem(IItem item, IPawnController pawnController, ItemContainer container)
     {
         container.Items.Remove(item);
+
         if (item is Equipment newWeapon)
         {
-            Equipment? currentWeapon = pawnController.PawnInventory.GetWornEquipment(EquipmentType.HELD);
+            Equipment? currentWeapon = pawnController.PawnInventory
+                .GetWornEquipment(EquipmentType.HELD);
+
             if (currentWeapon == null || (newWeapon.Damage > currentWeapon.Damage))
             {
-                //if we want the weapon, we take the weapon
+                // if we want the weapon, we take the weapon
                 pawnController.PawnInventory.WearEquipment(newWeapon);
             }
         }
         else if (item is Consumable)
         {
-            bool wasAddSuccessfull = pawnController.PawnInventory.AddItem((Consumable)item);
+            bool wasAddSuccessfull = pawnController.PawnInventory
+                .AddItem((Consumable)item);
+
             if (!wasAddSuccessfull)
             {
-                //I guess the bag is full
-                //we delete the item
+                // I guess the bag is full
+                // we delete the item
                 item.QueueFree();
             }
         }
         else
         {
-            //Some unknown item, destroy it so no one else can have it
+            // Some unknown item, destroy it so no one else can have it
             item.QueueFree();
         }
     }

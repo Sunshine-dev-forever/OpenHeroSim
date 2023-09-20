@@ -7,6 +7,7 @@ public class ActionBuilder
     {
         action = new Action(ownerPawnController, executable);
     }
+
     public static ActionBuilder Start(IPawnController ownerPawnController, System.Action executable)
     {
         return new ActionBuilder(ownerPawnController, executable);
@@ -24,7 +25,7 @@ public class ActionBuilder
         return this;
     }
 
-    //Sets looping to be true
+    // Sets looping to be true
     public ActionBuilder AnimationPlayLength(int milliseconds)
     {
         action.SetAnimationPlayLength(milliseconds);

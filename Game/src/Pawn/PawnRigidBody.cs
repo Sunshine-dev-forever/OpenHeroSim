@@ -1,7 +1,10 @@
 using Godot;
 using Serilog;
+
 namespace Pawn;
-//I might be able to get around having to use this class by referencing the KD-tree directly
+
+// I might be able to get around having to use this class by referencing the
+// KD-tree directly
 public partial class PawnRigidBody : RigidBody3D
 {
     [Export] NodePath PawnControllerPath = (NodePath) "..";

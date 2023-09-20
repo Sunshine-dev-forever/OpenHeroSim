@@ -21,7 +21,7 @@ public class Display : IDisplay
 
     public static Display GenerateTest()
     {
-        //Holy crap I need real unit tests
+        // Holy crap I need real unit tests
         Display root = new();
         Display child1 = new();
         Display child2 = new();

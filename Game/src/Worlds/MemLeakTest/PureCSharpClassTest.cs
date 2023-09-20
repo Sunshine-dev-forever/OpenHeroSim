@@ -2,7 +2,7 @@ using Serilog;
 
 namespace Worlds.MemLeakTest;
 
-//A small class created for testing memory leaks in C#
+// A small class created for testing memory leaks in C#
 public class PureCSharpClassTest
 {
     public PureCSharpClassTest()
