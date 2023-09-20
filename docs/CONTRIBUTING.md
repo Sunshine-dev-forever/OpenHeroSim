@@ -1,7 +1,12 @@
 # Contribute
 do it and you are cool!
 
+for 3D model and art contributions visit: [ASSET_CONTRIBTUIONS](ASSET_CONTRIBUTIONS.md)
+
 ### Development environment setup
+For all:
+Create a GODOT environment variable that points at the Godot executable
+
 #### VS Code
 
 get exensions:
