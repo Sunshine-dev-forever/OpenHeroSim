@@ -34,16 +34,8 @@ For the actual running of the project:
 3. navigate to this repository's project.godot file. (located in MedievalHeroSim/Game/project.godot)
 4. select the newly imported project and click 'run'
 
-For editing:
-install VScode
+For editing: [CONTRIBUTING.md](docs/CONTRIBUTING.md)
 
-get exensions:
-	Godot Tools	
-	C#
-	Any Nuget Package Manager
 
-Download the Nuget packages listed in the csproj (they might be installed automatically)
-
-Create a GODOT environment variable that points at the Godot executable
 
 If I missed anything ( and I am sure as hell I did) msg me on discord. 
