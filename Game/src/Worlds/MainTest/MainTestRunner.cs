@@ -8,38 +8,54 @@ using Pawn.Targeting;
 using System;
 using System.Collections.Generic;
 using Util;
+using GUI.DebugInspector;
 
 namespace Worlds.MainTest;
 
-public class MainTestRunner : IRunner
+public partial class MainTestRunner : Node
 {
-    readonly KdTreeController kdTreeController;
+    KdTreeController kdTreeController = null!;
+    PawnGenerator pawnGenerator = null!;
+    double TimeSinceLastPawnCreation = 4;
+    // lazy, bad coding
+    IPawnController lastPawnSpawned = null!;
 
-    // MainTestRunner will make children out of nodeStorage
-    readonly Node nodeStorage;
-
-    public MainTestRunner(KdTreeController _kdTreeController, Node _nodeStorage)
+    public override void _Ready()
     {
-        kdTreeController = _kdTreeController;
-        nodeStorage = _nodeStorage;
+        kdTreeController = new KdTreeController();
+
+        //setting up UI elements:
+        this.AddChild(CustomResourceLoader.LoadUI(ResourcePaths.FPS_COUNTER_UI));
+        Camera3D camera = this.GetNode<Camera3D>("Camera3D");
+
+        DebugInspector DebugInspector = (DebugInspector)CustomResourceLoader.LoadUI(ResourcePaths.DEBUG_INSPECTOR_UI);
+        this.AddChild(DebugInspector);
+        DebugInspector.Setup(camera, kdTreeController);
+
+        NavigationRegion3D navigationRegion3D = this.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
+
+        pawnGenerator = new PawnGenerator(
+            this,
+            kdTreeController,
+            navigationRegion3D);
     }
 
-    public void Input(InputEvent input)
+    public override void _Input(InputEvent input)
     {
         if (input.IsActionPressed("ui_left"))
         {
             string navPath = "/root/Node3D/NavigationRegion3D";
 
             // CreateTestProjectile();
-            NavigationRegion3D navigation = 
-                nodeStorage.GetNode<NavigationRegion3D>(navPath);
+            NavigationRegion3D navigation =
+                this.GetNode<NavigationRegion3D>(navPath);
 
             Vector3 location = new(4, 0, 4);
 
             PawnControllerBuilder.CreateTrainingDummy(
-                location, 
-                nodeStorage, 
-                kdTreeController, 
+                location,
+                this,
+                kdTreeController,
                 navigation);
         }
         else if (input.IsActionPressed("ui_right"))
@@ -48,12 +64,7 @@ public class MainTestRunner : IRunner
         }
     }
 
-    double TimeSinceLastPawnCreation = 4;
-
-    // lazy, bad coding
-    IPawnController lastPawnSpawned = null!;
-
-    public void Process(double delta)
+    public override void _Process(double delta)
     {
         TimeSinceLastPawnCreation += delta;
 
@@ -62,13 +73,14 @@ public class MainTestRunner : IRunner
             TimeSinceLastPawnCreation = 0;
             lastPawnSpawned = CreatePawn();
         }
+        kdTreeController.Process(delta);
     }
 
     public IPawnController CreateThrowableTester()
     {
-        NavigationRegion3D navigation = nodeStorage.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
+        NavigationRegion3D navigation = this.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 
-        return PawnControllerBuilder.Start(nodeStorage, kdTreeController, navigation)
+        return PawnControllerBuilder.Start(this, kdTreeController, navigation)
             .SetGoals(new List<IPawnGoal> {
                 new HealGoal(),
                 new DefendSelfGoal(),
@@ -93,18 +105,18 @@ public class MainTestRunner : IRunner
     void CreateTestProjectile()
     {
         Node3D spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
-        
+
         // I add an offset so the spear target's the pawns chest and not the pawn's feet
         Vector3 offset = new(0, 1, 0);
-        
+
         ITargeting target = new InteractableTargeting(lastPawnSpawned, offset);
-        
+
         Projectile projectile = new(spear, target, 50, true);
-        nodeStorage.AddChild(projectile);
-        
-        projectile.GlobalTransform = 
+        this.AddChild(projectile);
+
+        projectile.GlobalTransform =
             new Transform3D(
-                basis: projectile.GlobalTransform.Basis, 
+                basis: projectile.GlobalTransform.Basis,
                 origin: new Vector3(0, 5, 0));
     }
 
@@ -112,30 +124,27 @@ public class MainTestRunner : IRunner
     {
         string navPath = "/root/Node3D/NavigationRegion3D";
 
-        NavigationRegion3D navigation = 
-            nodeStorage.GetNode<NavigationRegion3D>(navPath);
+        NavigationRegion3D navigation =
+            this.GetNode<NavigationRegion3D>(navPath);
 
-        return PawnControllerBuilder.Start(nodeStorage, kdTreeController, navigation)
-            .SetGoals(new List<IPawnGoal> {
+        List<IPawnGoal> goals = new List<IPawnGoal> {
                 new HealGoal(),
                 new DefendSelfGoal(),
                 new LootGoal(),
                 new WanderGoal()
-            })
-            .WearEquipment(GetRandomWeapon())
-            .AddAbility(AbilityDefinitions.STAB_ABILITY)
-            .Location(GenerateRandomVector())
-            .Finish();
+            };
+
+        return pawnGenerator.RandomPawn(goals, GenerateRandomVector(), true);
     }
 
     IPawnController CreatePawnInCenter()
     {
         string navPath = "/root/Node3D/NavigationRegion3D";
 
-        NavigationRegion3D navigation = 
-            nodeStorage.GetNode<NavigationRegion3D>(navPath);
+        NavigationRegion3D navigation =
+            this.GetNode<NavigationRegion3D>(navPath);
 
-        return PawnControllerBuilder.Start(nodeStorage, kdTreeController, navigation)
+        return PawnControllerBuilder.Start(this, kdTreeController, navigation)
             .SetGoals(new List<IPawnGoal> {
                 new HealGoal(),
                 new DefendSelfGoal(),
@@ -202,7 +211,7 @@ public class MainTestRunner : IRunner
 
     void CreateItemContainer()
     {
-        Node3D TreasureChestMesh = 
+        Node3D TreasureChestMesh =
             CustomResourceLoader.LoadMesh(ResourcePaths.TREASURE_CHEST);
 
         // The iron sword gets leaked when created like this
@@ -213,7 +222,7 @@ public class MainTestRunner : IRunner
         };
 
         ItemContainer itemContainer = new(items, TreasureChestMesh);
-        nodeStorage.AddChild(itemContainer);
+        this.AddChild(itemContainer);
         itemContainer.GlobalTransform = new Transform3D(itemContainer.GlobalTransform.Basis, new Vector3(0, 1, 0));
         kdTreeController.AddInteractable(itemContainer);
     }

@@ -10,8 +10,8 @@ public partial class DebugInspector : Control
     Control resizeableWindow = null!;
     DebugInspectorTree debugInspectorTree = null!;
     DebugInspectorDetails debugInspectorDetails = null!;
-    Camera3D camera;
-    KdTreeController kdTreeController;
+    Camera3D camera = null!;
+    KdTreeController kdTreeController = null!;
     const int RAY_LENGTH = 10000;
     const uint STATIC_OBJECTS_MASK = 1;
 
