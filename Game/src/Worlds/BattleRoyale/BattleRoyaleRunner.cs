@@ -7,36 +7,40 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using Util;
+using GUI.DebugInspector;
 
 namespace Worlds.BattleRoyale;
 
-public class BattleRoyaleRunner : IRunner
+public partial class BattleRoyaleRunner : Node
 {
     static readonly int NUMBER_OF_PAWNS_TO_SPAWN = 100;
     static readonly int NUMBER_OF_CHESTS_TO_SPAWN = 50;
 
-    readonly List<IPawnController> pawns = new();
-    readonly KdTreeController kdTreeController;
-    readonly PawnGenerator pawnGenerator;
+    List<IPawnController> pawns = new();
+    KdTreeController kdTreeController = null!;
+    PawnGenerator pawnGenerator = null!;
 
-    // MainTestRunner will make children out of nodeStorage
-    readonly Node nodeStorage;
-
-    public BattleRoyaleRunner(KdTreeController _kdTreeController, Node _nodeStorage)
+    public override void _Ready()
     {
-        kdTreeController = _kdTreeController;
-        nodeStorage = _nodeStorage;
+        kdTreeController = new KdTreeController();
 
-        NavigationRegion3D navigationRegion3D = 
-            nodeStorage.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
-        
+        //setting up UI elements:
+        this.AddChild(CustomResourceLoader.LoadUI(ResourcePaths.FPS_COUNTER_UI));
+        Camera3D camera = this.GetNode<Camera3D>("Camera3D");
+
+        DebugInspector DebugInspector = (DebugInspector)CustomResourceLoader.LoadUI(ResourcePaths.DEBUG_INSPECTOR_UI);
+        this.AddChild(DebugInspector);
+        DebugInspector.Setup(camera, kdTreeController);
+
+        NavigationRegion3D navigationRegion3D = this.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
+
         pawnGenerator = new PawnGenerator(
-            nodeStorage, 
-            kdTreeController, 
+            this,
+            kdTreeController,
             navigationRegion3D);
     }
 
-    public void Input(InputEvent input)
+    public override void _Input(InputEvent input)
     {
         if (input.IsActionPressed("mouse_left_click"))
         {
@@ -59,18 +63,14 @@ public class BattleRoyaleRunner : IRunner
         }
         else if (input.IsActionPressed("ui_up"))
         {
-            Log.Information("starting fog!");
             FogController.GetFogController().StartFog();
-        }
-        else if (input.IsActionPressed("ui_down"))
-        {
-            Log.Information("distnace to set: " + 
-                FogController.GetFogController().GetFogPosition());
         }
     }
 
-    public void Process(double delta)
+    public override void _Process(double delta)
     {
+        kdTreeController.Process(delta);
+
         // iterate through all pawns, deal damage those that are outside the bounds
         for (int i = pawns.Count - 1; i >= 0; i--)
         {
@@ -112,10 +112,10 @@ public class BattleRoyaleRunner : IRunner
         // TODO: a runner that needs to interact with the scene..... annoying
         // for now I can just insure that the blocks are direct children of the passed node storage
         // but that is not optimal
-        Node3D NegX = nodeStorage.GetNode<Node3D>("NegX");
-        Node3D NegZ = nodeStorage.GetNode<Node3D>("NegZ");
-        Node3D PosX = nodeStorage.GetNode<Node3D>("PosX");
-        Node3D PosZ = nodeStorage.GetNode<Node3D>("PosZ");
+        Node3D NegX = this.GetNode<Node3D>("NegX");
+        Node3D NegZ = this.GetNode<Node3D>("NegZ");
+        Node3D PosX = this.GetNode<Node3D>("PosX");
+        Node3D PosZ = this.GetNode<Node3D>("PosZ");
 
         float newDist = (float)FogController.GetFogController().GetFogPosition();
 
@@ -128,7 +128,7 @@ public class BattleRoyaleRunner : IRunner
     void SetOrigin(Node3D spatial, Vector3 origin)
     {
         spatial.GlobalTransform = new Transform3D(
-            spatial.GlobalTransform.Basis, 
+            spatial.GlobalTransform.Basis,
             origin);
     }
 
@@ -140,8 +140,8 @@ public class BattleRoyaleRunner : IRunner
         if (rng > 40)
             return null;
 
-        return rng > 15 ? 
-            CreateRustedDagger() : rng > 4 ? 
+        return rng > 15 ?
+            CreateRustedDagger() : rng > 4 ?
             CreateIronSword() : CreateLightSaber();
     }
 
@@ -151,7 +151,7 @@ public class BattleRoyaleRunner : IRunner
         // TODO: not sure if this is mutable
         location.Y = 0.5f;
 
-        Node3D TreasureChestMesh = 
+        Node3D TreasureChestMesh =
             CustomResourceLoader.LoadMesh(ResourcePaths.TREASURE_CHEST);
 
         // The iron sword gets leaked when created like this
@@ -167,9 +167,9 @@ public class BattleRoyaleRunner : IRunner
 
         // items.Add(CreateIronSword());
         ItemContainer itemContainer = new(items, TreasureChestMesh);
-        nodeStorage.AddChild(itemContainer);
+        this.AddChild(itemContainer);
 
-        itemContainer.GlobalTransform = 
+        itemContainer.GlobalTransform =
             new Transform3D(itemContainer.GlobalTransform.Basis, location);
 
         kdTreeController.AddInteractable(itemContainer);

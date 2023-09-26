@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://beyv6wj27txbh"]
 
+[ext_resource type="Script" path="res://src/Worlds/BattleRoyale/BattleRoyaleRunner.cs" id="1_kimcv"]
 [ext_resource type="Script" path="res://src/GUI/FreeCamera.gd" id="2"]
-[ext_resource type="Script" path="res://src/Worlds/CSharpAdapter.cs" id="2_qmskq"]
 [ext_resource type="PlaneMesh" uid="uid://sk1pvvyu4jlr" path="res://scenes/worlds/main_test/ground.tres" id="5"]
 
 [sub_resource type="BoxMesh" id="11"]
@@ -43,33 +43,30 @@ sky = SubResource("Sky_ptslx")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.527519, 0.849543, 0, -0.849543, 0.527519, 0, 28.7393, 16.7495)
 
-[node name="CSharpAdapter" type="Node3D" parent="."]
-script = ExtResource("2_qmskq")
-runnerType = 1
-CreateFPSCounterUI = true
-CreateDebugInspector = true
+[node name="BattleRoyaleRunner" type="Node3D" parent="."]
+script = ExtResource("1_kimcv")
 
-[node name="Camera3D" type="Camera3D" parent="CSharpAdapter"]
+[node name="Camera3D" type="Camera3D" parent="BattleRoyaleRunner"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.2747, 7.04908, 29.5765)
 far = 1000.0
 script = ExtResource("2")
 
-[node name="NegZ" type="MeshInstance3D" parent="CSharpAdapter"]
+[node name="NegZ" type="MeshInstance3D" parent="BattleRoyaleRunner"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -256.286)
 mesh = SubResource("11")
 skeleton = NodePath("")
 
-[node name="PosZ" type="MeshInstance3D" parent="CSharpAdapter"]
+[node name="PosZ" type="MeshInstance3D" parent="BattleRoyaleRunner"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 251.936)
 mesh = SubResource("11")
 skeleton = NodePath("")
 
-[node name="PosX" type="MeshInstance3D" parent="CSharpAdapter"]
+[node name="PosX" type="MeshInstance3D" parent="BattleRoyaleRunner"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 254.67, 0, 0)
 mesh = SubResource("11")
 skeleton = NodePath("")
 
-[node name="NegX" type="MeshInstance3D" parent="CSharpAdapter"]
+[node name="NegX" type="MeshInstance3D" parent="BattleRoyaleRunner"]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -253.35, 0, 0)
 mesh = SubResource("11")
 skeleton = NodePath("")
