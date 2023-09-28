@@ -34,8 +34,8 @@ public class PawnControllerBuilder
     }
 
     public PawnControllerBuilder(
-        Node parent, 
-        KdTreeController _kdTreeController, 
+        Node parent,
+        KdTreeController _kdTreeController,
         NavigationRegion3D navigation)
     {
         // TODO: There should be some default here in case this fails to load
@@ -53,8 +53,8 @@ public class PawnControllerBuilder
         pawn.PawnMovement.SetNavigation(navigation);
     }
     public static PawnControllerBuilder Start(
-        Node parent, 
-        KdTreeController _kdTreeController, 
+        Node parent,
+        KdTreeController _kdTreeController,
         NavigationRegion3D navigation)
     {
         return new PawnControllerBuilder(parent, _kdTreeController, navigation);
@@ -102,12 +102,6 @@ public class PawnControllerBuilder
         return this;
     }
 
-    public PawnControllerBuilder DealDamage(double damage)
-    {
-        pawn.TakeDamage(damage);
-        return this;
-    }
-
     public PawnControllerBuilder Faction(string faction)
     {
         pawn.PawnInformation.Faction = faction;
@@ -124,6 +118,7 @@ public class PawnControllerBuilder
     public PawnControllerBuilder SetMaxHealth(double maxHealth)
     {
         pawn.PawnInformation.MaxHealth = maxHealth;
+        pawn.PawnInformation.Health = maxHealth;
         return this;
     }
 
