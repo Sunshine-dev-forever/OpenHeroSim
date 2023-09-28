@@ -1,5 +1,7 @@
 using Item;
+using Serilog;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Pawn;
 
@@ -39,6 +41,10 @@ public class PawnInventory : IPawnInventory
     // returns true if the item was successfully added
     public bool AddItem(IItem item)
     {
+        if (item is IStackable && AddStackableToStack((IStackable)item))
+        {
+            return true;
+        }
         // if out of inventory space then fail
         if (bag.Count >= INVENTORY_SPACE)
         {
@@ -49,6 +55,26 @@ public class PawnInventory : IPawnInventory
             bag.Add(item);
             return true;
         }
+    }
+
+    private bool AddStackableToStack(IStackable stackable)
+    {
+        List<IStackable> bagStackablesWithSameName = bag.FindAll((bagItem) => { return bagItem is IStackable && bagItem.Name.Equals(stackable.Name); })
+            .ConvertAll((bagItem) => { return (IStackable)bagItem; });
+
+        if (bagStackablesWithSameName.Count > 1)
+        {
+            //we have multiple stackables with the same name... they should have already been stacked together
+            Log.Error("mulitple stackables with the same name");
+            return false;
+        }
+        else if (bagStackablesWithSameName.Count == 1)
+        {
+            IStackable bagStackable = bagStackablesWithSameName.First();
+            bagStackable.Count += ((IStackable)stackable).Count;
+            return true;
+        }
+        return false;
     }
 
     // Tries to remove items from the bag first
