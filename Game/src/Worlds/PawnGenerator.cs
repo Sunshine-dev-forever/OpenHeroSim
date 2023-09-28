@@ -24,14 +24,15 @@ public class PawnGenerator
 
     public IPawnController RandomPawn(IList<IPawnGoal> pawnGoals, Vector3 location, bool addRandomItems = false)
     {
-        PawnControllerBuilder pawnControllerBuilder = 
+        PawnControllerBuilder pawnControllerBuilder =
             PawnControllerBuilder.Start(
-                nodeStorage, 
-                kdTreeController, 
+                nodeStorage,
+                kdTreeController,
                 navigationRegion3D)
             .Location(location)
             .SetGoals(pawnGoals)
-            .Faction(IPawnInformation.NO_FACTION);
+            .Faction(IPawnInformation.NO_FACTION)
+            .AddItem(StartingMoney());
 
         if (addRandomItems)
             AddRandomItems(pawnControllerBuilder);
@@ -47,6 +48,11 @@ public class PawnGenerator
             2 => CreateWarrior(pawnControllerBuilder),
             _ => CreateWarrior(pawnControllerBuilder),
         };
+    }
+
+    private IItem StartingMoney()
+    {
+        return new StackItem(1, StackItem.MONEY);
     }
 
     PawnControllerBuilder AddRandomItems(PawnControllerBuilder pawnControllerBuilder)

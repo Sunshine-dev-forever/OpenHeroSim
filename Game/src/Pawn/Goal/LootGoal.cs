@@ -13,7 +13,7 @@ public class LootGoal : IPawnGoal
     public ITask GetTask(IPawnController pawnController, SensesStruct sensesStruct)
     {
         ItemContainer? nearbyLoot = GetFirstNonemptyContainer(sensesStruct.nearbyContainers);
-        
+
         if (nearbyLoot == null)
         {
             return new InvalidTask();
@@ -54,9 +54,19 @@ public class LootGoal : IPawnGoal
         }
         else if (item is Consumable)
         {
-            bool wasAddSuccessfull = pawnController.PawnInventory
-                .AddItem((Consumable)item);
+            bool wasAddSuccessfull = pawnController.PawnInventory.AddItem(item);
 
+            if (!wasAddSuccessfull)
+            {
+                // I guess the bag is full
+                // we delete the item
+                item.QueueFree();
+            }
+        }
+        else if (item is StackItem)
+        {
+            //man this function is not going to scale well HAHA!
+            bool wasAddSuccessfull = pawnController.PawnInventory.AddItem(item);
             if (!wasAddSuccessfull)
             {
                 // I guess the bag is full
