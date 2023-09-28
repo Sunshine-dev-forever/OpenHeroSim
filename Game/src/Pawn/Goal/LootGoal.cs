@@ -52,21 +52,10 @@ public class LootGoal : IPawnGoal
                 pawnController.PawnInventory.WearEquipment(newWeapon);
             }
         }
-        else if (item is Consumable)
+        else if (item is Consumable || item is StackItem)
         {
             bool wasAddSuccessfull = pawnController.PawnInventory.AddItem(item);
 
-            if (!wasAddSuccessfull)
-            {
-                // I guess the bag is full
-                // we delete the item
-                item.QueueFree();
-            }
-        }
-        else if (item is StackItem)
-        {
-            //man this function is not going to scale well HAHA!
-            bool wasAddSuccessfull = pawnController.PawnInventory.AddItem(item);
             if (!wasAddSuccessfull)
             {
                 // I guess the bag is full
