@@ -15,6 +15,7 @@ public partial class BattleRoyaleRunner : Node
 {
     static readonly int NUMBER_OF_PAWNS_TO_SPAWN = 100;
     static readonly int NUMBER_OF_CHESTS_TO_SPAWN = 50;
+    static readonly int NUMBER_OF_BLACKSMITHS_TO_SPAWN = 4;
 
     List<IPawnController> pawns = new();
     KdTreeController kdTreeController = null!;
@@ -59,6 +60,10 @@ public partial class BattleRoyaleRunner : Node
             for (int x = 0; x < NUMBER_OF_CHESTS_TO_SPAWN; x++)
             {
                 CreateItemChest(GetRandomLocationInArena());
+            }
+            for (int x = 0; x < NUMBER_OF_BLACKSMITHS_TO_SPAWN; x++)
+            {
+                CreateBlacksmith(GetRandomLocationInArena());
             }
         }
         else if (input.IsActionPressed("ui_up"))
@@ -173,6 +178,25 @@ public partial class BattleRoyaleRunner : Node
             new Transform3D(itemContainer.GlobalTransform.Basis, location);
 
         kdTreeController.AddInteractable(itemContainer);
+    }
+
+    void CreateBlacksmith(Vector3 location)
+    {
+        // gonna override the height here
+        // TODO: not sure if this is mutable
+        location.Y = 0.5f;
+
+        Node3D blackSmithMesh =
+            CustomResourceLoader.LoadMesh(ResourcePaths.BLACKSMITH_MODEL);
+
+
+        Building blackSmith = new(Building.BLACKSMITH_NAME, blackSmithMesh);
+        this.AddChild(blackSmith);
+
+        blackSmith.GlobalTransform =
+            new Transform3D(blackSmith.GlobalTransform.Basis, location);
+
+        kdTreeController.AddInteractable(blackSmith);
     }
 
     Equipment CreateIronSword()
