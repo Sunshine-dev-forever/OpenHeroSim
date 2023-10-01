@@ -47,15 +47,17 @@ public class KdTreeController
     }
 
     // count is the max number of neightbors to pull, keep low for better preformance I guess?
+    // TODO: I am pretty sure interactables are in the order nearest to farthest, but I should double check that
     public List<IInteractable> GetNearestInteractables(Vector3 location, int count)
     {
         IEnumerable<KdTreeNode<float, IInteractable>> nearestNodes =
             kdTree.GetNearestNeighbours(new[] { location.X, location.Y, location.Z }, count);
-        
+
         return nearestNodes.Select((kdTreeNode) => kdTreeNode.Value).ToList();
     }
 
     // count is the max number of neightbors to pull, keep low for better preformance I guess?
+    // Will not include the the interactable used as a reference
     public List<IInteractable> GetNearestInteractableToInteractable(IInteractable interactable, int count)
     {
         Vector3 location = interactable.GlobalTransform.Origin;

@@ -106,6 +106,7 @@ public partial class BattleRoyaleRunner : Node
             new HealGoal(),
             new DefendSelfGoal(),
             new LootGoal(),
+            new SpendMoneyGoal(),
             new BattleRoyaleWanderGoal()
         };
 

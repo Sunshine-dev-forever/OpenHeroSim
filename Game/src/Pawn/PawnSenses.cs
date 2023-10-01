@@ -19,7 +19,7 @@ public class PawnSenses
 
     public SensesStruct UpdatePawnSenses(SensesStruct sensesStruct)
     {
-        // nearby pawns will not include the current pawn
+        // TODO: I am pretty sure interactables are in the order nearest to farthest, but I should double check that
         List<IInteractable> visableInteractables =
             kdTreeController.GetNearestInteractableToInteractable(pawnController, MAX_INTERACTABLES_TO_SEE)
                 .FindAll((IInteractable interactable) =>
