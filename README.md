@@ -1,6 +1,6 @@
 
 # MEDIEVAL HERO SIM (WORKING TITLE)
-Medieval Hero Sim is currently attempting to create an open source game similar to Majesty on Godot Engine.
+Medieval Hero Sim is currently attempting to create an open source game similar to Majesty on the Godot Engine.
 
 <p align="center">
     <img src="./Screenshots/img1.PNG" alt="A bunch of pawns in flat plane">
