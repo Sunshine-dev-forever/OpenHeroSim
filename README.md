@@ -1,6 +1,6 @@
 
 # MEDIEVAL HERO SIM (WORKING TITLE)
-Medieval Hero Sim is currenlty am attempt to create an open source game similar to Majesty on the Godot Engine.
+Medieval Hero Sim is currently attempting to create an open source game similar to Majesty on the Godot Engine.
 
 <p align="center">
     <img src="./Screenshots/img1.PNG" alt="A bunch of pawns in flat plane">
@@ -29,13 +29,13 @@ To run the project:
 
 That should be all required to run it. 
 For the actual running of the project:
-1. Open GodotC# 4.1.1
-2. click 'import'
-3. navigate to this repository's project.godot file. (located in MedievalHeroSim/Game/project.godot)
-4. select the newly imported project and click 'run'
+1. Open Godot C# 4.1.1
+2. Click 'import'
+3. Navigate to this repository's project.godot file. (located in MedievalHeroSim/Game/project.godot)
+4. Select the newly imported project and click 'run'
 
 For editing: [CONTRIBUTING.md](docs/CONTRIBUTING.md)
 
 
 
-If I missed anything ( and I am sure as hell I did) msg me on discord. 
+If I missed anything (and I am sure as hell I did) message me over Discord. 
