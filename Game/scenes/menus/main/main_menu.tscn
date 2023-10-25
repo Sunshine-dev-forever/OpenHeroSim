@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://d30cgvcop23p6"]
 
 [ext_resource type="Theme" uid="uid://dey8ugl0tyo58" path="res://scenes/menus/main/main_theme.tres" id="1_abvxl"]
-[ext_resource type="FontFile" uid="uid://pgnw7capglem" path="res://scenes/fonts/kirifont/KiriFont.ttf" id="2_ofwif"]
+[ext_resource type="FontFile" uid="uid://bkyfp6itus1mb" path="res://scenes/fonts/kirifont/KiriFont.ttf" id="2_ofwif"]
 [ext_resource type="Script" path="res://src/Menus/Main/main_menu.gd" id="2_va1ih"]
 [ext_resource type="PackedScene" uid="uid://vqotwg0ftveq" path="res://scenes/menus/main/options_menu.tscn" id="3_0aq6m"]
-[ext_resource type="Texture2D" uid="uid://mm3ew43418m5" path="res://img/Godot_icon.png" id="3_yx1ed"]
+[ext_resource type="Texture2D" uid="uid://1f8f5c3sa068" path="res://img/Godot_icon.png" id="3_yx1ed"]
 [ext_resource type="PackedScene" uid="uid://lfpo6r466vvx" path="res://scenes/menus/main/world_selector.tscn" id="4_a2w3m"]
 
 [node name="MainMenu" type="Panel"]
