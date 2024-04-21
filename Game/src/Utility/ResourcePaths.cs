@@ -14,6 +14,7 @@ public static class ResourcePaths
     public const string GOBLIN_MODEL = "res://assets/Goblin/goblin.glb";
     public const string ROGUE_MODEL = "res://assets/Rogue/Rogue.glb";
     public const string WARRIOR_MODEL = "res://assets/Warrior/warrior.glb";
+    public const string ANVIL_MODEL = "res://assets/Objects/Anvil.glb";
 
     // Pawn scene comes with all the scripts and structure
     public const string PAWN_SCENE = "res://scenes/pawn/pawn.tscn";

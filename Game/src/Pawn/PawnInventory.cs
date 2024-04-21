@@ -14,6 +14,22 @@ public class PawnInventory : IPawnInventory
     Dictionary<EquipmentType, Equipment> wornGear;
     List<IItem> bag;
 
+    public int Money => GetAllItemsInBag().Where(item => item is StackItem && ((StackItem)item).IsMoney).Select(item => item.Value).Sum();
+
+    public void removeMoney(int amount)
+    {
+        StackItem money = (StackItem)GetAllItemsInBag().Where(item => item is StackItem && ((StackItem)item).IsMoney).First();
+        if (money.Value < amount)
+        {
+            Log.Error("Tried to remove more money than pawn has");
+            money.Count = 0;
+        }
+        else
+        {
+            money.Count = money.Count - amount;
+        }
+    }
+
     public PawnInventory()
     {
         bag = new List<IItem>();

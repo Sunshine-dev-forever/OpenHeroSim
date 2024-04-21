@@ -37,7 +37,11 @@ public class PawnSenses
         sensesStruct.nearbyContainers = visableInteractables
             .FindAll(interactable => { return interactable is ItemContainer; })
             .ConvertAll(interactable => { return (ItemContainer)interactable; });
-        
+
+        sensesStruct.nearbyShops = visableInteractables
+            .FindAll(interactable => { return interactable is Shop; })
+            .ConvertAll(interactable => { return (Shop)interactable; });
+
         // passing a struct through a function will cause it to be copied, so I have to return the new struct
         return sensesStruct;
     }

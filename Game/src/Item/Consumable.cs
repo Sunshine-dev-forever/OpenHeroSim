@@ -10,6 +10,8 @@ public class Consumable : IItem
     public double Healing { get; }
     public string Name { get; set; } = "Consumable";
 
+    public int Value { get { return (int)Healing; } }
+
     public IDisplay Display => ConstructDisplay();
 
     public Consumable(double _Healing, string name)
@@ -17,6 +19,12 @@ public class Consumable : IItem
         Name = name;
         Healing = _Healing;
     }
+
+    public Consumable copy()
+    {
+        return new Consumable(Healing, Name);
+    }
+
     public void QueueFree() { }
 
     IDisplay ConstructDisplay()

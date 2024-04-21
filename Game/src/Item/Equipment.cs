@@ -10,6 +10,7 @@ public class Equipment : IItem
 
     public double Damage { get { return BaseDamage * UpgradeLevel; } }
     public double Defense { get { return BaseDamage * UpgradeLevel; } }
+    public int Value { get { return (int)(Damage + Defense); }}
 
     //Level 1 is the lowest level
     private int UpgradeLevel { get; set; } = 1;

@@ -9,8 +9,10 @@ public struct SensesStruct
     {
         nearbyPawns = new List<IPawnController>();
         nearbyContainers = new List<ItemContainer>();
+        nearbyShops = new List<Shop>();
     }
 
     public List<ItemContainer> nearbyContainers;
     public List<IPawnController> nearbyPawns;
+    public List<Shop> nearbyShops;
 }

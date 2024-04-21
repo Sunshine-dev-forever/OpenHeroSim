@@ -13,6 +13,8 @@ public class Throwable : IItem
     public string Name { get; set; } = "Throwable";
     public IDisplay Display => ConstructDisplay();
 
+    public int Value => (int) Damage;
+
     public Throwable(Node3D mesh, double _damage, string name)
     {
         Name = name;

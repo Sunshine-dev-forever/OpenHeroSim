@@ -9,6 +9,8 @@ public interface IPawnInventory
     List<IItem> GetAllItems();
     List<IItem> GetAllItemsInBag();
     List<IItem> GetAllEquippedItems();
+    int Money {get;}
+    void removeMoney(int amount);
     bool AddItem(IItem item);
     bool RemoveItem(IItem item);
     List<IItem> EmptyAllItems();
