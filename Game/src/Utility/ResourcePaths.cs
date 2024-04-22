@@ -1,8 +1,7 @@
 namespace Util;
 
 // one day this will all be defined in JSON... one day
-public static class ResourcePaths
-{
+public static class ResourcePaths {
     public const string IRON_SWORD = "res://scenes/weapons/iron_sword.tscn";
     public const string LIGHTSABER = "res://scenes/weapons/light_saber.tscn";
     public const string RUSTED_DAGGER = "res://scenes/weapons/rusted_dagger.tscn";

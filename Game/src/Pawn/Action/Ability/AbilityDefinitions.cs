@@ -6,21 +6,17 @@ using Serilog;
 
 namespace Pawn.Action.Ability;
 
-public static class AbilityDefinitions
-{
+public static class AbilityDefinitions {
     static readonly float DEFAULT_PROJECTILE_SPEED = 50;
 
     public const string STAB_ABILITY = "Stab ability";
     public const string THROW_ABILITY = "Throw ability";
 
-    public static IAbility CreateStabAbility(IPawnController ownerPawnController)
-    {
+    public static IAbility CreateStabAbility(IPawnController ownerPawnController) {
         bool canBeUsed(IPawnController PawnController) => true;
 
-        void abilityExecutable(IInteractable? target)
-        {
-            if (target == null || !target.IsInstanceValid())
-            {
+        void abilityExecutable(IInteractable? target) {
+            if (target == null || !target.IsInstanceValid()) {
                 // Target is no longer valid for some reason
                 return;
             }
@@ -40,21 +36,15 @@ public static class AbilityDefinitions
         return ability;
     }
 
-    public static IAbility CreateThrowAbility(IPawnController ownerPawnController)
-    {
+    public static IAbility CreateThrowAbility(IPawnController ownerPawnController) {
         // We need to have something to throw to use this ability
-        bool canBeUsed(IPawnController PawnController)
-        {
-            foreach (IItem item in ownerPawnController.PawnInventory.GetAllItemsInBag())
-            {
-                if (item is Throwable)
-                {
-                    if (((Throwable)item).Count <= 0)
-                    {
+        bool canBeUsed(IPawnController PawnController) {
+            foreach (IItem item in ownerPawnController.PawnInventory.GetAllItemsInBag()) {
+                if (item is Throwable throwable) {
+                    if (throwable.Count <= 0) {
                         Log.Warning("There is a throwable with an ammo count of 0 in a pawn inventory");
                     }
-                    else
-                    {
+                    else {
                         return true;
                     }
                 }
@@ -63,10 +53,8 @@ public static class AbilityDefinitions
             return false;
         }
 
-        void abilityExecutable(IInteractable? target)
-        {
-            if (target == null || !target.IsInstanceValid())
-            {
+        void abilityExecutable(IInteractable? target) {
+            if (target == null || !target.IsInstanceValid()) {
                 // Target is no longer valid for some reason
                 return;
             }
@@ -75,36 +63,30 @@ public static class AbilityDefinitions
             Throwable? itemToThrow = null;
 
             foreach (IItem item in ownerPawnController.PawnInventory
-                .GetAllItemsInBag())
-            {
-                if (item is Throwable)
-                {
-                    if (((Throwable)item).Count <= 0)
-                    {
+                .GetAllItemsInBag()) {
+                if (item is Throwable throwable) {
+                    if (throwable.Count <= 0) {
                         Log.Warning("There is a throwable with an ammo count of 0 in a pawn inventory");
                     }
-                    else
-                    {
-                        itemToThrow = (Throwable)item;
+                    else {
+                        itemToThrow = throwable;
                     }
                 }
             }
 
-            if (itemToThrow == null)
-            {
+            if (itemToThrow == null) {
                 Log.Error("Throw ability has nothing to throw!");
                 return;
             }
 
-            double damage = ownerPawnController.PawnInformation.BaseDamage + 
+            double damage = ownerPawnController.PawnInformation.BaseDamage +
                 itemToThrow.Damage;
 
             // remove 1 ammo
             itemToThrow.Count -= 1;
             bool deleteMeshWhenDone = false;
 
-            if (itemToThrow.Count == 0)
-            {
+            if (itemToThrow.Count == 0) {
                 ownerPawnController.PawnInventory.RemoveItem(itemToThrow);
                 deleteMeshWhenDone = true;
             }
@@ -114,9 +96,9 @@ public static class AbilityDefinitions
             otherPawnController.TakeDamage(damage);
             // also make a new projectile with the mesh in question
             CreateProjectile(
-                mesh, 
-                ownerPawnController, 
-                otherPawnController, 
+                mesh,
+                ownerPawnController,
+                otherPawnController,
                 deleteMeshWhenDone);
         }
 
@@ -131,23 +113,22 @@ public static class AbilityDefinitions
         return ability;
     }
 
-    static void CreateProjectile(Node3D mesh, IPawnController ownerPawnController, IPawnController otherPawnController, bool deleteMeshWhenDone)
-    {
+    static void CreateProjectile(Node3D mesh, IPawnController ownerPawnController, IPawnController otherPawnController, bool deleteMeshWhenDone) {
         // just needs to be one unit up, based off height of the pawn
         Vector3 offset = new(0, 1, 0);
-        
+
         ITargeting target = new InteractableTargeting(otherPawnController, offset);
-        
+
         Projectile projectile = new(
-            mesh, 
-            target, 
-            DEFAULT_PROJECTILE_SPEED, 
+            mesh,
+            target,
+            DEFAULT_PROJECTILE_SPEED,
             deleteMeshWhenDone);
-        
+
         ownerPawnController.GetRootNode().AddChild(projectile);
-        
+
         projectile.GlobalTransform = new Transform3D(
-            projectile.GlobalTransform.Basis, 
+            projectile.GlobalTransform.Basis,
             ownerPawnController.GlobalTransform.Origin + offset);
     }
 }

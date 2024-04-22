@@ -1,6 +1,5 @@
 namespace Pawn.Action;
-public interface IAction
-{
+public interface IAction {
     // name of the action
     string Name { get; }
     // the maximum range at which the action can be started, note that the action may not finish at this range

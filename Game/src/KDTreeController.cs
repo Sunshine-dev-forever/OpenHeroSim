@@ -5,13 +5,11 @@ using KdTree.Math;
 using System.Collections.Generic;
 using System.Linq;
 
-public class KdTreeController
-{
+public class KdTreeController {
     KdTree<float, IInteractable> kdTree = new(3, new FloatMath());
     readonly List<IInteractable> allInteractables = new();
 
-    public void Process(double delta)
-    {
+    public void Process() {
         // This rebuilds the kd-tree every single frame. In the future
         // this would be optimized to only rebuild the tree every nth frame
         // alternatively, I could program this process function to operate
@@ -19,13 +17,11 @@ public class KdTreeController
         KdTree<float, IInteractable> newTree = new(3, new FloatMath());
 
         // Start from the end of the list since we will be removing items
-        for (int i = allInteractables.Count - 1; i >= 0; i--)
-        {
+        for (int i = allInteractables.Count - 1; i >= 0; i--) {
             IInteractable interactable = allInteractables[i];
 
             // Prune invalid instances
-            if (interactable == null || !interactable.IsInstanceValid())
-            {
+            if (interactable == null || !interactable.IsInstanceValid()) {
                 allInteractables.RemoveAt(i);
                 continue;
             }
@@ -41,23 +37,18 @@ public class KdTreeController
 
     // adds an interactable to the list of interatables
     // NOTE: this does not add anything to the KDtree directly
-    public void AddInteractable(IInteractable interactable)
-    {
-        allInteractables.Add(interactable);
-    }
+    public void AddInteractable(IInteractable interactable) => allInteractables.Add(interactable);
 
     // count is the max number of neightbors to pull, keep low for better preformance I guess?
-    public List<IInteractable> GetNearestInteractables(Vector3 location, int count)
-    {
+    public List<IInteractable> GetNearestInteractables(Vector3 location, int count) {
         IEnumerable<KdTreeNode<float, IInteractable>> nearestNodes =
             kdTree.GetNearestNeighbours(new[] { location.X, location.Y, location.Z }, count);
-        
+
         return nearestNodes.Select((kdTreeNode) => kdTreeNode.Value).ToList();
     }
 
     // count is the max number of neightbors to pull, keep low for better preformance I guess?
-    public List<IInteractable> GetNearestInteractableToInteractable(IInteractable interactable, int count)
-    {
+    public List<IInteractable> GetNearestInteractableToInteractable(IInteractable interactable, int count) {
         Vector3 location = interactable.GlobalTransform.Origin;
         List<IInteractable> rtn = GetNearestInteractables(location, count + 1);
         rtn.Remove(interactable);

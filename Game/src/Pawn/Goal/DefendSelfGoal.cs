@@ -8,45 +8,38 @@ using System.Linq;
 
 namespace Pawn.Goal;
 
-public class DefendSelfGoal : IPawnGoal
-{
+public class DefendSelfGoal : IPawnGoal {
     // TODO: break this up into smaller functions
-    public ITask GetTask(IPawnController ownerPawnController, SensesStruct sensesStruct)
-    {
+    public ITask GetTask(IPawnController ownerPawnController, SensesStruct sensesStruct) {
         bool pawnIsAliveAndValid(IPawnController pawnController) => pawnController != null && pawnController.IsInstanceValid() && !pawnController.IsDying;
 
         List<IPawnController> nearbyLivingPawns = sensesStruct.nearbyPawns.AsEnumerable().Where(pawnIsAliveAndValid).ToList();
-        
-        if (nearbyLivingPawns.Count == 0)
-        {
+
+        if (nearbyLivingPawns.Count == 0) {
             return new InvalidTask();
         }
 
         IPawnController? pawnToAttack = null;
 
         // need to get the nearest pawn on the right faction
-        foreach (IPawnController pawn in nearbyLivingPawns)
-        {
+        foreach (IPawnController pawn in nearbyLivingPawns) {
             string otherFaction = pawn.PawnInformation.Faction;
             string ownerFaction = ownerPawnController.PawnInformation.Faction;
-            
-            if (ownerFaction.Equals(IPawnInformation.NO_FACTION) || (!ownerFaction.Equals(otherFaction)))
-            {
+
+            if (ownerFaction.Equals(IPawnInformation.NO_FACTION) || (!ownerFaction.Equals(otherFaction))) {
                 pawnToAttack = pawn;
                 break;
             }
         }
 
-        if (pawnToAttack == null)
-        {
+        if (pawnToAttack == null) {
             return new InvalidTask();
         }
 
         List<IAbility> validAbilities = ownerPawnController.PawnInformation.GetAllUsableAbilities(ownerPawnController, pawnToAttack);
         // no matter what we are targeting the other pawn
         ITargeting targeting = new InteractableTargeting(pawnToAttack);
-        if (validAbilities.Count == 0)
-        {
+        if (validAbilities.Count == 0) {
             // returning an invalid action here could cause the brain to move on to the next goal
             // Which is not what we want
             // Therefore the pawn will wait until an ability is usable
@@ -60,21 +53,20 @@ public class DefendSelfGoal : IPawnGoal
                 .Finish();
 
             return new Task(
-                targeting, 
-                waitAction, 
+                targeting,
+                waitAction,
                 "waiting for any ability to become usable");
         }
-        else
-        {
+        else {
             // We take first valid ability
             IAbility ability = validAbilities[0];
             ability.Setup(pawnToAttack);
 
             return new Task(
-                targeting, 
-                ability, 
-                string.Format("Attacking the pawn {0} with the ability {1}", 
-                    pawnToAttack.PawnInformation.Name, 
+                targeting,
+                ability,
+                string.Format("Attacking the pawn {0} with the ability {1}",
+                    pawnToAttack.PawnInformation.Name,
                     ability.Name));
         }
     }

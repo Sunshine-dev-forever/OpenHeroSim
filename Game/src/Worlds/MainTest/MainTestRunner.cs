@@ -12,263 +12,228 @@ using GUI.DebugInspector;
 
 namespace Worlds.MainTest;
 
-public partial class MainTestRunner : Node
-{
-	KdTreeController kdTreeController = null!;
-	PawnGenerator pawnGenerator = null!;
-	double TimeSinceLastPawnCreation = 4;
-	// lazy, bad coding
-	IPawnController lastPawnSpawned = null!;
+public partial class MainTestRunner : Node {
+    KdTreeController kdTreeController = null!;
+    PawnGenerator pawnGenerator = null!;
+    double TimeSinceLastPawnCreation = 4;
+    // lazy, bad coding
+    IPawnController lastPawnSpawned = null!;
 
-	public override void _Ready()
-	{
-		kdTreeController = new KdTreeController();
+    public override void _Ready() {
+        kdTreeController = new KdTreeController();
 
-		//setting up UI elements:
-		this.AddChild(CustomResourceLoader.LoadUI(ResourcePaths.FPS_COUNTER_UI));
-		Camera3D camera = this.GetNode<Camera3D>("Camera3D");
+        //setting up UI elements:
+        AddChild(CustomResourceLoader.LoadUI(ResourcePaths.FPS_COUNTER_UI));
+        Camera3D camera = GetNode<Camera3D>("Camera3D");
 
-		DebugInspector DebugInspector = (DebugInspector)CustomResourceLoader.LoadUI(ResourcePaths.DEBUG_INSPECTOR_UI);
-		this.AddChild(DebugInspector);
-		DebugInspector.Setup(camera, kdTreeController);
+        DebugInspector DebugInspector = (DebugInspector)CustomResourceLoader.LoadUI(ResourcePaths.DEBUG_INSPECTOR_UI);
+        AddChild(DebugInspector);
+        DebugInspector.Setup(camera, kdTreeController);
 
-		NavigationRegion3D navigationRegion3D = this.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
+        NavigationRegion3D navigationRegion3D = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 
-		pawnGenerator = new PawnGenerator(
-			this,
-			kdTreeController,
-			navigationRegion3D);
-	}
+        pawnGenerator = new PawnGenerator(
+            this,
+            kdTreeController,
+            navigationRegion3D);
+    }
 
-	public override void _Input(InputEvent input)
-	{
-		if (input.IsActionPressed("ui_left"))
-		{
-			string navPath = "/root/Node3D/NavigationRegion3D";
+    public override void _Input(InputEvent input) {
+        if (input.IsActionPressed("ui_left")) {
+            string navPath = "/root/Node3D/NavigationRegion3D";
 
-			// CreateTestProjectile();
-			NavigationRegion3D navigation =
-				this.GetNode<NavigationRegion3D>(navPath);
+            // CreateTestProjectile();
+            NavigationRegion3D navigation = GetNode<NavigationRegion3D>(navPath);
 
-			Vector3 location = new(4, 0, 4);
+            Vector3 location = new(4, 0, 4);
 
-			PawnControllerBuilder.CreateTrainingDummy(
-				location,
-				this,
-				kdTreeController,
-				navigation);
-		}
-		else if (input.IsActionPressed("ui_right"))
-		{
-			CreatePawnInCenter();
-		}
-	}
+            PawnControllerBuilder.CreateTrainingDummy(
+                location,
+                this,
+                kdTreeController,
+                navigation);
+        }
+        else if (input.IsActionPressed("ui_right")) {
+            CreatePawnInCenter();
+        }
+    }
 
-	public override void _Process(double delta)
-	{
-		TimeSinceLastPawnCreation += delta;
+    public override void _Process(double delta) {
+        TimeSinceLastPawnCreation += delta;
 
-		if (TimeSinceLastPawnCreation > 5)
-		{
-			TimeSinceLastPawnCreation = 0;
-			lastPawnSpawned = CreatePawn();
-		}
-		kdTreeController.Process(delta);
-	}
+        if (TimeSinceLastPawnCreation > 5) {
+            TimeSinceLastPawnCreation = 0;
+            lastPawnSpawned = CreatePawn();
+        }
 
-	public IPawnController CreateThrowableTester()
-	{
-		NavigationRegion3D navigation = this.GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
+        kdTreeController.Process();
+    }
 
-		return PawnControllerBuilder.Start(this, kdTreeController, navigation)
-			.SetGoals(new List<IPawnGoal> {
-				new HealGoal(),
-				new DefendSelfGoal(),
-				new LootGoal(),
-				new WanderGoal()
-			})
-			.AddAbility(AbilityDefinitions.THROW_ABILITY)
-			.AddAbility(AbilityDefinitions.STAB_ABILITY)
-			.WearEquipment(GetRandomWeapon())
-			.WearEquipment(GetHelmet())
-			.AddItem(CreateThrowable())
-			.Location(new Vector3(0, 5, 0))
-			.Finish();
-	}
+    public IPawnController CreateThrowableTester() {
+        NavigationRegion3D navigation = GetNode<NavigationRegion3D>("/root/Node3D/NavigationRegion3D");
 
-	public Throwable CreateThrowable()
-	{
-		Node3D spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
-		return new Throwable(spear, 60, "throwing djerd");
-	}
+        return PawnControllerBuilder.Start(this, kdTreeController, navigation)
+            .SetGoals(new List<IPawnGoal> {
+                new HealGoal(),
+                new DefendSelfGoal(),
+                new LootGoal(),
+                new WanderGoal()
+            })
+            .AddAbility(AbilityDefinitions.THROW_ABILITY)
+            .AddAbility(AbilityDefinitions.STAB_ABILITY)
+            .WearEquipment(GetRandomWeapon())
+            .WearEquipment(GetHelmet())
+            .AddItem(CreateThrowable())
+            .Location(new Vector3(0, 5, 0))
+            .Finish();
+    }
 
-	void CreateTestProjectile()
-	{
-		Node3D spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
+    public Throwable CreateThrowable() {
+        Node3D spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
+        return new Throwable(spear, 60, "throwing djerd");
+    }
 
-		// I add an offset so the spear target's the pawns chest and not the pawn's feet
-		Vector3 offset = new(0, 1, 0);
+    void CreateTestProjectile() {
+        Node3D spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
 
-		ITargeting target = new InteractableTargeting(lastPawnSpawned, offset);
+        // I add an offset so the spear target's the pawns chest and not the pawn's feet
+        Vector3 offset = new(0, 1, 0);
 
-		Projectile projectile = new(spear, target, 50, true);
-		this.AddChild(projectile);
+        ITargeting target = new InteractableTargeting(lastPawnSpawned, offset);
 
-		projectile.GlobalTransform =
-			new Transform3D(
-				basis: projectile.GlobalTransform.Basis,
-				origin: new Vector3(0, 5, 0));
-	}
+        Projectile projectile = new(spear, target, 50, true);
+        AddChild(projectile);
 
-	IPawnController CreatePawn()
-	{
-		string navPath = "/root/Node3D/NavigationRegion3D";
+        projectile.GlobalTransform =
+            new Transform3D(
+                basis: projectile.GlobalTransform.Basis,
+                origin: new Vector3(0, 5, 0));
+    }
 
-		NavigationRegion3D navigation =
-			this.GetNode<NavigationRegion3D>(navPath);
+    IPawnController CreatePawn() {
+        string navPath = "/root/Node3D/NavigationRegion3D";
 
-		List<IPawnGoal> goals = new List<IPawnGoal> {
-				new HealGoal(),
-				new DefendSelfGoal(),
-				new LootGoal(),
-				new WanderGoal()
-			};
+        NavigationRegion3D navigation = GetNode<NavigationRegion3D>(navPath);
 
-		return pawnGenerator.RandomPawn(goals, GenerateRandomVector(), true);
-	}
+        List<IPawnGoal> goals = new() {
+                new HealGoal(),
+                new DefendSelfGoal(),
+                new LootGoal(),
+                new WanderGoal()
+            };
 
-	IPawnController CreatePawnInCenter()
-	{
-		string navPath = "/root/Node3D/NavigationRegion3D";
+        return pawnGenerator.RandomPawn(goals, GenerateRandomVector(), true);
+    }
 
-		NavigationRegion3D navigation =
-			this.GetNode<NavigationRegion3D>(navPath);
+    IPawnController CreatePawnInCenter() {
+        string navPath = "/root/Node3D/NavigationRegion3D";
 
-		return PawnControllerBuilder.Start(this, kdTreeController, navigation)
-			.SetGoals(new List<IPawnGoal> {
-				new HealGoal(),
-				new DefendSelfGoal(),
-				new LootGoal(),
-				new WanderGoal()
-			})
-			.AddAbility(AbilityDefinitions.STAB_ABILITY)
-			.WearEquipment(GetRandomWeapon())
-			.WearEquipment(GetHelmet())
-			.Location(new Vector3(0, 5, 0))
-			.Finish();
-	}
+        NavigationRegion3D navigation = GetNode<NavigationRegion3D>(navPath);
 
-	Equipment GetHelmet()
-	{
-		Equipment equipment = new(EquipmentType.HEAD, "box helm")
-		{
-			BaseDefense = 5
-		};
+        return PawnControllerBuilder.Start(this, kdTreeController, navigation)
+            .SetGoals(new List<IPawnGoal> {
+                new HealGoal(),
+                new DefendSelfGoal(),
+                new LootGoal(),
+                new WanderGoal()
+            })
+            .AddAbility(AbilityDefinitions.STAB_ABILITY)
+            .WearEquipment(GetRandomWeapon())
+            .WearEquipment(GetHelmet())
+            .Location(new Vector3(0, 5, 0))
+            .Finish();
+    }
 
-		return equipment;
-	}
+    Equipment GetHelmet() {
+        Equipment equipment = new(EquipmentType.HEAD, "box helm") {
+            BaseDefense = 5
+        };
 
-	Vector3 GenerateRandomVector()
-	{
-		Random rand = new();
+        return equipment;
+    }
 
-		int rng = rand.Next(0, 3);
+    Vector3 GenerateRandomVector() {
+        Random rand = new();
 
-		if (rng == 0)
-		{
-			return new Vector3(23, 5, 23);
-		}
-		else if (rng == 1)
-		{
-			return new Vector3(-23, 5, 23);
-		}
-		else if (rng == 2)
-		{
-			return new Vector3(-23, 5, -23);
-		}
-		else if (rng == 3)
-		{
-			return new Vector3(23, 5, -23);
-		}
+        int rng = rand.Next(0, 3);
 
-		return new Vector3();
-	}
+        if (rng == 0) {
+            return new Vector3(23, 5, 23);
+        }
+        else if (rng == 1) {
+            return new Vector3(-23, 5, 23);
+        }
+        else if (rng == 2) {
+            return new Vector3(-23, 5, -23);
+        }
+        else if (rng == 3) {
+            return new Vector3(23, 5, -23);
+        }
 
-	Equipment GetRandomWeapon()
-	{
-		Random rand = new();
+        return new Vector3();
+    }
 
-		int rng = rand.Next(0, 3);
+    Equipment GetRandomWeapon() {
+        Random rand = new();
 
-		return rng switch
-		{
-			0 => CreateSpearMelee(),
-			1 => CreateRustedDagger(),
-			2 => CreateIronSword(),
-			_ => CreateRustedDagger(),
-		};
-	}
+        int rng = rand.Next(0, 3);
 
-	void CreateItemContainer()
-	{
-		Node3D TreasureChestMesh =
-			CustomResourceLoader.LoadMesh(ResourcePaths.TREASURE_CHEST);
+        return rng switch {
+            0 => CreateSpearMelee(),
+            1 => CreateRustedDagger(),
+            2 => CreateIronSword(),
+            _ => CreateRustedDagger(),
+        };
+    }
 
-		// The iron sword gets leaked when created like this
-		List<IItem> items = new()
-		{
-			CreateHealingPotion(),
-			CreateIronSword()
-		};
+    void CreateItemContainer() {
+        Node3D TreasureChestMesh =
+            CustomResourceLoader.LoadMesh(ResourcePaths.TREASURE_CHEST);
 
-		ItemContainer itemContainer = new(items, TreasureChestMesh);
-		this.AddChild(itemContainer);
-		itemContainer.GlobalTransform = new Transform3D(itemContainer.GlobalTransform.Basis, new Vector3(0, 1, 0));
-		kdTreeController.AddInteractable(itemContainer);
-	}
+        // The iron sword gets leaked when created like this
+        List<IItem> items = new()
+        {
+            CreateHealingPotion(),
+            CreateIronSword()
+        };
 
-	Equipment CreateIronSword()
-	{
-		Equipment equipment = new(EquipmentType.HELD, "iron sword")
-		{
-			BaseDamage = 5
-		};
+        ItemContainer itemContainer = new(items, TreasureChestMesh);
+        AddChild(itemContainer);
+        itemContainer.GlobalTransform = new Transform3D(itemContainer.GlobalTransform.Basis, new Vector3(0, 1, 0));
+        kdTreeController.AddInteractable(itemContainer);
+    }
 
-		return equipment;
-	}
+    Equipment CreateIronSword() {
+        Equipment equipment = new(EquipmentType.HELD, "iron sword") {
+            BaseDamage = 5
+        };
 
-	Equipment CreateRustedDagger()
-	{
-		Equipment equipment = new(EquipmentType.HELD, "rusted dagger")
-		{
-			BaseDamage = 3
-		};
+        return equipment;
+    }
 
-		return equipment;
-	}
+    Equipment CreateRustedDagger() {
+        Equipment equipment = new(EquipmentType.HELD, "rusted dagger") {
+            BaseDamage = 3
+        };
 
-	Equipment CreateLightSaber()
-	{
-		Equipment equipment = new(EquipmentType.HELD, "light saber")
-		{
-			BaseDamage = 10
-		};
+        return equipment;
+    }
 
-		return equipment;
-	}
+    Equipment CreateLightSaber() {
+        Equipment equipment = new(EquipmentType.HELD, "light saber") {
+            BaseDamage = 10
+        };
 
-	Equipment CreateSpearMelee()
-	{
-		Equipment equipment = new(EquipmentType.HELD, "melee djerd")
-		{
-			BaseDamage = 2
-		};
+        return equipment;
+    }
 
-		return equipment;
-	}
+    Equipment CreateSpearMelee() {
+        Equipment equipment = new(EquipmentType.HELD, "melee djerd") {
+            BaseDamage = 2
+        };
 
-	Consumable CreateHealingPotion()
-	{
-		return new Consumable(40, "Health Potion");
-	}
+        return equipment;
+    }
+
+    Consumable CreateHealingPotion() => new(40, "Health Potion");
 }

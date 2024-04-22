@@ -6,23 +6,19 @@ using System;
 
 namespace Pawn.Goal;
 
-public class WanderGoal : IPawnGoal
-{
+public class WanderGoal : IPawnGoal {
     // center is always at (0,0)
     readonly int sideLength;
 
-    public WanderGoal()
-    {
+    public WanderGoal() {
         sideLength = 50;
     }
 
-    public WanderGoal(int _sideLength)
-    {
+    public WanderGoal(int _sideLength) {
         sideLength = _sideLength;
     }
 
-    public ITask GetTask(IPawnController pawnController, SensesStruct sensesStruct)
-    {
+    public ITask GetTask(IPawnController pawnController, SensesStruct sensesStruct) {
         Random random = new();
         float x = (float)((random.NextDouble() * sideLength) - (sideLength / 2));
         float z = (float)((random.NextDouble() * sideLength) - (sideLength / 2));

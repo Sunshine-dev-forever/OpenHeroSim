@@ -3,8 +3,7 @@ using Interactable;
 
 namespace Pawn;
 
-public interface IPawnController : IInteractable
-{
+public interface IPawnController : IInteractable {
     IPawnInformation PawnInformation { get; }
     IPawnInventory PawnInventory { get; }
     PawnVisuals PawnVisuals { get; }

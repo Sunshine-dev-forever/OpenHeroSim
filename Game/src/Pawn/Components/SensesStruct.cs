@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 namespace Pawn.Components;
 
-public struct SensesStruct
-{
-    public SensesStruct()
-    {
+public struct SensesStruct {
+    public SensesStruct() {
         nearbyPawns = new List<IPawnController>();
         nearbyContainers = new List<ItemContainer>();
         nearbyShops = new List<Shop>();

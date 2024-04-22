@@ -2,8 +2,7 @@ using System;
 
 namespace Worlds.BattleRoyale;
 
-public class FogController
-{
+public class FogController {
     // Fog Controller just has the magically know the sidelength is 500
     // its ok for testing
     static readonly int SIDE_LENGTH = 500;
@@ -15,21 +14,16 @@ public class FogController
 
     FogController() { }
 
-    public static FogController GetFogController()
-    {
+    public static FogController GetFogController() {
         instance ??= new FogController();
         return instance;
     }
 
-    public void StartFog()
-    {
-        timeFogStarted = DateTime.Now;
-    }
+    public void StartFog() => timeFogStarted = DateTime.Now;
 
     // Gives fog position away from the origin as a scalar,
     // assuming you dropped a perpendicular to the side of a square
-    public double GetFogPosition()
-    {
+    public double GetFogPosition() {
         if (DateTime.MinValue == timeFogStarted)
             return SIDE_LENGTH / 2;
 
@@ -39,8 +33,7 @@ public class FogController
         return (1 - (timeDiffSeconds / TIME_TILL_ALL_FOG)) * (SIDE_LENGTH / 2);
     }
 
-    public bool IsInbounds(Godot.Vector3 point)
-    {
+    public bool IsInbounds(Godot.Vector3 point) {
         double x = point.X;
         double z = point.Z;
         double fogPosition = GetFogPosition();

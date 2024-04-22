@@ -4,20 +4,15 @@ using Pawn.Action;
 
 namespace Pawn.Tasks;
 
-public class InvalidTask : ITask
-{
+public class InvalidTask : ITask {
     Vector3 targetPoint;
 
-    public InvalidTask()
-    {
+    public InvalidTask() {
         IsValid = false;
         Action = null!;
         TaskState = TaskState.COMPLETED;
     }
-    public Vector3 GetTargetPosition()
-    {
-        return targetPoint;
-    }
+    public Vector3 GetTargetPosition() => targetPoint;
     public IAction Action { get; }
     // How close the pawn will attempt to get to the target before starting the action
     public float TargetDistance { get; }

@@ -3,8 +3,7 @@ using System;
 
 namespace Pawn;
 
-public class PawnMovement
-{
+public class PawnMovement {
     Vector3 originalLocationOfTarget = Vector3.Zero;
     bool isNavigationServerReady;
 
@@ -13,8 +12,7 @@ public class PawnMovement
     readonly RigidBody3D rigidBody;
     readonly PawnVisuals pawnVisuals;
 
-    public PawnMovement(RigidBody3D _rigidBody, PawnVisuals _pawnVisuals, NavigationAgent3D _navigationAgent, RayCast3D _downwardRayCast)
-    {
+    public PawnMovement(RigidBody3D _rigidBody, PawnVisuals _pawnVisuals, NavigationAgent3D _navigationAgent, RayCast3D _downwardRayCast) {
         rigidBody = _rigidBody;
         pawnVisuals = _pawnVisuals;
         navigationAgent = _navigationAgent;
@@ -22,30 +20,25 @@ public class PawnMovement
     }
 
     // ProcessMovement should be called in the _PhysicsProcess function
-    public void ProcessMovement(Vector3 targetLocation, float speed)
-    {
+    public void ProcessMovement(Vector3 targetLocation, float speed) {
         // the Navigation Server can take some time to start up
-        if (!isNavigationServerReady)
-        {
+        if (!isNavigationServerReady) {
             UpdateIsNavigationServerReady();
             return;
         }
 
         // TODO: dont update path for every minor change in position
-        if (targetLocation != originalLocationOfTarget)
-        {
+        if (targetLocation != originalLocationOfTarget) {
             navigationAgent.TargetPosition = targetLocation;
             originalLocationOfTarget = targetLocation;
         }
 
         Vector3 floorNormal;
 
-        if (downwardRayCast.IsColliding())
-        {
+        if (downwardRayCast.IsColliding()) {
             floorNormal = downwardRayCast.GetCollisionNormal();
         }
-        else
-        {
+        else {
             // if in air then let physics take over and just fall
             return;
         }
@@ -55,8 +48,8 @@ public class PawnMovement
         Vector3 locationDiff = nextLocation - currentLocation;
 
         // Look in the direction of travel
-        float newYRotation = (float) Math.Atan2(locationDiff.X , locationDiff.Z);
-        pawnVisuals.setPawnRotation(newYRotation);
+        float newYRotation = (float)Math.Atan2(locationDiff.X, locationDiff.Z);
+        pawnVisuals.SetPawnRotation(newYRotation);
 
         Vector3 velocity = (nextLocation - currentLocation)
             .Slide(floorNormal)
@@ -66,11 +59,9 @@ public class PawnMovement
     }
 
     // Stops the pawn in place
-    public void Stop()
-    {
+    public void Stop() {
         // Cant stop if we are in the air
-        if (downwardRayCast.IsColliding())
-        {
+        if (downwardRayCast.IsColliding()) {
             rigidBody.LinearVelocity = Vector3.Zero;
         }
     }
@@ -80,23 +71,16 @@ public class PawnMovement
     *if the final location has been reached
     *NOTE: the final location will always be locationed on the navigation mesh
     */
-    public bool HasFinishedMovement(float targetDistance)
-    {
-        return navigationAgent
+    public bool HasFinishedMovement(float targetDistance) => navigationAgent
             .GetFinalPosition()
             .DistanceTo(rigidBody.GlobalTransform.Origin) < targetDistance;
-    }
 
-    public void SetNavigation(NavigationRegion3D navigation)
-    {
-        navigationAgent
+    public void SetNavigation(NavigationRegion3D navigation) => navigationAgent
             .SetNavigationMap(NavigationServer3D
             .RegionGetMap(navigation.GetRegionRid()));
-    }
 
     // TODO: in godot 4 there may be a better way to do this
-    void UpdateIsNavigationServerReady()
-    {
+    void UpdateIsNavigationServerReady() {
         Rid mapRid = NavigationServer3D.AgentGetMap(navigationAgent.GetRid());
 
         // an ID of 0 should always be an invalid ID
@@ -109,9 +93,7 @@ public class PawnMovement
     // assumes x is horizontal axis, y is vertical axis
     // gives bearing relative to the horizontal negative axis
     // such that quadrant 2 has the lowest bearings
-    double GetBearingTo(Vector2 point)
-    {
+    double GetBearingTo(Vector2 point) =>
         // Dont question it, it works :)
-        return Math.PI - Math.Atan2(point.Y, point.X);
-    }
+        Math.PI - Math.Atan2(point.Y, point.X);
 }

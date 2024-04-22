@@ -6,6 +6,7 @@
     <!--Force nullable warnings, you can disable if you want-->
     <Nullable>enable</Nullable>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
   </PropertyGroup>
   <ItemGroup>
     <None Include=".editorconfig" />

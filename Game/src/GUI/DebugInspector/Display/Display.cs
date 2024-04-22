@@ -2,25 +2,21 @@ using System.Collections.Generic;
 
 namespace GUI.DebugInspector.Display;
 
-public class Display : IDisplay
-{
+public class Display : IDisplay {
     readonly List<IDisplay> children = new();
     readonly List<string> details = new();
 
     public string Name { get; set; }
 
-    Display()
-    {
+    Display() {
         Name = "";
     }
 
-    public Display(string _name)
-    {
+    public Display(string _name) {
         Name = _name;
     }
 
-    public static Display GenerateTest()
-    {
+    public static Display GenerateTest() {
         // Holy crap I need real unit tests
         Display root = new();
         Display child1 = new();
@@ -39,22 +35,18 @@ public class Display : IDisplay
         return root;
     }
 
-    public void AddChildDisplay(IDisplay displayable)
-    {
+    public void AddChildDisplay(IDisplay displayable) {
         children.Add(displayable);
     }
-    public void AddDetail(string detail)
-    {
+    public void AddDetail(string detail) {
         details.Add(detail);
     }
 
-    public List<IDisplay> GetChildDisplays()
-    {
+    public List<IDisplay> GetChildDisplays() {
         return children;
     }
 
-    public List<string> GetDetails()
-    {
+    public List<string> GetDetails() {
         return details;
     }
 }

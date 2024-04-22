@@ -2,8 +2,7 @@ using Interactable;
 
 namespace Pawn.Action.Ability;
 
-public interface IAbility : IAction
-{
+public interface IAbility : IAction {
     // List<AbilityTags> Tags {get;}
     public bool CanBeUsed(IPawnController ownerPawnController);
     int CooldownMilliseconds { get; }

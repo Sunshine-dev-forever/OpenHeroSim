@@ -5,8 +5,7 @@ using Pawn.Targeting;
 
 namespace Pawn.Tasks;
 
-public class Task : ITask
-{
+public class Task : ITask {
     // TODO: Name is not fully accurate,
     // examples of values Name will have are:
     // "Waiting in place for ever and ever (DebugGoal)"
@@ -15,21 +14,16 @@ public class Task : ITask
     public string Description { get; set; } = "default task name";
 
     readonly ITargeting targeting;
-    public Task(ITargeting _targeting, IAction action)
-    {
+    public Task(ITargeting _targeting, IAction action) {
         targeting = _targeting;
         Action = action;
     }
 
-    public Task(ITargeting _targeting, IAction action, string description) : this(_targeting, action)
-    {
+    public Task(ITargeting _targeting, IAction action, string description) : this(_targeting, action) {
         Description = description;
         TaskState = TaskState.MOVING_TO;
     }
-    public Vector3 GetTargetPosition()
-    {
-        return targeting.GetTargetPosition();
-    }
+    public Vector3 GetTargetPosition() => targeting.GetTargetPosition();
     public IAction Action { get; }
     // Represents whether the task is valid or not
     public bool IsValid => targeting.IsValid;
@@ -42,8 +36,7 @@ public class Task : ITask
 
     public IDisplay Display => ConstructDisplay();
 
-    IDisplay ConstructDisplay()
-    {
+    IDisplay ConstructDisplay() {
         Display display = new("Task");
         display.AddDetail("Task: " + Description);
         display.AddDetail("task state: " + TaskState);

@@ -3,14 +3,12 @@ using GUI.DebugInspector.Display;
 namespace Item;
 
 // represents an item that can be worn or held
-public class Equipment : IItem
-{
+public class Equipment : IItem {
     public double BaseDamage { get; init; } = 0;
     public double BaseDefense { get; init; } = 0;
-
-    public double Damage { get { return BaseDamage * UpgradeLevel; } }
-    public double Defense { get { return BaseDamage * UpgradeLevel; } }
-    public int Value { get { return (int)(Damage + Defense); }}
+    public double Damage => BaseDamage * UpgradeLevel;
+    public double Defense => BaseDamage * UpgradeLevel;
+    public int Value => (int)(Damage + Defense);
 
     //Level 1 is the lowest level
     private int UpgradeLevel { get; set; } = 1;
@@ -23,22 +21,17 @@ public class Equipment : IItem
 
     public IDisplay Display => ConstructDisplay();
 
-    public Equipment(EquipmentType equipmentType, string name)
-    {
+    public Equipment(EquipmentType equipmentType, string name) {
         Name = name;
         EquipmentType = equipmentType;
     }
 
     //Upgrades the equipment
-    public void Upgrade()
-    {
-        UpgradeLevel += 1;
-    }
+    public void Upgrade() => UpgradeLevel += 1;
 
     public void QueueFree() { }
 
-    IDisplay ConstructDisplay()
-    {
+    IDisplay ConstructDisplay() {
         // TODO: Item containers should have proper ID generation.... one day
         Display root = new(Name);
         root.AddDetail("BaseDefense: " + BaseDefense);
@@ -49,8 +42,7 @@ public class Equipment : IItem
     }
 }
 
-public enum EquipmentType
-{
+public enum EquipmentType {
     HEAD,
     CHEST,
     LEGS,

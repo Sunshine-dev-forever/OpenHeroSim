@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 namespace Pawn;
 
-public interface IPawnInformation
-{
+public interface IPawnInformation {
     // Pawns will attack all others of a different faction
     public const string NO_FACTION = "none";
     string Faction { get; set; }

@@ -7,22 +7,18 @@ using System.Collections.Generic;
 
 namespace Pawn.Goal;
 
-public class WaypointGoal : IPawnGoal
-{
+public class WaypointGoal : IPawnGoal {
     static readonly int GOAL_DISTANCE = 3;
 
     readonly List<Node3D> waypoints;
     int waypointIndex = 0;
 
-    public WaypointGoal(List<Node3D> _waypoints)
-    {
+    public WaypointGoal(List<Node3D> _waypoints) {
         waypoints = _waypoints;
     }
 
-    public ITask GetTask(IPawnController pawnController, SensesStruct sensesStruct)
-    {
-        if (waypointIndex == waypoints.Count)
-        {
+    public ITask GetTask(IPawnController pawnController, SensesStruct sensesStruct) {
+        if (waypointIndex == waypoints.Count) {
             // we have finished all the waypoints yay!
             return new InvalidTask();
         }
@@ -35,8 +31,7 @@ public class WaypointGoal : IPawnGoal
         // and the closest point that the pawn could get to the target given the current nav mesh
         // also we are checking positional coordinates in 3D
         // NoNos all around
-        if (pawnController.GlobalTransform.Origin.DistanceTo(currentWaypoint.GlobalTransform.Origin) < GOAL_DISTANCE)
-        {
+        if (pawnController.GlobalTransform.Origin.DistanceTo(currentWaypoint.GlobalTransform.Origin) < GOAL_DISTANCE) {
             waypointIndex++;
             return GetTask(pawnController, sensesStruct);
         }
@@ -50,7 +45,7 @@ public class WaypointGoal : IPawnGoal
             .AnimationPlayLength(waitTimeMilliseconds)
             .Finish();
 
-        ITargeting targeting = 
+        ITargeting targeting =
             new StaticPointTargeting(currentWaypoint.GlobalTransform.Origin);
 
         return new Task(targeting, action, "moving to a specific waypoint");

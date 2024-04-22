@@ -3,14 +3,13 @@ using System.Collections.Generic;
 
 namespace Pawn;
 
-public interface IPawnInventory
-{
+public interface IPawnInventory {
     // Returns all items in the pawn's inventory, including equipment
     List<IItem> GetAllItems();
     List<IItem> GetAllItemsInBag();
     List<IItem> GetAllEquippedItems();
-    int Money {get;}
-    void removeMoney(int amount);
+    int Money { get; }
+    void RemoveMoney(int amount);
     bool AddItem(IItem item);
     bool RemoveItem(IItem item);
     List<IItem> EmptyAllItems();

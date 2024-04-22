@@ -7,8 +7,7 @@ using System.Collections.Generic;
 namespace Interactable;
 
 // represents an item container in the world
-public partial class ItemContainer : Node3D, IInteractable
-{
+public partial class ItemContainer : Node3D, IInteractable {
     // list of items the container contains
     public List<IItem> Items;
     // the container's mesh
@@ -18,67 +17,53 @@ public partial class ItemContainer : Node3D, IInteractable
 
     public IDisplay Display => ConstructDisplay();
 
-    IDisplay ConstructDisplay()
-    {
+    IDisplay ConstructDisplay() {
         // TODO: Item containers should have proper ID generation.... one day
         Display root = new("Item Container");
         string timeLastEmptyInfo = "time last empty = ";
 
-        if (timeLastEmpty == DateTime.MaxValue)
-        {
+        if (timeLastEmpty == DateTime.MaxValue) {
             timeLastEmptyInfo += "never";
         }
-        else
-        {
+        else {
             timeLastEmptyInfo += timeLastEmpty.ToString();
         }
 
         root.AddDetail(timeLastEmptyInfo);
         root.AddDetail("number of contained Items: " + Items.Count);
         root.AddDetail("Mesh name: " + Mesh.Name);
-        foreach (IItem item in Items)
-        {
+        foreach (IItem item in Items) {
             root.AddChildDisplay(item.Display);
         }
 
         return root;
     }
 
-    public ItemContainer(List<IItem> _items, Node3D _mesh)
-    {
+    public ItemContainer(List<IItem> _items, Node3D _mesh) {
         Items = _items;
         Mesh = _mesh;
-        this.AddChild(Mesh);
+        AddChild(Mesh);
     }
 
-    public override void _Process(double delta)
-    {
+    public override void _Process(double delta) {
         // only update TimeLastEmpty if the container is empty and
         // the container used to be full (which is what TimeLastEmpty being DateTime.MaxValue means)
-        if (Items.Count == 0 && timeLastEmpty == DateTime.MaxValue)
-        {
+        if (Items.Count == 0 && timeLastEmpty == DateTime.MaxValue) {
             timeLastEmpty = DateTime.Now;
         }
-        else if (Items.Count >= 1)
-        {
+        else if (Items.Count >= 1) {
             timeLastEmpty = DateTime.MaxValue;
         }
 
         // delete this object if it has been empty for more than TIME_TO_LIVE_WHEN_EMPTY_SECONDS
-        if ((DateTime.Now - timeLastEmpty).TotalSeconds > TIME_TO_LIVE_WHEN_EMPTY_SECONDS)
-        {
-            this.QueueFree();
+        if ((DateTime.Now - timeLastEmpty).TotalSeconds > TIME_TO_LIVE_WHEN_EMPTY_SECONDS) {
+            QueueFree();
         }
     }
 
-    public bool IsInstanceValid()
-    {
-        return IsInstanceValid(this);
-    }
-    public new void QueueFree()
-    {
-        foreach (IItem item in Items)
-        {
+    public bool IsInstanceValid() => IsInstanceValid(this);
+    public new void QueueFree() {
+        foreach (IItem item in Items) {
             item.QueueFree();
         }
 

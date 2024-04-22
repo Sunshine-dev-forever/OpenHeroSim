@@ -9,21 +9,18 @@ using Pawn.Action.Ability;
 
 namespace Worlds;
 
-public class PawnGenerator
-{
-    Node nodeStorage;
-    KdTreeController kdTreeController;
-    NavigationRegion3D navigationRegion3D;
+public class PawnGenerator {
+    readonly Node nodeStorage;
+    readonly KdTreeController kdTreeController;
+    readonly NavigationRegion3D navigationRegion3D;
 
-    public PawnGenerator(Node _nodeStorage, KdTreeController _kdTreeController, NavigationRegion3D _navigationRegion3D)
-    {
+    public PawnGenerator(Node _nodeStorage, KdTreeController _kdTreeController, NavigationRegion3D _navigationRegion3D) {
         kdTreeController = _kdTreeController;
         nodeStorage = _nodeStorage;
         navigationRegion3D = _navigationRegion3D;
     }
 
-    public IPawnController RandomPawn(IList<IPawnGoal> pawnGoals, Vector3 location, bool addRandomItems = false)
-    {
+    public IPawnController RandomPawn(IList<IPawnGoal> pawnGoals, Vector3 location, bool addRandomItems = false) {
         PawnControllerBuilder pawnControllerBuilder =
             PawnControllerBuilder.Start(
                 nodeStorage,
@@ -41,8 +38,7 @@ public class PawnGenerator
 
         int rng = ran.Next(0, 3);
 
-        return rng switch
-        {
+        return rng switch {
             0 => CreateGoblin(pawnControllerBuilder),
             1 => CreateRogue(pawnControllerBuilder),
             2 => CreateWarrior(pawnControllerBuilder),
@@ -50,19 +46,14 @@ public class PawnGenerator
         };
     }
 
-    private IItem StartingMoney()
-    {
-        return new StackItem(10, StackItem.MONEY);
-    }
+    private IItem StartingMoney() => new StackItem(10, StackItem.MONEY);
 
-    PawnControllerBuilder AddRandomItems(PawnControllerBuilder pawnControllerBuilder)
-    {
+    PawnControllerBuilder AddRandomItems(PawnControllerBuilder pawnControllerBuilder) {
         Random ran = new();
 
         int rng = ran.Next(0, 3);
 
-        return rng switch
-        {
+        return rng switch {
             0 => pawnControllerBuilder.AddItem(CreateIronSword()),
             1 => pawnControllerBuilder.AddItem(CreateRustedDagger()),
             2 => pawnControllerBuilder.AddItem(CreateHealingPotion()),
@@ -70,8 +61,7 @@ public class PawnGenerator
         };
     }
 
-    IPawnController CreateGoblin(PawnControllerBuilder pawnControllerBuilder)
-    {
+    IPawnController CreateGoblin(PawnControllerBuilder pawnControllerBuilder) {
         Random ran = new();
 
         pawnControllerBuilder.SetSpeed(14 + ran.Next(-3, 4));
@@ -84,8 +74,7 @@ public class PawnGenerator
             .Finish();
     }
 
-    IPawnController CreateRogue(PawnControllerBuilder pawnControllerBuilder)
-    {
+    IPawnController CreateRogue(PawnControllerBuilder pawnControllerBuilder) {
         Random ran = new();
 
         pawnControllerBuilder.SetSpeed(10 + ran.Next(-3, 4));
@@ -99,8 +88,7 @@ public class PawnGenerator
             .Finish();
     }
 
-    IPawnController CreateWarrior(PawnControllerBuilder pawnControllerBuilder)
-    {
+    IPawnController CreateWarrior(PawnControllerBuilder pawnControllerBuilder) {
         Random ran = new();
 
         pawnControllerBuilder.SetSpeed(9 + ran.Next(-3, 4));
@@ -113,44 +101,34 @@ public class PawnGenerator
             .Finish();
     }
 
-    Throwable CreateInfiniteAmmo()
-    {
+    Throwable CreateInfiniteAmmo() {
         Node3D arrow = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
         return new Throwable(arrow, 25, "arrow") { Count = 9999 };
     }
 
-    Equipment CreateIronSword()
-    {
-        Equipment equipment = new(EquipmentType.HELD, "iron sword")
-        {
+    Equipment CreateIronSword() {
+        Equipment equipment = new(EquipmentType.HELD, "iron sword") {
             BaseDamage = 7
         };
 
         return equipment;
     }
 
-    Equipment CreateRustedDagger()
-    {
-        Equipment equipment = new(EquipmentType.HELD, "rusty dagger")
-        {
+    Equipment CreateRustedDagger() {
+        Equipment equipment = new(EquipmentType.HELD, "rusty dagger") {
             BaseDamage = 3
         };
 
         return equipment;
     }
 
-    Equipment CreateLightSaber()
-    {
-        Equipment equipment = new(EquipmentType.HELD, "lightsaber")
-        {
+    Equipment CreateLightSaber() {
+        Equipment equipment = new(EquipmentType.HELD, "lightsaber") {
             BaseDamage = 15
         };
 
         return equipment;
     }
 
-    Consumable CreateHealingPotion()
-    {
-        return new Consumable(40, "Health potion");
-    }
+    Consumable CreateHealingPotion() => new(40, "Health potion");
 }

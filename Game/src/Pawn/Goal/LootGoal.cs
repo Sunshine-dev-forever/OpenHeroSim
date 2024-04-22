@@ -8,23 +8,18 @@ using System.Collections.Generic;
 
 namespace Pawn.Goal;
 
-public class LootGoal : IPawnGoal
-{
-    public ITask GetTask(IPawnController pawnController, SensesStruct sensesStruct)
-    {
+public class LootGoal : IPawnGoal {
+    public ITask GetTask(IPawnController pawnController, SensesStruct sensesStruct) {
         ItemContainer? nearbyLoot = GetFirstNonemptyContainer(sensesStruct.nearbyContainers);
 
-        if (nearbyLoot == null)
-        {
+        if (nearbyLoot == null) {
             return new InvalidTask();
         }
 
-        void executable()
-        {
-            for (int i = nearbyLoot.Items.Count - 1; i >= 0; i--)
-            {
+        void executable() {
+            for (int i = nearbyLoot.Items.Count - 1; i >= 0; i--) {
                 IItem item = nearbyLoot.Items[i];
-                processItem(item, pawnController, nearbyLoot);
+                ProcessItem(item, pawnController, nearbyLoot);
             }
         }
 
@@ -37,56 +32,45 @@ public class LootGoal : IPawnGoal
         return new Task(targeting, action, "Looting a container");
     }
 
-    void processItem(IItem item, IPawnController pawnController, ItemContainer container)
-    {
+    static void ProcessItem(IItem item, IPawnController pawnController, ItemContainer container) {
         container.Items.Remove(item);
 
-        if (item is Equipment newWeapon)
-        {
+        if (item is Equipment newWeapon) {
             Equipment? currentWeapon = pawnController.PawnInventory
                 .GetWornEquipment(EquipmentType.HELD);
 
-            if (currentWeapon == null || (newWeapon.Damage > currentWeapon.Damage))
-            {
+            if (currentWeapon == null || (newWeapon.Damage > currentWeapon.Damage)) {
                 // if we want the weapon, we take the weapon
                 pawnController.PawnInventory.WearEquipment(newWeapon);
             }
         }
-        else if (item is Consumable)
-        {
+        else if (item is Consumable) {
             bool wasAddSuccessfull = pawnController.PawnInventory.AddItem(item);
 
-            if (!wasAddSuccessfull)
-            {
+            if (!wasAddSuccessfull) {
                 // I guess the bag is full
                 // we delete the item
                 item.QueueFree();
             }
         }
-        else if (item is StackItem)
-        {
+        else if (item is StackItem) {
             //man this function is not going to scale well HAHA!
             bool wasAddSuccessfull = pawnController.PawnInventory.AddItem(item);
-            if (!wasAddSuccessfull)
-            {
+            if (!wasAddSuccessfull) {
                 // I guess the bag is full
                 // we delete the item
                 item.QueueFree();
             }
         }
-        else
-        {
+        else {
             // Some unknown item, destroy it so no one else can have it
             item.QueueFree();
         }
     }
 
-    ItemContainer? GetFirstNonemptyContainer(List<ItemContainer> nearbyContainers)
-    {
-        foreach (ItemContainer itemContainer in nearbyContainers)
-        {
-            if (itemContainer.Items.Count >= 1)
-            {
+    ItemContainer? GetFirstNonemptyContainer(List<ItemContainer> nearbyContainers) {
+        foreach (ItemContainer itemContainer in nearbyContainers) {
+            if (itemContainer.Items.Count >= 1) {
                 return itemContainer;
             }
         }

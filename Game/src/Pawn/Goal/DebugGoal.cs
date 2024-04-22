@@ -5,10 +5,8 @@ using Pawn.Tasks;
 
 namespace Pawn.Goal;
 
-public class DebugGoal : IPawnGoal
-{
-    public ITask GetTask(IPawnController pawnController, SensesStruct sensesStruct)
-    {
+public class DebugGoal : IPawnGoal {
+    public ITask GetTask(IPawnController pawnController, SensesStruct sensesStruct) {
         int waitTimeMilliseconds = 10000;
 
         IAction waitAction = ActionBuilder
@@ -21,8 +19,8 @@ public class DebugGoal : IPawnGoal
         ITargeting targeting = new InteractableTargeting(pawnController);
 
         return new Task(
-            targeting, 
-            waitAction, 
+            targeting,
+            waitAction,
             "Waiting in place for ever and ever (DebugGoal)");
     }
 }
