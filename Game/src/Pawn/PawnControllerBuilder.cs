@@ -16,6 +16,7 @@ public class PawnControllerBuilder {
     readonly PawnController pawn;
     static readonly string PAWN_RIG_RESOURCE_FILE_DEFAULT = ResourcePaths.WARRIOR_MODEL;
     string pawnRigResourceFile = PAWN_RIG_RESOURCE_FILE_DEFAULT;
+    double startingHealth = -1;
 
     // creates a pawn with no AI
     public static PawnController CreateTrainingDummy(
@@ -46,7 +47,7 @@ public class PawnControllerBuilder {
 
         pawn.PawnMovement.SetNavigation(navigation);
     }
-    public static PawnControllerBuilder Start(Node parent,KdTreeController _kdTreeController, NavigationRegion3D navigation) => new(parent, _kdTreeController, navigation);
+    public static PawnControllerBuilder Start(Node parent, KdTreeController _kdTreeController, NavigationRegion3D navigation) => new(parent, _kdTreeController, navigation);
 
     public PawnControllerBuilder Location(Vector3 spawnLocation) {
         pawn.GlobalTransform = new Transform3D(pawn.GlobalTransform.Basis, spawnLocation);
@@ -68,6 +69,7 @@ public class PawnControllerBuilder {
     }
 
     public PawnController Finish() {
+        pawn.PawnInformation.Health = startingHealth == -1 ? pawn.PawnInformation.MaxHealth : startingHealth;
         pawn.PawnVisuals.Setup(pawnRigResourceFile);
         pawn.Setup(kdTreeController);
         return pawn;
@@ -101,6 +103,11 @@ public class PawnControllerBuilder {
 
     public PawnControllerBuilder SetMaxHealth(double maxHealth) {
         pawn.PawnInformation.MaxHealth = maxHealth;
+        return this;
+    }
+
+    public PawnControllerBuilder SetHealth(double health) {
+        startingHealth = health;
         return this;
     }
 
