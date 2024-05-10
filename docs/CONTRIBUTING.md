@@ -26,7 +26,7 @@ Download the Nuget packages listed in the csproj (they might be installed automa
 TODO
 
 ### Code Style
-Code style is enforced through the wonderful .editorconfig file.
+[CODE_STYLE](CODE_STYLE.md)
 
 ### Guidelines
 General Guiding Principles:
@@ -45,9 +45,6 @@ Want to transform the game into a first-person muliplayer shooter? Maybe go some
 
 There are some features that would need justification:
 Stealth mechanics. -- this is an all AI game. AI is bad at detecting stealth and bad at using it. I cant think of a way to make this work, does not meant that it is impossible though
-
-
-
 
 
 ### Additional help

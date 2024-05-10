@@ -12,7 +12,7 @@ config_version=5
 
 config/name="MedievalHeroSim"
 run/main_scene="res://scenes/menus/main/main_menu.tscn"
-config/features=PackedStringArray("4.1", "C#")
+config/features=PackedStringArray("4.2", "C#")
 
 [autoload]
 
