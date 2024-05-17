@@ -22,10 +22,6 @@ Startup="*res://src/Startup.cs"
 
 project/assembly_name="MedievalHeroSim"
 
-[editor_plugins]
-
-enabled=PackedStringArray()
-
 [gdunit3]
 
 settings/test/test_root_folder="tst"
