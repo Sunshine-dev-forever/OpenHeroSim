@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://ciryc8qopo0du"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_iq38t"]
+size = Vector3(1.5, 1.5, 1.5)
+
+[node name="LableBox" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+mesh = SubResource("BoxMesh_iq38t")
+
+[node name="Label3D" type="Label3D" parent="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05614, 0)
+pixel_size = 0.007
+text = "Example"
