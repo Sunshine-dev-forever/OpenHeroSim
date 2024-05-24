@@ -1,3 +1,96 @@
-[gd_scene format=3 uid="uid://dc01r7dp8jlw3"]
+[gd_scene load_steps=14 format=3 uid="uid://dc01r7dp8jlw3"]
+
+[ext_resource type="PlaneMesh" uid="uid://clfnilip5uoca" path="res://Scenes/worlds/goblin_attack/ground.tres" id="1_1qgh2"]
+[ext_resource type="PackedScene" uid="uid://ciryc8qopo0du" path="res://Scenes/world_objects/lable_box.tscn" id="2_c6kkd"]
+[ext_resource type="Script" path="res://src/Interactable/Spawner.cs" id="3_fvvxn"]
+[ext_resource type="Script" path="res://src/Worlds/GoblinAttack/GoblinAttackRunner.cs" id="3_gs1wl"]
+[ext_resource type="Script" path="res://src/GUI/FreeCamera.gd" id="5_u8u60"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_cvvsd"]
+vertices = PackedVector3Array(-51.5, 0.5, -10.5, -51.5, 0.5, -249.5, -249.5, 0.5, -249.5, -249.5, 0.5, -10.5, -49.25, 0.5, -10.25, -49.25, 0.5, 10.25, -10, 0.5, 49.5, 10.5, 0.5, 49.5, -49.25, 0.5, -10.25, 10.5, 0.5, 49.5, 249.5, 0.5, 51, 249.5, 0.5, -249.5, -51.5, 0.5, -249.5, 10.5, 0.5, 49.5, 10.75, 0.5, 51.25, 249.5, 0.5, 51, -51.5, 0.5, -249.5, -51.5, 0.5, -10.5, -49.25, 0.5, -10.25, -249.5, 1.5, 9.5, -50.5, 1.5, 9.75, -50.5, 1.5, -9.5, -249.5, 1.5, -9.5, -10.5, 0.5, 49.75, -10, 0.5, 49.5, -49.25, 0.5, 10.25, -49.5, 0.5, 10.75, -167, 0.5, 10.75, -165.25, 0.5, 155.25, -165, 0.5, 157.25, -10.5, 0.5, 157.25, -10.5, 0.5, 49.75, -49.5, 0.5, 10.75, -167, 0.5, 10.75, -167, 0.5, 155.25, -165.25, 0.5, 155.25, -249.5, 0.5, 156.75, -169.25, 0.5, 157, -169, 0.5, 155.25, -167, 0.5, 10.75, -249.5, 0.5, 10.75, -169, 0.5, 155.25, -167, 0.5, 155.25, -167, 0.5, 10.75, -9.5, 1.5, 50.5, -9.5, 1.5, 249.5, 9.5, 1.5, 249.5, 9.5, 1.5, 50.5, 10.75, 0.5, 51.25, 10.75, 0.5, 249.5, 249.5, 0.5, 249.5, 249.5, 0.5, 51, -168.25, 3.5, 156.25, -168.25, 3.5, 158.5, -166, 3.5, 158.5, -166, 3.5, 156.25, -168, 0.5, 156.5, -168, 0.5, 158.25, -166.25, 0.5, 158.25, -166.25, 0.5, 156.5, -249.5, 0.5, 158, -169.25, 0.5, 157.75, -169.25, 0.5, 157, -249.5, 0.5, 156.75, -165, 0.5, 159.25, -167, 0.5, 159.5, -167, 0.5, 249.5, -10.5, 0.5, 249.5, -10.5, 0.5, 157.25, -10.5, 0.5, 157.25, -165, 0.5, 157.25, -165, 0.5, 159.25, -169, 0.5, 159.5, -169.25, 0.5, 157.75, -249.5, 0.5, 158, -249.5, 0.5, 249.5, -167, 0.5, 249.5, -167, 0.5, 249.5, -167, 0.5, 159.5, -169, 0.5, 159.5)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1), PackedInt32Array(5, 4, 6), PackedInt32Array(6, 4, 7), PackedInt32Array(9, 8, 10), PackedInt32Array(10, 8, 12), PackedInt32Array(10, 12, 11), PackedInt32Array(15, 14, 13), PackedInt32Array(18, 17, 16), PackedInt32Array(22, 21, 19), PackedInt32Array(19, 21, 20), PackedInt32Array(26, 25, 23), PackedInt32Array(23, 25, 24), PackedInt32Array(28, 27, 29), PackedInt32Array(29, 27, 32), PackedInt32Array(29, 32, 31), PackedInt32Array(29, 31, 30), PackedInt32Array(35, 34, 33), PackedInt32Array(37, 36, 38), PackedInt32Array(38, 36, 40), PackedInt32Array(38, 40, 39), PackedInt32Array(43, 42, 41), PackedInt32Array(47, 46, 44), PackedInt32Array(44, 46, 45), PackedInt32Array(49, 48, 50), PackedInt32Array(50, 48, 51), PackedInt32Array(55, 54, 52), PackedInt32Array(52, 54, 53), PackedInt32Array(59, 58, 56), PackedInt32Array(56, 58, 57), PackedInt32Array(61, 60, 62), PackedInt32Array(62, 60, 63), PackedInt32Array(65, 64, 66), PackedInt32Array(66, 64, 67), PackedInt32Array(67, 64, 68), PackedInt32Array(71, 70, 69), PackedInt32Array(73, 72, 74), PackedInt32Array(74, 72, 75), PackedInt32Array(75, 72, 76), PackedInt32Array(79, 78, 77)]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_j5g64"]
+rough = true
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_kcmm7"]
+size = Vector3(500, 1, 500)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_2vull"]
+size = Vector3(20, 1, 200)
+
+[sub_resource type="BoxMesh" id="BoxMesh_28pax"]
+size = Vector3(20, 1, 200)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qgja0"]
+albedo_color = Color(0.278431, 0.356863, 0.882353, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_lbfwm"]
+material = SubResource("StandardMaterial3D_qgja0")
+size = Vector2(150, 150)
+
+[sub_resource type="Environment" id="Environment_kvo5q"]
 
 [node name="GoblinAttack" type="Node3D"]
+script = ExtResource("3_gs1wl")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="."]
+navigation_mesh = SubResource("NavigationMesh_cvvsd")
+
+[node name="Floor" type="StaticBody3D" parent="NavigationRegion3D"]
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_j5g64")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Floor"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+shape = SubResource("BoxShape3D_kcmm7")
+
+[node name="Ground" type="MeshInstance3D" parent="NavigationRegion3D/Floor"]
+mesh = ExtResource("1_1qgh2")
+skeleton = NodePath("../../..")
+
+[node name="Wall" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -150, 0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Wall"]
+shape = SubResource("BoxShape3D_2vull")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Wall"]
+mesh = SubResource("BoxMesh_28pax")
+
+[node name="Wall2" type="StaticBody3D" parent="NavigationRegion3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 150)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="NavigationRegion3D/Wall2"]
+shape = SubResource("BoxShape3D_2vull")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Wall2"]
+mesh = SubResource("BoxMesh_28pax")
+
+[node name="Buildings" type="Node" parent="NavigationRegion3D"]
+
+[node name="WarriorsGuild" parent="NavigationRegion3D/Buildings" instance=ExtResource("2_c6kkd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -167.234, 0, 157.487)
+script = ExtResource("3_fvvxn")
+
+[node name="Label3D" parent="NavigationRegion3D/Buildings/WarriorsGuild/StaticBody3D/MeshInstance3D" index="0"]
+text = "Warriors Guild
+"
+
+[node name="Areas" type="Node" parent="."]
+
+[node name="VillageArea" type="MeshInstance3D" parent="Areas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -150, 0.1, 150)
+mesh = SubResource("PlaneMesh_lbfwm")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -165.565, 10.4554, 173.422)
+script = ExtResource("5_u8u60")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_kvo5q")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.951073, 0.202933, 0.232979, 0, -0.754057, 0.65681, 0.308967, -0.624674, -0.717163, 0, 45.9872, 0)
+
+[editable path="NavigationRegion3D/Buildings/WarriorsGuild"]

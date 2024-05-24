@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://src/Worlds/BattleRoyale/BattleRoyaleRunner.cs" id="1_kimcv"]
 [ext_resource type="Script" path="res://src/GUI/FreeCamera.gd" id="2"]
-[ext_resource type="PlaneMesh" uid="uid://sk1pvvyu4jlr" path="res://scenes/worlds/main_test/ground.tres" id="5"]
+[ext_resource type="PlaneMesh" uid="uid://sk1pvvyu4jlr" path="res://Scenes/worlds/main_test/ground.tres" id="5"]
 
 [sub_resource type="BoxMesh" id="11"]
 size = Vector3(500, 2, 2)

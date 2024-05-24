@@ -1,15 +1,25 @@
-[gd_scene load_steps=2 format=3 uid="uid://ciryc8qopo0du"]
+[gd_scene load_steps=3 format=3 uid="uid://ciryc8qopo0du"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ua0em"]
+size = Vector3(3, 3, 3)
 
 [sub_resource type="BoxMesh" id="BoxMesh_iq38t"]
-size = Vector3(1.5, 1.5, 1.5)
+size = Vector3(3, 3, 3)
 
 [node name="LableBox" type="Node3D"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
-mesh = SubResource("BoxMesh_iq38t")
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
 
-[node name="Label3D" type="Label3D" parent="MeshInstance3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.05614, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_ua0em")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_iq38t")
+skeleton = NodePath("../..")
+
+[node name="Label3D" type="Label3D" parent="StaticBody3D/MeshInstance3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.88132, 0)
 pixel_size = 0.007
 text = "Example"
+font_size = 80

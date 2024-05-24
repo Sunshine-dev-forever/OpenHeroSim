@@ -77,7 +77,7 @@ public class PawnMovement {
 
     public void SetNavigation(NavigationRegion3D navigation) => navigationAgent
             .SetNavigationMap(NavigationServer3D
-            .RegionGetMap(navigation.GetRegionRid()));
+            .RegionGetMap(navigation.GetRid()));
 
     // TODO: in godot 4 there may be a better way to do this
     void UpdateIsNavigationServerReady() {
