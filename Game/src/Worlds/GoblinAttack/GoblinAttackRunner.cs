@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using Util;
 using GUI.DebugInspector;
 using System.Diagnostics;
+using NSubstitute.Routing.Handlers;
 
 namespace Worlds.GoblinAttack;
 
@@ -16,9 +17,15 @@ public partial class GoblinAttackRunner : Node {
 	readonly List<IPawnController> pawns = new();
 	KdTreeController kdTreeController = null!;
 	PawnGenerator pawnGenerator = null!;
+	MeshInstance3D VillageArea = null!;
+
+	WanderGoal GetWanderGoal() => new(() => (
+		CoordinateUtil.GetRandomLocationWithinPlane(VillageArea)
+	));
 
 	public override void _Ready() {
 		kdTreeController = new KdTreeController();
+		VillageArea = GetNode<MeshInstance3D>("Areas/VillageArea");
 
 		//setting up UI elements:
 		AddChild(CustomResourceLoader.LoadUI(ResourcePaths.FPS_COUNTER_UI));
@@ -36,7 +43,7 @@ public partial class GoblinAttackRunner : Node {
 			navigationRegion3D);
 
 		List<IPawnGoal> pawnGoals = new() {
-			new DebugGoal()
+			GetWanderGoal()
 		};
 
 		Spawner warriorGuild = GetNode<Spawner>("NavigationRegion3D/Buildings/WarriorsGuild");

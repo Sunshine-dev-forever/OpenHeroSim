@@ -3,33 +3,32 @@ using Pawn.Components;
 using Pawn.Targeting;
 using Pawn.Tasks;
 using System;
+using Godot;
 
 namespace Pawn.Goal;
 
 public class WanderGoal : IPawnGoal {
-    // center is always at (0,0)
-    readonly int sideLength;
 
-    public WanderGoal() {
-        sideLength = 50;
+    readonly Func<Vector3> destinationGetter;
+    readonly int waitTimeMilliseconds = 2000;
+
+    public WanderGoal(Func<Vector3> _destinationGetter) {
+        destinationGetter = _destinationGetter;
     }
 
-    public WanderGoal(int _sideLength) {
-        sideLength = _sideLength;
+    public WanderGoal(int _waitTimeMilliseconds, Func<Vector3> _destinationGetter) {
+        waitTimeMilliseconds = _waitTimeMilliseconds;
+        destinationGetter = _destinationGetter;
     }
 
     public ITask GetTask(IPawnController pawnController, SensesStruct sensesStruct) {
-        Random random = new();
-        float x = (float)((random.NextDouble() * sideLength) - (sideLength / 2));
-        float z = (float)((random.NextDouble() * sideLength) - (sideLength / 2));
-        int waitTimeMilliseconds = 2000;
         IAction action = ActionBuilder
             .Start(pawnController, () => { })
             .Animation(AnimationName.Idle)
             .AnimationPlayLength(waitTimeMilliseconds)
             .Finish();
 
-        ITargeting targeting = new StaticPointTargeting(new Godot.Vector3(x, 5, z));
+        ITargeting targeting = new StaticPointTargeting(destinationGetter());
         return new Task(targeting, action, "wandering about");
     }
 }

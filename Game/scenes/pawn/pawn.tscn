@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://duy3orjbopngh"]
 
-[ext_resource type="PackedScene" uid="uid://c662kyccaj4ij" path="res://scenes/gui/health_bar_3d.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://c662kyccaj4ij" path="res://Scenes/gui/health_bar_3d.tscn" id="1"]
 [ext_resource type="Script" path="res://src/Pawn/PawnRigidBody.cs" id="3"]
 [ext_resource type="Script" path="res://src/Pawn/PawnController.cs" id="4"]
 [ext_resource type="Script" path="res://src/Pawn/PawnVisuals.cs" id="5"]
@@ -47,5 +47,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0650582, -6.03961e-14)
 target_position = Vector3(0, -0.25, 0)
 
 [node name="NavigationAgent3D" type="NavigationAgent3D" parent="RigidBody3D"]
-target_desired_distance = 0.5
+path_desired_distance = 1.5
 path_height_offset = 1.5

@@ -77,7 +77,7 @@ public partial class MainTestRunner : Node {
                 new HealGoal(),
                 new DefendSelfGoal(),
                 new LootGoal(),
-                new WanderGoal()
+                WanderGoal
             })
             .AddAbility(AbilityDefinitions.THROW_ABILITY)
             .AddAbility(AbilityDefinitions.STAB_ABILITY)
@@ -87,6 +87,14 @@ public partial class MainTestRunner : Node {
             .Location(new Vector3(0, 5, 0))
             .Finish();
     }
+
+    WanderGoal WanderGoal => new(() => {
+        Random random = new();
+        int sideLength = 50;
+        float x = (float)((random.NextDouble() * sideLength) - (sideLength / 2));
+        float z = (float)((random.NextDouble() * sideLength) - (sideLength / 2));
+        return new Vector3(x, 5, z);
+    });
 
     public Throwable CreateThrowable() {
         Node3D spear = CustomResourceLoader.LoadMesh(ResourcePaths.DJERID);
@@ -119,7 +127,7 @@ public partial class MainTestRunner : Node {
                 new HealGoal(),
                 new DefendSelfGoal(),
                 new LootGoal(),
-                new WanderGoal()
+                WanderGoal
             };
 
         return pawnGenerator.RandomPawn(goals, GenerateRandomVector(), true);
@@ -135,7 +143,7 @@ public partial class MainTestRunner : Node {
                 new HealGoal(),
                 new DefendSelfGoal(),
                 new LootGoal(),
-                new WanderGoal()
+                WanderGoal
             })
             .AddAbility(AbilityDefinitions.STAB_ABILITY)
             .WearEquipment(GetRandomWeapon())
