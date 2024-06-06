@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://dc01r7dp8jlw3"]
 
-[ext_resource type="PlaneMesh" uid="uid://clfnilip5uoca" path="res://Scenes/worlds/goblin_attack/ground.tres" id="1_1qgh2"]
-[ext_resource type="PackedScene" uid="uid://ciryc8qopo0du" path="res://Scenes/world_objects/lable_box.tscn" id="2_c6kkd"]
+[ext_resource type="PlaneMesh" uid="uid://clfnilip5uoca" path="res://scenes/worlds/goblin_attack/ground.tres" id="1_1qgh2"]
+[ext_resource type="PackedScene" uid="uid://ciryc8qopo0du" path="res://scenes/world_objects/lable_box.tscn" id="2_c6kkd"]
 [ext_resource type="Script" path="res://src/Interactable/Spawner.cs" id="3_fvvxn"]
 [ext_resource type="Script" path="res://src/Worlds/GoblinAttack/GoblinAttackRunner.cs" id="3_gs1wl"]
 [ext_resource type="Script" path="res://src/GUI/FreeCamera.gd" id="5_u8u60"]

@@ -9,11 +9,11 @@ public static class ResourcePaths {
     public const string BOX_HELM = "res://scenes/world_objects/box_helm.tscn";
     public const string TREASURE_CHEST = "res://scenes/world_objects/treasure_chest.tscn";
     // just the pawn model
-    public const string PAWN_MODEL = "res://Assets/basic_pawn.glb";
-    public const string GOBLIN_MODEL = "res://Assets/Goblin/goblin.glb";
-    public const string ROGUE_MODEL = "res://Assets/Rogue/Rogue.glb";
-    public const string WARRIOR_MODEL = "res://Assets/Warrior/warrior.glb";
-    public const string ANVIL_MODEL = "res://Assets/Objects/Anvil.glb";
+    public const string PAWN_MODEL = "res://assets/basic_pawn.glb";
+    public const string GOBLIN_MODEL = "res://assets/Goblin/goblin.glb";
+    public const string ROGUE_MODEL = "res://assets/Rogue/Rogue.glb";
+    public const string WARRIOR_MODEL = "res://assets/Warrior/warrior.glb";
+    public const string ANVIL_MODEL = "res://assets/Objects/Anvil.glb";
 
     // Pawn scene comes with all the scripts and structure
     public const string PAWN_SCENE = "res://scenes/pawn/pawn.tscn";
