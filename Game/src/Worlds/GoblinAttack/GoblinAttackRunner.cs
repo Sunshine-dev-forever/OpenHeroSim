@@ -19,13 +19,14 @@ public partial class GoblinAttackRunner : Node {
 	PawnGenerator pawnGenerator = null!;
 	MeshInstance3D VillageArea = null!;
 
-	WanderGoal GetWanderGoal() => new(() => (
-		CoordinateUtil.GetRandomLocationWithinPlane(VillageArea)
+	WanderGoal GetWanderGoal(MeshInstance3D area) => new(() => (
+		CoordinateUtil.GetRandomLocationWithinPlane(area)
 	));
 
 	public override void _Ready() {
 		kdTreeController = new KdTreeController();
-		VillageArea = GetNode<MeshInstance3D>("Areas/VillageArea");
+		VillageArea = GetNode<MeshInstance3D>("NavigationRegion3D/Areas/VillageArea");
+		MeshInstance3D GoblinArea = GetNode<MeshInstance3D>("NavigationRegion3D/Areas/GoblinArea");
 
 		//setting up UI elements:
 		AddChild(CustomResourceLoader.LoadUI(ResourcePaths.FPS_COUNTER_UI));
@@ -42,13 +43,13 @@ public partial class GoblinAttackRunner : Node {
 			kdTreeController,
 			navigationRegion3D);
 
-		List<IPawnGoal> pawnGoals = new() {
-			GetWanderGoal()
-		};
-
-		Spawner warriorGuild = GetNode<Spawner>("NavigationRegion3D/Buildings/WarriorsGuild");
+		Spawner warriorGuild = GetNode<Spawner>("NavigationRegion3D/Areas/VillageArea/WarriorsGuild");
 		kdTreeController.AddInteractable(warriorGuild);
-		warriorGuild.Setup(pawnGenerator, pawnGoals);
+		warriorGuild.Setup(pawnGenerator, new List<IPawnGoal>() { GetWanderGoal(VillageArea) });
+
+		Spawner goblinGuild = GetNode<Spawner>("NavigationRegion3D/Areas/GoblinArea/GoblinGuild");
+		kdTreeController.AddInteractable(goblinGuild);
+		goblinGuild.Setup(pawnGenerator, new List<IPawnGoal>() { GetWanderGoal(GoblinArea) });
 	}
 
 	public override void _Input(InputEvent input) {
@@ -69,14 +70,6 @@ public partial class GoblinAttackRunner : Node {
 	public override void _Process(double delta) =>
 		//I have a comment
 		kdTreeController.Process();
-
-	Vector3 GetRandomLocationInArena() {
-		Random rand = new();
-		int x = rand.Next(-249, 249);
-		int z = rand.Next(-249, 249);
-		int HEIGHT_DEFAULT = 4;
-		return new Vector3(x, HEIGHT_DEFAULT, z);
-	}
 
 	// IPawnController CreatePawn(Vector3 location) {
 	//     List<IPawnGoal> pawnGoals = new() {

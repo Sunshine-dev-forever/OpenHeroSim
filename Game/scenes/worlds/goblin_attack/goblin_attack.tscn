@@ -23,7 +23,7 @@ size = Vector3(20, 1, 200)
 size = Vector3(20, 1, 200)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qgja0"]
-albedo_color = Color(0.278431, 0.356863, 0.882353, 1)
+albedo_color = Color(0.148624, 0.347296, 0.962992, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_lbfwm"]
 material = SubResource("StandardMaterial3D_qgja0")
@@ -67,21 +67,31 @@ shape = SubResource("BoxShape3D_2vull")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="NavigationRegion3D/Wall2"]
 mesh = SubResource("BoxMesh_28pax")
 
-[node name="Buildings" type="Node" parent="NavigationRegion3D"]
+[node name="Areas" type="Node" parent="NavigationRegion3D"]
 
-[node name="WarriorsGuild" parent="NavigationRegion3D/Buildings" instance=ExtResource("2_c6kkd")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -167.234, 0, 157.487)
+[node name="VillageArea" type="MeshInstance3D" parent="NavigationRegion3D/Areas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -150, 0.1, 150)
+mesh = SubResource("PlaneMesh_lbfwm")
+
+[node name="WarriorsGuild" parent="NavigationRegion3D/Areas/VillageArea" instance=ExtResource("2_c6kkd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.234, -0.1, 7.487)
 script = ExtResource("3_fvvxn")
 
-[node name="Label3D" parent="NavigationRegion3D/Buildings/WarriorsGuild/StaticBody3D/MeshInstance3D" index="0"]
+[node name="Label3D" parent="NavigationRegion3D/Areas/VillageArea/WarriorsGuild/StaticBody3D/MeshInstance3D" index="0"]
 text = "Warriors Guild
 "
 
-[node name="Areas" type="Node" parent="."]
-
-[node name="VillageArea" type="MeshInstance3D" parent="Areas"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -150, 0.1, 150)
+[node name="GoblinArea" type="MeshInstance3D" parent="NavigationRegion3D/Areas"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -150, 0.1, -150)
 mesh = SubResource("PlaneMesh_lbfwm")
+
+[node name="GoblinGuild" parent="NavigationRegion3D/Areas/GoblinArea" instance=ExtResource("2_c6kkd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.234, -0.1, 7.487)
+script = ExtResource("3_fvvxn")
+
+[node name="Label3D" parent="NavigationRegion3D/Areas/GoblinArea/GoblinGuild/StaticBody3D/MeshInstance3D" index="0"]
+text = "Goblin Guild
+"
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -165.565, 10.4554, 173.422)
@@ -93,4 +103,5 @@ environment = SubResource("Environment_kvo5q")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.951073, 0.202933, 0.232979, 0, -0.754057, 0.65681, 0.308967, -0.624674, -0.717163, 0, 45.9872, 0)
 
-[editable path="NavigationRegion3D/Buildings/WarriorsGuild"]
+[editable path="NavigationRegion3D/Areas/VillageArea/WarriorsGuild"]
+[editable path="NavigationRegion3D/Areas/GoblinArea/GoblinGuild"]
