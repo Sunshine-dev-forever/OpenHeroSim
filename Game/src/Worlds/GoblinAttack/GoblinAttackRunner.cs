@@ -43,13 +43,21 @@ public partial class GoblinAttackRunner : Node {
 			kdTreeController,
 			navigationRegion3D);
 
+		// Ideally we would not have to set these up, but Godot can only export Varient-compatable types
+		// see: https://docs.godotengine.org/en/stable/tutorials/scripting/c_sharp/c_sharp_variant.html#doc-c-sharp-variant
 		Spawner warriorGuild = GetNode<Spawner>("NavigationRegion3D/Areas/VillageArea/WarriorsGuild");
 		kdTreeController.AddInteractable(warriorGuild);
-		warriorGuild.Setup(pawnGenerator, new List<IPawnGoal>() { GetWanderGoal(VillageArea) });
+		warriorGuild.Setup(pawnGenerator,
+			new List<IPawnGoal>() { GetWanderGoal(VillageArea) },
+			new List<PawnType>() { PawnType.WARRIOR }
+		);
 
 		Spawner goblinGuild = GetNode<Spawner>("NavigationRegion3D/Areas/GoblinArea/GoblinGuild");
 		kdTreeController.AddInteractable(goblinGuild);
-		goblinGuild.Setup(pawnGenerator, new List<IPawnGoal>() { GetWanderGoal(GoblinArea) });
+		goblinGuild.Setup(pawnGenerator,
+			new List<IPawnGoal>() { GetWanderGoal(GoblinArea) },
+			new List<PawnType>() { PawnType.GOBLIN }
+		);
 	}
 
 	public override void _Input(InputEvent input) {

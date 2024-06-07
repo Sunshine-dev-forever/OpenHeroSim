@@ -13,15 +13,14 @@ namespace Interactable;
 
 public partial class Spawner : Node3D, IInteractable {
 
-    private PawnGenerator pawnGenerator;
-    private List<IPawnGoal> pawnGoals;
-    private bool wasSetup = false;
-
+    PawnGenerator pawnGenerator;
+    List<IPawnGoal> pawnGoals;
+    List<PawnType> pawnTypes;
+    bool wasSetup = false;
     [Export]
     //How many seconds to wait inbetween spawning
-    private double spawnRate = 10;
-
-    private double timeSinceLastSpawn = 0;
+    double spawnRate = 10;
+    double timeSinceLastSpawn = 0;
 
     public override void _Process(double delta) {
         if (!wasSetup) return;
@@ -29,14 +28,15 @@ public partial class Spawner : Node3D, IInteractable {
         timeSinceLastSpawn += delta;
         if (timeSinceLastSpawn > spawnRate) {
             timeSinceLastSpawn = 0;
-            pawnGenerator.RandomPawn(pawnGoals, GetSpawnLocation());
+            pawnGenerator.RandomPawn(pawnGoals, GetSpawnLocation(), false, pawnTypes);
         }
     }
 
-    public void Setup(PawnGenerator _pawnGenerator, List<IPawnGoal> _pawnGoals) {
+    public void Setup(PawnGenerator _pawnGenerator, List<IPawnGoal> _pawnGoals, List<PawnType> _pawnTypes) {
         wasSetup = true;
         pawnGenerator = _pawnGenerator;
         pawnGoals = _pawnGoals;
+        pawnTypes = _pawnTypes;
     }
 
     public IDisplay Display {

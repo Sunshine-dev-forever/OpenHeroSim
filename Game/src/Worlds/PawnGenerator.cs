@@ -13,6 +13,7 @@ public class PawnGenerator {
     readonly Node nodeStorage;
     readonly KdTreeController kdTreeController;
     readonly NavigationRegion3D navigationRegion3D;
+    readonly Random random = new();
 
     public PawnGenerator(Node _nodeStorage, KdTreeController _kdTreeController, NavigationRegion3D _navigationRegion3D) {
         kdTreeController = _kdTreeController;
@@ -20,7 +21,8 @@ public class PawnGenerator {
         navigationRegion3D = _navigationRegion3D;
     }
 
-    public IPawnController RandomPawn(IList<IPawnGoal> pawnGoals, Vector3 location, bool addRandomItems = false) {
+    public IPawnController RandomPawn(IList<IPawnGoal> pawnGoals, Vector3 location, bool addRandomItems = false, List<PawnType>? pawnTypes = null) {
+
         PawnControllerBuilder pawnControllerBuilder =
             PawnControllerBuilder.Start(
                 nodeStorage,
@@ -38,12 +40,22 @@ public class PawnGenerator {
 
         int rng = ran.Next(0, 3);
 
-        return rng switch {
-            0 => CreateGoblin(pawnControllerBuilder),
-            1 => CreateRogue(pawnControllerBuilder),
-            2 => CreateWarrior(pawnControllerBuilder),
+        return GetPawnTypeToSpawn(pawnTypes) switch {
+            PawnType.GOBLIN => CreateGoblin(pawnControllerBuilder),
+            PawnType.ROGUE => CreateRogue(pawnControllerBuilder),
+            PawnType.WARRIOR => CreateWarrior(pawnControllerBuilder),
             _ => CreateWarrior(pawnControllerBuilder),
         };
+    }
+
+    private PawnType GetPawnTypeToSpawn(List<PawnType>? pawnTypes) {
+        if (pawnTypes is null) {
+            PawnType[] allPawnTypes = Enum.GetValues<PawnType>();
+            return allPawnTypes[random.Next(allPawnTypes.Length)];
+        }
+        else {
+            return pawnTypes[random.Next(pawnTypes.Count)];
+        }
     }
 
     private IItem StartingMoney() => new StackItem(10, StackItem.MONEY);
@@ -131,4 +143,5 @@ public class PawnGenerator {
     }
 
     Consumable CreateHealingPotion() => new(40, "Health potion");
+
 }
