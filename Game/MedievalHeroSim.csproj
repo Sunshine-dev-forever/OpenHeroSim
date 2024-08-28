@@ -1,5 +1,5 @@
 <!-- in the perfect world there would be multiple csproj files, but that is not possible right now. -->
-<Project Sdk="Godot.NET.Sdk/4.2.2">
+<Project Sdk="Godot.NET.Sdk/4.3.0">
   <PropertyGroup>
     <TargetFrameworks>net6.0</TargetFrameworks>
     <LangVersion>10.0</LangVersion>
